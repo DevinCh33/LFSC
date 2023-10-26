@@ -40,7 +40,7 @@ if(isset($_POST['submit']))   // if button is submit
 	                        if(is_array($row))  // if matching records in the array & if everything is right
 								{
                                     	$_SESSION["user_id"] = $row['u_id']; // put user id into temp session
-										 header("refresh:1;url=index.php"); // redirect to index.php page
+										 header("refresh:1;url=market.php"); // redirect to market.php page
 	                            } 
 							else
 							    {

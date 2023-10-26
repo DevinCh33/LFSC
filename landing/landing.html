@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Little Farmer Website</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	
+	<body>
+		<header>
+			<img src="img/logo.png" alt="logo">
+			<ul>
+				<li><a href="#" class="active">Home</a></li>
+				<li><a href="#">About US</a></li>
+				<li><a href="#">Order Online</a></li>
+			</ul>
+		</header>
+		
+		<!-- Slide -->
+		<div class="slide-container">
+			<div class="slides fade">
+				<img src="img/slide1.jpg" alt="slide1">
+			</div>
+			<div class="slides fade">
+				<img src="img/slide2.jpg" alt="slide2">
+			</div>
+			<div class="slides fade">
+				<img src="img/slide3.jpg" alt="slide3">
+			</div>
+			<div class="slides fade">
+				<img src="img/slide4.png" alt="slide4">
+			</div>
+			<div class="slide-content">
+				<h1>Fresh Produce</h1>
+				<h2>Delivery</h2>
+				<p>From Our Farm to Your Doorstep</p>
+				<a href="#" class="order-button">Order Online</a>
+			</div>
+
+			<div class="dots-container">
+				<span class="dot"></span>
+				<span class="dot"></span>
+				<span class="dot"></span>
+				<span class="dot"></span>
+			</div>
+		</div>
+
+        <!-- Product -->
+        <section class="showProduct">
+            
+            <div class="top-section">
+                <div class="promo">
+                    <h1>Something Important</h1>
+                    <p>This is some random paragraph describing the product</p>
+                    <!-- Add promotional images or other elements here -->
+                </div>
+                <a href="#">
+                    <div class="mainProduct-card">
+                    <h2>Fruit</h2>
+                    <img src="img/fruit.jpg" alt="fruit">
+                    <p>View range</p>
+                </a>
+                </div>
+            </div>
+
+            <!-- Product Categories Grid -->
+            <div class="products-grid">
+                <a href="#">
+                    <div class="product-card">
+                        <h2>Cresses</h2>
+                        <img src="img/cress.jpg" alt="Cresses">
+                        <p>View range</p>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="product-card">
+                        <h2>Potato</h2>
+                        <img src="img/potato.jpg" alt="Potato">
+                        <p>View range</p>
+                    </div>
+                </a>
+                <a href="#">                    
+                    <div class="product-card">
+                        <h2>Cresses</h2>
+                        <img src="img/cress.jpg" alt="Cresses2">
+                        <p>View range</p>
+                    </div>
+                </a>
+
+                <a href="#">
+                    <div class="product-card">
+                        <h2>Potato</h2>
+                        <img src="img/potato.jpg" alt="Potato2">
+                        <p>View range</p>
+                    </div>
+                </a>
+            </div>
+
+        </section>
+
+		<!-- About Little Farmer Section -->
+		<section class="about-farmer">
+			<div class="about-container">
+				<img src="img/logo.png" alt="About Little Farmer">
+				<div class="about-content">
+					<h2>About Little Farmer</h2>
+					<p>Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.</p>
+					<div class="about-links">
+						<a href="#">Our Story</a>
+						<a href="#">Meet the Team</a>
+						<a href="#">Something</a>
+					</div>
+				</div>
+				
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="row-container">
+				<div class="address">
+					<p>Little Farmer</p>
+					<p>Sarawak, Malaysia</p>
+					<p>Email</p>
+					<p>Tel: </p>
+					<p>Fax: </p>
+				</div>
+				<div class="operating-hours">
+					<h4>Operating Hours</h4>
+					<p>Mon - Fri: 8am - 8pm</p>
+					<p>Saturday: 9am - 7pm</p>
+					<p>Sunday: 9am - 8pm</p>
+				</div>
+				<div class="delivery-hours">
+					<h4>Delivery Hours</h4>
+					<p>Mon - Fri: 8am - 8pm</p>
+					<p>Saturday: 9am - 7pm</p>
+					<p>Sunday: 9am - 8pm</p>
+				</div>
+			</div>
+			<div class="social-links">
+				<a href="#">Facebook</a>
+				<a href="#">Twitter</a>
+				<a href="#">Instagram</a>
+			</div>
+		</footer>
+		
+		
+
+		<script>
+			var slideIndex = 0;
+			var slides = document.getElementsByClassName("slides");
+			var dots = document.getElementsByClassName("dot");
+			var slideInterval;
+		
+			function incrementSlide() {
+				slideIndex++;
+				if (slideIndex > slides.length) {
+					slideIndex = 1;
+				}
+				displaySlide();
+			}
+		
+			function displaySlide() {
+				for (var i = 0; i < slides.length; i++) {
+					slides[i].style.display = "none";
+				}
+				
+				for (var i = 0; i < dots.length; i++) {
+					dots[i].className = dots[i].className.replace(" active-dot", "");
+				}
+				
+				slides[slideIndex-1].style.display = "block";
+				dots[slideIndex-1].className += " active-dot";
+			}
+		
+			function currentSlide(n) {
+				clearInterval(slideInterval);  // Stop the auto slideshow
+				slideIndex = n;
+				displaySlide();
+				slideInterval = setInterval(incrementSlide, 4000); // Restart the auto slideshow
+			}
+		
+			for (var i = 0; i < dots.length; i++) {
+				dots[i].addEventListener("click", function() {
+					var index = Array.prototype.indexOf.call(dots, this);
+					currentSlide(index + 1);
+				});
+			}
+		
+			slideInterval = setInterval(incrementSlide, 4000);  // Start the auto slideshow
+		</script>
+		
+		
+	</body>
+</html>

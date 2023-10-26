@@ -4,7 +4,7 @@ $localhost = "localhost"; //server
 $username = "root"; //username
 $password = ""; //password
 $dbname = "store";  //database
-$store_url = "http://localhost/little-farmer-supply-chain/inventory/";
+$store_url = "http://localhost/lfsc/inventory/";
 // db connection
 $connect = new mysqli($localhost, $username, $password, $dbname);
 // check connection

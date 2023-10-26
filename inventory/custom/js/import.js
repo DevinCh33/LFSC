@@ -16,7 +16,7 @@ $(document).ready(function() {
 	  elErrorContainer: '#kv-avatar-errors-1',
 	  msgErrorClass: 'alert alert-block alert-danger',
 	  layoutTemplates: {main2: '{preview} {remove} {browse}'},
-	  defaultPreviewContent: '<img src="assests/images/photo_default.png" alt="Profile Image" style="width:100%;">',							    
+	  defaultPreviewContent: '<img src="assets/images/photo_default.png" alt="Profile Image" style="width:100%;">',							    
 		allowedFileExtensions: ["csv", "xls", "xlsx"]
 	  });
 		$(".text-danger").remove();

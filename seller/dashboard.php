@@ -253,7 +253,7 @@ else
                     </div>
 
                     <div class="col-md-3">
-                        <a href="/little-farmer-supply-chain/inventory/dashboard.php">
+                        <a href="/lfsc/inventory/dashboard.php">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle"> 
@@ -265,7 +265,7 @@ else
                                                         $rws=mysqli_num_rows($result);
                                                         
                                                         echo $rws;?></h2>
-                                        <p class="m-b-0">Inventory Managment System</p>
+                                        <p class="m-b-0">Inventory Management System</p>
                                     </div>
                                 </div>
                             </div>

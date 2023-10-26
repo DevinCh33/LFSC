@@ -31,10 +31,10 @@ session_start(); //start temp session until logout/browser closed
             <nav class="navbar navbar-dark">
                 <div class="container">
                     <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                    <a class="navbar-brand" href="landing.php"> <img class="img-rounded" src="images/food-picky-logo.png" alt=""> </a>
+                    <a class="navbar-brand" href="market.php"> <img class="img-rounded" src="images/food-picky-logo.png" alt=""> </a>
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                         <ul class="nav navbar-nav">
-                            <li class="nav-item"> <a class="nav-link active" href="landing.php">Home <span class="sr-only">(current)</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link active" href="market.php">Home <span class="sr-only">(current)</span></a> </li>
                             
                            
 							<?php
@@ -51,7 +51,7 @@ session_start(); //start temp session until logout/browser closed
 									echo  '<li class="nav-item"><a href="product-list.php" class="nav-link active">Product</a> </li>';
 									if($_SESSION['UserRole'] == 'ADMIN')
 									{
-										echo  '<li class="nav-item"><a href="admin/dashboard.php" class="nav-link active">Dashboard</a> </li>';
+										echo  '<li class="nav-item"><a href="seller/dashboard.php" class="nav-link active">Dashboard</a> </li>';
 									}
 									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">logout</a> </li>';
 							}
@@ -118,7 +118,7 @@ session_start(); //start temp session until logout/browser closed
 													
 						                       echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
 														<div class="food-item-wrap">
-															<div class="figure-wrap bg-image" data-image-src="admin/Res_img/dishes/'.$r['img'].'">
+															<div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
 																<div class="distance"><i class="fa fa-pin"></i>1240m</div>
 																<div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
 																<div class="review pull-right"><a href="#">198 reviews</a> </div>
@@ -198,7 +198,7 @@ session_start(); //start temp session until logout/browser closed
 														<div class="restaurant-wrap">
 															<div class="row">
 																<div class="col-xs-12 col-sm-3 col-md-12 col-lg-3 text-xs-center">
-																	<a class="restaurant-logo" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="admin/Res_img/'.$rows['image'].'" alt="Restaurant logo"> </a>
+																	<a class="restaurant-logo" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Restaurant logo"> </a>
 																</div>
 																<!--end:col -->
 																<div class="col-xs-12 col-sm-9 col-md-12 col-lg-9">

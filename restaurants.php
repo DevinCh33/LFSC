@@ -32,8 +32,8 @@ session_start();
                     <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/food-picky-logo.png" alt=""> </a>
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                         <ul class="nav navbar-nav">
-                            <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
+                            <li class="nav-item"> <a class="nav-link active" href="market.php">Home <span class="sr-only">(current)</span></a> </li>
+                          
                             
 							<?php
 						if(empty($_SESSION["user_id"]))
@@ -44,10 +44,11 @@ session_start();
 						else
 							{
 									
-									
+									// <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
 									//	echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
 									//echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
-                                    echo  '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
+                                    echo  '<li class="nav-item"><a href="index.php" class="nav-link active">Little Farmer</a> </li>';
+									echo  '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
 									echo  '<li class="nav-item"><a href="product-list.php" class="nav-link active">Product</a> </li>';
                                     echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
 							}

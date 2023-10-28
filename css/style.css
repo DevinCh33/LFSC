@@ -189,11 +189,17 @@ hr {
 .form-control-lg,
 .dropdown-menu,
 .btn,
-.btn-group-lg>.btn,
+.btn-group-lg > .btn,
 .btn-lg,
 .img-rounded {
     border-radius: 2px
 }
+/*.img-rounded {
+    border-radius: 2px;
+    height: 50px;
+    width: auto;
+}*/
+
 
 .btn {
     transition: all .4s;

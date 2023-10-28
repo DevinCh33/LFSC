@@ -47,8 +47,9 @@ session_start(); //start temp session until logout/browser closed
 							{
 									//if user is login
 									
-									echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
+									echo  '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
 									echo  '<li class="nav-item"><a href="product-list.php" class="nav-link active">Product</a> </li>';
+                                    echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
 									if($_SESSION['UserRole'] == 'ADMIN')
 									{
 										echo  '<li class="nav-item"><a href="seller/dashboard.php" class="nav-link active">Dashboard</a> </li>';

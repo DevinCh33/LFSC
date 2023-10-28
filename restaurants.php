@@ -49,7 +49,7 @@ session_start();
 									//echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
                                     echo  '<li class="nav-item"><a href="index.php" class="nav-link active">Little Farmer</a> </li>';
 									echo  '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
-									echo  '<li class="nav-item"><a href="product-list.php" class="nav-link active">Product</a> </li>';
+									echo  '<li class="nav-item"><a href="dishes.php" class="nav-link active">Product</a> </li>';
                                     echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
 							}
 

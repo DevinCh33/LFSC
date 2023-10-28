@@ -51,8 +51,10 @@ include_once 'product-action.php'; //including controller
 							{
 									
 									
-										echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">your orders</a> </li>';
-									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">logout</a> </li>';
+							echo  '<li class="nav-item"><a href="index.php" class="nav-link active">Little Farmer</a> </li>';
+									echo  '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
+									echo  '<li class="nav-item"><a href="dishes.php" class="nav-link active">Product</a> </li>';
+                                    echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
 							}
 
 						?>

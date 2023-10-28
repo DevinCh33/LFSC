@@ -39,11 +39,12 @@ include_once 'product-action.php'; //including controller
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                        <ul class="nav navbar-nav">
                             <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
+                            
                             
 							<?php
 						if(empty($_SESSION["user_id"]))
 							{
+                                //<li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
 								echo '<li class="nav-item"><a href="login.php" class="nav-link active">login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">signup</a> </li>';
 							}
@@ -55,6 +56,7 @@ include_once 'product-action.php'; //including controller
 									echo  '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
 									echo  '<li class="nav-item"><a href="dishes.php" class="nav-link active">Product</a> </li>';
                                     echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
+                                    echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
 							}
 
 						?>

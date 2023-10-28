@@ -16,6 +16,7 @@ session_start(); // temp sessions
 
 				<ul>
 					<li><a href="index.php" class="active">Home</a></li>
+					<li><a href="market.php" class=>Market</a></li>
 					<li><a href="#">About US</a></li>
 					<li><a href="#">Order Now</a></li>
 					<li><a href="login.php">Login</a></li>

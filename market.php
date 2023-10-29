@@ -71,7 +71,7 @@ session_start(); //start temp session until logout/browser closed
         <section class="hero">
             <div class="hero-inner">
                     <h1>Order Delivery & Take-Out </h1>
-                    <h5 class="font-white space-xs">Find restaurants, specials, and coupons for free</h5>
+                    <h5 class="font-white space-xs">Find merchants, specials, and coupons for free</h5>
                     <a href="login.php" class="btn btn-info" role="button">All</a>
                     <a href="login.php" class="btn btn-outline-info" role="button">Salad</a>
                     <a href="#link" class="btn btn-outline-info" role="button">Herbs</a>
@@ -159,7 +159,7 @@ session_start(); //start temp session until logout/browser closed
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="title-block pull-left">
-                            <h4>Featured restaurants</h4> </div>
+                            <h4>Featured merchants</h4> </div>
                     </div>
                     <div class="col-sm-8">
                         <!-- restaurants filter nav starts -->
@@ -284,7 +284,7 @@ session_start(); //start temp session until logout/browser closed
                         <h5>How it Works</h5>
                         <ul>
                             <li><a href="#">Enter your location</a> </li>
-                            <li><a href="#">Choose restaurant</a> </li>
+                            <li><a href="#">Choose merchant</a> </li>
                             <li><a href="#">Choose meal</a> </li>
                             <li><a href="#">Pay via credit card</a> </li>
                             <li><a href="#">Wait for delivery</a> </li>

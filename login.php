@@ -24,6 +24,11 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("connection/connect.php"); // connection to database
 
+if (isset($_SESSION["user_id"])) // if already logged in
+{
+	header("refresh:0;url=market.php"); // redirect to market.php page
+}
+
 if(isset($_POST['submit'])) // if submit button was preseed
 {
 	$username = $_POST['username']; // fetch records from login form

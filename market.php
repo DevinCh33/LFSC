@@ -27,7 +27,7 @@ include("connection/connect.php"); // connection to database
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
-	header("refresh:0;url=login.php"); // redirect to market.php page
+	header("refresh:0;url=login.php"); // redirect to login.php page
 }
 ?>
     <!--header starts-->
@@ -162,7 +162,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 <div class="restaurant-listing">
                     <?php  //fetching records from table and filter using html data-filter tag
                         $ress= mysqli_query($db,"select * from restaurant");
-                        
+
                         while($rows=mysqli_fetch_array($ress))
                         {
                                 // fetch records from res_category table according to catgory ID

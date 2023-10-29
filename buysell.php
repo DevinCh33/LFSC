@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
+ 
 <head>
     <title>Little Farmer Website</title>
     <meta charset="UTF-8">
@@ -33,7 +33,5 @@
             </div>
         </a>
     </div>
-
 </body>
-
 </html>

@@ -8,7 +8,7 @@
    <meta name="description" content="">
    <meta name="author" content="">
    <link rel="icon" href="#">
-   <title>Registration</title>
+   <title>Seller Registration</title>
    <!-- Bootstrap core CSS -->
    <link href="css/bootstrap.min.css" rel="stylesheet">
    <link href="css/font-awesome.min.css" rel="stylesheet">
@@ -22,77 +22,64 @@
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
+include("./../connection/connect.php"); // connection to database
 
 if(isset($_POST['submit'] )) // if submit button was pressed
 {
-   if(empty($_POST['firstname']) ||  // fetching and find if its empty
-      empty($_POST['lastname']) || 
-      empty($_POST['email']) ||  
-      empty($_POST['phone']) ||
-      empty($_POST['password']) ||
-      empty($_POST['cpassword']))
-   {
-      $message = "All fields must are required to be filled!";
-   }
+   if(empty($_POST['cr_user']) ||
+	   empty($_POST['cr_email'])|| 
+	   empty($_POST['cr_pass']) ||  
+	   empty($_POST['cr_cpass']))
+	{
+		$message = "All fields must are required to be filled!";
+	}
 
 	else
 	{
-		//cheching username & email if already present
-      $check_username = mysqli_query($db, "SELECT username FROM users where username = '".$_POST['username']."' ");
-      $check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
+		$check_username = mysqli_query($db, "SELECT username FROM admin where username = '".$_POST['cr_user']."' ");
+		$check_email = mysqli_query($db, "SELECT email FROM admin where email = '".$_POST['cr_email']."' ");
 
-      if($_POST['password'] != $_POST['cpassword']) // matching passwords
-      {  
-         $message = "Passwords do not match!";
-      }
+		if($_POST['cr_pass'] != $_POST['cr_cpass'])
+		{
+			$message = "Passwords do not match!";
+		}
+	
+		elseif (!filter_var($_POST['cr_email'], FILTER_VALIDATE_EMAIL)) // Validate email address
+		{
+			$message = "Invalid email address please type a valid email!";
+		}
 
-      elseif(strlen($_POST['password']) < 6)  // cal password length
-      {
-         $message = "Passwords must be longer than 6 characters!";
-      }
+		elseif(mysqli_num_rows($check_username) > 0)
+		{
+			$message = 'Username already exists!';
+		}
 
-      elseif(strlen($_POST['phone']) < 10)  // cal phone length
-      {
-         $message = "Invalid phone number!";
-      }
+		elseif(mysqli_num_rows($check_email) > 0)
+		{
+			$message = 'Email already exists!';
+		}
 
-      elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) // validate email address
-      {
-         $message = "Invalid email address, please type a valid email!";
-      }
+		else
+		{
+			$mql = "INSERT INTO admin (username,password,email,code) VALUES ('".$_POST['cr_user']."','".password_hash($_POST['cr_pass'], PASSWORD_BCRYPT)."','".$_POST['cr_email']."','SUPP')";
+				mysqli_query($db, $mql);
+				$success = "Admin Added successfully!";
 
-      elseif(mysqli_num_rows($check_username) > 0)  // check username
-      {
-         $message = 'Username already exists!';
-      }
-
-      elseif(mysqli_num_rows($check_email) > 0) // check email
-      {
-         $message = 'Email already exists!';
-      }
-
-      else
-      {
-	      //inserting values into db
-         $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('".$_POST['username']."','".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['email']."','".$_POST['phone']."','".password_hash($_POST['password'], PASSWORD_BCRYPT)."','".$_POST['address']."')";
-         mysqli_query($db, $mql);
-		
-         $success = "Account created successfully! <p>You will be redirected in <span id='counter'>5</span> second(s).</p>
-                     <script type='text/javascript'>
-                        function countdown() {
-                           var i = document.getElementById('counter');
-                           if (parseInt(i.innerHTML)<=0) {
-                              location.href = 'login.php';
+            $success = "Account created successfully! <p>You will be redirected in <span id='counter'>5</span> second(s).</p>
+                        <script type='text/javascript'>
+                           function countdown() {
+                              var i = document.getElementById('counter');
+                              if (parseInt(i.innerHTML)<=0) {
+                                 location.href = 'index.php';
+                              }
+                              i.innerHTML = parseInt(i.innerHTML)-1;
                            }
-                           i.innerHTML = parseInt(i.innerHTML)-1;
-                        }
-                        setInterval(function(){ countdown(); },1000);
-                     </script>'";
+                           setInterval(function(){ countdown(); },1000);
+                        </script>'";
 
-		   header("refresh:5;url=login.php"); // redirected once account created
-      }
-	}
+		   header("refresh:5;url=index.php"); // redirected once account created
+		}
+   }
 }
 ?>
    <!--header starts-->
@@ -108,15 +95,15 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
                         
                <?php
-               if(empty($_SESSION["user_id"]))
+               if(empty($_SESSION["adm_id"]))
                {
-                  echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
+                  echo '<li class="nav-item"><a href="index.php" class="nav-link active">Login</a> </li>
                   <li class="nav-item"><a href="registration.php" class="nav-link active">Signup</a> </li>';
                }
 
                else
                { 
-                  echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Your Orders</a> </li>';
+                  echo  '<li class="nav-item"><a href="dashboard.php" class="nav-link active">Dashboard</a> </li>';
                   echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
                }
                ?>
@@ -151,35 +138,20 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                            <div class="row">
                               <div class="form-group col-sm-12">
                                  <label for="exampleInputEmail1">User-Name</label>
-                                 <input class="form-control" type="text" name="username" id="example-text-input" placeholder="Username"> 
+                                 <input class="form-control" type="text" name="cr_user" id="example-text-input" placeholder="Username"> 
                               </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">First Name</label>
-                                 <input class="form-control" type="text" name="firstname" id="example-text-input" placeholder="First Name"> 
                               </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Last Name</label>
-                                 <input class="form-control" type="text" name="lastname" id="example-text-input-2" placeholder="Last Name"> 
-                              </div>
-                              <div class="form-group col-sm-6">
+                              <div class="form-group col-sm-12">
                                  <label for="exampleInputEmail1">Email address</label>
-                                 <input type="text" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Phone number</label>
-                                 <input class="form-control" type="text" name="phone" id="example-tel-input-3" placeholder="Phone">  
+                                 <input type="text" class="form-control" name="cr_email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputPassword1">Password</label>
-                                 <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
+                                 <input type="password" class="form-control" name="cr_pass" id="exampleInputPassword1" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputPassword1">Repeat password</label>
-                                 <input type="password" class="form-control" name="cpassword" id="exampleInputPassword2" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
-                              </div>
-                              <div class="form-group col-sm-12">
-                                 <label for="exampleTextarea">Delivery Address</label>
-                                 <textarea class="form-control" id="exampleTextarea"  name="address" rows="3"></textarea>
+                                 <input type="password" class="form-control" name="cr_cpass" id="exampleInputPassword2" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
                               </div>
                            </div>
                            

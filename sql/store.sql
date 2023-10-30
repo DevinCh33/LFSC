@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2023 at 10:29 AM
+-- Generation Time: Oct 30, 2023 at 04:09 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,8 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) VALUES
-(6, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@gmail.com', '', '2023-10-16 06:44:21'),
-(8, 'abc888', '6d0361d5777656072438f6e314a852bc', 'abc@gmail.com', 'QX5ZMN', '2018-04-13 18:12:30');
+(10, 'admin', '$2y$10$cf/mF6M06Tff4tMR7CHHn.SjtoqUpK.aVbzNfKG0Lm7uqqJ2lMXIi', 'admin@lf.net', 'SUPA', '2023-10-30 15:07:15');
 
 -- --------------------------------------------------------
 
@@ -60,12 +59,8 @@ CREATE TABLE `admin_codes` (
 --
 
 INSERT INTO `admin_codes` (`id`, `codes`) VALUES
-(1, 'QX5ZMN'),
-(2, 'QFE6ZM'),
-(3, 'QMZR92'),
-(4, 'QPGIOV'),
-(5, 'QSTE52'),
-(6, 'QMTZ2J');
+(1, 'SUPA'),
+(2, 'SUPP');
 
 -- --------------------------------------------------------
 
@@ -198,11 +193,11 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `brand_id`, `categories_id`, `quantity`, `rate`, `active`, `status`) VALUES
-(12, 'Carrot', '../assets/images/stock/652d4383278bd.jpg', 1, 1, 19, 22.12, 1, 1),
-(13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, 1, 19, 12.35, 1, 1),
-(15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, 1, 19, 11.99, 1, 1),
-(16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, 1, 19, 22.55, 1, 1),
-(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, 1, 19, 17.99, 1, 1);
+(12, 'Carrot', '../assets/images/stock/652d4383278bd.jpg', 1, 1, 20, 22.12, 1, 1),
+(13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, 1, 20, 12.35, 1, 1),
+(15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, 1, 20, 11.99, 1, 1),
+(16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, 1, 20, 22.55, 1, 1),
+(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, 1, 20, 17.99, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -339,8 +334,7 @@ INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `statu
 (38, 31, 'Power-up Mango', 2, 11.99, NULL, '2023-10-21 08:15:02'),
 (39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
 (40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
-(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
-(46, 34, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:25:53');
+(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00');
 
 --
 -- Indexes for dumped tables
@@ -432,13 +426,13 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
 --
 ALTER TABLE `admin_codes`
-  MODIFY `id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `brands`
@@ -456,7 +450,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `dishes`
 --
 ALTER TABLE `dishes`
-  MODIFY `d_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `d_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -474,7 +468,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `remark`
@@ -504,7 +498,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_orders`
 --
 ALTER TABLE `users_orders`
-  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

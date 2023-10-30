@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-include("../connection/connect.php");
-error_reporting(0);
-session_start();
-if(empty($_SESSION["adm_id"]))
-{
-	header('location:index.php');
-}
-else
-{
-?>
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +10,7 @@ else
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <title>Ela - Bootstrap Admin Dashboard Template</title>
+    <title>Merchant Dashboard</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -33,6 +23,27 @@ else
     <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
+
+<?php
+session_start(); // temp session
+error_reporting(0); // hide undefined index errors
+include("./../connection/connect.php"); // connection to database
+
+if(empty($_SESSION["adm_id"]))
+{
+	header('location:index.php');
+}
+
+if ($_SESSION["adm_co"] == "SUPA")
+{
+    echo '<h1>You are a superuser.</h1>';
+}
+
+elseif($_SESSION["adm_co"] == "SUPP")
+{
+	echo '<h1>You are a merchant.</h1>';
+}
+?>
 
 <body class="fix-header">
     <!-- Preloader - style you can find in spinners.css -->
@@ -310,10 +321,5 @@ else
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
-
 </body>
-
 </html>
-<?php
-}
-?>

@@ -18,6 +18,11 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("./../connection/connect.php"); // connection to database
 
+if (isset($_SESSION["adm_id"])) // if already logged in
+{
+	header("refresh:0;url=dashboard.php"); // redirect to market.php page
+}
+
 if(isset($_POST['submit']))
 {
 	$username = $_POST['username'];

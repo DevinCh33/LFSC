@@ -104,7 +104,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                else
                { 
                   echo  '<li class="nav-item"><a href="dashboard.php" class="nav-link active">Dashboard</a> </li>';
-                  echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
+                  echo  '<li class="nav-item"><a href="./../logout.php" class="nav-link active">Logout</a> </li>';
                }
                ?>
                   

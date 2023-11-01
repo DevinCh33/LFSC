@@ -47,7 +47,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             echo '<li class="nav-item"><a href="dishes.php" class="nav-link active">Product</a> </li>';
                             echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
                             
-                            if($_SESSION['UserRole'] == 'ADMIN')
+                            if(isset($_SESSION['adm_co']))
                             {
                                 echo '<li class="nav-item"><a href="seller/dashboard.php" class="nav-link active">Dashboard</a> </li>';
                             }
@@ -78,20 +78,58 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <a href="#link" class="btn btn-outline-info" role="button">End Product</a>
             <a href="#link" class="btn btn-outline-info" role="button">Services</a>
             <div class="banner-form">
-                <form class="form-inline" >
+                <form class="form-inline" method="get">
                     <div class="form-group" style="margin-top:50px;">
                         <label class="sr-only" for="exampleInputAmount">Search product....</label>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" id="exampleInputAmount" placeholder="Search product..."> </div>
+                            <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" placeholder="Search product...">
+                            <input type="submit" class="btn theme-btn btn-lg" value="Search">
+                        </div>
                     </div>
-                    <button onclick="location.href='restaurants.html'" style="margin-top:50px;" type="button" class="btn theme-btn btn-lg">Search product</button>
                 </form>
             </div>
         </div>
         <!--end:Hero inner -->
+
+    <!-- Search part starts-->
     </section>
-    <!-- banner part ends -->
-    
+    <?php
+    if (isset($_GET['search']))
+    {
+    echo '<section class="popular">
+            <div class="container">
+                <div class="title text-xs-center m-b-30">
+                    <h2>Search Results</h2>
+                </div>
+                <div class="row">';
+ 
+                // fetch records from database to display popular first 3 dishes from table
+                $query_res = mysqli_query($db,"select * from dishes WHERE title LIKE '%".$_GET['search']."%' LIMIT 12"); 
+                
+                while($r=mysqli_fetch_array($query_res))
+                {   
+                    echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                            <div class="food-item-wrap">
+                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
+                                    <div class="distance"><i class="fa fa-pin"></i>1240m</div>
+                                    <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+                                    <div class="review pull-right"><a href="#">198 reviews</a> </div>
+                                </div>
+                                <div class="content">
+                                    <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
+                                    <div class="product-name">'.$r['slogan'].'</div>
+                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+                                </div>
+                            </div>
+                    </div>';              
+                    }
+        echo   '</div>
+            </div>
+        </section>';
+    }
+    ?> 
+    <!-- Search part ends-->
+
     <!-- Popular block starts -->
     <section class="popular">
         <div class="container">

@@ -1,13 +1,12 @@
 <?php require_once 'includes/header.php'; ?>
 
-<?php 
-
+<?php
 $sql = "SELECT * FROM product WHERE status = 1";
-$query = $connect->query($sql);
+$query = $db->query($sql);
 $countProduct = $query->num_rows;
 
 $orderSql = "SELECT * FROM users_orders WHERE status = 'closed'";
-$orderQuery = $connect->query($orderSql);
+$orderQuery = $db->query($orderSql);
 $countOrder = $orderQuery->num_rows;
 
 $totalRevenue = 0;
@@ -16,17 +15,15 @@ while ($orderResult = $orderQuery->fetch_assoc()) {
 }
 
 $lowStockSql = "SELECT * FROM product WHERE quantity <= 3 AND status = 1";
-$lowStockQuery = $connect->query($lowStockSql);
+$lowStockQuery = $db->query($lowStockSql);
 $countLowStock = $lowStockQuery->num_rows;
 
 $userwisesql = "SELECT admin.username , SUM(users_orders.price) as totalorder FROM users_orders INNER JOIN admin ON users_orders.u_id = admin.adm_id WHERE users_orders.status = 'status'";
-$userwiseQuery = $connect->query($userwisesql);
-$userwieseOrder = $userwiseQuery->num_rows;
+$userwiseQuery = $db->query($userwisesql);
+$userwiseOrder = $userwiseQuery->num_rows;
 
-$connect->close();
-
+$db->close();
 ?>
-
 
 <style type="text/css">
 	.ui-datepicker-calendar {
@@ -35,12 +32,11 @@ $connect->close();
 </style>
 
 <!-- fullCalendar 2.2.5-->
-    <link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.min.css">
-    <link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.print.css" media="print">
-
+<link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.min.css">
+<link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.print.css" media="print">
 
 <div class="row">
-	<?php  if(isset($_SESSION['userId'])) { ?>
+	<?php if(isset($_SESSION['adm_id'])) { ?>
 	<div class="col-md-4">
 		<div class="panel panel-success">
 			<div class="panel-heading">
@@ -49,7 +45,6 @@ $connect->close();
 					Total Product
 					<span class="badge pull pull-right"><?php echo $countProduct; ?></span>	
 				</a>
-				
 			</div> <!--/panel-hdeaing-->
 		</div> <!--/panel-->
 	</div> <!--/col-md-4-->
@@ -61,26 +56,21 @@ $connect->close();
 					Low Stock
 					<span class="badge pull pull-right"><?php echo $countLowStock; ?></span>	
 				</a>
-				
 			</div> <!--/panel-hdeaing-->
 		</div> <!--/panel-->
 	</div> <!--/col-md-4-->
 	
-	
 	<?php } ?>  
 		<div class="col-md-4">
 			<div class="panel panel-info">
-			<div class="panel-heading">
-				<a href="orders.php?o=manord" style="text-decoration:none;color:black;">
-					Total Orders
-					<span class="badge pull pull-right"><?php echo $countOrder; ?></span>
-				</a>
-					
-			</div> <!--/panel-hdeaing-->
-		</div> <!--/panel-->
+				<div class="panel-heading">
+					<a href="orders.php?o=manord" style="text-decoration:none;color:black;">
+						Total Orders
+						<span class="badge pull pull-right"><?php echo $countOrder; ?></span>
+					</a>
+				</div> <!--/panel-heading-->
+			</div> <!--/panel-->
 		</div> <!--/col-md-4-->
-
-	
 
 	<div class="col-md-4">
 		<div class="card">
@@ -106,11 +96,10 @@ $connect->close();
 		  <div class="cardContainer">
 		    <p> INR Total Revenue</p>
 		  </div>
-		</div> 
-
+		</div>
 	</div>
 	
-	<?php  if(isset($_SESSION['userId'])) { ?>
+	<?php  if(isset($_SESSION['adm_id'])) { ?>
 	<div class="col-md-8">
 		<div class="panel panel-default">
 			<div class="panel-heading"> <i class="glyphicon glyphicon-calendar"></i> User Wise Order</div>
@@ -129,24 +118,19 @@ $connect->close();
 							<td><?php echo $orderResult['totalorder']?></td>
 							
 						</tr>
-						
 					<?php } ?>
 				</tbody>
 				</table>
 				<!--<div id="calendar"></div>-->
 			</div>	
 		</div>
-		
 	</div> 
 	<?php  } ?>
-	
 </div> <!--/row-->
 
 <!-- fullCalendar 2.2.5 -->
 <script src="assets/plugins/moment/moment.min.js"></script>
 <script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
-
-
 <script type="text/javascript">
 	$(function () {
 			// top bar active
@@ -168,9 +152,6 @@ $connect->close();
           month: 'month'          
         }        
       });
-
-
     });
 </script>
-
 <?php require_once 'includes/footer.php'; ?>

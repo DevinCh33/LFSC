@@ -1,27 +1,25 @@
 <?php 	
-
 require_once 'core.php';
 
 $valid['success'] = array('success' => false, 'messages' => array());
 
-if($_POST) {	
-
+if($_POST) 
+{	
 	$categoriesName = $_POST['categoriesName'];
-  $categoriesStatus = $_POST['categoriesStatus']; 
+  	$categoriesStatus = $_POST['categoriesStatus']; 
 
 	$sql = "INSERT INTO categories (categories_name, categories_active, categories_status) 
 	VALUES ('$categoriesName', '$categoriesStatus', 1)";
 
-	if($connect->query($sql) === TRUE) {
+	if($db->query($sql) === TRUE) {
 	 	$valid['success'] = true;
-		$valid['messages'] = "Successfully Added";	
+		$valid['messages'] = "Successfully added!";	
 	} else {
 	 	$valid['success'] = false;
-	 	$valid['messages'] = "Error while adding the members";
+	 	$valid['messages'] = "Error while adding the members!";
 	}
 
-	$connect->close();
+	$db->close();
 
 	echo json_encode($valid);
- 
 } // /if $_POST

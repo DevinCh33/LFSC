@@ -1,20 +1,20 @@
-<?php 
-require_once 'php_action/db_connect.php';
-
+<?php
+include("./../connection/connect.php"); // connection to database
 session_start();
 
-if(isset($_SESSION['userId'])) {
-	header('location:'.$store_url.'dashboard.php');		
+if(isset($_SESSION['adm_id'])) {
+	header('location:'.$inv_url.'dashboard.php');		
 }
 
 $errors = array();
 
-if($_POST) {		
-
+if($_POST)
+{		
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
-	if(empty($username) || empty($password)) {
+	if(empty($username) || empty($password))
+	{
 		if($username == "") {
 			$errors[] = "Username is required";
 		} 
@@ -22,34 +22,27 @@ if($_POST) {
 		if($password == "") {
 			$errors[] = "Password is required";
 		}
-	} else {
-		$sql = "SELECT * FROM admin WHERE username = '$username'";
-		$result = $connect->query($sql);
-
-		if($result->num_rows == 1) {
-			$password = md5($password);
-			// exists
-			$mainSql = "SELECT * FROM admin WHERE username = '$username' AND password = '$password'";
-			$mainResult = $connect->query($mainSql);
-
-			if($mainResult->num_rows == 1) {
-				$value = $mainResult->fetch_assoc();
-				$user_id = $value['adm_id'];
-
-				// set session
-				$_SESSION['userId'] = $user_id;
-
-				header('location:'.$store_url.'dashboard.php');	
-			} else{
-				
-				$errors[] = "Incorrect username/password combination";
-			} // /else
-		} else {		
-			$errors[] = "Username doesnot exists";		
-		} // /else
-	} // /else not empty username // password
+	} 
 	
-} // /if $_POST
+	else 
+	{
+		$sql = "SELECT adm_id, code, password FROM admin WHERE username = '$username'";
+		$result = $db->query($sql);
+		$row = mysqli_fetch_array($result);
+		
+		if(password_verify($password, $row['password']))
+		{
+			$_SESSION["adm_id"] = $row['adm_id'];
+			$_SESSION["adm_co"] = $row['code'];
+			header('location:'.$inv_url.'dashboard.php');
+		}
+
+		else
+		{	
+			$errors[] = "Incorrect username / password combination!";
+		} 
+	}	
+} // if $_POST
 ?>
 
 <!DOCTYPE html>
@@ -64,18 +57,19 @@ if($_POST) {
 	<!-- font awesome -->
 	<link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
 
-  <!-- custom css -->
-  <link rel="stylesheet" href="custom/css/custom.css">	
+	<!-- custom css -->
+	<link rel="stylesheet" href="custom/css/custom.css">
 
-  <!-- jquery -->
+	<!-- jquery -->
 	<script src="assets/jquery/jquery.min.js"></script>
-  <!-- jquery ui -->  
-  <link rel="stylesheet" href="assets/jquery-ui/jquery-ui.min.css">
-  <script src="assets/jquery-ui/jquery-ui.min.js"></script>
+	<!-- jquery ui -->  
+	<link rel="stylesheet" href="assets/jquery-ui/jquery-ui.min.css">
+	<script src="assets/jquery-ui/jquery-ui.min.js"></script>
 
-  <!-- bootstrap js -->
+  	<!-- bootstrap js -->
 	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 	<div class="container">
 		<div class="row vertical">
@@ -87,13 +81,16 @@ if($_POST) {
 					<div class="panel-body">
 
 						<div class="messages">
-							<?php if($errors) {
+							<?php 
+							if($errors) 
+							{
 								foreach ($errors as $key => $value) {
 									echo '<div class="alert alert-warning" role="alert">
 									<i class="glyphicon glyphicon-exclamation-sign"></i>
 									'.$value.'</div>';										
 									}
-								} ?>
+							}
+							?>
 						</div>
 
 						<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" id="loginForm">
@@ -129,11 +126,3 @@ if($_POST) {
 	<!-- container -->	
 </body>
 </html>
-
-
-
-
-
-
-
-	

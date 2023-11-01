@@ -1,15 +1,9 @@
-<?php 
-
+<?php
+$root = realpath($_SERVER["DOCUMENT_ROOT"]); // get root directory
+include("$root/lfsc/connection/connect.php"); // connection to database
 session_start();
 
-require_once 'db_connect.php';
-
-// echo $_SESSION['userId'];
-
-if(!$_SESSION['userId']) {
-	header('location:'.$store_url);	
+if(!$_SESSION['adm_id']) {
+	header('location:'.$inv_url);	
 } 
-
-
-
 ?>

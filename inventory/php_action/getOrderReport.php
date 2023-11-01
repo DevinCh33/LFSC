@@ -1,7 +1,8 @@
 <?php 
 require_once 'core.php';
 
-if($_POST) {
+if($_POST) 
+{
 	$startDate = strtotime($_POST['startDate']);
 	$start_date = date("Y-m-d h:i:s", $startDate);
 
@@ -9,7 +10,7 @@ if($_POST) {
 	$end_date = date("Y-m-d h:i:s", $endDate);
 
 	$sql = "SELECT * FROM users_orders WHERE date >= '$start_date' AND date <= '$end_date' AND status = 'closed'";
-	$query = $connect->query($sql);
+	$query = $db->query($sql);
 	
 	$table = '<table border="1" cellspacing="0" cellpadding="0" style="width:100%;">
 		<tr>
@@ -39,7 +40,6 @@ if($_POST) {
 	';	
 
 	echo $table;
-
 }
 
 ?>

@@ -1,12 +1,11 @@
 <?php    
-
 require_once 'core.php';
 
 $orderId = $_POST['orderId'];
 
 $sql = "SELECT order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_place,gstn FROM orders WHERE order_id = $orderId";
 
-$orderResult = $connect->query($sql);
+$orderResult = $db->query($sql);
 $orderData = $orderResult->fetch_array();
 
 $orderDate = $orderData[0];
@@ -22,14 +21,13 @@ $due = $orderData[9];
 $payment_place = $orderData[10];
 $gstn = $orderData[11];
 
-
 $orderItemSql = "SELECT order_item.product_id, order_item.rate, order_item.quantity, order_item.total,
 product.product_name FROM order_item
    INNER JOIN product ON order_item.product_id = product.product_id 
  WHERE order_item.order_id = $orderId";
-$orderItemResult = $connect->query($orderItemSql);
+$orderItemResult = $db->query($orderItemSql);
 
- $table = '<style>
+$table = '<style>
 .star img {
     visibility: visible;
 }</style>
@@ -188,6 +186,6 @@ $orderItemResult = $connect->query($orderItemSql);
                   </tr>
                </tbody>
             </table>';
-$connect->close();
+$db->close();
 
 echo $table;

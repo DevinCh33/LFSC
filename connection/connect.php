@@ -4,6 +4,7 @@ $servername = "localhost"; //server
 $username = "root"; //username
 $password = ""; //password
 $dbname = "store";  //database
+$inv_url = "http://localhost/lfsc/inventory/";
 
 // Create connection
 $db = mysqli_connect($servername, $username, $password, $dbname); // connecting 

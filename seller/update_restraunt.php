@@ -552,7 +552,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <input type="submit" name="submit" class="btn btn-success" value="save"> 
+                                        <input type="submit" name="submit" class="btn btn-success" value="Save"> 
                                         <a href="dashboard.php" class="btn btn-inverse">Cancel</a>
                                     </div>
                                 </form>

@@ -7,7 +7,7 @@ session_unset();
 
 // destroy the session 
 session_destroy(); 
-
-header('location:'.$store_url);	
+echo "<script>location = 'http://localhost/LFSC/index.php';</script>";
+	
 
 ?>

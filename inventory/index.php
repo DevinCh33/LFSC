@@ -1,128 +1,157 @@
-<?php
-include("./../connection/connect.php"); // connection to database
-session_start();
+<?php require_once 'includes/header.php'; ?>
 
-if(isset($_SESSION['adm_id'])) {
-	header('location:'.$inv_url.'dashboard.php');		
+<?php
+$sql = "SELECT * FROM product WHERE status = 1";
+$query = $db->query($sql);
+$countProduct = $query->num_rows;
+
+$orderSql = "SELECT * FROM users_orders WHERE status = 'closed'";
+$orderQuery = $db->query($orderSql);
+$countOrder = $orderQuery->num_rows;
+
+$totalRevenue = 0;
+while ($orderResult = $orderQuery->fetch_assoc()) {
+	(int)$totalRevenue += ($orderResult['quantity']*$orderResult['price']);
 }
 
-$errors = array();
+$lowStockSql = "SELECT * FROM product WHERE quantity <= 3 AND status = 1";
+$lowStockQuery = $db->query($lowStockSql);
+$countLowStock = $lowStockQuery->num_rows;
 
-if($_POST)
-{		
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+$userwisesql = "SELECT admin.username , SUM(users_orders.price) as totalorder FROM users_orders INNER JOIN admin ON users_orders.u_id = admin.adm_id WHERE users_orders.status = 'status'";
+$userwiseQuery = $db->query($userwisesql);
+$userwiseOrder = $userwiseQuery->num_rows;
 
-	if(empty($username) || empty($password))
-	{
-		if($username == "") {
-			$errors[] = "Username is required";
-		} 
-
-		if($password == "") {
-			$errors[] = "Password is required";
-		}
-	} 
-	
-	else 
-	{
-		$sql = "SELECT adm_id, code, password FROM admin WHERE username = '$username'";
-		$result = $db->query($sql);
-		$row = mysqli_fetch_array($result);
-		
-		if(password_verify($password, $row['password']))
-		{
-			$_SESSION["adm_id"] = $row['adm_id'];
-			$_SESSION["adm_co"] = $row['code'];
-			header('location:'.$inv_url.'dashboard.php');
-		}
-
-		else
-		{	
-			$errors[] = "Incorrect username / password combination!";
-		} 
-	}	
-} // if $_POST
+$db->close();
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Stock Management System</title>
+<style type="text/css">
+	.ui-datepicker-calendar {
+		display: none;
+	}
+</style>
 
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-	<!-- bootstrap theme-->
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
-	<!-- font awesome -->
-	<link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+<!-- fullCalendar 2.2.5-->
+<link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.min.css">
+<link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.print.css" media="print">
 
-	<!-- custom css -->
-	<link rel="stylesheet" href="custom/css/custom.css">
+<div class="row">
+	<?php if(isset($_SESSION['adm_id'])) { ?>
+	<div class="col-md-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				
+				<a href="product.php" style="text-decoration:none;color:black;">
+					Total Product
+					<span class="badge pull pull-right"><?php echo $countProduct; ?></span>	
+				</a>
+			</div> <!--/panel-hdeaing-->
+		</div> <!--/panel-->
+	</div> <!--/col-md-4-->
+	
+	<div class="col-md-4">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<a href="product.php" style="text-decoration:none;color:black;">
+					Low Stock
+					<span class="badge pull pull-right"><?php echo $countLowStock; ?></span>	
+				</a>
+			</div> <!--/panel-hdeaing-->
+		</div> <!--/panel-->
+	</div> <!--/col-md-4-->
+	
+	<?php } ?>  
+		<div class="col-md-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<a href="orders.php?o=manord" style="text-decoration:none;color:black;">
+						Total Orders
+						<span class="badge pull pull-right"><?php echo $countOrder; ?></span>
+					</a>
+				</div> <!--/panel-heading-->
+			</div> <!--/panel-->
+		</div> <!--/col-md-4-->
 
-	<!-- jquery -->
-	<script src="assets/jquery/jquery.min.js"></script>
-	<!-- jquery ui -->  
-	<link rel="stylesheet" href="assets/jquery-ui/jquery-ui.min.css">
-	<script src="assets/jquery-ui/jquery-ui.min.js"></script>
+	<div class="col-md-4">
+		<div class="card">
+		  <div class="cardHeader">
+		    <h1><?php echo date('d'); ?></h1>
+		  </div>
 
-  	<!-- bootstrap js -->
-	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</head>
+		  <div class="cardContainer">
+		    <p><?php echo date('l') .' '.date('d').', '.date('Y'); ?></p>
+		  </div>
+		</div> 
+		<br/>
 
-<body>
-	<div class="container">
-		<div class="row vertical">
-			<div class="col-md-5 col-md-offset-4">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Please Sign in</h3>
-					</div>
-					<div class="panel-body">
+		<div class="card">
+		  <div class="cardHeader" style="background-color:#245580;">
+		    <h1><?php if($totalRevenue) {
+		    	echo "RM".$totalRevenue;
+		    	} else {
+		    		echo 'RM 0';
+		    		} ?></h1>
+		  </div>
 
-						<div class="messages">
-							<?php 
-							if($errors) 
-							{
-								foreach ($errors as $key => $value) {
-									echo '<div class="alert alert-warning" role="alert">
-									<i class="glyphicon glyphicon-exclamation-sign"></i>
-									'.$value.'</div>';										
-									}
-							}
-							?>
-						</div>
-
-						<form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" id="loginForm">
-							<fieldset>
-							  <div class="form-group">
-									<label for="username" class="col-sm-2 control-label">Username</label>
-									<div class="col-sm-10">
-									  <input type="text" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off" />
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="password" class="col-sm-2 control-label">Password</label>
-									<div class="col-sm-10">
-									  <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off" />
-									</div>
-								</div>								
-								<div class="form-group">
-									<div class="col-sm-offset-2 col-sm-10">
-									  <button type="submit" class="btn btn-default"> <i class="glyphicon glyphicon-log-in"></i> Sign in</button>
-									</div>
-								</div>
-							</fieldset>
-						</form>
-					</div>
-					<!-- panel-body -->
-				</div>
-				<!-- /panel -->
-			</div>
-			<!-- /col-md-4 -->
+		  <div class="cardContainer">
+		    <p> INR Total Revenue</p>
+		  </div>
 		</div>
-		<!-- /row -->
 	</div>
-	<!-- container -->	
-</body>
-</html>
+	
+	<?php  if(isset($_SESSION['adm_id'])) { ?>
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading"> <i class="glyphicon glyphicon-calendar"></i> User Wise Order</div>
+			<div class="panel-body">
+				<table class="table" id="productTable">
+			  	<thead>
+			  		<tr>			  			
+			  			<th style="width:40%;">Name</th>
+			  			<th style="width:20%;">Orders in Rupees</th>
+			  		</tr>
+			  	</thead>
+			  	<tbody>
+					<?php while ($orderResult = $userwiseQuery->fetch_assoc()) { ?>
+						<tr>
+							<td><?php echo $orderResult['username']?></td>
+							<td><?php echo $orderResult['totalorder']?></td>
+							
+						</tr>
+					<?php } ?>
+				</tbody>
+				</table>
+				<!--<div id="calendar"></div>-->
+			</div>	
+		</div>
+	</div> 
+	<?php  } ?>
+</div> <!--/row-->
+
+<!-- fullCalendar 2.2.5 -->
+<script src="assets/plugins/moment/moment.min.js"></script>
+<script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript">
+	$(function () {
+			// top bar active
+	$('#navDashboard').addClass('active');
+
+      //Date for the calendar events (dummy data)
+      var date = new Date();
+      var d = date.getDate(),
+      m = date.getMonth(),
+      y = date.getFullYear();
+
+      $('#calendar').fullCalendar({
+        header: {
+          left: '',
+          center: 'title'
+        },
+        buttonText: {
+          today: 'today',
+          month: 'month'          
+        }        
+      });
+    });
+</script>
+<?php require_once 'includes/footer.php'; ?>

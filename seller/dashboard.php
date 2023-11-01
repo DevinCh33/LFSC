@@ -146,7 +146,7 @@ if(empty($_SESSION["adm_id"]))
                     </div>
 
                     <div class="col-md-3">
-                        <a href="/lfsc/inventory/dashboard.php">
+                        <a href="/lfsc/inventory/index.php">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle"> 

@@ -1,10 +1,9 @@
 <?php 	
 require_once 'core.php';
 
-$sql = "SELECT product.product_id, product.product_name, product.product_image, product.brand_id,
- 		product.categories_id, product.quantity, product.rate, product.active, product.status, 
- 		brands.brand_name, categories.categories_name FROM product 
-		INNER JOIN brands ON product.brand_id = brands.brand_id 
+$sql = "SELECT product.product_id, product.product_name, product.product_image, 
+ 		product.categories_id, product.quantity, product.price, product.active, product.status, 
+ 		categories.categories_name FROM product 
 		INNER JOIN categories ON product.categories_id = categories.categories_id  
 		WHERE product.status = 1 AND product.quantity>0";
 
@@ -19,7 +18,7 @@ if($result->num_rows > 0) {
 	while($row = $result->fetch_array()) {
 		$productId = $row[0];
 		// active 
-		if($row[7] == 1) 
+		if($row[6] == 1) 
 		{
 			// activate member
 			$active = "<label class='label label-success'>Available</label>";
@@ -50,8 +49,7 @@ if($result->num_rows > 0) {
 		// 	$brand = $row['brand_name'];
 		// }
 
-		$brand = $row[9];
-		$category = $row[10];
+		$category = $row[8];
 
 		$imageUrl = substr($row[2], 3);
 		$productImage = "<img class='img-round' src='".$imageUrl."' style='height:30px; width:50px;'  />";
@@ -61,12 +59,10 @@ if($result->num_rows > 0) {
 			$productImage,
 			// product name
 			$row[1], 
-			// rate
-			$row[6],
+			// price
+			$row[5],
 			// quantity 
-			$row[5], 		 	
-			// brand
-			$brand,
+			$row[4], 		 	
 			// category 		
 			$category,
 			// active

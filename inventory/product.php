@@ -23,9 +23,8 @@
 						<tr>
 							<th style="width:10%;">Photo</th>							
 							<th>Product Name</th>
-							<th>Rate</th>							
+							<th>Price</th>							
 							<th>Quantity</th>
-							<th>Brand</th>
 							<th>Category</th>
 							<th>Status</th>
 							<th style="width:15%;">Options</th>
@@ -52,7 +51,7 @@
 	      	<div id="add-product-messages"></div>
 
 	      	<div class="form-group">
-	        	<label for="productImage" class="col-sm-3 control-label">Product Image: </label>
+	        	<label for="productImage" class="col-sm-3 control-label">Product Image </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
 					    <!-- the avatar markup -->
@@ -65,7 +64,7 @@
 	        </div> <!-- /form-group-->	     	           	       
 
 	        <div class="form-group">
-	        	<label for="productName" class="col-sm-3 control-label">Product Name: </label>
+	        	<label for="productName" class="col-sm-3 control-label">Product Name </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="productName" placeholder="Product Name" name="productName" autocomplete="off">
@@ -73,7 +72,7 @@
 	        </div> <!-- /form-group-->	    
 
 	        <div class="form-group">
-	        	<label for="quantity" class="col-sm-3 control-label">Quantity: </label>
+	        	<label for="quantity" class="col-sm-3 control-label">Quantity </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="quantity" placeholder="Quantity" name="quantity" autocomplete="off">
@@ -81,34 +80,16 @@
 	        </div> <!-- /form-group-->	        	 
 
 	        <div class="form-group">
-	        	<label for="rate" class="col-sm-3 control-label">Rate: </label>
+	        	<label for="price" class="col-sm-3 control-label">Price </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="rate" placeholder="Rate" name="rate" autocomplete="off">
+					<input type="text" class="form-control" id="price" placeholder="Price" name="price" autocomplete="off">
 				</div>
 	        </div> <!-- /form-group-->	     	        
 
-	        <div class="form-group">
-	        	<label for="brandName" class="col-sm-3 control-label">Brand Name: </label>
-	        	<label class="col-sm-1 control-label">: </label>
-				<div class="col-sm-8">
-					<select class="form-control" id="brandName" name="brandName">
-					<option value="">~~SELECT~~</option>
-					<?php 
-					$sql = "SELECT brand_id, brand_name, brand_active, brand_status FROM brands WHERE brand_status = 1 AND brand_active = 1";
-							$result = $db->query($sql);
-
-							while($row = $result->fetch_array()) {
-								echo "<option value='".$row[0]."'>".$row[1]."</option>";
-							} // while
-							
-					?>
-					</select>
-				</div>
-	        </div> <!-- /form-group-->	
 
 	        <div class="form-group">
-	        	<label for="categoryName" class="col-sm-3 control-label">Category Name: </label>
+	        	<label for="categoryName" class="col-sm-3 control-label">Category Name </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
 					<select type="text" class="form-control" id="categoryName" placeholder="Product Name" name="categoryName" >
@@ -127,11 +108,10 @@
 	        </div> <!-- /form-group-->					        	         	       
 
 	        <div class="form-group">
-	        	<label for="productStatus" class="col-sm-3 control-label">Status: </label>
+	        	<label for="productStatus" class="col-sm-3 control-label">Status </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
 					<select class="form-control" id="productStatus" name="productStatus">
-					<option value="">~~SELECT~~</option>
 					<option value="1">Available</option>
 					<option value="2">Not Available</option>
 					</select>
@@ -142,7 +122,7 @@
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
 	        
-	        <button type="submit" class="btn btn-primary" id="createProductBtn" data-loading-text="Loading..." autocomplete="off"> <i class="glyphicon glyphicon-ok-sign"></i> Save Changes</button>
+	        <button type="submit" class="btn btn-primary" id="createProductBtn" data-loading-text="Loading..." autocomplete="off"> <i class="glyphicon glyphicon-ok-sign"></i> Add Product</button>
 	      </div> <!-- /modal-footer -->	      
      	</form> <!-- /.form -->	     
     </div> <!-- /modal-content -->    
@@ -234,31 +214,14 @@
 			        </div> <!-- /form-group-->	        	 
 
 			        <div class="form-group">
-			        	<label for="editRate" class="col-sm-3 control-label">Rate: </label>
+			        	<label for="editPrice" class="col-sm-3 control-label">Price: </label>
 			        	<label class="col-sm-1 control-label">: </label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" id="editRate" placeholder="Rate" name="editRate" autocomplete="off">
+							<input type="text" class="form-control" id="editPrice" placeholder="Price" name="editPrice" autocomplete="off">
 						</div>
 			        </div> <!-- /form-group-->	     	        
 
-			        <div class="form-group">
-			        	<label for="editBrandName" class="col-sm-3 control-label">Brand Name: </label>
-			        	<label class="col-sm-1 control-label">: </label>
-						<div class="col-sm-8">
-							<select class="form-control" id="editBrandName" name="editBrandName">
-							<option value="">~~SELECT~~</option>
-							<?php 
-							$sql = "SELECT brand_id, brand_name, brand_active, brand_status FROM brands WHERE brand_status = 1 AND brand_active = 1";
-									$result = $db->query($sql);
-
-									while($row = $result->fetch_array()) {
-										echo "<option value='".$row[0]."'>".$row[1]."</option>";
-									} // while
-									
-							?>
-							</select>
-						</div>
-			        </div> <!-- /form-group-->	
+			     
 
 			        <div class="form-group">
 			        	<label for="editCategoryName" class="col-sm-3 control-label">Category Name: </label>

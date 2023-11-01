@@ -151,23 +151,23 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                            <div class="row">
                               <div class="form-group col-sm-12">
                                  <label for="exampleInputEmail1">User-Name</label>
-                                 <input class="form-control" type="text" name="username" id="example-text-input" placeholder="Username"> 
+                                 <input class="form-control" type="text" name="username" value="<?php if(isset($_POST['username'])) { echo htmlentities ($_POST['username']); }?>" id="example-text-input" placeholder="Username"> 
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">First Name</label>
-                                 <input class="form-control" type="text" name="firstname" id="example-text-input" placeholder="First Name"> 
+                                 <input class="form-control" type="text" name="firstname" value="<?php if(isset($_POST['firstname'])) { echo htmlentities ($_POST['firstname']); }?>" id="example-text-input" placeholder="First Name"> 
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">Last Name</label>
-                                 <input class="form-control" type="text" name="lastname" id="example-text-input-2" placeholder="Last Name"> 
+                                 <input class="form-control" type="text" name="lastname" value="<?php if(isset($_POST['lastname'])) { echo htmlentities ($_POST['lastname']); }?>" id="example-text-input-2" placeholder="Last Name"> 
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">Email address</label>
-                                 <input type="text" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                 <input type="text" class="form-control" name="email" value="<?php if(isset($_POST['email'])) { echo htmlentities ($_POST['email']); }?>" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputEmail1">Phone number</label>
-                                 <input class="form-control" type="text" name="phone" id="example-tel-input-3" placeholder="Phone">  
+                                 <input class="form-control" type="text" name="phone" value="<?php if(isset($_POST['phone'])) { echo htmlentities ($_POST['phone']); }?>" id="example-tel-input-3" placeholder="Phone">  
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputPassword1">Password</label>
@@ -179,7 +179,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                               </div>
                               <div class="form-group col-sm-12">
                                  <label for="exampleTextarea">Delivery Address</label>
-                                 <textarea class="form-control" id="exampleTextarea"  name="address" rows="3"></textarea>
+                                 <textarea class="form-control" id="exampleTextarea"  name="address" value="<?php if(isset($_POST['address'])) { echo htmlentities ($_POST['address']); }?>" rows="3"></textarea>
                               </div>
                            </div>
                            

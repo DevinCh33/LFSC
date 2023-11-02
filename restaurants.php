@@ -59,9 +59,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="top-links">
             <div class="container">
                 <ul class="row links">
-                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="restaurants.php">Choose Restaurant</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Pick Your favorite food</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay online</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="restaurants.php">Pick Your Merchant</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Choose Your Product</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay Online</a></li>
                 </ul>
             </div>
         </div>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2023 at 04:09 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 02, 2023 at 10:02 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,14 +34,15 @@ CREATE TABLE `admin` (
   `email` varchar(222) NOT NULL,
   `code` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) VALUES
-(10, 'admin', '$2y$10$cf/mF6M06Tff4tMR7CHHn.SjtoqUpK.aVbzNfKG0Lm7uqqJ2lMXIi', 'admin@lf.net', 'SUPA', '2023-10-30 15:07:15');
+(10, 'admin', '$2y$10$cf/mF6M06Tff4tMR7CHHn.SjtoqUpK.aVbzNfKG0Lm7uqqJ2lMXIi', 'admin@lf.net', 'SUPA', '2023-10-30 15:07:15'),
+(11, 'aaa', '$2y$10$40CMfzIx.CjMKE9Des8j4uZIZi6e49KxWFslDuhi0YYamJD6PCupi', 'aa@gmail.com', 'SUPP', '2023-10-31 04:44:29');
 
 -- --------------------------------------------------------
 
@@ -52,7 +53,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) 
 CREATE TABLE `admin_codes` (
   `id` int(222) NOT NULL,
   `codes` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin_codes`
@@ -65,26 +66,6 @@ INSERT INTO `admin_codes` (`id`, `codes`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `brands`
---
-
-CREATE TABLE `brands` (
-  `brand_id` int(11) NOT NULL,
-  `brand_name` varchar(255) NOT NULL,
-  `brand_active` int(11) NOT NULL DEFAULT 0,
-  `brand_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `brands`
---
-
-INSERT INTO `brands` (`brand_id`, `brand_name`, `brand_active`, `brand_status`) VALUES
-(1, 'Little Farmer', 1, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `categories`
 --
 
@@ -93,14 +74,15 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `categories`
 --
 
 INSERT INTO `categories` (`categories_id`, `categories_name`, `categories_active`, `categories_status`) VALUES
-(1, 'Organic', 1, 1);
+(1, 'Organic', 1, 1),
+(2, 'ABC', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -115,18 +97,18 @@ CREATE TABLE `dishes` (
   `slogan` varchar(222) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `img` varchar(222) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dishes`
 --
 
 INSERT INTO `dishes` (`d_id`, `rs_id`, `title`, `slogan`, `price`, `img`) VALUES
-(12, 0, 'Carrot', 'A classic carrot', 22.12, '652d4383278bd.jpg'),
-(13, 0, 'Mango', 'Less popular than power-up mango', 12.35, '652d43db19251.jpg'),
-(15, 0, 'Power-up Mango', 'Subsidized by government', 11.99, '652d42d37a242.jpg'),
-(16, 0, 'Ultra Carrot', 'Grown only in Dreamland', 22.55, '652d42bfc10ce.jpg'),
-(17, 0, 'Apple', 'Great taste', 17.99, '652d429436b21.jpg');
+(12, 0, 'Carrot', 'A classic carrot', '22.12', '652d4383278bd.jpg'),
+(13, 0, 'Mango', 'Less popular than power-up mango', '12.35', '652d43db19251.jpg'),
+(15, 0, 'Power-up Mango', 'Subsidized by government', '11.99', '652d42d37a242.jpg'),
+(16, 0, 'Ultra Carrot', 'Grown only in Dreamland', '22.55', '652d42bfc10ce.jpg'),
+(17, 0, 'Apple', 'Great taste', '17.99', '652d429436b21.jpg');
 
 -- --------------------------------------------------------
 
@@ -152,7 +134,7 @@ CREATE TABLE `orders` (
   `gstn` varchar(255) NOT NULL,
   `order_status` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -168,7 +150,7 @@ CREATE TABLE `order_item` (
   `rate` varchar(255) NOT NULL,
   `total` varchar(255) NOT NULL,
   `order_item_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -180,24 +162,23 @@ CREATE TABLE `product` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `product_image` text NOT NULL,
-  `brand_id` int(11) NOT NULL,
   `categories_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `rate` decimal(10,2) NOT NULL,
+  `quantity` decimal(11,3) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
   `active` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `brand_id`, `categories_id`, `quantity`, `rate`, `active`, `status`) VALUES
-(12, 'Carrot', '../assets/images/stock/652d4383278bd.jpg', 1, 1, 20, 22.12, 1, 1),
-(13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, 1, 20, 12.35, 1, 1),
-(15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, 1, 20, 11.99, 1, 1),
-(16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, 1, 20, 22.55, 1, 1),
-(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, 1, 20, 17.99, 1, 1);
+INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categories_id`, `quantity`, `price`, `active`, `status`) VALUES
+(12, 'Carrot', '../assets/images/stock/652d4383278bd.jpg', 1, '19.000', '22.12', 1, 1),
+(13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, '20.000', '12.35', 1, 1),
+(15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, '20.000', '11.99', 1, 1),
+(16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, '20.000', '22.55', 1, 1),
+(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, '20.000', '17.99', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -211,7 +192,7 @@ CREATE TABLE `remark` (
   `status` varchar(255) NOT NULL,
   `remark` mediumtext NOT NULL,
   `remarkDate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `remark`
@@ -247,7 +228,7 @@ CREATE TABLE `restaurant` (
   `address` text NOT NULL,
   `image` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `restaurant`
@@ -268,7 +249,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `res_category`
@@ -298,7 +279,7 @@ CREATE TABLE `users` (
   `address` text NOT NULL,
   `status` int(222) NOT NULL DEFAULT 1,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -307,7 +288,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `email`, `phone`, `password`, `address`, `status`, `date`) VALUES
 (31, 'navjot789', 'navjot', 'singh', 'ns949405@gmail.com', '9041240385', '202cb962ac59075b964b07152d234b70', 'badri col phase 2', 1, '2023-10-16 06:34:53'),
 (32, 'navjot890', 'nav', 'singh', 'nds949405@gmail.com', '6232125458', '6d0361d5777656072438f6e314a852bc', 'badri col phase 1', 1, '2018-04-18 09:50:56'),
-(33, 'fyp', 'fyp', 'fyp', 'devinchp@gmail.com', '0198186518', '46f94c8de14fb36680850768ff1b7f2a', '3828 Piermont Dr, Albuquerque, NM', 1, '2023-10-16 06:46:32');
+(33, 'fyp', 'fyp', 'fyp', 'devinchp@gmail.com', '0198186518', '46f94c8de14fb36680850768ff1b7f2a', '3828 Piermont Dr, Albuquerque, NM', 1, '2023-10-16 06:46:32'),
+(34, 'aaa', 'aaa', 'aaa', 'a@gmail.com', '01151385427', '$2y$10$e02vnxMwGpigjxJtFV/dFOkTaYZvo9ekikJA9wZ/yK2C3sNt3ODY2', '', 1, '2023-10-31 04:19:35');
 
 -- --------------------------------------------------------
 
@@ -323,18 +305,19 @@ CREATE TABLE `users_orders` (
   `price` decimal(10,2) NOT NULL,
   `status` varchar(222) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users_orders`
 --
 
 INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
-(37, 31, 'Apple', 5, 17.99, 'closed', '2023-10-21 08:14:27'),
-(38, 31, 'Power-up Mango', 2, 11.99, NULL, '2023-10-21 08:15:02'),
-(39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
-(40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
-(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00');
+(37, 31, 'Apple', 5, '17.99', 'closed', '2023-10-21 08:14:27'),
+(38, 31, 'Power-up Mango', 2, '11.99', NULL, '2023-10-21 08:15:02'),
+(39, 32, 'Ultra Carrot', 1, '22.55', NULL, '2023-10-21 08:16:10'),
+(40, 33, 'Carrot', 1, '22.12', NULL, '2023-10-21 08:16:03'),
+(41, 33, 'Apple', 2, '17.99', NULL, '2023-10-21 08:16:00'),
+(42, 34, 'Carrot', 1, '22.12', NULL, '2023-10-31 05:38:56');
 
 --
 -- Indexes for dumped tables
@@ -351,12 +334,6 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `admin_codes`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `brands`
---
-ALTER TABLE `brands`
-  ADD PRIMARY KEY (`brand_id`);
 
 --
 -- Indexes for table `categories`
@@ -426,7 +403,7 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
@@ -435,16 +412,10 @@ ALTER TABLE `admin_codes`
   MODIFY `id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `brands`
---
-ALTER TABLE `brands`
-  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dishes`
@@ -492,13 +463,13 @@ ALTER TABLE `res_category`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `users_orders`
 --
 ALTER TABLE `users_orders`
-  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -417,7 +417,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 					    <div class="col-lg-12">
                         <div class="card card-outline-primary">
                             
-                                <h4 class="m-b-0 ">Update Restaurant</h4>
+                                <h4 class="m-b-0 ">Update Store</h4>
                             
                             <div class="card-body">
                                 <form action='' method='post'  enctype="multipart/form-data">
@@ -429,14 +429,14 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Restaurant Name</label>
+                                                    <label class="control-label">Store Name</label>
                                                     <input type="text" name="res_name" value="<?php echo $row['title'];  ?>" class="form-control" placeholder="John doe">
                                                    </div>
                                             </div>
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group has-danger">
-                                                    <label class="control-label">Bussiness E-mail</label>
+                                                    <label class="control-label">Business Email</label>
                                                     <input type="text" name="email" value="<?php echo $row['email'];  ?>"class="form-control form-control-danger" placeholder="example@gmail.com">
                                                     </div>
                                             </div>

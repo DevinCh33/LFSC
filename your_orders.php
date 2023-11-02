@@ -226,8 +226,8 @@ only screen and (max-width: 760px),
                         <tr>
                             <th>Item</th>
                             <th>Quantity</th>
-                            <th>price</th>
-                            <th>status</th>
+                            <th>Price</th>
+                            <th>Status</th>
                             <th>Date</th>
                             <th>Action</th> 
                         </tr>
@@ -240,7 +240,7 @@ $query_res = mysqli_query($db,"select * from users_orders where u_id='".$_SESSIO
 
 if(!mysqli_num_rows($query_res) > 0 )
 {
-    echo '<td colspan="6"><center>You have No orders Placed yet. </center></td>';
+    echo '<td colspan="6"><center>You have no orders placed yet. </center></td>';
 }
 
 else

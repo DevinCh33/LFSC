@@ -84,7 +84,7 @@
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="allrestraunt.php">All Stores</a></li>
                         <li><a href="add_category.php">Add Category</a></li>
-                        <li><a href="add_restraunt.php">Add Restaurant</a></li>
+                        <li><a href="add_restraunt.php">Add Store</a></li>
                     </ul>
                 </li>
                 <?php

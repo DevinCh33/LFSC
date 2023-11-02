@@ -79,7 +79,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <div class="row">
                         <div class="col-xs-12 col-sm-12  col-md-4 col-lg-4 profile-img">
                             <div class="image-wrap">
-                                <figure><?php echo '<img src="seller/Res_img/'.$rows['image'].'" alt="Restaurant logo">'; ?></figure>
+                                <figure><?php echo '<img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo">'; ?></figure>
                             </div>
                         </div>
                         
@@ -169,7 +169,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <div class="menu-widget" id="2">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
-                                POPULAR ORDERS Delicious hot food! <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
+                                POPULAR ORDERS Quality products! <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
                                 <i class="fa fa-angle-right pull-right"></i>
                                 <i class="fa fa-angle-down pull-right"></i>
                                 </a>
@@ -177,7 +177,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <div class="clearfix"></div>
                         </div>
                         <div class="collapse in" id="popular2">
-						<?php // display values and item of food/dishes
+						<?php // display values and item of products
                             $stmt = $db->prepare("select * from dishes where rs_id='$_GET[res_id]'");
                             $stmt->execute();
                             $products = $stmt->get_result();
@@ -195,7 +195,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="col-xs-12 col-sm-12 col-lg-8">
                                     <form method="post" action='dishes.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['d_id']; ?>'>
                                         <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="seller/Res_img/dishes/'.$product['img'].'" alt="Food logo">'; ?></a>
+                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="seller/Res_img/dishes/'.$product['img'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         <!-- end:Logo -->
                                         <div class="rest-descr">
@@ -214,7 +214,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 </div>
                                 <!-- end:row -->
                             </div>
-                            <!-- end:Food item -->
+                            <!-- end:Item -->
                             
                             <?php
                                     }
@@ -412,7 +412,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-lg-6">
                                 <div class="item-img pull-left">
-                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Food logo"></a>
+                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Product logo"></a>
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="rest-descr">
@@ -437,12 +437,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         <!-- end:row -->
                     </div>
-                    <!-- end:Food item -->
+                    <!-- end:Item -->
                     <div class="food-item">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-lg-6">
                                 <div class="item-img pull-left">
-                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Food logo"></a>
+                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Product logo"></a>
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="rest-descr">
@@ -467,12 +467,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         <!-- end:row -->
                     </div>
-                    <!-- end:Food item -->
+                    <!-- end:Item -->
                     <div class="food-item">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-lg-6">
                                 <div class="item-img pull-left">
-                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Food logo"></a>
+                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Product logo"></a>
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="rest-descr">
@@ -497,12 +497,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         <!-- end:row -->
                     </div>
-                    <!-- end:Food item -->
+                    <!-- end:Item -->
                     <div class="food-item">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-lg-6">
                                 <div class="item-img pull-left">
-                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Food logo"></a>
+                                    <a class="restaurant-logo pull-left" href="#"><img src="http://placehold.it/70x70" alt="Product logo"></a>
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="rest-descr">
@@ -527,7 +527,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         <!-- end:row -->
                     </div>
-                    <!-- end:Food item -->
+                    <!-- end:Item -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

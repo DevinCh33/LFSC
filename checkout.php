@@ -61,7 +61,6 @@ foreach ($_SESSION["cart_item"] as $item)
                     <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
                         <ul class="nav navbar-nav">
                             <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
                             
 							<?php
                                 echo  '<li class="nav-item"><a href="index.php" class="nav-link active">Little Farmer</a> </li>';
@@ -81,7 +80,7 @@ foreach ($_SESSION["cart_item"] as $item)
             <div class="top-links">
                 <div class="container">
                     <ul class="row links"> 
-                        <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose Restaurant</a></li>
+                        <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose Merchant</a></li>
                         <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Pick Your favorite food</a></li>
                         <li class="col-xs-12 col-sm-4 link-item active" ><span>3</span><a href="checkout.php">Order and Pay online</a></li>
                     </ul>
@@ -192,7 +191,7 @@ foreach ($_SESSION["cart_item"] as $item)
                         <h5>How it Works</h5>
                         <ul>
                             <li><a href="#">Enter your location</a> </li>
-                            <li><a href="#">Choose restaurant</a> </li>
+                            <li><a href="#">Choose Merchant</a> </li>
                             <li><a href="#">Choose meal</a> </li>
                             <li><a href="#">Pay via credit card</a> </li>
                             <li><a href="#">Wait for delivery</a> </li>

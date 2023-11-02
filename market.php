@@ -103,7 +103,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 </div>
                 <div class="row">';
  
-                // fetch records from database to display popular first 3 dishes from table
+                // fetch records from database to display first 12 products searched from the database
                 $query_res = mysqli_query($db,"select * from dishes WHERE title LIKE '%".$_GET['search']."%' LIMIT 12"); 
                 
                 while($r=mysqli_fetch_array($query_res))
@@ -134,12 +134,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="popular">
         <div class="container">
             <div class="title text-xs-center m-b-30">
-                <h2>Popular Dishes of the Month</h2>
-                <p class="lead">The easiest way to your favourite food</p>
+                <h2>Popular Products of the Month</h2>
+                <p class="lead">The easiest way to your favourite product</p>
             </div>
             <div class="row">
                 <?php 
-                // fetch records from database to display popular first 3 dishes from table
+                // fetch records from database to display popular first 12 products from database
                 $query_res= mysqli_query($db,"select * from dishes LIMIT 12"); 
                 
                 while($r=mysqli_fetch_array($query_res))
@@ -165,16 +165,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div>
     </section>
     <!-- Popular block ends -->
-    <!-- Featured restaurants starts -->
+    <!-- Featured Merchants starts -->
     <section class="featured-restaurants">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4">
                     <div class="title-block pull-left">
-                        <h4>Featured merchants</h4> </div>
+                        <h4>Featured Merchants</h4> </div>
                 </div>
                 <div class="col-sm-8">
-                    <!-- restaurants filter nav starts -->
+                    <!-- Merchants filter nav starts -->
                     <div class="restaurants-filter pull-right">
                         <nav class="primary pull-left">
                             <ul>
@@ -192,10 +192,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             </ul>
                         </nav>
                     </div>
-                    <!-- restaurants filter nav ends -->
+                    <!-- Merchants filter nav ends -->
                 </div>
             </div>
-            <!-- restaurants listing starts -->
+            <!-- Merchants listing starts -->
             <div class="row">
                 <div class="restaurant-listing">
                     <?php  //fetching records from table and filter using html data-filter tag
@@ -211,7 +211,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="restaurant-wrap">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-3 col-md-12 col-lg-3 text-xs-center">
-                                                <a class="restaurant-logo" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Restaurant logo"> </a>
+                                                <a class="restaurant-logo" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo"> </a>
                                             </div>
                                             <!--end:col -->
                                             <div class="col-xs-12 col-sm-9 col-md-12 col-lg-9">
@@ -232,17 +232,17 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         </div>
                                         <!-- end:row -->
                                     </div>
-                                    <!--end:Restaurant wrap -->
+                                    <!--end:Merchant wrap -->
                                 </div>';
                         }
                     ?>
                 </div>
             </div>
-            <!-- restaurants listing ends -->
+            <!-- Merchants listing ends -->
             
         </div>
     </section>
-    <!-- Featured restaurants ends -->
+    <!-- Featured Merchants ends -->
     <section class="app-section">
         <div class="app-wrap">
             <div class="container">

@@ -72,7 +72,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
 
                 $success = 	'<div class="alert alert-success alert-dismissible fade show">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Congrats!</strong> New merchant added successfully.
+                                <strong>Congrats!</strong> New store added successfully.
                             </div>';
             }
         }
@@ -125,7 +125,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
 				<div class="col-lg-12">
                         <div class="card card-outline-primary">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Add Merchant</h4>
+                                <h4 class="m-b-0 text-white">Add Store</h4>
                             </div>
                             <div class="card-body">
                                 <form action='' method='post'  enctype="multipart/form-data">
@@ -134,8 +134,8 @@ if(isset($_POST['submit'])) //if upload btn was pressed
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Merchant Name</label>
-                                                    <input type="text" name="res_name" class="form-control" placeholder="New Merchant">
+                                                    <label class="control-label">Store Name</label>
+                                                    <input type="text" name="res_name" class="form-control" placeholder="New Store">
                                                 </div>
                                             </div>
                                             <!--/span-->

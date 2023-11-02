@@ -427,8 +427,8 @@ function addRow() {
 					'</div>'+
 				'</td>'+
 				'<td style="padding-left:20px;"">'+
-					'<input type="text" name="rate[]" id="rate'+count+'" autocomplete="off" disabled="true" class="form-control" />'+
-					'<input type="hidden" name="rateValue[]" id="rateValue'+count+'" autocomplete="off" class="form-control" />'+
+					'<input type="text" name="price[]" id="price'+count+'" autocomplete="off" disabled="true" class="form-control" />'+
+					'<input type="hidden" name="priceValue[]" id="priceValue'+count+'" autocomplete="off" class="form-control" />'+
 				'</td style="padding-left:20px;">'+
 				'<td style="padding-left:20px;">'+
 					'<div class="form-group">'+
@@ -477,7 +477,7 @@ function getProductData(row = null) {
 		var productId = $("#productName"+row).val();		
 		
 		if(productId == "") {
-			$("#rate"+row).val("");
+			$("#price"+row).val("");
 
 			$("#quantity"+row).val("");						
 			$("#total"+row).val("");
@@ -504,15 +504,15 @@ function getProductData(row = null) {
 				data: {productId : productId},
 				dataType: 'json',
 				success:function(response) {
-					// setting the rate value into the rate input field
+					// setting the price value into the price input field
 					
-					$("#rate"+row).val(response.rate);
-					$("#rateValue"+row).val(response.rate);
+					$("#price"+row).val(response.price);
+					$("#priceValue"+row).val(response.price);
 
 					$("#quantity"+row).val(1);
 					$("#available_quantity"+row).text(response.quantity);
 
-					var total = Number(response.rate) * 1;
+					var total = Number(response.price) * 1;
 					total = total.toFixed(2);
 					$("#total"+row).val(total);
 					$("#totalValue"+row).val(total);
@@ -546,7 +546,7 @@ function getProductData(row = null) {
 // table total
 function getTotal(row = null) {
 	if(row) {
-		var total = Number($("#rate"+row).val()) * Number($("#quantity"+row).val());
+		var total = Number($("#price"+row).val()) * Number($("#quantity"+row).val());
 		total = total.toFixed(2);
 		$("#total"+row).val(total);
 		$("#totalValue"+row).val(total);

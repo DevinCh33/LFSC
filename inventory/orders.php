@@ -1,5 +1,5 @@
 <?php 
-require_once 'connection/connect.php'; 
+require_once '../connection/connect.php'; 
 require_once 'includes/header.php'; 
 
 if($_GET['o'] == 'add') { 
@@ -86,7 +86,7 @@ if($_GET['o'] == 'add') {
 			  	<thead>
 			  		<tr>			  			
 			  			<th style="width:40%;">Product</th>
-			  			<th style="width:20%;">Rate</th>
+			  			<th style="width:20%;">Price</th>
 			  			<th style="width:10%;">Available Quantity</th>
 			  			<th style="width:15%;">Quantity</th>			  			
 			  			<th style="width:25%;">Total</th>			  			
@@ -104,10 +104,12 @@ if($_GET['o'] == 'add') {
 			  					<select class="form-control" name="productName[]" id="productName<?php echo $x; ?>" onchange="getProductData(<?php echo $x; ?>)" >
 			  						<option value="">~~SELECT~~</option>
 			  						<?php
+										
 			  							$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0";
-			  							$productData = $connect->query($productSql);
+			  							$productData = $db->query($productSql);
 
-			  							while($row = $productData->fetch_array()) {									 		
+			  							while($row = $productData->fetch_array()) {	
+											
 			  								echo "<option value='".$row['product_id']."' id='changeProduct".$row['product_id']."'>".$row['product_name']."</option>";
 										 	} // /while 
 
@@ -116,8 +118,8 @@ if($_GET['o'] == 'add') {
 			  					</div>
 			  				</td>
 			  				<td style="padding-left:20px;">			  					
-			  					<input type="text" name="rate[]" id="rate<?php echo $x; ?>" autocomplete="off" disabled="true" class="form-control" />			  					
-			  					<input type="hidden" name="rateValue[]" id="rateValue<?php echo $x; ?>" autocomplete="off" class="form-control" />			  					
+			  					<input type="text" name="price[]" id="price<?php echo $x; ?>" autocomplete="off" disabled="true" class="form-control" />			  					
+			  					<input type="hidden" name="priceValue[]" id="priceValue<?php echo $x; ?>" autocomplete="off" class="form-control" />			  					
 			  				</td>
 							<td style="padding-left:20px;">
 			  					<div class="form-group">
@@ -277,7 +279,7 @@ if($_GET['o'] == 'add') {
   			$sql = "SELECT orders.order_id, orders.order_date, orders.client_name, orders.client_contact, orders.sub_total, orders.vat, orders.total_amount, orders.discount, orders.grand_total, orders.paid, orders.due, orders.payment_type, orders.payment_status,orders.payment_place,orders.gstn FROM orders 	
 					WHERE orders.order_id = {$orderId}";
 
-				$result = $connect->query($sql);
+				$result = $db->query($sql);
 				$data = $result->fetch_row();
   			?>
 
@@ -304,7 +306,7 @@ if($_GET['o'] == 'add') {
 			  	<thead>
 			  		<tr>			  			
 			  			<th style="width:40%;">Product</th>
-			  			<th style="width:20%;">Rate</th>
+			  			<th style="width:20%;">Price</th>
 			  			<th style="width:15%;">Available Quantity</th>			  			
 			  			<th style="width:15%;">Quantity</th>			  			
 			  			<th style="width:15%;">Total</th>			  			
@@ -314,8 +316,8 @@ if($_GET['o'] == 'add') {
 			  	<tbody>
 			  		<?php
 
-			  		$orderItemSql = "SELECT order_item.order_item_id, order_item.order_id, order_item.product_id, order_item.quantity, order_item.rate, order_item.total FROM order_item WHERE order_item.order_id = {$orderId}";
-						$orderItemResult = $connect->query($orderItemSql);
+			  		$orderItemSql = "SELECT order_item.order_item_id, order_item.order_id, order_item.product_id, order_item.quantity, order_item.price, order_item.total FROM order_item WHERE order_item.order_id = {$orderId}";
+						$orderItemResult = $db->query($orderItemSql);
 						// $orderItemData = $orderItemResult->fetch_all();						
 						
 						// print_r($orderItemData);
@@ -332,7 +334,7 @@ if($_GET['o'] == 'add') {
 			  						<option value="">~~SELECT~~</option>
 			  						<?php
 			  							$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0";
-			  							$productData = $connect->query($productSql);
+			  							$productData = $db->query($productSql);
 
 			  							while($row = $productData->fetch_array()) {									 		
 			  								$selected = "";
@@ -350,14 +352,14 @@ if($_GET['o'] == 'add') {
 			  					</div>
 			  				</td>
 			  				<td style="padding-left:20px;">			  					
-			  					<input type="text" name="rate[]" id="rate<?php echo $x; ?>" autocomplete="off" disabled="true" class="form-control" value="<?php echo $orderItemData['rate']; ?>" />			  					
-			  					<input type="hidden" name="rateValue[]" id="rateValue<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $orderItemData['rate']; ?>" />			  					
+			  					<input type="text" name="price[]" id="price<?php echo $x; ?>" autocomplete="off" disabled="true" class="form-control" value="<?php echo $orderItemData['price']; ?>" />			  					
+			  					<input type="hidden" name="priceValue[]" id="priceValue<?php echo $x; ?>" autocomplete="off" class="form-control" value="<?php echo $orderItemData['price']; ?>" />			  					
 			  				</td>
 							<td style="padding-left:20px;">
 			  					<div class="form-group">
 									<?php
 			  							$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0";
-			  							$productData = $connect->query($productSql);
+			  							$productData = $db->query($productSql);
 
 			  							while($row = $productData->fetch_array()) {									 		
 			  								$selected = "";

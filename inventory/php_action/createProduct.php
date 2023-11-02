@@ -6,11 +6,12 @@ $valid['success'] = array('success' => false, 'messages' => array());
 if($_POST) 
 {	
 	$productName 	= $_POST['productName'];
-	$productImage = $_POST['productImage'];
+	//$productImage 	= $_POST['productImage'];
 	$quantity 		= $_POST['quantity'];
 	$price 			= $_POST['price'];
 	$categoryName 	= $_POST['categoryName'];
 	$productStatus 	= $_POST['productStatus'];
+	
 
 	$type = explode('.', $_FILES['productImage']['name']);
 	$type = $type[count($type)-1];		
@@ -18,7 +19,7 @@ if($_POST)
 	if(in_array($type, array('gif', 'jpg', 'jpeg', 'png', 'JPG', 'GIF', 'JPEG', 'PNG'))) {
 		if(is_uploaded_file($_FILES['productImage']['tmp_name'])) {			
 			if(move_uploaded_file($_FILES['productImage']['tmp_name'], $url)) {
-				$sql = "INSERT INTO product(product_name, product_image, categories_name, quantity, price, active, status) 
+				$sql = "INSERT INTO product(product_name, product_image, categories_id, quantity, price, active, status) 
 				VALUES ('$productName', '$url',  '$categoryName', '$quantity', '$price', '$productStatus', 1)";
 
 				//$sql2 = "INSERT INTO dishes (rs_id, title, slogan, price, img) 
@@ -48,4 +49,6 @@ if($_POST)
 	$db->close();
 
 	echo json_encode($valid);
+	
+	header("Location: http://localhost/lfsc/inventory/product.php");
 } // /if $_POST

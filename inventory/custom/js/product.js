@@ -31,7 +31,7 @@ $(document).ready(function() {
 		    removeTitle: 'Cancel or reset changes',
 		    elErrorContainer: '#kv-avatar-errors-1',
 		    msgErrorClass: 'alert alert-block alert-danger',
-		    defaultPreviewContent: '<img src="assets/images/photo_default.png" alt="Profile Image" style="width:100%;">',
+		    defaultPreviewContent: '<img src="assests/images/photo_default.png" alt="Profile Image" style="width:100%;">',
 		    layoutTemplates: {main2: '{preview} {remove} {browse}'},								    
 	  		allowedFileExtensions: ["jpg", "png", "gif", "JPG", "PNG", "GIF"]
 			});   
@@ -86,7 +86,17 @@ $(document).ready(function() {
 				// success out for form 
 				$("#price").closest('.form-group').addClass('has-success');	  	
 			}	// /else
-			
+
+			if(brandName == "") {
+				$("#brandName").after('<p class="text-danger">Brand Name field is required</p>');
+				$('#brandName').closest('.form-group').addClass('has-error');
+			}	else {
+				// remov error text field
+				$("#brandName").find('.text-danger').remove();
+				// success out for form 
+				$("#brandName").closest('.form-group').addClass('has-success');	  	
+			}	// /else
+
 			if(categoryName == "") {
 				$("#categoryName").after('<p class="text-danger">Category Name field is required</p>');
 				$('#categoryName').closest('.form-group').addClass('has-error');
@@ -107,7 +117,7 @@ $(document).ready(function() {
 				$("#productStatus").closest('.form-group').addClass('has-success');	  	
 			}	// /else
 
-			if(productImage && productName && quantity && price &&  categoryName && productStatus) {
+			if(productImage && productName && quantity && price && brandName && categoryName && productStatus) {
 				// submit loading button
 				$("#createProductBtn").button('loading');
 
@@ -302,7 +312,7 @@ function editProduct(productId = null) {
 
 						var form = $(this);
 						var formData = new FormData(this);
-
+						
 						$.ajax({
 							url : form.attr('action'),
 							type: form.attr('method'),

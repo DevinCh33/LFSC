@@ -8,12 +8,11 @@ if($_POST)
 	$productId 		= $_POST['productId'];
 	$productName 	= $_POST['editProductName']; 
 	$quantity 		= $_POST['editQuantity'];
-	$rate 			= $_POST['editRate'];
-	$brandName 		= $_POST['editBrandName'];
+	$price 			= $_POST['editPrice'];
 	$categoryName 	= $_POST['editCategoryName'];
 	$productStatus 	= $_POST['editProductStatus'];
 		
-	$sql = "UPDATE product SET product_name = '$productName', brand_id = '$brandName', categories_id = '$categoryName', quantity = '$quantity', rate = '$rate', active = '$productStatus', status = 1 WHERE product_id = $productId ";
+	$sql = "UPDATE product SET product_name = '$productName', categories_id = '$categoryName', quantity = '$quantity', price = '$price', active = '$productStatus', status = 1 WHERE product_id = $productId ";
 
 	if($db->query($sql) === TRUE) 
 	{

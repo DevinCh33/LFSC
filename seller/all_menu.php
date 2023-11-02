@@ -182,8 +182,8 @@ session_start();
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-											 <th>Restaurant</th>
-                                                <th>Dish-Name</th>
+											 <th>Merchant</th>
+                                                <th>Product Name</th>
                                                 <th>Slogan</th>
                                                 <th>Price</th>
                                                 <th>Image</th>
@@ -193,8 +193,8 @@ session_start();
                                         </thead>
                                         <tfoot>
                                             <tr>
-											 <th>Restaurant</th>
-                                                <th>Dish-Name</th>
+											 <th>Merchant</th>
+                                                <th>Product Name</th>
                                                 <th>Slogan</th>
                                                 <th>Price</th>
                                                 <th>Image</th>
@@ -210,7 +210,7 @@ session_start();
 												
 													if(!mysqli_num_rows($query) > 0 )
 														{
-															echo '<td colspan="11"><center>No Dish-Data!</center></td>';
+															echo '<td colspan="11"><center>No product data!</center></td>';
 														}
 													else
 														{				

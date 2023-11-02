@@ -98,7 +98,7 @@ if(empty($_SESSION["adm_id"]))
                                                         $rws=mysqli_num_rows($result);
                                                         
                                                         echo $rws;?></h2>
-                                        <p class="m-b-0">Dishes</p>
+                                        <p class="m-b-0">Products</p>
                                     </div>
                                 </div>
                             </div>

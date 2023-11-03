@@ -149,21 +149,27 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 
                 while($r=mysqli_fetch_array($query_res))
                 {   
-                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                            <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
-                                    <div class="distance"><i class="fa fa-pin"></i>1240m</div>
-                                    <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                    <div class="review pull-right"><a href="#">198 reviews</a> </div>
+                    $stock_query = mysqli_query($db,"SELECT quantity FROM product WHERE product_name = '".$r['title']."'");
+                    $stock = mysqli_fetch_assoc($stock_query)['quantity'];
+
+                    
+                        echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                                <div class="food-item-wrap">
+                                    <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
+                                        <div class="distance"><i class="fa fa-pin"></i>1240m</div>
+                                        <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+                                        <div class="review pull-right"><a href="#">198 reviews</a> </div>
+                                    </div>
+                                    <div class="content">
+                                        <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
+                                        <div class="product-name">'.$r['slogan'].'</div>
+                                        <div class="product-name"> Stock: '.$stock.'</div>
+                                        <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="content">
-                                    <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
-                                    <div class="product-name">'.$r['slogan'].'</div>
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
-                                </div>
-                                
-                            </div>
-                    </div>';              
+                        </div>';   
+                    
                 }
                 ?>
             </div>

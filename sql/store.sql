@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2023 at 10:02 AM
+-- Generation Time: Nov 03, 2023 at 08:15 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -82,7 +82,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`categories_id`, `categories_name`, `categories_active`, `categories_status`) VALUES
 (1, 'Organic', 1, 1),
-(2, 'ABC', 1, 1);
+(2, 'ABC', 1, 1),
+(3, 'abc', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +179,13 @@ INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categorie
 (13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, '20.000', '12.35', 1, 1),
 (15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, '20.000', '11.99', 1, 1),
 (16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, '20.000', '22.55', 1, 1),
-(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, '20.000', '17.99', 1, 1);
+(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, '20.000', '17.99', 1, 1),
+(20, 'apple2', '../assets/images/stock/2918019236543810adbc19.jpg', 1, '1.000', '1.00', 1, 1),
+(21, 'aaa', '../assets/images/stock/1079046739654381ece21f9.jpg', 1, '1.000', '1.00', 1, 1),
+(22, 'aaa', '../assets/images/stock/18931817756543820ef1015.jpg', 1, '1121.000', '12.00', 1, 1),
+(23, 'abc', '../assets/images/stock/2407237496543823bcb2fc.jpg', 1, '123.000', '12.00', 1, 1),
+(24, 'apple swinburne', '../assets/images/stock/9090747876543d22cf31ca.jpg', 1, '100.000', '25.00', 1, 1),
+(25, 'a3', '../assets/images/stock/61979453065449ce4113be.jpg', 1, '10.000', '15.00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -415,7 +422,7 @@ ALTER TABLE `admin_codes`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `dishes`
@@ -439,7 +446,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `remark`

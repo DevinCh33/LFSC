@@ -45,7 +45,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             echo '<li class="nav-item"><a href="index.php" class="nav-link active">Little Farmer</a> </li>';
                             echo '<li class="nav-item"><a href="restaurants.php" class="nav-link active">Merchants</a> </li>';
                             echo '<li class="nav-item"><a href="dishes.php" class="nav-link active">Product</a> </li>';
-                            echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Orders</a> </li>';
+                            echo '<li class="nav-item"><a href="your_orders.php" class="nav-link active">Cart</a> </li>';
                             
                             if(isset($_SESSION['adm_co']))
                             {
@@ -134,8 +134,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="popular">
         <div class="container">
             <div class="title text-xs-center m-b-30">
-                <h2>Popular Products of the Month</h2>
-                <p class="lead">The easiest way to your favourite product</p>
+                <h2>Little Farmer's Featured Products</h2>
+                <p class="lead">Fresh and pesticide free!</p>
             </div>
             <div class="row">
                 <?php 

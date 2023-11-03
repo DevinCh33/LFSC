@@ -134,8 +134,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="popular">
         <div class="container">
             <div class="title text-xs-center m-b-30">
-                <h2>Popular Products of the Month</h2>
-                <p class="lead">The easiest way to your favourite product</p>
+                <h2>Little Farmer's Featured Products</h2>
+                <p class="lead">Fresh and pesticide free!</p>
             </div>
             <div class="row">
                 <?php 

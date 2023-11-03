@@ -11,7 +11,7 @@
 <body>
 <?php
 session_start(); // temp session
-error_reporting(0); // hide undefined index errors
+error_reporting(1); // hide undefined index errors
 include("connection/connect.php"); // connection to database
 ?>
 

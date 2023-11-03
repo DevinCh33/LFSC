@@ -1,6 +1,35 @@
 var manageOrderTable;
 
 $(document).ready(function() {
+	
+	$('#clientName').keyup(function(event){
+		var custName = $(this).val();
+		$.getJSON('php_action/fetchUserData.php', {searchText:custName}, function(data) {
+			var dataList = $('#clientNameList'); // Get the datalist element
+
+			// Clear existing options
+			dataList.empty();
+
+			// Add new options based on the received data
+			$.each(data, function(index, value) {
+			  dataList.append('<option value="' + value['u_id'] + " " + value['f_name'] + " " + value['l_name'] + '">');
+			});
+		});
+	});
+	
+	$('#clientName').on('change', function(event) {
+	  	var selectedValue = $(this).val();
+		var res = selectedValue.split(" ");
+		
+		$.getJSON('php_action/fetchUserData.php', {searchID:res[0]}, function(data) {
+			$.each(data, function(index, value) {
+			  $('#clientContact').val(value['phone']);
+			});
+		});
+	});
+
+	
+	
 	$("#paymentPlace").change(function(){
 		if($("#paymentPlace").val() == 2)
 		{
@@ -23,7 +52,7 @@ $(document).ready(function() {
 		$('#topNavAddOrder').addClass('active');	
 
 		// order date picker
-		$("#orderDate").datepicker();
+		//$("#orderDate").datepicker();
 
 		// create order form function
 		$("#createOrderForm").unbind('submit').bind('submit', function() {
@@ -346,7 +375,9 @@ $(document).ready(function() {
 
 			return false;
 		}); // /edit order form function	
-	} 	
+	}
+	
+	
 
 }); // /documernt
 

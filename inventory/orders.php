@@ -13,7 +13,7 @@ if($_GET['o'] == 'add') {
 
 
 ?>
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <ol class="breadcrumb">
   <li><a href="dashboard.php">Home</a></li>
   <li>Order</li>
@@ -72,29 +72,12 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientName" class="col-sm-2 control-label">Client Name</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" />
-			    </div>
-				  <script>
-				  	$('#clientName').keyup(function(event){
-						var SearchInfo = $('#txtSearch').val();
-						$.getJSON('searchFruit.php', {searchText:SearchInfo}, function(data){
-							var intCount = 0;
-							if(data.length > 0)
-							{
-								$('#result_found').css("display", "table-cell");
-								$('#result_found').empty();
-								$('#result_found').append("<tr><th>No</th><th>Fruit id</th><th>Fruit Description</th><th>Unit Price</th><th>Type</th></tr>");                    
-								$.each(data, function(index, array) {
-									intCount = intCount + 1;
-									$('#result_found').append("<tr><td>"+ intCount +"</td><td>" + array['fruitID'] + "</td><td>" + array['fruitDescr'] + "</td><td>" +array['unitPrice'] + "</td><td>" + array['type'] + "</td></tr>");
-								});
-							}
-							else
-								alert('zero');	
-						});
-					 });
-				  
-				  </script>
+			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
+			    </div>		
+				  	<datalist id="clientNameList">
+					  
+					</datalist>
+				
 			  </div> <!--/form-group-->
 			  <div class="form-group">
 			    <label for="clientContact" class="col-sm-2 control-label">Client Contact</label>

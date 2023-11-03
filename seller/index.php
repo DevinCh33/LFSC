@@ -30,14 +30,18 @@ if(isset($_POST['submit']))
 	
 	if(!empty($_POST["submit"])) 
     {
-		$loginquery = "SELECT adm_id, code, password FROM admin WHERE username='$username'";
+		$loginquery = "SELECT adm_id, code, password, u_role FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
 		$row = mysqli_fetch_array($result);
+		if($password == $row['password'])
+			echo 'hai';
 		
-		if(password_verify($password, $row['password']))
+		if(md5($password)== $row['password'])
 		{
+			
 			$_SESSION["adm_id"] = $row['adm_id'];
 			$_SESSION["adm_co"] = $row['code'];
+			$_SESSION["u_role"] = $row['u_role'];
 			header("refresh:1;url=dashboard.php");
 		} 
 		else

@@ -7,24 +7,24 @@ $valid['success'] = array('success' => false, 'messages' => array(), 'order_id' 
 // print_r($valid);
 if($_POST) {	
 
-	$orderDate 						= date('Y-m-d', strtotime($_POST['orderDate']));	
+  $orderDate 					= $_POST['orderDate'];	
   $clientName 					= $_POST['clientName'];
   $clientContact 				= $_POST['clientContact'];
   $subTotalValue 				= $_POST['subTotalValue'];
-  $vatValue 						=	$_POST['vatValue'];
-  $totalAmountValue     = $_POST['totalAmountValue'];
-  $discount 						= $_POST['discount'];
-  $grandTotalValue 			= $_POST['grandTotalValue'];
-  $paid 								= $_POST['paid'];
-  $dueValue 						= $_POST['dueValue'];
+  $vatValue 					= $_POST['vatValue'];
+  $totalAmountValue     		= $_POST['totalAmountValue'];
+  $discount 					= $_POST['discount'];
+  $grandTotalValue 				= $_POST['grandTotalValue'];
+  $paid 						= $_POST['paid'];
+  $dueValue 					= $_POST['dueValue'];
   $paymentType 					= $_POST['paymentType'];
   $paymentStatus 				= $_POST['paymentStatus'];
   $paymentPlace 				= $_POST['paymentPlace'];
-  $gstn 				= $_POST['gstn'];
-  $userid 				= $_SESSION['userId'];
+  $gstn 						= $_POST['gstn'];
+  $userid 						= $_SESSION['adm_id'];
 
 				
-	$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$orderDate', '$clientName', '$clientContact', '$subTotalValue', '$vatValue', '$totalAmountValue', '$discount', '$grandTotalValue', '$paid', '$dueValue', $paymentType, $paymentStatus,$paymentPlace,$gstn, 1,$userid)";
+	echo $sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$orderDate', '$clientName', '$clientContact', '$subTotalValue', '$vatValue', '$totalAmountValue', '$discount', '$grandTotalValue', '$paid', '$dueValue', $paymentType, $paymentStatus,$paymentPlace,$gstn, 1,$userid)";
 	
 	$order_id;
 	$orderStatus = false;

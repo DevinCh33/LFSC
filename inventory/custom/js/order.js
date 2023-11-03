@@ -2,6 +2,7 @@ var manageOrderTable;
 
 $(document).ready(function() {
 	
+	
 	$('#clientName').keyup(function(event){
 		var custName = $(this).val();
 		$.getJSON('php_action/fetchUserData.php', {searchText:custName}, function(data) {
@@ -417,7 +418,6 @@ setTimeout(function() {
 
 function addRow() {
 	$("#addRowBtn").button("loading");
-
 	var tableLength = $("#productTable tbody tr").length;
 
 	var tableRow;
@@ -458,7 +458,7 @@ function addRow() {
 					'</div>'+
 				'</td>'+
 				'<td style="padding-left:20px;"">'+
-					'<input type="text" name="price[]" id="price'+count+'" autocomplete="off" disabled="true" class="form-control" />'+
+					'<input type="text" name="price[]" id="price'+count+'" autocomplete="off"  class="form-control" />'+
 					'<input type="hidden" name="priceValue[]" id="priceValue'+count+'" autocomplete="off" class="form-control" />'+
 				'</td style="padding-left:20px;">'+
 				'<td style="padding-left:20px;">'+
@@ -468,7 +468,7 @@ function addRow() {
 				'</td>'+
 				'<td style="padding-left:20px;">'+
 					'<div class="form-group">'+
-					'<input type="number" name="quantity[]" id="quantity'+count+'" onkeyup="getTotal('+count+')" autocomplete="off" class="form-control" min="1" />'+
+					'<input type="text" name="quantity[]" id="quantity'+count+'" onkeyup="getTotal('+count+')" autocomplete="off" class="form-control" min="1" value="1" />'+
 					'</div>'+
 				'</td>'+
 				'<td style="padding-left:20px;">'+

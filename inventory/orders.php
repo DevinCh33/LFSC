@@ -13,7 +13,6 @@ if($_GET['o'] == 'add') {
 
 
 ?>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <ol class="breadcrumb">
   <li><a href="dashboard.php">Home</a></li>
   <li>Order</li>
@@ -66,7 +65,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="orderDate" class="col-sm-2 control-label">Order Date</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="orderDate" name="orderDate" autocomplete="off" value="<?php echo date('m/d/Y'); ?>" />
+			      <input type="text" class="form-control" id="orderDate" name="orderDate" autocomplete="off" disabled="true" value="<?php echo date('m/d/Y'); ?>" />
 			    </div>
 			  </div> <!--/form-group-->
 			  <div class="form-group">
@@ -155,7 +154,7 @@ if($_GET['o'] == 'add') {
 			  	<div class="form-group">
 				    <label for="subTotal" class="col-sm-3 control-label">Sub Amount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="subTotal" name="subTotal" disabled="true" value="0.00"/>
+				      <input type="text" class="form-control" id="subTotal" name="subTotal" disabled="true" placeholder="0.00"/>
 				      <input type="hidden" class="form-control" id="subTotalValue" name="subTotalValue" />
 				    </div>
 				  </div> <!--/form-group-->			  
@@ -163,27 +162,27 @@ if($_GET['o'] == 'add') {
 				  <div class="form-group">
 				    <label for="totalAmount" class="col-sm-3 control-label">Total Amount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="totalAmount" name="totalAmount" disabled="true" value="0.00"/>
+				      <input type="text" class="form-control" id="totalAmount" name="totalAmount" disabled="true" placeholder="0.00"/>
 				      <input type="hidden" class="form-control" id="totalAmountValue" name="totalAmountValue" />
 				    </div>
 				  </div> <!--/form-group-->			  
 				  <div class="form-group">
 				    <label for="discount" class="col-sm-3 control-label">Discount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" value="0.00" />
+				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" placeholder="0.00" />
 				    </div>
 				  </div> <!--/form-group-->	
 				  <div class="form-group">
 				    <label for="grandTotal" class="col-sm-3 control-label">Grand Total</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="grandTotal" name="grandTotal" disabled="true" value="0.00"/>
+				      <input type="text" class="form-control" id="grandTotal" name="grandTotal" disabled="true" placeholder="0.00"/>
 				      <input type="hidden" class="form-control" id="grandTotalValue" name="grandTotalValue" />
 				    </div>
 				  </div> <!--/form-group-->	
 				  <div class="form-group">
 				    <label for="vat" class="col-sm-3 control-label gst">GST 18%</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="vat" name="gstn" readonly="true" value="0.00"/>
+				      <input type="text" class="form-control" id="vat" name="gstn" readonly="true" placeholder="0.00"/>
 				      <input type="hidden" class="form-control" id="vatValue" name="vatValue" />
 				    </div>
 				  </div>	  		  
@@ -193,13 +192,13 @@ if($_GET['o'] == 'add') {
 			  	<div class="form-group">
 				    <label for="paid" class="col-sm-3 control-label">Paid Amount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="paid" name="paid" autocomplete="off" onkeyup="paidAmount()" value="0.00"/>
+				      <input type="text" class="form-control" id="paid" name="paid" autocomplete="off" onkeyup="paidAmount()" placeholder="0.00"/>
 				    </div>
 				  </div> <!--/form-group-->			  
 				  <div class="form-group">
 				    <label for="due" class="col-sm-3 control-label">Due Amount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="due" name="due" disabled="true" value="0.00"/>
+				      <input type="text" class="form-control" id="due" name="due" disabled="true" placeholder="0.00"/>
 				      <input type="hidden" class="form-control" id="dueValue" name="dueValue" />
 				    </div>
 				  </div> <!--/form-group-->		
@@ -208,7 +207,7 @@ if($_GET['o'] == 'add') {
 				    <div class="col-sm-9">
 				      <select class="form-control" name="paymentType" id="paymentType">
 				      	<option value="">~~SELECT~~</option>
-				      	<option value="1">Cheque</option>
+				      	<option value="1">COD</option>
 				      	<option value="2">Cash</option>
 				      	<option value="3">Credit Card</option>
 				      </select>
@@ -290,7 +289,8 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="orderDate" class="col-sm-2 control-label">Order Date</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="orderDate" name="orderDate" autocomplete="off" value="<?php echo $data[1] ?>" />
+					
+			      <input type="text" class="form-control" id="orderDate" name="orderDate"  autocomplete="off" value="<?php echo $data[1] ?>" />
 			    </div>
 			  </div> <!--/form-group-->
 			  <div class="form-group">

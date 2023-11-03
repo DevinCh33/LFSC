@@ -10,14 +10,14 @@ $(document).ready(function() {
 		{
 			$(".gst").text("GST 18%");	
 		}
-});
+	});
 
 	var divRequest = $(".div-request").text();
 
 	// top nav bar 
 	$("#navOrder").addClass('active');
 
-	if(divRequest == 'add')  {
+	if(divRequest == 'add'){
 		// add order	
 		// top nav child bar 
 		$('#topNavAddOrder').addClass('active');	
@@ -97,7 +97,7 @@ $(document).ready(function() {
 			for (var x = 0; x < productName.length; x++) {       			
 				var productNameId = productName[x].id;	    	
 		    if(productName[x].value == ''){	    		    	
-		    	$("#"+productNameId+"").after('<p class="text-danger"> Product Name Field is required!! </p>');
+		    	$("#"+productNameId+"").after('<p class="text-danger">Product Name Field is required!! </p>');
 		    	$("#"+productNameId+"").closest('.form-group').addClass('has-error');	    		    	    	
 	      } else {      	
 		    	$("#"+productNameId+"").closest('.form-group').addClass('has-success');	    		    		    	

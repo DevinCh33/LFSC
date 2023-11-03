@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2023 at 08:15 AM
+-- Generation Time: Nov 03, 2023 at 09:39 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -33,6 +33,7 @@ CREATE TABLE `admin` (
   `password` varchar(222) NOT NULL,
   `email` varchar(222) NOT NULL,
   `code` varchar(222) NOT NULL,
+  `u_role` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -40,9 +41,9 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) VALUES
-(10, 'admin', '$2y$10$cf/mF6M06Tff4tMR7CHHn.SjtoqUpK.aVbzNfKG0Lm7uqqJ2lMXIi', 'admin@lf.net', 'SUPA', '2023-10-30 15:07:15'),
-(11, 'aaa', '$2y$10$40CMfzIx.CjMKE9Des8j4uZIZi6e49KxWFslDuhi0YYamJD6PCupi', 'aa@gmail.com', 'SUPP', '2023-10-31 04:44:29');
+INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `date`) VALUES
+(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', '2023-11-03 08:28:15'),
+(11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aa@gmail.com', 'SUPP', 'SELLER', '2023-11-03 08:34:51');
 
 -- --------------------------------------------------------
 

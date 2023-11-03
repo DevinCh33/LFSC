@@ -67,6 +67,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <h1>Order Delivery & Take-Out </h1>
             <h5 class="font-white space-xs">Find merchants, specials, and coupons for free</h5>
             <a href="login.php" class="btn btn-info" role="button">All</a>
+            <a href="login.php" class="btn btn-outline-info" role="button">Leafy Green</a>
+            <a href="#link" class="btn btn-outline-info" role="button">Root Vegetables</a>
+            <a href="#link" class="btn btn-outline-info" role="button">Pome Fruits</a>
+            <a href="#link" class="btn btn-outline-info" role="button">Other</a>
+            <!--<a href="login.php" class="btn btn-info" role="button">All</a>
             <a href="login.php" class="btn btn-outline-info" role="button">Salad</a>
             <a href="#link" class="btn btn-outline-info" role="button">Herbs</a>
             <a href="#link" class="btn btn-outline-info" role="button">Baby Green</a>
@@ -76,7 +81,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <a href="#link" class="btn btn-outline-info" role="button">Organic</a>
             <a href="#link" class="btn btn-outline-info" role="button">Pesticide Free</a>
             <a href="#link" class="btn btn-outline-info" role="button">End Product</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Services</a>
+            <a href="#link" class="btn btn-outline-info" role="button">Services</a> -->
             <div class="banner-form">
                 <form class="form-inline" method="get">
                     <div class="form-group" style="margin-top:50px;">

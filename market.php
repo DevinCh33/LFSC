@@ -17,6 +17,9 @@
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+
+
+
 </head>
 
 <body class="home">
@@ -31,10 +34,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
 }
 ?>
     <!--header starts-->
-    <header id="header" class="header-scroll top-header headrom">
+    <header id="header" class="header-scroll top-header headrom" >
         <!-- .navbar -->
         <nav class="navbar navbar-dark">
-            <div class="container">
+            <div class="container" >
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
                 <a class="navbar-brand" href="index.php"> <img class="img-rounded" style = "height:50px;width:50px;" src="landing/logo.png" alt="logo"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
@@ -62,10 +65,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
     </header>
 
     <!-- banner part starts -->
-    <section class="hero">
+    <section class="hero" style = "background-color: #36454f;">
         <div class="hero-inner">
-            <h1>Order Delivery & Take-Out </h1>
-            <h5 class="font-white space-xs">Find merchants, specials, and coupons for free</h5>
+            <h1>Order Delivery & Take-Out </h1></br>
             <a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>
             <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
             <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>
@@ -205,7 +207,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <li><a href="your_orders.php">Cart</a> </li>
                     </ul>
                 </div>
-                
+
                 <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
                     <h5>Operating Hours</h5>
                     <p>Mon - Fri: 8am - 8pm</p>

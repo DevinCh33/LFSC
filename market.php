@@ -67,7 +67,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <!-- banner part starts -->
     <section class="hero" style = "background-color: #36454f;">
         <div class="hero-inner">
-            <h1>Order Delivery & Take-Out </h1>
+            <h1>Order Delivery & Take-Out </h1></br>
             <a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>
             <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
             <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>

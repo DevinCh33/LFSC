@@ -144,36 +144,42 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 <!--<h2>Little Farmer's Featured Products</h2>
                 <p class="lead">Fresh and pesticide free!</p>-->
             </div>
+
+
             <div class="row">
-                <?php 
-                 //fetching records from table and filter using html data-filter tag
-                        if(isset($_GET['id'])) {
-                            $id = $_GET['id'];
-                        }
-						$ress= mysqli_query($db,"select * from product where categories_id = $id");  
-                // fetch records from database to display popular first 12 products from database
-               
-                
-                while($r=mysqli_fetch_array($ress))
-                {   
-                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                            <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="assets/images/stock/'.$r['img'].'">
-                                    <div class="distance"><i class="fa fa-pin"></i>1240m</div>
-                                    <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                    <div class="review pull-right"><a href="#">198 reviews</a> </div>
-                                </div>
-                                <div class="content">
-                                    <h5><a href="category_products.php?categories_id='.$r['categories_id'].'">'.$r['product_name'].'</a></h5>
-                                 
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="category_products.php?categories_id='.$r['categories_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
-                                </div>
-                                
-                            </div>
-                    </div>';              
-                }
-                ?>
-            </div>
+
+            
+
+  <?php
+  // fetching records from table and filter using html data-filter tag
+  if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+  }
+
+  // fetch records from database to display popular first 12 products from database
+  $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
+
+  while ($r = mysqli_fetch_array($ress)) {
+    echo
+ 
+'<div class="col-xs-12 col-sm-6 col-md-4 food-item">
+      <div class="food-item-wrap">
+        <div class="figure-wrap bg-image" data-image-src="assets/images/stock/' . $r['img'] . '">
+          <div class="distance"><i class="fa fa-pin"></i>1240m</div>
+          <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+          <div class="review pull-right"><a href="#">198 reviews</a> </div>
+        </div>
+        <div class="content">
+          <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
+
+          <div class="price-btn-block"> <span class="price">$' . $r['price'] . '</span> <a href="category_products.php?categories_id=' . $r['categories_id'] . '" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+        </div>
+
+      </div>
+    </div>';
+  }
+  ?>
+</div>
         </div>
     </section>
     <!-- Popular block ends -->

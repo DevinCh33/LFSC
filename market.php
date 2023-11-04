@@ -100,7 +100,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
     <!-- Search part starts-->
     </section>
-    <?php
+  <?php
     if (isset($_GET['search']))
     {
     echo '<section class="popular">
@@ -135,6 +135,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </section>';
     }
     ?> 
+
+    
     <!-- Search part ends-->
 
     <!-- Popular block starts -->

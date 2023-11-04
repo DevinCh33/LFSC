@@ -167,7 +167,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="content">
           <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
 
-          <div class="price-btn-block"> <span class="price">$' . $r['price'] . '</span> <a href="category_products.php?categories_id=' . $r['categories_id'] . '" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+        
+             <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
         </div>
 
       </div>

@@ -71,7 +71,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientName" class="col-sm-2 control-label">Client Name</label>
 			    <div class="col-sm-10">
-			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
+			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList" value="cust1">
 			    </div>		
 				  	<datalist id="clientNameList">
 					  
@@ -81,7 +81,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientContact" class="col-sm-2 control-label">Client Contact</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="clientContact" name="clientContact" placeholder="Contact Number" autocomplete="off" />
+			      <input type="text" class="form-control" id="clientContact" name="clientContact" placeholder="Contact Number" autocomplete="off" value="0115138" />
 			    </div>
 			  </div> <!--/form-group-->			  
 
@@ -131,7 +131,7 @@ if($_GET['o'] == 'add') {
 			  				</td>
 			  				<td style="padding-left:20px;">
 			  					<div class="form-group">
-			  					<input type="text" name="quantity[]" id="quantity<?php echo $x; ?>" onkeyup="getTotal(<?php echo $x ?>)" autocomplete="off" class="form-control" min="1" value="1" />
+			  					<input type="number" name="quantity[]" id="quantity<?php echo $x; ?>" onkeyup="getTotal(<?php echo $x ?>)" autocomplete="off" class="form-control" min="1" value="1" />
 			  					</div>
 			  				</td>
 			  				<td style="padding-left:20px;">			  					
@@ -169,7 +169,7 @@ if($_GET['o'] == 'add') {
 				  <div class="form-group">
 				    <label for="discount" class="col-sm-3 control-label">Discount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" placeholder="0.00" />
+				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" value="0" />
 				    </div>
 				  </div> <!--/form-group-->	
 				  <div class="form-group">
@@ -192,7 +192,7 @@ if($_GET['o'] == 'add') {
 			  	<div class="form-group">
 				    <label for="paid" class="col-sm-3 control-label">Paid Amount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="paid" name="paid" autocomplete="off" onkeyup="paidAmount()" placeholder="0.00"/>
+				      <input type="text" class="form-control" id="paid" name="paid" autocomplete="off" onkeyup="paidAmount()" value="0"/>
 				    </div>
 				  </div> <!--/form-group-->			  
 				  <div class="form-group">
@@ -207,7 +207,7 @@ if($_GET['o'] == 'add') {
 				    <div class="col-sm-9">
 				      <select class="form-control" name="paymentType" id="paymentType">
 				      	<option value="">~~SELECT~~</option>
-				      	<option value="1">COD</option>
+				      	<option value="1" selected>COD</option>
 				      	<option value="2">Cash</option>
 				      	<option value="3">Credit Card</option>
 				      </select>
@@ -218,7 +218,7 @@ if($_GET['o'] == 'add') {
 				    <div class="col-sm-9">
 				      <select class="form-control" name="paymentStatus" id="paymentStatus">
 				      	<option value="">~~SELECT~~</option>
-				      	<option value="1">Full Payment</option>
+				      	<option value="1" selected>Full Payment</option>
 				      	<option value="2">Advance Payment</option>
 				      	<option value="3">No Payment</option>
 				      </select>
@@ -230,7 +230,7 @@ if($_GET['o'] == 'add') {
 				      <select class="form-control" name="paymentPlace" id="paymentPlace">
 				      	<option value="">~~SELECT~~</option>
 				      	<option value="1">In Store</option>
-				      	<option value="2">Out Of Store</option>
+				      	<option value="2" selected>Out Of Store</option>
 				      </select>
 				    </div>
 				  </div> <!--/form-group-->							  
@@ -238,16 +238,16 @@ if($_GET['o'] == 'add') {
 
 
 			  <div class="form-group submitButtonFooter">
-			    <div class="col-sm-offset-2 col-sm-10">
+			    <div class="col-sm-offset-2 col-sm-10" align="center">
 			    <button type="button" class="btn btn-default" onclick="addRow()" id="addRowBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-plus-sign"></i> Add Row </button>
 
-			      <button type="submit" id="createOrderBtn" data-loading-text="Loading..." class="btn btn-success"><i class="glyphicon glyphicon-ok-sign"></i> Save Changes</button>
+			      <button type="submit" id="createOrderBtn" data-loading-text="Loading..." class="btn btn-success"><i class="glyphicon glyphicon-ok-sign"></i> Place Order</button>
 
 			      <button type="reset" class="btn btn-default" onclick="resetOrderForm()"><i class="glyphicon glyphicon-erase"></i> Reset</button>
 			    </div>
 			  </div>
 			</form>
-		<?php } else if($_GET['o'] == 'manord') { 
+		<?php } else if($_GET['o'] == 'manord') {
 			// manage order
 			?>
 
@@ -555,7 +555,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="payAmount" class="col-sm-3 control-label">Pay Amount</label>
 			    <div class="col-sm-9">
-			      <input type="text" class="form-control" id="payAmount" name="payAmount"/>					      
+			      <input type="text" class="form-control" id="payAmount" name="payAmount" value="0"/>					      
 			    </div>
 			  </div> <!--/form-group-->		
 			  <div class="form-group">
@@ -607,7 +607,7 @@ if($_GET['o'] == 'add') {
       </div>
       <div class="modal-footer removeProductFooter">
         <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-        <button type="button" class="btn btn-primary" id="removeOrderBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Save changes</button>
+        <button type="button" class="btn btn-primary" id="removeOrderBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Remove</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

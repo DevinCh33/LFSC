@@ -1,12 +1,12 @@
 <?php require_once 'includes/header.php'; ?>
 
 <?php 
-$user_id = $_SESSION['userId'];
-$sql = "SELECT * FROM users WHERE user_id = {$user_id}";
-$query = $connect->query($sql);
+$user_id = $_SESSION['adm_id'];
+$sql = "SELECT * FROM admin WHERE adm_id = '".$user_id."'";
+$query = $db->query($sql);
 $result = $query->fetch_assoc();
 
-$connect->close();
+$db->close();
 ?>
 
 <div class="row">
@@ -40,7 +40,7 @@ $connect->close();
 
 					  <div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">
-					    	<input type="hidden" name="user_id" id="user_id" value="<?php echo $result['user_id'] ?>" /> 
+					    	<input type="hidden" name="user_id" id="user_id" value="<?php echo $result['adm_id'] ?>" /> 
 					      <button type="submit" class="btn btn-success" data-loading-text="Loading..." id="changeUsernameBtn"> <i class="glyphicon glyphicon-ok-sign"></i> Save Changes </button>
 					    </div>
 					  </div>
@@ -76,7 +76,7 @@ $connect->close();
 
 					  <div class="form-group">
 					    <div class="col-sm-offset-2 col-sm-10">
-					    	<input type="hidden" name="user_id" id="user_id" value="<?php echo $result['user_id'] ?>" /> 
+					    	<input type="hidden" name="user_id" id="user_id" value="<?php echo $result['adm_id'] ?>" /> 
 					      <button type="submit" class="btn btn-primary"> <i class="glyphicon glyphicon-ok-sign"></i> Save Changes </button>
 					      
 					    </div>

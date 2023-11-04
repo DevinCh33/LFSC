@@ -54,7 +54,6 @@ $(document).ready(function() {
 
 		// order date picker
 		//$("#orderDate").datepicker();
-
 		// create order form function
 		$("#createOrderForm").unbind('submit').bind('submit', function() {
 			var form = $(this);
@@ -165,16 +164,15 @@ $(document).ready(function() {
 
 			if(orderDate && clientName && clientContact && paid && discount && paymentType && paymentStatus) {
 				if(validateProduct == true && validateQuantity == true) {
+					console.log(form.serialize());
 					// create order button
 					// $("#createOrderBtn").button('loading');
-
 					$.ajax({
 						url : form.attr('action'),
 						type: form.attr('method'),
 						data: form.serialize(),					
 						dataType: 'json',
 						success:function(response) {
-							console.log(response);
 							// reset button
 							$("#createOrderBtn").button('reset');
 							
@@ -202,7 +200,11 @@ $(document).ready(function() {
 							} else {
 								alert(response.messages);								
 							}
-						} // /response
+						}, // /response
+						error: function (xhr, textStatus, errorThrown) {
+							// Handle the AJAX request error here
+							alert("Error: " + errorThrown);
+						}
 					}); // /ajax
 				} // if array validate is true
 			} // /if field validate is true

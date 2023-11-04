@@ -13,7 +13,7 @@ if($orderId) {
 
  $orderItem = "UPDATE order_item SET order_item_status = 2 WHERE  order_id = {$orderId}";
 
- if($connect->query($sql) === TRUE && $connect->query($orderItem) === TRUE) {
+ if($db->query($sql) === TRUE && $db->query($orderItem) === TRUE) {
  	$valid['success'] = true;
 	$valid['messages'] = "Successfully Removed";		
  } else {
@@ -21,7 +21,7 @@ if($orderId) {
  	$valid['messages'] = "Error while remove the brand";
  }
  
- $connect->close();
+ $db->close();
 
  echo json_encode($valid);
  

@@ -6,7 +6,7 @@ require_once 'core.php';
 
 $sql = "SELECT * FROM users";
 
-$result = $connect->query($sql);
+$result = $db->query($sql);
 
 $output = array('data' => array());
 if($result->num_rows > 0) { 
@@ -42,6 +42,6 @@ if($result->num_rows > 0) {
 
 }// if num_rows
 
-$connect->close();
+$db->close();
 
 echo json_encode($output);

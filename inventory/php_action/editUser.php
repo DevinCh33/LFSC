@@ -10,9 +10,9 @@ if($_POST) {
 	$userid 		= $_POST['userid'];
 
 				
-	$sql = "UPDATE users SET username = '$edituserName', password = '$editPassword' WHERE user_id = $userid ";
+	$sql = "UPDATE users SET username = '$edituserName', password = '$editPassword' WHERE u_id = '".$userid."'  ";
 
-	if($connect->query($sql) === TRUE) {
+	if($db->query($sql) === TRUE) {
 		$valid['success'] = true;
 		$valid['messages'] = "Successfully Update";	
 	} else {
@@ -22,7 +22,7 @@ if($_POST) {
 
 } // /$_POST
 	 
-$connect->close();
+$db->close();
 
 echo json_encode($valid);
  

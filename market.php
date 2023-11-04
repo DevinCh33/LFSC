@@ -17,9 +17,6 @@
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
-
-
-
 </head>
 
 <body class="home">
@@ -98,11 +95,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div> 
         <!--end:Hero inner -->
 
-
-
     <!-- Search part starts-->
     </section>
-  <?php
+    <?php
     if (isset($_GET['search']))
     {
     echo '<section class="popular">
@@ -127,18 +122,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <div class="content">
                                     <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
                                     <div class="product-name">'.$r['slogan'].'</div>
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <div productId="'.$r['d_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
                                 </div>
                             </div>
-                    </div>';              
-                    }
+                        </div>';              
+                }
         echo   '</div>
             </div>
         </section>';
     }
     ?> 
-
-    
     <!-- Search part ends-->
 
     <!-- Popular block starts -->
@@ -151,28 +144,25 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <div class="row">
                 <?php 
                 // fetch records from database to display popular first 12 products from database
-                $query_res= mysqli_query($db,"select * from dishes LIMIT 12"); 
+                $query_res = mysqli_query($db,"select * from dishes LIMIT 12"); 
                 
                 while($r=mysqli_fetch_array($query_res))
                 {   
                     $stock_query = mysqli_query($db,"SELECT quantity FROM product WHERE product_name = '".$r['title']."'");
                     $stock = mysqli_fetch_assoc($stock_query)['quantity'];
 
-                    
-                        echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                                <div class="food-item-wrap">
-                                    <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
-                                    </div>
-                                    <div class="content">
-                                        <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
-                                        <div class="product-name">'.$r['slogan'].'</div>
-                                        <div class="product-name"> Stock: '.$stock.'</div>
-                                        <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
-                                    </div>
-                                    
+                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                            <div class="food-item-wrap">
+                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
                                 </div>
-                        </div>';   
-                    
+                                <div class="content">
+                                    <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
+                                    <div class="product-name">'.$r['slogan'].'</div>
+                                    <div class="product-name"> Stock: '.$stock.'</div>
+                                    <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <div productId="'.$r['d_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
+                                </div>
+                            </div>
+                    </div>';   
                 }
                 ?>
             </div>
@@ -249,5 +239,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
+    <script src="js/cart.js"></script>
 </body>
 </html>

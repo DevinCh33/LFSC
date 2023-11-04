@@ -392,6 +392,7 @@ hr {
     border-color: transparent;
 }
 
+
 @media (max-width: 62em) {
     .navbar-nav {
         padding-top: .425rem;
@@ -455,7 +456,7 @@ hr {
 }
 
 .link-item a {
-    font-size: 12px;
+    font-size: 18px;
     color: #414551;
 }
 
@@ -564,7 +565,7 @@ hr {
     border: 1px solid #eaebeb;
     border-radius: 2px;
     overflow: hidden;
-    margin-bottom: 30px;
+    margin: 0 30px 180px 30px;
     background: #fafaf8;
 }
 

@@ -157,12 +157,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
   // fetch records from database to display popular first 12 products from database
   $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
   while ($r = mysqli_fetch_array($ress)) {
-      echo $r['categories_id'];
+      //echo $r['categories_id'];
     echo
  
 '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
       <div class="food-item-wrap">
-        <div class="figure-wrap bg-image" data-image-src="assets/images/stock/' . $r['img'] . '">
+        <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/' . $r['img'] . '">
         </div>
         <div class="content">
           <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>

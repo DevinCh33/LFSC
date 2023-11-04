@@ -17,7 +17,7 @@ if($_POST) {
 
 	$sql = "UPDATE orders SET paid = '$updatePaidAmount', due = '$updateDue', payment_type = '$paymentType', payment_status = '$paymentStatus' WHERE order_id = {$orderId}";
 
-	if($connect->query($sql) === TRUE) {
+	if($db->query($sql) === TRUE) {
 		$valid['success'] = true;
 		$valid['messages'] = "Successfully Update";	
 	} else {
@@ -26,7 +26,7 @@ if($_POST) {
 	}
 
 	 
-$connect->close();
+$db->close();
 
 echo json_encode($valid);
  

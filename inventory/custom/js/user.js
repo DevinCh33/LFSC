@@ -141,14 +141,13 @@ function editUser(userid = null) {
 		$('.div-loading').removeClass('div-hide');
 		// modal div
 		$('.div-result').addClass('div-hide');
-
+		
 		$.ajax({
 			url: 'php_action/fetchSelectedUser.php',
 			type: 'post',
-			data: {"userid": userid},
+			data: {userid: userid},
 			dataType: 'json',
-			success:function(response) {		
-			// alert(response.product_image);
+			success:function(response) {
 				// modal spinner
 				$('.div-loading').addClass('div-hide');
 				// modal div
@@ -194,13 +193,6 @@ function editUser(userid = null) {
 					}	// /else
 
 					
-
-					
-
-					
-
-									
-
 					if(userpassword && username) {
 						// submit loading button
 						$("#editUserBtn").button('loading');

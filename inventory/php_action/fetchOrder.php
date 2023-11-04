@@ -3,7 +3,7 @@
 require_once 'core.php';
 
 $sql = "SELECT order_id, order_date, client_name, client_contact, payment_status FROM orders WHERE order_status = 1";
-$result = $connect->query($sql);
+$result = $db->query($sql);
 
 
 
@@ -18,7 +18,7 @@ if($result->num_rows > 0) {
  	$orderId = $row[0];
 
  	$countOrderItemSql = "SELECT count(*) FROM order_item WHERE order_id = $orderId";
- 	$itemCountResult = $connect->query($countOrderItemSql);
+ 	$itemCountResult = $db->query($countOrderItemSql);
  	$itemCountRow = $itemCountResult->fetch_row();
 
 
@@ -66,6 +66,6 @@ if($result->num_rows > 0) {
 
 }// if num_rows
 
-$connect->close();
+$db->close();
 
 echo json_encode($output);

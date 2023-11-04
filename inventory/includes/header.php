@@ -39,10 +39,6 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <!-- <a class="navbar-brand" href="#">Brand</a> -->
-	    <a class="navbar-brand" href="#" style="padding:0px;">
-        <img src="logo.png" alt="">
-      </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

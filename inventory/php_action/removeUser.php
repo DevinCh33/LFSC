@@ -9,9 +9,9 @@ $userid = $_POST['userid'];
 
 if($userid) { 
 
- $sql = "DELETE FROM users  WHERE user_id = {$userid}";
+ $sql = "DELETE FROM users  WHERE u_id = {$userid}";
 
- if($connect->query($sql) === TRUE) {
+ if($db->query($sql) === TRUE) {
  	$valid['success'] = true;
 	$valid['messages'] = "Successfully Removed";		
  } else {
@@ -19,7 +19,7 @@ if($userid) {
  	$valid['messages'] = "Error while remove the user";
  }
  
- $connect->close();
+ $db->close();
 
  echo json_encode($valid);
  

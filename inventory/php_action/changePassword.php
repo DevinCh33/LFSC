@@ -9,18 +9,18 @@ if($_POST) {
 	$currentPassword = md5($_POST['password']);
 	$newPassword = md5($_POST['npassword']);
 	$conformPassword = md5($_POST['cpassword']);
-	$userId = $_POST['user_id'];
+	$userId = $_SESSION['adm_id'];
 
-	$sql ="SELECT * FROM users WHERE user_id = {$userId}";
-	$query = $connect->query($sql);
+	$sql ="SELECT * FROM admin WHERE adm_id = '".$userId."'";
+	$query = $db->query($sql);
 	$result = $query->fetch_assoc();
 
 	if($currentPassword == $result['password']) {
 
 		if($newPassword == $conformPassword) {
 
-			$updateSql = "UPDATE users SET password = '$newPassword' WHERE user_id = {$userId}";
-			if($connect->query($updateSql) === TRUE) {
+			$updateSql = "UPDATE admin SET password = '$newPassword' WHERE adm_id = '".$userId."'";
+			if($db->query($updateSql) === TRUE) {
 				$valid['success'] = true;
 				$valid['messages'] = "Successfully Updated";		
 			} else {
@@ -38,7 +38,7 @@ if($_POST) {
 		$valid['messages'] = "Current password is incorrect";
 	}
 
-	$connect->close();
+	$db->close();
 
 	echo json_encode($valid);
 

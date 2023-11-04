@@ -104,6 +104,7 @@ $(document).ready(function() {
 				$(".text-danger").remove();
 			}
 		} else {
+			
 			$(".form-group").removeClass('has-error');
 			$(".text-danger").remove();
 

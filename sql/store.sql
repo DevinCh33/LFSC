@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2023 at 09:39 AM
+-- Generation Time: Nov 05, 2023 at 09:55 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -42,8 +42,11 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `date`) VALUES
-(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', '2023-11-03 08:28:15'),
-(11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aa@gmail.com', 'SUPP', 'SELLER', '2023-11-03 08:34:51');
+(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', '2023-11-04 09:30:43'),
+(11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aa@gmail.com', 'SUPP', 'SELLER', '2023-11-03 08:34:51'),
+(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', '2023-11-05 08:04:18'),
+(13, 'w', '$2y$10$ggc21aXCEYAzIZ/iUSJDWOSc.IDa3R1aBbGUeC.bZcqz102/3RLU.', 'w@w.com', 'SUPP', 'SELLER', '2023-11-05 07:58:24'),
+(14, 'www', '202cb962ac59075b964b07152d234b70', 'w@a.com', 'SUPP', 'SELLER', '2023-11-05 08:05:24');
 
 -- --------------------------------------------------------
 
@@ -138,6 +141,13 @@ CREATE TABLE `orders` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `vat`, `total_amount`, `discount`, `grand_total`, `paid`, `due`, `payment_type`, `payment_status`, `payment_place`, `gstn`, `order_status`, `user_id`) VALUES
+(1, '2023-11-04', 'cust1', '0115138', '44.24', '7.96', '52.20', '0', '52.20', '52.2', '0', 1, 1, 2, '3.98', 2, 10);
+
 -- --------------------------------------------------------
 
 --
@@ -149,10 +159,17 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL DEFAULT 0,
   `product_id` int(11) NOT NULL DEFAULT 0,
   `quantity` varchar(255) NOT NULL,
-  `rate` varchar(255) NOT NULL,
+  `price` varchar(255) NOT NULL,
   `total` varchar(255) NOT NULL,
   `order_item_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_item`
+--
+
+INSERT INTO `order_item` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price`, `total`, `order_item_status`) VALUES
+(4, 1, 12, '2', '22.12', '44.24', 2);
 
 -- --------------------------------------------------------
 
@@ -167,6 +184,7 @@ CREATE TABLE `product` (
   `categories_id` int(11) NOT NULL,
   `quantity` decimal(11,3) NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `owner` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -175,18 +193,32 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categories_id`, `quantity`, `price`, `active`, `status`) VALUES
-(12, 'Carrot', '../assets/images/stock/652d4383278bd.jpg', 1, '19.000', '22.12', 1, 1),
-(13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, '20.000', '12.35', 1, 1),
-(15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, '20.000', '11.99', 1, 1),
-(16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, '20.000', '22.55', 1, 1),
-(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, '20.000', '17.99', 1, 1),
-(20, 'apple2', '../assets/images/stock/2918019236543810adbc19.jpg', 1, '1.000', '1.00', 1, 1),
-(21, 'aaa', '../assets/images/stock/1079046739654381ece21f9.jpg', 1, '1.000', '1.00', 1, 1),
-(22, 'aaa', '../assets/images/stock/18931817756543820ef1015.jpg', 1, '1121.000', '12.00', 1, 1),
-(23, 'abc', '../assets/images/stock/2407237496543823bcb2fc.jpg', 1, '123.000', '12.00', 1, 1),
-(24, 'apple swinburne', '../assets/images/stock/9090747876543d22cf31ca.jpg', 1, '100.000', '25.00', 1, 1),
-(25, 'a3', '../assets/images/stock/61979453065449ce4113be.jpg', 1, '10.000', '15.00', 1, 1);
+INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
+(12, 'Carrot', '../assets/images/stock/652d4383278bd.jpg', 1, '15.000', '22.12', '', 1, 1),
+(13, 'Mango', '../assets/images/stock/652d43db19251.jpg', 1, '20.000', '12.35', '', 1, 1),
+(15, 'Power-up Mango', '../assets/images/stock/652d42d37a242.jpg', 1, '20.000', '11.99', '', 1, 1),
+(16, 'Ultra Carrot', '../assets/images/stock/652d42bfc10ce.jpg', 1, '17.000', '22.55', '', 1, 1),
+(17, 'Apple', '../assets/images/stock/652d429436b21.jpg', 1, '19.000', '17.99', '', 1, 1),
+(20, 'apple2', '../assets/images/stock/2918019236543810adbc19.jpg', 1, '0.000', '1.00', '', 1, 1),
+(21, 'aaa', '../assets/images/stock/1079046739654381ece21f9.jpg', 1, '1.000', '1.00', '', 1, 1),
+(22, 'aaa', '../assets/images/stock/18931817756543820ef1015.jpg', 1, '1120.000', '12.00', '', 1, 1),
+(23, 'abc', '../assets/images/stock/2407237496543823bcb2fc.jpg', 1, '122.000', '12.00', '', 1, 1),
+(24, 'apple swinburne', '../assets/images/stock/9090747876543d22cf31ca.jpg', 1, '100.000', '25.00', '', 1, 1),
+(25, 'a3', '../assets/images/stock/61979453065449ce4113be.jpg', 1, '10.000', '15.00', '', 1, 1),
+(26, 'hello3', '../assets/images/stock/9473940656547536e867a7.jpg', 2, '1.000', '12.00', '', 1, 1),
+(27, '1', '../assets/images/stock/1316852286654753f74373c.jpg', 1, '1.000', '1.00', '', 1, 1),
+(28, '12', '../assets/images/stock/861712736654754303b2b3.jpg', 2, '1.000', '1.00', '', 1, 1),
+(29, '1', '../assets/images/stock/2147220533654754566170b.jpg', 1, '1.000', '1.00', '', 1, 1),
+(30, '1', '../assets/images/stock/1265971180654754a28249e.jpg', 1, '1.000', '1.00', '', 1, 1),
+(31, '1', '../assets/images/stock/896325928654754c8dd72e.jpg', 1, '1.000', '1.00', '', 1, 1),
+(32, '123', '../assets/images/stock/10773759106547550072757.jpg', 1, '123.000', '123.00', '', 1, 1),
+(33, '2', '../assets/images/stock/170622314065475566768a8.jpg', 1, '2.000', '2.00', '', 1, 1),
+(34, '1', '1', 1, '1.000', '1.00', '1', 1, 1),
+(35, '1', '../assets/images/stock/10481821866547560e6f1f9.jpg', 1, '1.000', '1.00', '', 1, 1),
+(36, '1', '../assets/images/stock/514640244654756457086c.jpg', 1, '1.000', '1.00', '', 1, 1),
+(37, '1', '../assets/images/stock/676389349654756795b28e.jpg', 1, '1.000', '1.00', '', 1, 1),
+(38, '1', '../assets/images/stock/7980378106547568b55a03.jpg', 1, '1.000', '1.00', '10', 1, 1),
+(39, '1', '../assets/images/stock/7833799056547571c9308d.jpg', 1, '1.000', '500.00', '11', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -411,7 +443,7 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
@@ -435,19 +467,19 @@ ALTER TABLE `dishes`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `remark`
@@ -471,7 +503,7 @@ ALTER TABLE `res_category`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `users_orders`

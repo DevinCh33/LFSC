@@ -149,7 +149,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
 
             <div class="row">
-
   <?php
   // fetching records from table and filter using html data-filter tag
   if (isset($_GET['categories_id'])) {
@@ -165,8 +164,14 @@ if (empty($_SESSION["user_id"])) // if not logged in
 '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
       <div class="food-item-wrap">
         
-        <div class="figure-wrap bg-image" data-image-src="' . $r['product_image'] . '">
+
+        <div class="figure-wrap bg-image" data-image-src="/LFSC/inventory/assets/images/stock/' . $r['product_image'] . '">
+
         </div>
+
+
+
+
         <div class="content">
           <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
 
@@ -180,6 +185,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     </div>';
   }
   ?>
+  
 </div>
     </section>
     <!-- Popular block ends -->

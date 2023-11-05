@@ -1232,6 +1232,7 @@ footer,
 footer span {
     font-weight: 300;
     color: #9c9da5;
+    font-size:18px;
 }
 
 .address h5 a {
@@ -1258,6 +1259,7 @@ footer ul li {
 footer ul li a {
     color: #9c9da5;
     transition: all .3s;
+    font-size:18px;
 }
 
 .how-it-works-links {

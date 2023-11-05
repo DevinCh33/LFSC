@@ -1,4 +1,7 @@
 <?php
+session_start(); // temp session
+include("connection/connect.php"); // connection to database
+
 if(!empty($_GET["action"])) 
 {
 	$productId = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : '';
@@ -62,4 +65,48 @@ if(!empty($_GET["action"]))
 			header("location:checkout.php");
 			break;
 	}
+}
+
+elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+	$productId = $_POST['productId'];
+	$quantity = $_POST['quantity'];
+	
+	if(!empty($quantity))
+	{
+		$stmt = $db->prepare("SELECT * FROM dishes where d_id= ?");
+		$stmt->bind_param('i',$productId);
+		$stmt->execute();
+		$productDetails = $stmt->get_result()->fetch_object();
+		$itemArray = array($productDetails->d_id=>array('title'=>$productDetails->title, 'd_id'=>$productDetails->d_id, 'quantity'=>$quantity, 'price'=>$productDetails->price));
+		
+		if(!empty($_SESSION["cart_item"]))
+		{
+			if(in_array($productDetails->d_id,array_keys($_SESSION["cart_item"]))) 
+			{
+				foreach($_SESSION["cart_item"] as $k => $v) 
+				{
+					if($productDetails->d_id == $k) 
+					{
+						if(empty($_SESSION["cart_item"][$k]["quantity"])) 
+						{
+						$_SESSION["cart_item"][$k]["quantity"] = 0;
+						}
+						$_SESSION["cart_item"][$k]["quantity"] += $quantity;
+					}
+				}
+			}
+			else 
+			{
+				$_SESSION["cart_item"] = $_SESSION["cart_item"] + $itemArray;
+			}
+		} 
+		else 
+		{
+			$_SESSION["cart_item"] = $itemArray;
+		}
+	}
+  
+	// return a response indicating success
+	echo json_encode(['success' => true]);
 }

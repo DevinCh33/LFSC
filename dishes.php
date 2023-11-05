@@ -21,10 +21,8 @@
 
 <body class="home">
 <?php
-session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
-include_once 'product-action.php'; //including controller
+include_once 'product-action.php'; // including controller
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {

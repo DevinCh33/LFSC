@@ -36,9 +36,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <nav class="navbar navbar-dark">
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/food-picky-logo.png" alt=""> </a>
+                <a class="navbar-brand" href="index.php"> <img class="img-rounded" style = "height:50px;width:50px;" src="landing/logo.png" alt="logo"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav" style = "font-size:22px;">
                         <li class="nav-item"> <a class="nav-link active" href="market.php">Home <span class="sr-only">(current)</span></a> </li>
                         
                         <?php
@@ -100,7 +100,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
     <!-- Search part starts-->
     </section>
-    <?php
+  <?php
     if (isset($_GET['search']))
     {
     echo '<section class="popular">
@@ -117,7 +117,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="../assets/images/stock/'.$r['img'].'">
+                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
                                     <div class="distance"><i class="fa fa-pin"></i>1240m</div>
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
@@ -135,6 +135,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </section>';
     }
     ?> 
+
+    
     <!-- Search part ends-->
 
     <!-- Popular block starts -->
@@ -162,13 +164,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
  
 '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
       <div class="food-item-wrap">
-        <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/' . $r['img'] . '">
+        
+        <div class="figure-wrap bg-image" data-image-src="' . $r['product_image'] . '">
         </div>
         <div class="content">
           <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
 
-        
-             <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+            <div class="product-name"> Stock: '.$quantity.'</div>
+
+         <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+            
         </div>
 
       </div>
@@ -176,82 +181,77 @@ if (empty($_SESSION["user_id"])) // if not logged in
   }
   ?>
 </div>
-        </div>
     </section>
     <!-- Popular block ends -->
-   
-  <!-- Footer -->
-	<footer class="footer">
-		<div class="row-container">
-			<div class="address">
-				<p>Little Farmer</p>
-				<p>Sarawak, Malaysia</p>
-				<p>Email</p>
-				<p>Tel: </p>
-				<p>Fax: </p>
-			</div>
-			<div class="operating-hours">
-				<h4>Operating Hours</h4>
-				<p>Mon - Fri: 8am - 8pm</p>
-				<p>Saturday: 9am - 7pm</p>
-				<p>Sunday: 9am - 8pm</p>
-			</div>
-			<div class="delivery-hours">
-				<h4>Delivery Hours</h4>
-				<p>Mon - Fri: 8am - 8pm</p>
-				<p>Saturday: 9am - 7pm</p>
-				<p>Sunday: 9am - 8pm</p>
-			</div>
-		</div>
-		<div class="social-links">
-			<a href="#">Facebook</a>
-			<a href="#">Twitter</a>
-			<a href="#">Instagram</a>
-		</div>
-	</footer>
+  
+    <!-- start: FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <!-- top footer statrs -->
+            <div class="row top-footer">
+                <div class="col-xs-12 col-sm-3 footer-logo-block color-gray">
+                    <a href="#"> <img class="img-rounded" style = "margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> </div>
+                <div class="col-xs-12 col-sm-2 about color-gray">
+                    <h5>About Us</h5>
+                    <ul>
+                        <li><a href="#">About us</a> </li>
+                        <li><a href="#">History</a> </li>
+                        <li><a href="#">Our Team</a> </li>
+                        <li><a href="#">We are hiring</a> </li>
+                    </ul>
+                </div>
 
-	<script>
-		var slideIndex = 0;
-		var slides = document.getElementsByClassName("slides");
-		var dots = document.getElementsByClassName("dot");
-		var slideInterval;
-	
-		function incrementSlide() {
-			slideIndex++;
-			if (slideIndex > slides.length) {
-				slideIndex = 1;
-			}
-			displaySlide();
-		}
-	
-		function displaySlide() {
-			for (var i = 0; i < slides.length; i++) {
-				slides[i].style.display = "none";
-			}
-			
-			for (var i = 0; i < dots.length; i++) {
-				dots[i].className = dots[i].className.replace(" active-dot", "");
-			}
-			
-			slides[slideIndex-1].style.display = "block";
-			dots[slideIndex-1].className += " active-dot";
-		}
-	
-		function currentSlide(n) {
-			clearInterval(slideInterval);  // Stop the auto slideshow
-			slideIndex = n;
-			displaySlide();
-			slideInterval = setInterval(incrementSlide, 4000); // Restart the auto slideshow
-		}
-	
-		for (var i = 0; i < dots.length; i++) {
-			dots[i].addEventListener("click", function() {
-				var index = Array.prototype.indexOf.call(dots, this);
-				currentSlide(index + 1);
-			});
-		}
-	
-		slideInterval = setInterval(incrementSlide, 4000);  // Start the auto slideshow
-	</script>	
+                <div class="col-xs-12 col-sm-2 pages color-gray">
+                    <h5>Pages</h5>
+                    <ul>
+                        <li><a href="market.php">Home</a> </li>
+                        <li><a href="index.php">Little Farmer</a> </li>
+                        <li><a href="restaurants.php">Merchants</a> </li>
+                        <li><a href="dishes.php">Product</a> </li>
+                        <li><a href="your_orders.php">Cart</a> </li>
+                    </ul>
+                </div>
+                
+                <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
+                    <h5>Operating Hours</h5>
+                    <p>Mon - Fri: 8am - 8pm</p>
+                    <p>Saturday: 9am - 7pm</p>
+                    <p>Sunday: 9am - 8pm</p>
+                </div>
+                
+                <div class="col-xs-12 col-sm-3 popular-locations color-gray">
+                <h5>Delivery Hours</h5>
+				<p>Mon - Fri: 8am - 8pm</p>
+				<p>Saturday: 9am - 7pm</p>
+				<p>Sunday: 9am - 8pm</p>
+                </div>
+            </div>
+            <!-- top footer ends -->
+            <!-- bottom footer statrs -->
+            <div class="bottom-footer">
+                <div class="row">
+                   
+                    <div class="col-xs-12 col-sm-4 address color-gray">
+                        <h5>Address</h5>
+                        <p>Concept design of oline food order and deliveye,planned as restaurant directory</p>
+                        <h5>Phone: <a href="tel:+080000012222">080 000012 222</a></h5> </div>
+                    
+                </div>
+            </div>
+            <!-- bottom footer ends -->
+        </div>
+    </footer>
+    <!-- end:Footer -->
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/animsition.min.js"></script>
+    <script src="js/bootstrap-slider.min.js"></script>
+    <script src="js/jquery.isotope.min.js"></script>
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.min.js"></script>
 </body>
 </html>

@@ -31,10 +31,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
 }
 ?>
     <!--header starts-->
-    <header id="header" class="header-scroll top-header headrom" >
+    <header id="header" class="header-scroll top-header headrom">
         <!-- .navbar -->
         <nav class="navbar navbar-dark">
-            <div class="container" >
+            <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
                 <a class="navbar-brand" href="index.php"> <img class="img-rounded" style = "height:50px;width:50px;" src="landing/logo.png" alt="logo"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
@@ -62,9 +62,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
     </header>
 
     <!-- banner part starts -->
-    <section class="hero" style = "background-color: #36454f;">
+    <section class="hero">
         <div class="hero-inner">
-            <h1>Order Delivery & Take-Out </h1></br>
+            <h1>Order Delivery & Take-Out </h1>
+            <h5 class="font-white space-xs">Find merchants, specials, and coupons for free</h5>
             <a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>
             <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
             <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>
@@ -95,6 +96,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div> 
         <!--end:Hero inner -->
 
+
+
     <!-- Search part starts-->
     </section>
     <?php
@@ -114,7 +117,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
+                                <div class="figure-wrap bg-image" data-image-src="../assets/images/stock/'.$r['img'].'">
                                     <div class="distance"><i class="fa fa-pin"></i>1240m</div>
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
@@ -122,16 +125,18 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <div class="content">
                                     <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
                                     <div class="product-name">'.$r['slogan'].'</div>
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <div productId="'.$r['d_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
+                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
                                 </div>
                             </div>
-                        </div>';              
-                }
+                    </div>';              
+                    }
         echo   '</div>
             </div>
         </section>';
     }
     ?> 
+
+    
     <!-- Search part ends-->
 
     <!-- Popular block starts -->
@@ -144,25 +149,28 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <div class="row">
                 <?php 
                 // fetch records from database to display popular first 12 products from database
-                $query_res = mysqli_query($db,"select * from dishes LIMIT 12"); 
+                $query_res= mysqli_query($db,"select * from dishes LIMIT 12"); 
                 
                 while($r=mysqli_fetch_array($query_res))
                 {   
                     $stock_query = mysqli_query($db,"SELECT quantity FROM product WHERE product_name = '".$r['title']."'");
                     $stock = mysqli_fetch_assoc($stock_query)['quantity'];
 
-                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                            <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
+                    
+                        echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                                <div class="food-item-wrap">
+                                    <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
+                                    </div>
+                                    <div class="content">
+                                        <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
+                                        <div class="product-name">'.$r['slogan'].'</div>
+                                        <div class="product-name"> Stock: '.$stock.'</div>
+                                        <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="content">
-                                    <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
-                                    <div class="product-name">'.$r['slogan'].'</div>
-                                    <div class="product-name"> Stock: '.$stock.'</div>
-                                    <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <div productId="'.$r['d_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
-                                </div>
-                            </div>
-                    </div>';   
+                        </div>';   
+                    
                 }
                 ?>
             </div>
@@ -177,7 +185,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <div class="row top-footer">
                 <div class="col-xs-12 col-sm-3 footer-logo-block color-gray">
                     <a href="#"> <img class="img-rounded" style = "margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> </div>
-               
+                <div class="col-xs-12 col-sm-2 about color-gray">
+                    <h5>About Us</h5>
+                    <ul>
+                        <li><a href="#">About us</a> </li>
+                        <li><a href="#">History</a> </li>
+                        <li><a href="#">Our Team</a> </li>
+                        <li><a href="#">We are hiring</a> </li>
+                    </ul>
+                </div>
+
                 <div class="col-xs-12 col-sm-2 pages color-gray">
                     <h5>Pages</h5>
                     <ul>
@@ -188,7 +205,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <li><a href="your_orders.php">Cart</a> </li>
                     </ul>
                 </div>
-
+                
                 <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
                     <h5>Operating Hours</h5>
                     <p>Mon - Fri: 8am - 8pm</p>
@@ -197,17 +214,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 </div>
                 
                 <div class="col-xs-12 col-sm-3 popular-locations color-gray">
-                    <h5>Delivery Hours</h5>
-                    <p>Mon - Fri: 8am - 8pm</p>
-                    <p>Saturday: 9am - 7pm</p>
-                    <p>Sunday: 9am - 8pm</p>
-                </div>
-
-                
-
-                <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
-                    <h5>Contact</h5>
-                    <p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a></p> 
+                <h5>Delivery Hours</h5>
+				<p>Mon - Fri: 8am - 8pm</p>
+				<p>Saturday: 9am - 7pm</p>
+				<p>Sunday: 9am - 8pm</p>
                 </div>
             </div>
             <!-- top footer ends -->
@@ -215,10 +225,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <div class="bottom-footer">
                 <div class="row">
                    
-                    <div class="col-xs-12 col-sm-6 address color-gray">
+                    <div class="col-xs-12 col-sm-4 address color-gray">
                         <h5>Address</h5>
-                        <p>AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak</p></div>
-                        <!-- <h5>WhatsApp:</h5> <a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a> -->
+                        <p>Concept design of oline food order and deliveye,planned as restaurant directory</p>
+                        <h5>Phone: <a href="tel:+080000012222">080 000012 222</a></h5> </div>
                     
                 </div>
             </div>
@@ -237,6 +247,5 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
-    <script src="js/cart.js"></script>
 </body>
 </html>

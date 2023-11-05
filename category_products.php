@@ -36,9 +36,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <nav class="navbar navbar-dark">
             <div class="container">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/food-picky-logo.png" alt=""> </a>
+                <a class="navbar-brand" href="index.php"> <img class="img-rounded" style = "height:50px;width:50px;" src="landing/logo.png" alt="logo"> </a>
                 <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav" style = "font-size:22px;">
                         <li class="nav-item"> <a class="nav-link active" href="market.php">Home <span class="sr-only">(current)</span></a> </li>
                         
                         <?php
@@ -100,7 +100,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
     <!-- Search part starts-->
     </section>
-    <?php
+  <?php
     if (isset($_GET['search']))
     {
     echo '<section class="popular">
@@ -117,7 +117,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="../assets/images/stock/'.$r['img'].'">
+                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
                                     <div class="distance"><i class="fa fa-pin"></i>1240m</div>
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
@@ -135,6 +135,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </section>';
     }
     ?> 
+
+    
     <!-- Search part ends-->
 
     <!-- Popular block starts -->
@@ -148,31 +150,30 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
             <div class="row">
 
-            
-
   <?php
   // fetching records from table and filter using html data-filter tag
-  if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+  if (isset($_GET['categories_id'])) {
+    $id = $_GET['categories_id'];
   }
 
   // fetch records from database to display popular first 12 products from database
   $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
-
   while ($r = mysqli_fetch_array($ress)) {
+      //echo $r['categories_id'];
     echo
  
 '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
       <div class="food-item-wrap">
-        <div class="figure-wrap bg-image" data-image-src="assets/images/stock/' . $r['img'] . '">
-          <div class="distance"><i class="fa fa-pin"></i>1240m</div>
-          <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-          <div class="review pull-right"><a href="#">198 reviews</a> </div>
+        
+        <div class="figure-wrap bg-image" data-image-src="' . $r['product_image'] . '">
         </div>
         <div class="content">
           <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
 
-          <div class="price-btn-block"> <span class="price">$' . $r['price'] . '</span> <a href="category_products.php?categories_id=' . $r['categories_id'] . '" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+            <div class="product-name"> Stock: '.$quantity.'</div>
+
+         <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+            
         </div>
 
       </div>
@@ -180,17 +181,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
   }
   ?>
 </div>
-        </div>
     </section>
     <!-- Popular block ends -->
-   
+  
     <!-- start: FOOTER -->
     <footer class="footer">
         <div class="container">
             <!-- top footer statrs -->
             <div class="row top-footer">
                 <div class="col-xs-12 col-sm-3 footer-logo-block color-gray">
-                    <a href="#"> <img src="images/food-picky-logo.png" alt="Footer logo"> </a> <span>Order Delivery &amp; Take-Out </span> </div>
+                    <a href="#"> <img class="img-rounded" style = "margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> </div>
                 <div class="col-xs-12 col-sm-2 about color-gray">
                     <h5>About Us</h5>
                     <ul>
@@ -200,74 +200,42 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <li><a href="#">We are hiring</a> </li>
                     </ul>
                 </div>
-                <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
-                    <h5>How it Works</h5>
-                    <ul>
-                        <li><a href="#">Enter your location</a> </li>
-                        <li><a href="#">Choose merchant</a> </li>
-                        <li><a href="#">Choose meal</a> </li>
-                        <li><a href="#">Pay via credit card</a> </li>
-                        <li><a href="#">Wait for delivery</a> </li>
-                    </ul>
-                </div>
+
                 <div class="col-xs-12 col-sm-2 pages color-gray">
                     <h5>Pages</h5>
                     <ul>
-                        <li><a href="#">Search results page</a> </li>
-                        <li><a href="#">User Sing Up Page</a> </li>
-                        <li><a href="#">Pricing page</a> </li>
-                        <li><a href="#">Make order</a> </li>
-                        <li><a href="#">Add to cart</a> </li>
+                        <li><a href="market.php">Home</a> </li>
+                        <li><a href="index.php">Little Farmer</a> </li>
+                        <li><a href="restaurants.php">Merchants</a> </li>
+                        <li><a href="dishes.php">Product</a> </li>
+                        <li><a href="your_orders.php">Cart</a> </li>
                     </ul>
                 </div>
+                
+                <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
+                    <h5>Operating Hours</h5>
+                    <p>Mon - Fri: 8am - 8pm</p>
+                    <p>Saturday: 9am - 7pm</p>
+                    <p>Sunday: 9am - 8pm</p>
+                </div>
+                
                 <div class="col-xs-12 col-sm-3 popular-locations color-gray">
-                    <h5>Popular locations</h5>
-                    <ul>
-                        <li><a href="#">Sarajevo</a> </li>
-                        <li><a href="#">Split</a> </li>
-                        <li><a href="#">Tuzla</a> </li>
-                        <li><a href="#">Sibenik</a> </li>
-                        <li><a href="#">Zagreb</a> </li>
-                        <li><a href="#">Brcko</a> </li>
-                        <li><a href="#">Beograd</a> </li>
-                        <li><a href="#">New York</a> </li>
-                        <li><a href="#">Gradacac</a> </li>
-                        <li><a href="#">Los Angeles</a> </li>
-                    </ul>
+                <h5>Delivery Hours</h5>
+				<p>Mon - Fri: 8am - 8pm</p>
+				<p>Saturday: 9am - 7pm</p>
+				<p>Sunday: 9am - 8pm</p>
                 </div>
             </div>
             <!-- top footer ends -->
             <!-- bottom footer statrs -->
             <div class="bottom-footer">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-3 payment-options color-gray">
-                        <h5>Payment Options</h5>
-                        <ul>
-                            <li>
-                                <a href="#"> <img src="images/paypal.png" alt="Paypal"> </a>
-                            </li>
-                            <li>
-                                <a href="#"> <img src="images/mastercard.png" alt="Mastercard"> </a>
-                            </li>
-                            <li>
-                                <a href="#"> <img src="images/maestro.png" alt="Maestro"> </a>
-                            </li>
-                            <li>
-                                <a href="#"> <img src="images/stripe.png" alt="Stripe"> </a>
-                            </li>
-                            <li>
-                                <a href="#"> <img src="images/bitcoin.png" alt="Bitcoin"> </a>
-                            </li>
-                        </ul>
-                    </div>
+                   
                     <div class="col-xs-12 col-sm-4 address color-gray">
                         <h5>Address</h5>
                         <p>Concept design of oline food order and deliveye,planned as restaurant directory</p>
                         <h5>Phone: <a href="tel:+080000012222">080 000012 222</a></h5> </div>
-                    <div class="col-xs-12 col-sm-5 additional-info color-gray">
-                        <h5>Addition informations</h5>
-                        <p>Join the thousands of other restaurants who benefit from having their menus on TakeOff</p>
-                    </div>
+                    
                 </div>
             </div>
             <!-- bottom footer ends -->

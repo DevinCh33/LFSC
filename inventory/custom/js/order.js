@@ -3,31 +3,35 @@ var manageOrderTable;
 $(document).ready(function() {
 	
 	
-	$('#clientName').keyup(function(event){
-		var custName = $(this).val();
-		$.getJSON('php_action/fetchUserData.php', {searchText:custName}, function(data) {
-			var dataList = $('#clientNameList'); // Get the datalist element
+	$('#clientName').keyup(function(event) {
+    var custName = $(this).val();
+    $.getJSON('php_action/fetchUserData.php', { searchText: custName }, function(data) {
+        var dataList = $('#clientNameList'); // Get the datalist element
 
-			// Clear existing options
-			dataList.empty();
+        // Clear existing options
+        dataList.empty();
 
-			// Add new options based on the received data
-			$.each(data, function(index, value) {
-			  dataList.append('<option value="' + value['u_id'] + " " + value['f_name'] + " " + value['l_name'] + '">');
-			});
-		});
-	});
-	
-	$('#clientName').on('change', function(event) {
-	  	var selectedValue = $(this).val();
-		var res = selectedValue.split(" ");
+        // Add new options based on the received data
+        $.each(data, function(index, value) {
+            // Use the 'value' attribute to store the user's ID
+            dataList.append('<option id="' + value['u_id'] +'" value="'+ value['f_name'] + " " + value['l_name'] + '">');
+        });
+    });
+});
+
+	$('#clientName').on('change', function(event){
+		var selectedOption = $('datalist#clientNameList option[value="' + $(this).val() + '"]');
+		var selectedUserId = selectedOption.attr('id');
 		
-		$.getJSON('php_action/fetchUserData.php', {searchID:res[0]}, function(data) {
+		$.getJSON('php_action/fetchUserData.php', {searchID:selectedUserId}, function(data) {
 			$.each(data, function(index, value) {
 			  $('#clientContact').val(value['phone']);
 			});
 		});
+		
+		
 	});
+
 
 	
 	

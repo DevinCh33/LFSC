@@ -11,6 +11,7 @@ if($_POST)
 	$price 			= $_POST['price'];
 	$categoryName 	= $_POST['categoryName'];
 	$productStatus 	= $_POST['productStatus'];
+	$userIdentify 	= $_POST['userIdentify'];
 	
 
 	$type = explode('.', $_FILES['productImage']['name']);
@@ -19,8 +20,8 @@ if($_POST)
 	if(in_array($type, array('gif', 'jpg', 'jpeg', 'png', 'JPG', 'GIF', 'JPEG', 'PNG'))) {
 		if(is_uploaded_file($_FILES['productImage']['tmp_name'])) {			
 			if(move_uploaded_file($_FILES['productImage']['tmp_name'], $url)) {
-				$sql = "INSERT INTO product(product_name, product_image, categories_id, quantity, price, active, status) 
-				VALUES ('$productName', '$url',  '$categoryName', '$quantity', '$price', '$productStatus', 1)";
+				echo $sql = "INSERT INTO product(product_name, product_image, categories_id, quantity, price, owner, active, status) 
+				VALUES ('$productName', '$url',  '$categoryName', '$quantity', '$price','$userIdentify', '$productStatus', 1)";
 
 				//$sql2 = "INSERT INTO dishes (rs_id, title, slogan, price, img) 
 				//VALUES (0, '$productName', 'great taste great whatever', '$price', '$url')";

@@ -42,6 +42,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
     	<form class="form-horizontal" id="submitProductForm" action="php_action/createProduct.php" method="POST" enctype="multipart/form-data">
+			<input type="hidden" id="userIdentify" name="userIdentify" value="<?php echo $_SESSION["adm_id"]; ?>"/>
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title"><i class="fa fa-plus"></i> Add Product</h4>
@@ -156,7 +157,6 @@
 				  <div class="tab-content">
 				    <div role="tabpanel" class="tab-pane active" id="photo">
 				    	<form action="php_action/editProductImage.php" method="POST" id="updateProductImageForm" class="form-horizontal" enctype="multipart/form-data">
-
 				    	<br />
 				    	<div id="edit-productPhoto-messages"></div>
 
@@ -192,7 +192,7 @@
 				    </div>
 				    <!-- product image -->
 				    <div role="tabpanel" class="tab-pane" id="productInfo">
-				    	<form class="form-horizontal" id="editProductForm" action="php_action/editProduct.php" method="POST">				    
+				    	<form class="form-horizontal" id="editProductForm" action="php_action/editProduct.php" method="POST">
 				    	<br />
 
 				    	<div id="edit-product-messages"></div>

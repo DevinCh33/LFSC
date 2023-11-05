@@ -71,7 +71,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientName" class="col-sm-2 control-label">Client Name</label>
 			    <div class="col-sm-10">
-			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList" value="cust1">
+			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
 			    </div>		
 				  	<datalist id="clientNameList">
 					  
@@ -81,7 +81,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientContact" class="col-sm-2 control-label">Client Contact</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="clientContact" name="clientContact" placeholder="Contact Number" autocomplete="off" value="0115138" />
+			      <input type="text" class="form-control" id="clientContact" name="clientContact" placeholder="Contact Number" autocomplete="off" />
 			    </div>
 			  </div> <!--/form-group-->			  
 
@@ -207,7 +207,7 @@ if($_GET['o'] == 'add') {
 				    <div class="col-sm-9">
 				      <select class="form-control" name="paymentType" id="paymentType">
 				      	<option value="">~~SELECT~~</option>
-				      	<option value="1" selected>COD</option>
+				      	<option value="1">COD</option>
 				      	<option value="2">Cash</option>
 				      	<option value="3">Credit Card</option>
 				      </select>
@@ -218,7 +218,7 @@ if($_GET['o'] == 'add') {
 				    <div class="col-sm-9">
 				      <select class="form-control" name="paymentStatus" id="paymentStatus">
 				      	<option value="">~~SELECT~~</option>
-				      	<option value="1" selected>Full Payment</option>
+				      	<option value="1">Full Payment</option>
 				      	<option value="2">Advance Payment</option>
 				      	<option value="3">No Payment</option>
 				      </select>
@@ -230,7 +230,7 @@ if($_GET['o'] == 'add') {
 				      <select class="form-control" name="paymentPlace" id="paymentPlace">
 				      	<option value="">~~SELECT~~</option>
 				      	<option value="1">In Store</option>
-				      	<option value="2" selected>Out Of Store</option>
+				      	<option value="2">Out Of Store</option>
 				      </select>
 				    </div>
 				  </div> <!--/form-group-->							  

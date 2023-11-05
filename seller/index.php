@@ -33,10 +33,8 @@ if(isset($_POST['submit']))
 		$loginquery = "SELECT adm_id, code, password, u_role FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
 		$row = mysqli_fetch_array($result);
-		if($password == $row['password'])
-			echo 'hai';
 		
-		if(md5($password)== $row['password'])
+		if(md5($password) == $row['password'])
 		{
 			
 			$_SESSION["adm_id"] = $row['adm_id'];
@@ -66,8 +64,8 @@ if(isset($_POST['submit']))
 		<span style="color:green;"><?php echo $success; ?></span>
 
 		<form class="login-form" action="index.php" method="post">
-			<input type="text" placeholder="Username" name="username" value="admin" />
-			<input type="password" placeholder="Password" name="password" value="123" />
+			<input type="text" placeholder="Username" name="username" value="w" />
+			<input type="password" placeholder="Password" name="password" value="123"/>
 			<input type="submit" name="submit" value="Login" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
 		</form>

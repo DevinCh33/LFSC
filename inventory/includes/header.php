@@ -2,8 +2,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
   <title>Stock Management System</title>
 
   <!-- bootstrap -->
@@ -44,13 +44,14 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
       <ul class="nav navbar-nav navbar-right">        
-      	<li id="navDashboard"><a href="index.php"><i class="glyphicon glyphicon-list-alt"></i>  Dashboard</a></li>        
+      	<li id="navDashboard"><a href="index.php"><i class="glyphicon glyphicon-list-alt"></i>  Dashboard</a></li>
+		 <li id="navDashboard"><a href="../market.php"><i class='fas fa-store'></i>  Store</a></li>   
         
 		<?php if(isset($_SESSION['adm_id']) && $_SESSION['u_role'] == "ADMIN") { ?>
         <li id="navCategories"><a href="categories.php"> <i class="glyphicon glyphicon-th-list"></i> Category</a></li>        
 		<?php } ?>
 		<?php if(isset($_SESSION['adm_id'])) { ?>
-        <li id="navProduct"><a href="product.php"> <i class="glyphicon glyphicon-ruble"></i> Product </a></li> 
+        <li id="navProduct"><a href="product.php"> <i class="glyphicon glyphicon-ruble"></i>Product</a></li> 
 		<?php } ?>
         <li class="dropdown" id="navOrder">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-shopping-cart"></i> Orders <span class="caret"></span></a>

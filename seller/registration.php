@@ -61,7 +61,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
 
 		else
 		{
-			$mql = "INSERT INTO admin (username,password,email,code) VALUES ('".$_POST['cr_user']."','".password_hash($_POST['cr_pass'], PASSWORD_BCRYPT)."','".$_POST['cr_email']."','SUPP')";
+			$mql = "INSERT INTO admin (username,password,email,code, u_role) VALUES ('".$_POST['cr_user']."','".md5($_POST['cr_pass'])."','".$_POST['cr_email']."','SUPP', 'SELLER')";
          mysqli_query($db, $mql);
 
          $success = "Account created successfully! <p>You will be redirected in <span id='counter'>5</span> second(s).</p>

@@ -1,7 +1,7 @@
 <?php require_once 'includes/header.php'; ?>
 
 <?php
-$sql = "SELECT * FROM product WHERE status = 1";
+$sql = "SELECT * FROM product WHERE status = 1 AND owner = '".$_SESSION['adm_id']."'";
 $query = $db->query($sql);
 $countProduct = $query->num_rows;
 
@@ -14,7 +14,7 @@ while ($orderResult = $orderQuery->fetch_assoc()) {
 	(int)$totalRevenue += ($orderResult['quantity']*$orderResult['price']);
 }
 
-$lowStockSql = "SELECT * FROM product WHERE quantity <= 3 AND status = 1";
+$lowStockSql = "SELECT * FROM product WHERE quantity <= 3 AND status = 1 AND owner = '".$_SESSION['adm_id']."'";
 $lowStockQuery = $db->query($lowStockSql);
 $countLowStock = $lowStockQuery->num_rows;
 

@@ -149,36 +149,42 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
 
             <div class="row">
-<?php
-// fetching records from table and filter using html data-filter tag
-if (isset($_GET['categories_id'])) {
-  $id = $_GET['categories_id'];
-}
+  <?php
+  // fetching records from table and filter using html data-filter tag
+  if (isset($_GET['categories_id'])) {
+    $id = $_GET['categories_id'];
+  }
 
-// fetch records from the database to display popular first 12 products from the database
-$ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
-while ($r = mysqli_fetch_array($ress)) {
-  // Generate the correct path to the image
-  $imagePath = 'assets/images/stock/' . $r['product_image'];
-
-  echo '
-    <div class="col-xs-12 col-sm-6 col-md-4 food-item">
+  // fetch records from database to display popular first 12 products from database
+  $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
+  while ($r = mysqli_fetch_array($ress)) {
+      //echo $r['categories_id'];
+    echo
+ 
+'<div class="col-xs-12 col-sm-6 col-md-4 food-item">
       <div class="food-item-wrap">
-        <div class="figure-wrap bg-image" data-image-src="' . $imagePath . '">
+        
+
+        <div class="figure-wrap bg-image" data-image-src="/LFSC/inventory/assets/images/stock/' . $r['product_image'] . '">
+
         </div>
+
+
+
+
         <div class="content">
           <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
-          <div class="product-name"> Stock: ' . $quantity . '</div>
-          <div class="price-btn-block">
-            <span class="price">$' . $r['price'] . '</span>
-            <a href="dishes.php?res_id=' . $r['rs_id'] . '" class="btn theme-btn-dash pull right">Order Now</a>
-          </div>
+
+            <div class="product-name"> Stock: '.$quantity.'</div>
+
+         <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+            
         </div>
+
       </div>
     </div>';
-}
-?>
-
+  }
+  ?>
   
 </div>
     </section>

@@ -9,4 +9,4 @@ $result = $data->fetch_row();
 
 $db->close();
 
-echo "stock/" . $result[0];
+echo $result[0];

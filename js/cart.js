@@ -29,4 +29,38 @@ document.addEventListener('DOMContentLoaded', function()
     }) 
   }
 });
-  
+
+
+
+
+
+// Add an event listener to the "Remove from Cart" button.
+document.querySelectorAll('.remove-from-cart-button').forEach(button => {
+    button.addEventListener('click', function () {
+        // Get the product ID.
+        const productId = this.getAttribute('productId');
+
+        // Remove the item from the cart.
+        removeFromCart(productId);
+    });
+});
+
+// Remove the item from the cart.
+function removeFromCart(productId) {
+    // build FormData object
+    let formData = new FormData();
+    formData.append('productId', productId);
+
+    // make an AJAX request to the server to remove the product from the cart
+    // This might involve sending a DELETE request with the product ID to a PHP endpoint
+    // using fetch API:
+    fetch('./product-action.php?action=remove', {
+        method: 'DELETE',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Reload the page to update the cart.
+            location.reload();
+        });
+}

@@ -201,7 +201,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <div class="food-item">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-8">
-                                    <form method="post" action='dishes.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['product_id']; ?>'>
+                                    <form method="post" action='dishestestingcart.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['product_id']; ?>'>
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
@@ -218,6 +218,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add to cart" />
 
 
+
+
+                                        <!--still testing efhwefbwrwgbwrwfbrfbwfrgbw-->
+
+                                        <button class="btn btn-danger remove-from-cart-button" data-product-id="<?php echo $product['product_id']; ?>">Remove from cart</button>
 
 
                                     </div>
@@ -356,7 +361,40 @@ if (empty($_SESSION["user_id"])) // if not logged in
     
 
 
+      <script>
+    document.querySelectorAll('.remove-from-cart-button').forEach(button => {
+      button.addEventListener('click', function(event) {
+        const productId = this.getAttribute('data-product-id');
 
+        // Remove the food item from the cart.
+        removeFromCart(productId);
+      });
+    });
+
+    function removeProduct(productId) {
+  // Validate the input.
+  if (!productId || typeof productId !== 'number') {
+    return 'Invalid product ID.';
+  }
+
+  // Get the cart.
+  const cart = getCart();
+
+  // Check if the food item is in the cart.
+  if (!cart[productId]) {
+    return 'Food item is not in the cart.';
+  }
+
+  // Remove the food item from the cart.
+  delete cart[productId];
+
+  // Update the cart.
+  updateCart(cart);
+
+  // Return a success message.
+  return 'Food item removed from cart successfully.';
+}
+  </script>
 
 
 

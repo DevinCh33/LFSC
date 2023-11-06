@@ -67,6 +67,9 @@ if(!empty($_GET["action"]))
 	}
 }
 
+
+
+
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	$productId = $_POST['productId'];
@@ -110,3 +113,6 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 	// return a response indicating success
 	echo json_encode(['success' => true]);
 }
+
+
+

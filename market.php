@@ -151,14 +151,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
                                 <div class="food-item-wrap">
                                     <div class="figure-wrap bg-image" data-image-src="'.$r['product_image'].'">
-                                        <div class="distance"><i class="fa fa-pin"></i>1240m</div>
-                                        <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                        <div class="review pull-right"><a href="#">198 reviews</a> </div>
                                     </div>
                                     <div class="content">
                                         <h5>'.$r['product_name'].'</a></h5>
-                                        <div class="product-name"> Stock: '.$r['quantity'].'</div>
-                                        <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
+                                        <div class="product-name"> Stock: '.(int)$r['quantity'].'</div>
+                                        <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
                                     </div>
                                 </div>
                             </div>';   

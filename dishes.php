@@ -136,7 +136,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         {
                                     ?>													
                                     <div class="title-row">
-                                    <?php echo $item["title"]; ?><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["d_id"]; ?>" >
+                                    <?php echo $item["product_name"]; ?><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["product_id"]; ?>" >
                                     <i class="fa fa-trash pull-right"></i></a>
                                     </div>
                                     
@@ -183,7 +183,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         <div class="collapse in" id="popular2">
 						<?php // display values and item of products
-                            $stmt = $db->prepare("select * from dishes where rs_id='$_GET[res_id]'");
+                            $stmt = $db->prepare("select * from product");
                             $stmt->execute();
                             $products = $stmt->get_result();
                             if (!empty($products)) 
@@ -198,14 +198,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <div class="food-item">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-8">
-                                    <form method="post" action='dishes.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['d_id']; ?>'>
+                                    <form method="post" action='dishes.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['product_id']; ?>'>
                                         <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="seller/Res_img/dishes/'.$product['img'].'" alt="Product logo">'; ?></a>
+                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         <!-- end:Logo -->
                                         <div class="rest-descr">
-                                            <h6><a href="#"><?php echo $product['title']; ?></a></h6>
-                                            <p> <?php echo $product['slogan']; ?></p>
+                                            <h6><a href="#"><?php echo $product['product_name']; ?></a></h6>
                                         </div>
                                         <!-- end:Description -->
                                     </div>

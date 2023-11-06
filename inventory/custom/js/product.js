@@ -31,7 +31,7 @@ $(document).ready(function() {
 		    removeTitle: 'Cancel or reset changes',
 		    elErrorContainer: '#kv-avatar-errors-1',
 		    msgErrorClass: 'alert alert-block alert-danger',
-		    defaultPreviewContent: '<img src="assests/images/photo_default.png" alt="Profile Image" style="width:100%;">',
+		    defaultPreviewContent: '<img src="assets/images/photo_default.png" alt="Profile Image" style="width:100%;">',
 		    layoutTemplates: {main2: '{preview} {remove} {browse}'},								    
 	  		allowedFileExtensions: ["jpg", "png", "gif", "JPG", "PNG", "GIF"]
 			});   
@@ -206,7 +206,7 @@ function editProduct(productId = null) {
 				// modal div
 				$('.div-result').removeClass('div-hide');				
 
-				$("#getProductImage").attr('src', 'stock/'+response.product_image);
+				$("#getProductImage").attr('src', response.product_image);
 
 				$("#editProductImage").fileinput({		      
 				});  
@@ -223,7 +223,7 @@ function editProduct(productId = null) {
 			 //    removeTitle: 'Cancel or reset changes',
 			 //    elErrorContainer: '#kv-avatar-errors-1',
 			 //    msgErrorClass: 'alert alert-block alert-danger',
-			 //    defaultPreviewContent: '<img src="stock/'+response.product_image+'" alt="Profile Image" style="width:100%;">',
+			 //    defaultPreviewContent: '<img src=response.product_image'" alt="Profile Image" style="width:100%;">',
 			 //    layoutTemplates: {main2: '{preview} {remove} {browse}'},								    
 		  // 		allowedFileExtensions: ["jpg", "png", "gif", "JPG", "PNG", "GIF"]
 				// });  

@@ -64,7 +64,7 @@ if(isset($_POST['submit']))
 		<span style="color:green;"><?php echo $success; ?></span>
 
 		<form class="login-form" action="index.php" method="post">
-			<input type="text" placeholder="Username" name="username" value="w" />
+			<input type="text" placeholder="Username" name="username" value="admin" />
 			<input type="password" placeholder="Password" name="password" value="123"/>
 			<input type="submit" name="submit" value="Login" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>

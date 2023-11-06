@@ -50,11 +50,10 @@ include("connection/connect.php"); // connection to database
 		</div>
 
 		<div class="dots-container">
-			<span class="dot"></span>
-			<span class="dot"></span>
-			<span class="dot"></span>
-			<span class="dot"></span>
+    		<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
 		</div>
+
+
 	</div>
 
 	<!-- Product -->
@@ -156,47 +155,52 @@ include("connection/connect.php"); // connection to database
 	</footer>
 
 	<script>
-		var slideIndex = 0;
-		var slides = document.getElementsByClassName("slides");
-		var dots = document.getElementsByClassName("dot");
-		var slideInterval;
-	
-		function incrementSlide() {
-			slideIndex++;
-			if (slideIndex > slides.length) {
-				slideIndex = 1;
-			}
-			displaySlide();
-		}
-	
-		function displaySlide() {
-			for (var i = 0; i < slides.length; i++) {
-				slides[i].style.display = "none";
-			}
-			
-			for (var i = 0; i < dots.length; i++) {
-				dots[i].className = dots[i].className.replace(" active-dot", "");
-			}
-			
-			slides[slideIndex-1].style.display = "block";
-			dots[slideIndex-1].className += " active-dot";
-		}
-	
-		function currentSlide(n) {
-			clearInterval(slideInterval);  // Stop the auto slideshow
-			slideIndex = n;
-			displaySlide();
-			slideInterval = setInterval(incrementSlide, 4000); // Restart the auto slideshow
-		}
-	
-		for (var i = 0; i < dots.length; i++) {
-			dots[i].addEventListener("click", function() {
-				var index = Array.prototype.indexOf.call(dots, this);
-				currentSlide(index + 1);
-			});
-		}
-	
-		slideInterval = setInterval(incrementSlide, 4000);  // Start the auto slideshow
-	</script>	
+    var slideIndex = 1; // Start with 1 to match your logic in displaySlide
+    var slides = document.getElementsByClassName("slides");
+    var dots = document.getElementsByClassName("dot");
+    var slideInterval;
+
+    function incrementSlide() {
+        slideIndex++;
+        if (slideIndex > slides.length) {
+            slideIndex = 1;
+        }
+        displaySlide();
+    }
+
+	function displaySlide() {
+    for (var i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("show"); // Remove the "show" class from all slides
+    }
+    
+    for (var i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active-dot", "");
+    }
+    
+    slides[slideIndex-1].classList.add("show"); // Add "show" class to the current slide
+    dots[slideIndex-1].className += " active-dot";
+	}
+
+// Existing incrementSlide and other functions remain unchanged.
+
+
+    function currentSlide(n) {
+        clearInterval(slideInterval);  // Stop the auto slideshow
+        slideIndex = n;
+        displaySlide();
+        slideInterval = setInterval(incrementSlide, 4000); // Restart the auto slideshow
+    }
+
+    for (var i = 0; i < dots.length; i++) {
+        dots[i].addEventListener("click", function() {
+            var index = Array.prototype.indexOf.call(dots, this);
+            currentSlide(index + 1);
+        });
+    }
+
+    displaySlide(); // Display the first slide immediately
+    slideInterval = setInterval(incrementSlide, 4000);  // Start the auto slideshow
+	</script>
+
 </body>
 </html>

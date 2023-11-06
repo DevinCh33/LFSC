@@ -15,11 +15,13 @@ if($_POST)
 	
 
 	$type = explode('.', $_FILES['productImage']['name']);
-	$type = $type[count($type)-1];		
-	$url = '../assets/images/stock/'.uniqid(rand()).'.'.$type;
+	$type = $type[count($type)-1];
+	$tmp = 	uniqid(rand()).'.'.$type;
+	$url = '../assets/images/stock/'.$tmp;
 	if(in_array($type, array('gif', 'jpg', 'jpeg', 'png', 'JPG', 'GIF', 'JPEG', 'PNG'))) {
 		if(is_uploaded_file($_FILES['productImage']['tmp_name'])) {			
 			if(move_uploaded_file($_FILES['productImage']['tmp_name'], $url)) {
+				$url = 'http://localhost/lfsc/inventory/assets/images/stock/'.$tmp;
 				echo $sql = "INSERT INTO product(product_name, product_image, categories_id, quantity, price, owner, active, status) 
 				VALUES ('$productName', '$url',  '$categoryName', '$quantity', '$price','$userIdentify', '$productStatus', 1)";
 

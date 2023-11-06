@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2023 at 06:46 AM
+-- Generation Time: Nov 06, 2023 at 11:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -192,11 +192,12 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
-(12, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', 1, 15.000, 22.12, '', 1, 1),
-(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', 1, 20.000, 12.35, '', 1, 1),
-(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 2, 20.000, 11.99, '', 1, 1),
-(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 1, 14.000, 22.55, '', 1, 1),
-(17, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/652d429436b21.jpg', 1, 1200.000, 17.99, '', 1, 1);
+(12, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', 1, 15.000, 22.12, '10', 1, 1),
+(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', 1, 20.000, 12.35, '10', 1, 1),
+(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 3, 20.000, 11.99, '10', 1, 1),
+(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 1, 14.000, 22.55, '10', 1, 1),
+(17, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/652d429436b21.jpg', 1, 1200.000, 17.99, '10', 1, 1),
+(18, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 2, 121.000, 12.00, '10', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -457,7 +458,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `remark`

@@ -165,7 +165,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
       <div class="food-item-wrap">
         
 
-        <div class="figure-wrap bg-image" data-image-src="/LFSC/inventory/assets/images/stock/' . $r['product_image'] . '">
+        <div class="figure-wrap bg-image" data-image-src="' . $r['product_image'] . '">
 
         </div>
 

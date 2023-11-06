@@ -2503,3 +2503,40 @@ a[aria-expanded=false] .fa-angle-down {
     padding: 0 5px;
     color: #3a3e47;
 }
+
+/* Micheal Special Section */
+
+.littleFarmer {
+    margin-top: 60px; /
+}
+
+.littleFarmer .michealProductCard {
+    border: 1px solid #eaebeb; 
+    border-radius: 4px; 
+    background-color: #ffffff; 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.littleFarmer .michealProductCard .card-img-top {
+    width: 100%; 
+    height: 200px;
+    object-fit: cover;
+}
+
+.littleFarmer .michealProductCard .card-body {
+    padding: 15px; 
+    flex: 1; 
+}
+
+.littleFarmer .michealProductCard .card-title {
+    font-size: 1rem; 
+    margin-bottom: 0.5rem; 
+}
+
+.littleFarmer .michealProductCard .card-text {
+    margin-bottom: 0.5rem; 
+}
+
+/* Micheal Special Section end */

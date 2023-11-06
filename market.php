@@ -134,6 +134,54 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?> 
     <!-- Search part ends-->
 
+    <!-- Micheal Special Section-->
+    <section class="littleFarmer">
+    <div class="container">
+        <div class="title text-center mb-30">
+            <h2>Little Farmer's Specials Section</h2>
+            <p class="lead">Somethinng about Little Farmer</p>
+        </div>
+        <div class="row">
+            <?php
+            // Query a maximum of 8 products from the "Little Farmer" where owner is "13"
+            $littleFarmerProductsQuery = "SELECT * FROM product WHERE owner = '13' AND active = 1 LIMIT 4";
+            $result = mysqli_query($db, $littleFarmerProductsQuery);
+
+            // Check if there are any products returned by the query
+            if ($result && mysqli_num_rows($result) > 0) {
+                // Loop through each product and display the card
+                while ($product = mysqli_fetch_assoc($result)) {
+                    // Use htmlspecialchars to escape any special characters
+                    $productName = htmlspecialchars($product['product_name']);
+                    $productImage = htmlspecialchars($product['product_image']);
+                    // Convert quantity to an integer
+                    $productQuantity = intval($product['quantity']);
+                    // Format price to ensure it has two decimal places
+                    $productPrice = number_format($product['price'], 2);
+
+                    echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
+                    echo '    <div class="card michealProductCard">';
+                    echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
+                    echo '        <div class="card-body">';
+                    echo '            <h5 class="card-title">' . $productName . '</h5>';
+                    echo '            <p class="card-text">Quantity: ' . $productQuantity . '</p>';
+                    echo '            <p class="card-text">Price: RM ' . $productPrice . '</p>';
+                    echo '        </div>';
+                    echo '    </div>';
+                    echo '</div>';
+                }
+            } else {
+                // No products found
+                echo '<div class="col-12"><p>No products found in Little Farmer\'s Specials.</p></div>';
+            }
+            ?>
+        </div>
+    </div>
+    </section>
+
+
+    <!-- Micheal Special section ends-->
+
     <!-- Popular block starts -->
     <section class="popular">
         <div class="container">

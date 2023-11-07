@@ -58,7 +58,7 @@ if ($_SESSION["adm_co"] == "SUPA")
                     <div class="col-12">
 						<div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">All stores data</h4>
+                                <h4 class="card-title">All Stores Data</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
 								
                                 <div class="table-responsive m-t-40">
@@ -102,7 +102,7 @@ if ($_SESSION["adm_co"] == "SUPA")
                                         
                                         if(!mysqli_num_rows($query) > 0 )
                                         {
-                                            echo '<td colspan="11"><center>No Srores-Data!</center></td>';
+                                            echo '<td colspan="11"><center>No store data!</center></td>';
                                         }
                                             
                                         else
@@ -118,12 +118,9 @@ if ($_SESSION["adm_co"] == "SUPA")
                                                             <td>'.$rows['email'].'</td>
                                                             <td>'.$rows['phone'].'</td>
                                                             <td>'.$rows['url'].'</td>
-                                                            
-                                                            
                                                             <td>'.$rows['o_hr'].'</td>
                                                             <td>'.$rows['c_hr'].'</td>
                                                             <td>'.$rows['o_days'].'</td>
-                                                            
                                                             <td>'.$rows['address'].'</td>
                                                             
                                                             <td><div class="col-md-3 col-lg-8 m-b-10">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2023 at 11:51 AM
+-- Generation Time: Nov 07, 2023 at 04:25 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -34,6 +34,7 @@ CREATE TABLE `admin` (
   `email` varchar(222) NOT NULL,
   `code` varchar(222) NOT NULL,
   `u_role` text NOT NULL,
+  `store` int(11) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -41,10 +42,10 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `date`) VALUES
-(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', '2023-11-04 09:30:43'),
-(11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aaa@gmail.com', 'SUPP', 'SELLER', '2023-11-03 08:34:51'),
-(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', '2023-11-05 08:04:18');
+INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
+(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', NULL, '2023-11-07 15:24:42'),
+(11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aaa@gmail.com', 'SUPP', 'SELLER', 49, '2023-11-07 15:25:03'),
+(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', NULL, '2023-11-05 08:04:18');
 
 -- --------------------------------------------------------
 
@@ -255,8 +256,7 @@ CREATE TABLE `restaurant` (
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
 (48, 0, 'Carrot Seller', 'carrot@gmail.com', ' 090412 64676', 'carrotseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Palace, Natwar Jalandhar ', '652d4258ec2f2.jpg', '2023-10-21 08:17:21'),
-(49, 0, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-10-21 08:17:25'),
-(53, 0, 'Apple Seller', 'apple@gmail.com', '4512545784', 'appleseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Near Kalu Gali Hotel, India', '652d42091df0c.jpg', '2023-10-21 08:17:44');
+(49, 0, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-10-21 08:17:25');
 
 -- --------------------------------------------------------
 
@@ -336,7 +336,9 @@ INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `statu
 (39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
 (40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
 (41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
-(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56');
+(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56'),
+(43, 34, '', 1, 12.00, NULL, '2023-11-06 11:15:19'),
+(44, 34, 'Chillo', 1, 12.00, NULL, '2023-11-06 11:17:19');
 
 --
 -- Indexes for dumped tables
@@ -470,7 +472,7 @@ ALTER TABLE `remark`
 -- AUTO_INCREMENT for table `restaurant`
 --
 ALTER TABLE `restaurant`
-  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `res_category`
@@ -488,7 +490,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_orders`
 --
 ALTER TABLE `users_orders`
-  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

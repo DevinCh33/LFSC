@@ -59,7 +59,7 @@ if(empty($_SESSION["adm_id"]))
                 <!-- Start Page Content -->
                 <div class="row">
                     <?php
-                    if (isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA") || $_SESSION['u_role'] == "SELLER")
+                    if (isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
                     {
                     ?>
                     <div class="col-md-3">

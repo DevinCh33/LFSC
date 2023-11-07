@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,7 +29,7 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("./../connection/connect.php"); // connection to database
 
-if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
+if(isset($_SESSION["adm_co"]))
 {
 
 if(isset($_POST['submit'])) //if upload btn was pressed
@@ -58,22 +58,31 @@ if(isset($_POST['submit'])) //if upload btn was pressed
             {
                 $error = '<div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Max image size is 1024kb!</strong> Try different Image.
+                            <strong>Max image size is 1024kb!</strong> Try different image!
                         </div>';
             }
 
             else
             {
-                $res_name=$_POST['res_name'];
-                    
-                $sql = "INSERT INTO restaurant(c_id,title,email,phone,url,o_hr,c_hr,o_days,address,image) VALUE('".$_POST['c_name']."','".$res_name."','".$_POST['email']."','".$_POST['phone']."','".$_POST['url']."','".$_POST['o_hr']."','".$_POST['c_hr']."','".$_POST['o_days']."','".$_POST['address']."','".$fnew."')";  // store the submited data ino the database :images
-                mysqli_query($db, $sql); 
+                $res_name = $_POST['res_name'];
+                $sql = "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'store' AND TABLE_NAME = 'restaurant';";  // get next id
+                $res = mysqli_query($db, $sql);
+                $row = mysqli_fetch_array($res);
+                $id = $row['AUTO_INCREMENT'];
+
+                $sql1 = "INSERT INTO restaurant(rs_id,title,email,phone,url,o_hr,c_hr,o_days,address,image) VALUE('".$id."','".$res_name."','".$_POST['email']."','".$_POST['phone']."','".$_POST['url']."','".$_POST['o_hr']."','".$_POST['c_hr']."','".$_POST['o_days']."','".$_POST['address']."','".$fnew."')";  // store the submited data ino the database :images
+                mysqli_query($db, $sql1);
                 move_uploaded_file($temp, $store);
 
-                $success = 	'<div class="alert alert-success alert-dismissible fade show">
+                $success = '<div class="alert alert-success alert-dismissible fade show">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Congrats!</strong> New store added successfully.
+                                <strong>Congrats!</strong> New store added successfully!
                             </div>';
+
+                $sql2 = "UPDATE admin SET store = ".$id." WHERE adm_id = ".$_SESSION['adm_id'];  // set store id
+                mysqli_query($db, $sql2);
+
+                $_SESSION['store'] = $id;
             }
         }
 
@@ -89,7 +98,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
         {
             $error = '<div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Invalid extension!</strong>Only .png, .jpg, .gif are accepted.
+                            <strong>Invalid extension!</strong> Only .png, .jpg, .gif are accepted.
                         </div>';
             }               
 	   }

@@ -71,7 +71,8 @@ $(document).ready(function() {
 			var paid = $("#paid").val();
 			var discount = $("#discount").val();
 			var paymentType = $("#paymentType").val();
-			var paymentStatus = $("#paymentStatus").val();		
+			var paymentStatus = $("#paymentStatus").val();	
+			var paymentPlace = $("#paymentPlace").val();
 
 			// form validation 
 			if(orderDate == "") {
@@ -121,6 +122,13 @@ $(document).ready(function() {
 				$('#paymentStatus').closest('.form-group').addClass('has-error');
 			} else {
 				$('#paymentStatus').closest('.form-group').addClass('has-success');
+			} // /else
+			
+			if(paymentPlace == "") {
+				$("#paymentPlace").after('<p class="text-danger"> The Payment Place field is required </p>');
+				$('#paymentPlace').closest('.form-group').addClass('has-error');
+			} else {
+				$('#paymentPlace').closest('.form-group').addClass('has-success');
 			} // /else
 
 

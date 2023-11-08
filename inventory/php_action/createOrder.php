@@ -24,7 +24,6 @@ if($_POST) {
   $paymentPlace 				= $_POST['paymentPlace'];
   $gstn 						= $_POST['gstn'];
   $userid 						= $_SESSION['adm_id'];
-
 				
 	$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$orderDate', '$clientName', '$clientContact', '$subTotalValue', '$vatValue', '$totalAmountValue', '$discount', '$grandTotalValue', '$paid', '$dueValue', $paymentType, $paymentStatus,$paymentPlace,$gstn, 1,$userid)";
 //	
@@ -65,7 +64,7 @@ if($_POST) {
 	} // /for quantity
 //
 	$valid['success'] = true;
-	$valid['messages'] = "Successfully Added";		
+	$valid['messages'] = "Successfully Added ";		
 	
 	$db->close();
 

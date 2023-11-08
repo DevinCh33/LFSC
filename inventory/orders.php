@@ -104,20 +104,17 @@ if($_GET['o'] == 'add') {
 			  				<td style="margin-left:20px;">
 			  					<div class="form-group">
 
-			  					<select class="form-control" name="productName[]" id="productName<?php echo $x; ?>" onchange="getProductData(<?php echo $x; ?>)" >
-			  						<option value="">~~SELECT~~</option>
-			  						<?php
-										
-			  							$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0";
-			  							$productData = $db->query($productSql);
+			  					<select class="form-control" name="productName[]" id="productName<?php echo $x; ?>" onchange="getProductData(<?php echo $x; ?>)">
+									<option value="">~~SELECT~~</option>
+									<?php
+									$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0 AND owner = '".$_SESSION['adm_id']."'";
+									$productData = $db->query($productSql);
 
-			  							while($row = $productData->fetch_array()) {	
-											
-			  								echo "<option value='".$row['product_id']."' id='changeProduct".$row['product_id']."'>".$row['product_name']."</option>";
-										 	} // /while 
-
-			  						?>
-		  						</select>
+									while($row = $productData->fetch_array()) {    
+										echo "<option value='".$row['product_id']."' id='changeProduct".$row['product_id']."'>".$row['product_name']."</option>";
+									}
+									?>
+								</select>
 			  					</div>
 			  				</td>
 			  				<td style="padding-left:20px;">			  					

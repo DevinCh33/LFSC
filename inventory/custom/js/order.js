@@ -535,6 +535,9 @@ function getProductData(row = null) {
 			// } // /for
 
 		} else {
+			
+			enablePreviouslySelectedOptions(row);
+			
 			$.ajax({
 				url: 'php_action/fetchSelectedProduct.php',
 				type: 'post',
@@ -553,6 +556,12 @@ function getProductData(row = null) {
 					total = total.toFixed(2);
 					$("#total"+row).val(total);
 					$("#totalValue"+row).val(total);
+					
+					// Disable the selected option
+                    disableSelectedOption(row, productId);
+
+                    // Update the selected product in the tracking array
+                    selectedProducts[row] = productId;
 					
 					// check if product name is selected
 					// var tableProductLength = $("#productTable tbody tr").length;					
@@ -579,6 +588,29 @@ function getProductData(row = null) {
 		alert('no row! please refresh the page');
 	}
 } // /select on product data
+
+// Define an array to keep track of selected product IDs
+	var selectedProducts = [];
+
+	// Function to disable the selected option
+	function disableSelectedOption(row, productId) {
+		$("#productName"+row+" option").each(function() {
+			if ($(this).val() === productId) {
+				$(this).prop('disabled', true);
+			}
+		});
+	}
+
+	// Function to enable previously selected options if the selection is changed
+	function enablePreviouslySelectedOptions(row) {
+		if (selectedProducts[row]) {
+			$("#productName"+row+" option").each(function() {
+				if (selectedProducts[row] !== $(this).val()) {
+					$(this).prop('disabled', false);
+				}
+			});
+		}
+	}
 
 // table total
 function getTotal(row = null) {
@@ -861,4 +893,7 @@ function paymentOrder(orderId = null) {
 	} else {
 		alert('Error ! Refresh the page again');
 	}
+	
+
+
 }

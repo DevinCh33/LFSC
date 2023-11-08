@@ -47,7 +47,6 @@ $(document).ready(function() {
 			var categoryName = $("#categoryName").val();
 			var productStatus = $("#productStatus").val();
 			var userIdentify = $("#userIdentify").val();
-			alert(userIdentify);
 	
 			if(productImage == "") {
 				$("#productImage").closest('.center-block').after('<p class="text-danger">Product Image field is required</p>');

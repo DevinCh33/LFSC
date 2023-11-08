@@ -5,7 +5,7 @@ $sql = "SELECT product.product_id, product.product_name, product.product_image,
  		product.categories_id, product.quantity, product.price, product.active, product.status, 
  		categories.categories_name FROM product 
 		INNER JOIN categories ON product.categories_id = categories.categories_id  
-		WHERE product.status = 1 AND product.quantity>0 AND product.owner = '".$_SESSION['adm_id']."'";
+		WHERE product.status = 1 AND product.quantity>0 AND product.owner = '".$_SESSION['store']."'";
 
 $result = $db->query($sql);
 

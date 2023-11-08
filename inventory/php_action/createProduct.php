@@ -13,7 +13,6 @@ if($_POST)
 	$productStatus 	= $_POST['productStatus'];
 	$userIdentify 	= $_POST['userIdentify'];
 	
-
 	$type = explode('.', $_FILES['productImage']['name']);
 	$type = $type[count($type)-1];
 	$tmp = 	uniqid(rand()).'.'.$type;

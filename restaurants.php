@@ -133,7 +133,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 {
                                     echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
                                         <div class="entry-logo">
-                                            <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Food logo"></a>
+                                            <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt=Merchant logo"></a>
                                         </div>
                                         <!-- end:Logo -->
                                         <div class="entry-dscr">
@@ -197,8 +197,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <p>Sunday: 9am - 8pm</p>
                 </div>
 
-                
-
                 <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
                     <h5>Contact</h5>
                     <p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a></p> 
@@ -208,12 +206,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <!-- bottom footer statrs -->
             <div class="bottom-footer">
                 <div class="row">
-                   
                     <div class="col-xs-12 col-sm-6 address color-gray">
                         <h5>Address</h5>
                         <p>AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak</p></div>
                         <!-- <h5>WhatsApp:</h5> <a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a> -->
-                    
                 </div>
             </div>
             <!-- bottom footer ends -->

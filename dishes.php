@@ -64,7 +64,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="top-links">
             <div class="container">
                 <ul class="row links">
-                    
                     <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose Merchant</a></li>
                     <li class="col-xs-12 col-sm-4 link-item active"><span>2</span><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>">Pick Your Products</a></li>
                     <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay Online</a></li>
@@ -117,187 +116,171 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 
             </div>
         </div>
-            <div class="container m-t-30">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-                        <div class="widget widget-cart">
-                            <div class="widget-heading">
-                                <h3 class="widget-title text-dark">
-                                    Your Shopping Cart
-                                </h3>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="order-row bg-white">
-                                <div class="widget-body">						
-	                                <?php
-                                        $item_total = 0;
-                                        // fetch items defined in current session ID
-                                        foreach ($_SESSION["cart_item"] as $item)  
-                                        {
-                                    ?>													
-                                    <div class="title-row">
-                                    <?php echo $item["product_name"]; ?><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["product_id"]; ?>" >
-                                    <i class="fa fa-trash pull-right"></i></a>
-                                    </div>
-                                    
-                                    <div class="form-group row no-gutter">
-                                        <div class="col-xs-8">
-                                                <input type="text" class="form-control b-r-0" value=<?php echo "$".$item["price"]; ?> readonly id="exampleSelect1">
-                                                
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <input class="form-control" type="text" readonly value='<?php echo $item["quantity"]; ?>' id="example-number-input"> </div>
-                                    </div>
-									  
-                                <?php // calculating current price into cart
-                                    $item_total += ($item["price"]*$item["quantity"]); 
-                                    }
-                                ?>								  
-                                    </div>
-                                </div>
-                                <!-- end:Order row -->
-                             
-                                <div class="widget-body">
-                                    <div class="price-wrap text-xs-center">
-                                        <p>TOTAL</p>
-                                        <h3 class="value"><strong><?php echo "$".$item_total; ?></strong></h3>
-                                        <p>Free Shipping</p>
-                                        <a href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
-                      
-                    <!-- end:Widget menu -->
-                    <div class="menu-widget" id="2">
+        <div class="container m-t-30">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                    <div class="widget widget-cart">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
-                                POPULAR ORDERS Quality products! <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
-                                <i class="fa fa-angle-right pull-right"></i>
-                                <i class="fa fa-angle-down pull-right"></i>
-                                </a>
+                                Your Shopping Cart
                             </h3>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="collapse in" id="popular2">
-						<?php // display values and item of products
-                            $stmt = $db->prepare("select * from product");
-                            $stmt->execute();
-                            $products = $stmt->get_result();
-                            if (!empty($products)) 
-                            {
-                                foreach($products as $product)
+                        <div class="order-row bg-white">
+                            <div class="widget-body">						
+                                <?php
+                                    $item_total = 0;
+                                    // fetch items defined in current session ID
+                                    foreach ($_SESSION["cart_item"] as $item)  
                                     {
+                                ?>													
+                                <div class="title-row">
+                                <?php echo $item["product_name"]; ?><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["product_id"]; ?>" >
+                                <i class="fa fa-trash pull-right"></i></a>
+                                </div>
+                                
+                                <div class="form-group row no-gutter">
+                                    <div class="col-xs-8">
+                                            <input type="text" class="form-control b-r-0" value=<?php echo "$".$item["price"]; ?> readonly id="exampleSelect1">
+                                            
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input class="form-control" type="text" readonly value='<?php echo $item["quantity"]; ?>' id="example-number-input"> </div>
+                                </div>
+                                    
+                            <?php // calculating current price into cart
+                                $item_total += ($item["price"]*$item["quantity"]); 
+                                }
+                            ?>								  
+                                </div>
+                            </div>
+                            <!-- end:Order row -->
+                            
+                            <div class="widget-body">
+                                <div class="price-wrap text-xs-center">
+                                    <p>TOTAL</p>
+                                    <h3 class="value"><strong><?php echo "$".$item_total; ?></strong></h3>
+                                    <p>Free Shipping</p>
+                                    <a href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
                     
-                                                
-                                                
-                                                
-                        ?>
+                <!-- end:Widget menu -->
+                <div class="menu-widget" id="2">
+                    <div class="widget-heading">
+                        <h3 class="widget-title text-dark">
+                            POPULAR ORDERS Quality products! <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
+                            <i class="fa fa-angle-right pull-right"></i>
+                            <i class="fa fa-angle-down pull-right"></i>
+                            </a>
+                        </h3>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="collapse in" id="popular2">
+                    <?php // display values and item of products
+                        $stmt = $db->prepare("select * from product where owner = ".$_GET['res_id']);
+                        $stmt->execute();
+                        $products = $stmt->get_result();
+                        if (!empty($products)) 
+                        {
+                            foreach($products as $product)
+                            {           
+                    ?>
 
-                      
-
-                            <div class="food-item">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                        <div class="food-item">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-lg-8">
                                     <form method="post" action='dishes.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['product_id']; ?>'>
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         <!-- end:Logo -->
-                                      <div class="rest-descr">
+                                        <div class="rest-descr">
                                             <h6><a href="#"><?php echo $product['product_name']; ?></a></h6>
                                         </div>
                                         <!-- end:Description -->
-                                  </div>
+                                
                                     <!-- end:col -->
-                                 <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info"> 
-                                    <span class="price pull-left" >$<?php echo $product['price']; ?></span>
-                                        <input class="b-r-0" type="text" name="quantity"  style="margin-left:30px;" value="1" size="2" />
-                                        <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add to cart" />
-
-
-
-
-                                    </div>
+                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info"> 
+                                            <span class="price pull-left" >$<?php echo $product['price']; ?></span>
+                                            <input class="b-r-0" type="text" name="quantity"  style="margin-left:30px;" value="1" size="2" />
+                                            <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add to cart" />
+                                        </div>
                                     </form>
                                 </div>
-
-                                <!-- end:row -->
-
-
-
-
                             </div>
-                            <!-- end:Item -->
-                            
+                            <!-- end:row -->
+                        </div>
+                        <!-- end:Item -->
                         
-
-                            <?php
-                                    }
+                        <?php
                                 }
-                                
-                            ?>
-                        </div>
-                        <!-- end:Collapse -->
+                            }
+                            
+                        ?>
                     </div>
-                    <!-- end:Widget menu -->
-                    </div>
-                    <!-- end:Bar -->
-                    <div class="col-xs-12 col-md-12 col-lg-3">
-                        <div class="sidebar-wrap">
-                           <div class="widget clearfix">
-                            <!-- /widget heading -->
-                            <div class="widget-heading">
-                                <h3 class="widget-title text-dark">
-                                    Popular tags
-                                </h3>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="widget-body">
-                                <ul class="tags">
-                                    <li> <a href="#" class="tag">
-                                 Coupons
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Discounts
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Deals
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Amazon 
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Ebay
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Fashion
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Shoes
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Kids
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Travel
-                                 </a> </li>
-                                    <li> <a href="#" class="tag">
-                                 Hosting
-                                 </a> </li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- end:Right Sidebar -->
+                    <!-- end:Collapse -->
                 </div>
-                <!-- end:row -->
+                <!-- end:Widget menu -->
+                </div>
+                <!-- end:Bar -->
+                <div class="col-xs-12 col-md-12 col-lg-3">
+                    <div class="sidebar-wrap">
+                        <div class="widget clearfix">
+                        <!-- /widget heading -->
+                        <div class="widget-heading">
+                            <h3 class="widget-title text-dark">
+                                Popular tags
+                            </h3>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="widget-body">
+                            <ul class="tags">
+                                <li> <a href="#" class="tag">
+                                Coupons
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Discounts
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Deals
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Amazon 
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Ebay
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Fashion
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Shoes
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Kids
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Travel
+                                </a> </li>
+                                <li> <a href="#" class="tag">
+                                Hosting
+                                </a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- end:Right Sidebar -->
             </div>
-            <!-- end:Container -->
-          <!-- start: FOOTER -->
+            <!-- end:row -->
+        </div>
+        <!-- end:Container -->
+    <!-- start: FOOTER -->
     <footer class="footer" style = "margin-top:10%;">
         <div class="container">
             <!-- top footer statrs -->
@@ -330,8 +313,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <p>Sunday: 9am - 8pm</p>
                 </div>
 
-                
-
                 <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
                     <h5>Contact</h5>
                     <p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a></p> 
@@ -341,24 +322,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <!-- bottom footer statrs -->
             <div class="bottom-footer">
                 <div class="row">
-                   
                     <div class="col-xs-12 col-sm-6 address color-gray">
                         <h5>Address</h5>
                         <p>AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak</p></div>
                         <!-- <h5>WhatsApp:</h5> <a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a> -->
-                    
                 </div>
             </div>
             <!-- bottom footer ends -->
         </div>
     </footer>
     <!-- end:Footer -->
-    
-
-
-
-
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

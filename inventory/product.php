@@ -42,7 +42,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
     	<form class="form-horizontal" id="submitProductForm" action="php_action/createProduct.php" method="POST" enctype="multipart/form-data">
-			<input type="hidden" id="userIdentify" name="userIdentify" value="<?php echo $_SESSION["adm_id"]; ?>"/>
+			<input type="hidden" id="userIdentify" name="userIdentify" value="<?php echo $_SESSION["store"]; ?>"/>
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title"><i class="fa fa-plus"></i> Add Product</h4>

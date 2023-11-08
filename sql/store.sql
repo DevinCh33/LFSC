@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2023 at 04:25 PM
+-- Generation Time: Nov 08, 2023 at 01:34 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,9 +43,9 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
-(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', NULL, '2023-11-07 15:24:42'),
+(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', NULL, '2023-11-08 00:32:08'),
 (11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aaa@gmail.com', 'SUPP', 'SELLER', 49, '2023-11-07 15:25:03'),
-(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', NULL, '2023-11-05 08:04:18');
+(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', 48, '2023-11-08 00:32:26');
 
 -- --------------------------------------------------------
 
@@ -108,11 +108,11 @@ CREATE TABLE `dishes` (
 --
 
 INSERT INTO `dishes` (`d_id`, `rs_id`, `title`, `slogan`, `price`, `img`) VALUES
-(12, 0, 'Carrot', 'A classic carrot', 22.12, '652d4383278bd.jpg'),
-(13, 0, 'Mango', 'Less popular than power-up mango', 12.35, '652d43db19251.jpg'),
-(15, 0, 'Power-up Mango', 'Subsidized by government', 11.99, '652d42d37a242.jpg'),
-(16, 0, 'Ultra Carrot', 'Grown only in Dreamland', 22.55, '652d42bfc10ce.jpg'),
-(17, 0, 'Apple', 'Great taste', 17.99, '652d429436b21.jpg');
+(12, 48, 'Carrot', 'A classic carrot', 22.12, '652d4383278bd.jpg'),
+(13, 49, 'Mango', 'Less popular than power-up mango', 12.35, '652d43db19251.jpg'),
+(15, 49, 'Power-up Mango', 'Subsidized by government', 11.99, '652d42d37a242.jpg'),
+(16, 48, 'Ultra Carrot', 'Grown only in Dreamland', 22.55, '652d42bfc10ce.jpg'),
+(17, 10, 'Apple', 'Great taste', 17.99, '652d429436b21.jpg');
 
 -- --------------------------------------------------------
 
@@ -193,10 +193,10 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
-(12, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', 1, 15.000, 22.12, '10', 1, 1),
-(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', 1, 20.000, 12.35, '10', 1, 1),
-(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 3, 20.000, 11.99, '10', 1, 1),
-(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 1, 14.000, 22.55, '10', 1, 1),
+(12, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', 1, 15.000, 22.12, '48', 1, 1),
+(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', 1, 20.000, 12.35, '49', 1, 1),
+(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 3, 20.000, 11.99, '49', 1, 1),
+(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 1, 14.000, 22.55, '48', 1, 1),
 (17, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/652d429436b21.jpg', 1, 1200.000, 17.99, '10', 1, 1),
 (18, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 2, 121.000, 12.00, '10', 1, 1);
 
@@ -336,9 +336,7 @@ INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `statu
 (39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
 (40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
 (41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
-(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56'),
-(43, 34, '', 1, 12.00, NULL, '2023-11-06 11:15:19'),
-(44, 34, 'Chillo', 1, 12.00, NULL, '2023-11-06 11:17:19');
+(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56');
 
 --
 -- Indexes for dumped tables
@@ -490,7 +488,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_orders`
 --
 ALTER TABLE `users_orders`
-  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

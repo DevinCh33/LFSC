@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2023 at 01:34 AM
+-- Generation Time: Nov 08, 2023 at 08:35 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -45,7 +45,8 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
 (10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', NULL, '2023-11-08 00:32:08'),
 (11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aaa@gmail.com', 'SUPP', 'SELLER', 49, '2023-11-07 15:25:03'),
-(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', 48, '2023-11-08 00:32:26');
+(12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', 48, '2023-11-08 00:32:26'),
+(13, 'specialMicheal', '202cb962ac59075b964b07152d234b70', 'specialMicheal@gmail.com', 'SUPP', 'SELLER', 50, '2023-11-08 07:27:04');
 
 -- --------------------------------------------------------
 
@@ -198,7 +199,11 @@ INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categorie
 (15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 3, 20.000, 11.99, '49', 1, 1),
 (16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 1, 14.000, 22.55, '48', 1, 1),
 (17, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/652d429436b21.jpg', 1, 1200.000, 17.99, '10', 1, 1),
-(18, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 2, 121.000, 12.00, '10', 1, 1);
+(18, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 2, 121.000, 12.00, '10', 1, 1),
+(19, 'Corn', 'http://localhost/lfsc/inventory/assets/images/stock/1154826493654b38a43e286.jpg', 1, 123.000, 6.00, '50', 1, 1),
+(20, 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/424624986654b38b5db833.jpg', 1, 321.000, 5.00, '50', 1, 1),
+(21, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/318972849654b38c80c89f.jpg', 1, 69.000, 8.00, '50', 1, 1),
+(22, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/400964473654b38dbc5023.jpg', 1, 420.000, 12.00, '50', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -256,7 +261,8 @@ CREATE TABLE `restaurant` (
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
 (48, 0, 'Carrot Seller', 'carrot@gmail.com', ' 090412 64676', 'carrotseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Palace, Natwar Jalandhar ', '652d4258ec2f2.jpg', '2023-10-21 08:17:21'),
-(49, 0, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-10-21 08:17:25');
+(49, 0, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-10-21 08:17:25'),
+(50, 0, 'Little Farmer', 'gg@gmail,com', '+60111626597', 'www.litterfarmer.com', '6am', '6pm', '24hr-x7', '123131233123', '654b38481b1d1.png', '2023-11-08 07:27:04');
 
 -- --------------------------------------------------------
 
@@ -308,7 +314,8 @@ INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `email`, `phone`, `
 (31, 'navjot789', 'navjot', 'singh', 'ns949405@gmail.com', '9041240385', '202cb962ac59075b964b07152d234b70', 'badri col phase 2', 1, '2023-10-16 06:34:53'),
 (32, 'navjot890', 'nav', 'singh', 'nds949405@gmail.com', '6232125458', '6d0361d5777656072438f6e314a852bc', 'badri col phase 1', 1, '2018-04-18 09:50:56'),
 (33, 'fyp', 'fyp', 'fyp', 'devinchp@gmail.com', '0198186518', '46f94c8de14fb36680850768ff1b7f2a', '3828 Piermont Dr, Albuquerque, NM', 1, '2023-10-16 06:46:32'),
-(34, 'aaa', 'aaa', 'aaa', 'a@gmail.com', '01151385427', '$2y$10$e02vnxMwGpigjxJtFV/dFOkTaYZvo9ekikJA9wZ/yK2C3sNt3ODY2', '', 1, '2023-10-31 04:19:35');
+(34, 'aaa', 'aaa', 'aaa', 'a@gmail.com', '01151385427', '$2y$10$e02vnxMwGpigjxJtFV/dFOkTaYZvo9ekikJA9wZ/yK2C3sNt3ODY2', '', 1, '2023-10-31 04:19:35'),
+(35, 'emt', 'g', 'g', 'gg@gmail.com', '+60112345678', '$2y$10$jusF.hKYFn15nfgl7Wm8pOZObDh1fKvS20liil2svrRKkR8dBYwCO', '123131231313', 1, '2023-11-08 07:23:37');
 
 -- --------------------------------------------------------
 
@@ -422,7 +429,7 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
@@ -458,7 +465,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `remark`
@@ -470,7 +477,7 @@ ALTER TABLE `remark`
 -- AUTO_INCREMENT for table `restaurant`
 --
 ALTER TABLE `restaurant`
-  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `res_category`
@@ -482,7 +489,7 @@ ALTER TABLE `res_category`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `users_orders`

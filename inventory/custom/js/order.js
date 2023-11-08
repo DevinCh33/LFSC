@@ -177,14 +177,13 @@ $(document).ready(function() {
 						data: form.serialize(),					
 						dataType: 'json',
 						success:function(response) {
+							console.log(response);
 							// reset button
 							$("#createOrderBtn").button('reset');
 							
 							$(".text-danger").remove();
 							$('.form-group').removeClass('has-error').removeClass('has-success');
-
 							if(response.success == true) {
-								
 								// create order button
 								$(".success-messages").html('<div class="alert alert-success">'+
 	            	'<button type="button" class="close" data-dismiss="alert">&times;</button>'+
@@ -195,7 +194,6 @@ $(document).ready(function() {
 	   		       '</div>');
 								
 							$("html, body, div.panel, div.pane-body").animate({scrollTop: '0px'}, 100);
-
 							// disabled te modal footer button
 							$(".submitButtonFooter").addClass('div-hide');
 							// remove the product row
@@ -204,18 +202,13 @@ $(document).ready(function() {
 							} else {
 								alert(response.messages);								
 							}
-						}, // /response
-						error: function (xhr, textStatus, errorThrown) {
-							// Handle the AJAX request error here
-							alert("Error: " + errorThrown);
-						}
+						} // /response
 					}); // /ajax
 				} // if array validate is true
 			} // /if field validate is true
 			
-
 			return false;
-		}); // /create order form function	
+		}); // /create order form function
 	
 	} else if(divRequest == 'manord') {
 		// top nav child bar 
@@ -509,35 +502,26 @@ function removeProductRow(row = null) {
 
 // select on product data
 function getProductData(row = null) {
-
 	if(row) {
 		var productId = $("#productName"+row).val();		
 		
 		if(productId == "") {
 			$("#price"+row).val("");
-
 			$("#quantity"+row).val("");						
 			$("#total"+row).val("");
-
 			// remove check if product name is selected
 			// var tableProductLength = $("#productTable tbody tr").length;			
 			// for(x = 0; x < tableProductLength; x++) {
 			// 	var tr = $("#productTable tbody tr")[x];
 			// 	var count = $(tr).attr('id');
 			// 	count = count.substring(3);
-
 			// 	var productValue = $("#productName"+row).val()
-
 			// 	if($("#productName"+count).val() == "") {					
 			// 		$("#productName"+count).find("#changeProduct"+productId).removeClass('div-hide');	
 			// 		console.log("#changeProduct"+count);
 			// 	}											
 			// } // /for
-
 		} else {
-			
-			enablePreviouslySelectedOptions(row);
-			
 			$.ajax({
 				url: 'php_action/fetchSelectedProduct.php',
 				type: 'post',
@@ -548,20 +532,12 @@ function getProductData(row = null) {
 					
 					$("#price"+row).val(response.price);
 					$("#priceValue"+row).val(response.price);
-
 					$("#quantity"+row).val(1);
 					$("#available_quantity"+row).text(response.quantity);
-
 					var total = Number(response.price) * 1;
 					total = total.toFixed(2);
 					$("#total"+row).val(total);
 					$("#totalValue"+row).val(total);
-					
-					// Disable the selected option
-                    disableSelectedOption(row, productId);
-
-                    // Update the selected product in the tracking array
-                    selectedProducts[row] = productId;
 					
 					// check if product name is selected
 					// var tableProductLength = $("#productTable tbody tr").length;					
@@ -569,9 +545,7 @@ function getProductData(row = null) {
 					// 	var tr = $("#productTable tbody tr")[x];
 					// 	var count = $(tr).attr('id');
 					// 	count = count.substring(3);
-
 					// 	var productValue = $("#productName"+row).val()
-
 					// 	if($("#productName"+count).val() != productValue) {
 					// 		// $("#productName"+count+" #changeProduct"+count).addClass('div-hide');	
 					// 		$("#productName"+count).find("#changeProduct"+productId).addClass('div-hide');								

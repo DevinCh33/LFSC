@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <title>Merchant Dashboard Template</title>
+    <title>Merchant Dashboard</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -39,13 +39,12 @@ function popUpWindow(URLStr, left, top, width, height)
 </head>
 
 <body class="fix-header fix-sidebar">
-
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("./../connection/connect.php"); // connection to database
 
-if(isset($_SESSION["adm_co"]))
+if(isset($_SESSION["adm_id"]))
 {
 ?>
     <!-- Preloader - style you can find in spinners.css -->
@@ -85,7 +84,7 @@ if(isset($_SESSION["adm_co"]))
 											?>
 											
 											<tr>
-                                                <td><strong>username:</strong></td>
+                                                <td><strong>Username:</strong></td>
                                                 <td><center><?php echo $rows['username']; ?></center></td>
                                                 <td><center>
                                                     <a href="javascript:void(0);" onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['o_id']);?>');" title="Update order">
@@ -123,19 +122,19 @@ if(isset($_SESSION["adm_co"]))
                                                     if($status=="" or $status=="NULL")
                                                     {
                                                 ?>
-                                                <td> <center><button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true" >Dispatch</button></center></td>
+                                                <td><center><button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Dispatch</button></center></td>
                                                 <?php 
                                                     }
                                                     if($status=="in process")
                                                     { 
                                                 ?>
-                                                <td>   <center><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true" ></span>On a Way!</button></center></td> 
+                                                <td><center><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the way!</button></center></td> 
                                                 <?php
                                                     }
                                                     if($status=="closed")
                                                     {
                                                 ?>
-                                                <td>  <center><button type="button" class="btn btn-success" ><span  class="fa fa-check-circle" aria-hidden="true">Delivered</button></center></td> 
+                                                <td><center><button type="button" class="btn btn-success" ><span  class="fa fa-check-circle" aria-hidden="true">Delivered</button></center></td> 
                                                 <?php 
                                                     } 
                                                 ?>
@@ -143,7 +142,7 @@ if(isset($_SESSION["adm_co"]))
                                                     if($status=="rejected")
                                                     {
                                                 ?>
-                                                <td>  <center><button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>cancelled</button> </center></td> 
+                                                <td><center><button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>Cancelled</button> </center></td> 
                                                 <?php 
                                                     } 
                                                 ?>                                                                                    

@@ -81,7 +81,7 @@ if(isset($_SESSION["adm_co"]))
 												
                                                 if(!mysqli_num_rows($query) > 0 )
                                                 {
-                                                    echo '<td colspan="8"><center>No Orders-Data!</center></td>';
+                                                    echo '<td colspan="8"><center>No orders data!</center></td>';
                                                 }
 
                                                 else
@@ -102,13 +102,13 @@ if(isset($_SESSION["adm_co"]))
                                                             if($status=="" or $status=="NULL")
                                                             {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true" >Dispatch</button></td>
+                                                        <td> <button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Dispatch</button></td>
                                                         <?php 
                                                             }
                                                             if($status=="in process")
                                                             { 
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true" ></span>On a Way!</button></td> 
+                                                        <td> <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the way!</button></td> 
                                                         <?php
                                                             }
                                                             if($status=="closed")
@@ -122,12 +122,12 @@ if(isset($_SESSION["adm_co"]))
                                                             if($status=="rejected")
                                                             {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>cancelled</button></td> 
+                                                        <td> <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>Cancelled</button></td> 
                                                         <?php 
                                                             } 
                                                         ?>
                                                         <?php																									
-                                                            echo '	<td>'.$rows['date'].'</td>';
+                                                        echo '	<td>'.$rows['date'].'</td>';
                                                         ?>
                                                             <td>
                                                                 <a href="delete_orders.php?order_del=<?php echo $rows['o_id'];?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
@@ -168,7 +168,6 @@ if(isset($_SESSION["adm_co"]))
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
-
 
     <script src="js/lib/datatables/datatables.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>

@@ -16,7 +16,7 @@ if(!empty($_GET["action"]))
 				$stmt->bind_param('i',$productId);
 				$stmt->execute();
 				$productDetails = $stmt->get_result()->fetch_object();
-				$itemArray = array($productDetails->product_id=>array('product_name'=>$productDetails->product_name, 'product_id'=>$productDetails->product_id, 'quantity'=>$quantity, 'price'=>$productDetails->price));
+				$itemArray = array($productDetails->product_id=>array('product_name'=>$productDetails->product_name, 'product_id'=>$productDetails->product_id, 'quantity'=>$quantity, 'price'=>$productDetails->price, 'owner'=>$productDetails->owner));
 				
 				if(!empty($_SESSION["cart_item"])) 
 				{
@@ -81,7 +81,7 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
 		$stmt->bind_param('i',$productId);
 		$stmt->execute();
 		$productDetails = $stmt->get_result()->fetch_object();
-		$itemArray = array($productDetails->product_id=>array('product_name'=>$productDetails->product_name, 'product_id'=>$productDetails->product_id, 'quantity'=>$quantity, 'price'=>$productDetails->price));
+		$itemArray = array($productDetails->product_id=>array('product_name'=>$productDetails->product_name, 'product_id'=>$productDetails->product_id, 'quantity'=>$quantity, 'price'=>$productDetails->price, 'owner'=>$productDetails->owner));
 		
 		if(!empty($_SESSION["cart_item"]))
 		{

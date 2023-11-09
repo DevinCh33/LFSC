@@ -133,15 +133,18 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     // fetch items defined in current session ID
                                     foreach ($_SESSION["cart_item"] as $item)  
                                     {
-                                ?>													
+                                ?>				
+                                									
                                 <div class="title-row">
-                                <?php echo $item["product_name"]; ?><a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["product_id"]; ?>" >
-                                <i class="fa fa-trash pull-right"></i></a>
+                                    <a href="dishes.php?res_id=<?php echo $item['owner'];?>"><?php echo $item["product_name"]; ?></a>
+                                    <a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["product_id"]; ?>" >
+                                        <i class="fa fa-trash pull-right"></i>
+                                    </a>
                                 </div>
                                 
                                 <div class="form-group row no-gutter">
                                     <div class="col-xs-8">
-                                            <input type="text" class="form-control b-r-0" value=<?php echo "$".$item["price"]; ?> readonly id="exampleSelect1">
+                                        <input type="text" class="form-control b-r-0" value=<?php echo "$".$item["price"]; ?> readonly id="exampleSelect1">
                                             
                                     </div>
                                     <div class="col-xs-4">
@@ -200,7 +203,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         </div>
                                         <!-- end:Logo -->
                                         <div class="rest-descr">
-                                            <h6><a href="#"><?php echo $product['product_name']; ?></a></h6>
+                                            <h6><?php echo $product['product_name']; ?></h6>
                                         </div>
                                         <!-- end:Description -->
                                 

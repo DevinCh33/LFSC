@@ -73,7 +73,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 
                 $success = 	'<div class="alert alert-success alert-dismissible fade show">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Record updated!</strong>.
+                                <strong>Record updated!</strong>
                             </div>';
             }
         }
@@ -134,7 +134,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                 <form action='' method='post'  enctype="multipart/form-data">
                                     <div class="form-body">
                                         <?php 
-                                            $ssql ="select * from restaurant where rs_id='$store'";
+                                            $ssql = "select * from restaurant where rs_id='$store'";
                                             $res = mysqli_query($db, $ssql); 
                                             $row = mysqli_fetch_array($res);
                                         ?>

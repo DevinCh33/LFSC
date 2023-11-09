@@ -293,6 +293,11 @@ if(isset($_POST['submit'])) //if upload btn was pressed
     <script src="js/custom.min.js"></script>
 <?php
 }
+
+else
+{
+    header('location:index.php');
+}
 ?>
 </body>
 </html>

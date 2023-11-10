@@ -186,27 +186,39 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="popular">
         <div class="container">
             <div class="title text-xs-center m-b-30">
-                <h2>Little Farmer's Featured Products</h2>
-                <p class="lead">Fresh and pesticide free!</p>
+                <h2>Little Farmer's Merchants</h2>
+                <p class="lead">Get to know our trusted seller!</p>
             </div>
             <div class="row">
                 <?php 
                 // fetch records from database to display popular first 12 products from database
-                $query_res = mysqli_query($db,"select * from product LIMIT 12"); 
+                $query_res = mysqli_query($db,"select * from restaurant LIMIT 6"); 
                 
                 while($r=mysqli_fetch_array($query_res))
                 {   
+
                     echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
                                 <div class="food-item-wrap">
-                                    <div class="figure-wrap bg-image" data-image-src="'.$r['product_image'].'">
-                                    </div>
+                                    <a href="'.$r['url'].'"  " ><div class="figure-wrap bg-image" data-image-src= "seller/Res_img/'.$r['image'].'"></div>
                                     <div class="content">
-                                        <h5>'.$r['product_name'].'</a></h5>
-                                        <div class="product-name"> Stock: '.(int)$r['quantity'].'</div>
-                                        <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
-                                    </div>
+                                        <h4>'.$r['title'].'</h4>
+                                        <div class="product-name"> '.$r['email'].'</div>
+                                        <div class="product-name"> Phone no. : '.$r['phone'].'</div>
+                                    </div></a> 
                                 </div>
                             </div>';   
+
+                    // echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                    //             <div class="food-item-wrap">
+                    //                 <div class="figure-wrap bg-image" data-image-src="'.$r['product_image'].'">
+                    //                 </div>
+                    //                 <div class="content">
+                    //                     <h5>'.$r['product_name'].'</a></h5>
+                    //                     <div class="product-name"> Stock: '.(int)$r['quantity'].'</div>
+                    //                     <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
+                    //                 </div>
+                    //             </div>
+                    //         </div>';   
                 }
                 ?>
             </div>

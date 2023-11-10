@@ -227,6 +227,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                             </div>
                                             <!--/span-->
 											
+
 											<div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Select Category</label>

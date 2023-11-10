@@ -182,8 +182,6 @@ foreach ($_SESSION["cart_item"] as $item)
                     <p>Sunday: 9am - 8pm</p>
                 </div>
 
-                
-
                 <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
                     <h5>Contact</h5>
                     <p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=60102170960">   +60102170960</a></p> 

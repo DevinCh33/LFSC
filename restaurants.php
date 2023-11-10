@@ -61,10 +61,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- /.navbar -->
     </header>
     
-
-
-
-
     <div class="page-wrapper"  style="padding-top: 5%;" >
         <!-- top Links -->
         <div class="top-links">
@@ -131,7 +127,17 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
                             <?php 
-                                $ress = mysqli_query($db,"select * from restaurant");
+                                if (isset($_GET['c_id']))
+                                {
+                                    $query = "select * from restaurant where c_id = ".$_GET['c_id'];
+                                }
+
+                                else
+                                {
+                                    $query = "select * from restaurant";
+                                }
+
+                                $ress = mysqli_query($db, $query);
                                 
                                 while($rows=mysqli_fetch_array($ress))
                                 {
@@ -234,4 +240,3 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/cart.js"></script>
 </body>
 </html>
-

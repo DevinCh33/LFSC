@@ -52,8 +52,6 @@ include("connection/connect.php"); // connection to database
 		<div class="dots-container">
     		<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
 		</div>
-
-
 	</div>
 
 	<!-- Product -->
@@ -201,6 +199,5 @@ include("connection/connect.php"); // connection to database
     displaySlide(); // Display the first slide immediately
     slideInterval = setInterval(incrementSlide, 4000);  // Start the auto slideshow
 	</script>
-
 </body>
 </html>

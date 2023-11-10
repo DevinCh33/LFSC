@@ -106,5 +106,61 @@
 
 
 
+<div class="widget-body">
+                                <ul class="tags">
+                                    <li> <a href="#" class="tag">
+                                Pizza
+                                </a> </li>
+                                    <li> <a href="#" class="tag">
+                                Sendwich
+                                </a> </li>
+                                    <li> <a href="#" class="tag">
+                                Sendwich
+                                </a> </li>
+                                    <li> <a href="#" class="tag">
+                                Fish 
+                                </a> </li>
+                                    <li> <a href="#" class="tag">
+                                Desert
+                                </a> </li>
+                                    <li> <a href="#" class="tag">
+                                Salad
+                                </a> </li>
+                                </ul>
+                            </div>
+
+<div class="form-group">
+                                                    <label class="control-label">Select Category</label>
+													<select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
+                                                        <option>--Select Category--</option>
+                                                    <?php $ssql ="select * from res_category";
+													$res = mysqli_query($db, $ssql); 
+
+													while($rows=mysqli_fetch_array($res))  
+													{
+                                                       echo' <option value="'.$rows['c_id'].'">'.$rows['c_name'].'</option>';;
+													}  
+                                                 
+													?> 
+													</select>
+                                                </div>
 
 
+
+
+											<div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Select Category</label>
+													<select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
+                                                        <option>--Select Category--</option>
+                                                    <?php $ssql ="select * from res_category";
+													$res = mysqli_query($db, $ssql); 
+
+													while($rows=mysqli_fetch_array($res))  
+													{
+                                                       echo' <option value="'.$rows['c_id'].'">'.$rows['c_name'].'</option>';;
+													}  
+                                                 
+													?> 
+													</select>
+                                                </div>

@@ -199,7 +199,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                     echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
                                 <div class="food-item-wrap">
-                                    <a href="'.$r['url'].'"  " ><div class="figure-wrap bg-image" data-image-src= "seller/Res_img/'.$r['image'].'"></div>
+                                    <a href="dishes.php?res_id='.$r['rs_id'].'"  " ><div class="figure-wrap bg-image" data-image-src= "seller/Res_img/'.$r['image'].'"></div>
                                     <div class="content">
                                         <h4>'.$r['title'].'</h4>
                                         <div class="product-name"> '.$r['email'].'</div>

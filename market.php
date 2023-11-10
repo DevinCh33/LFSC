@@ -144,7 +144,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="row">
             <?php
             // Query a maximum of 8 products from the "Little Farmer" where owner is "13"
-            $littleFarmerProductsQuery = "SELECT * FROM product WHERE owner = '10' AND active = 1 LIMIT 4";
+            $littleFarmerProductsQuery = "SELECT * FROM product WHERE owner = '50' AND active = 1 LIMIT 4";
             $result = mysqli_query($db, $littleFarmerProductsQuery);
 
             // Check if there are any products returned by the query

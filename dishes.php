@@ -50,7 +50,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <?php
             if (!isset($_GET['res_id'])) // hardcoded
             {
-                $_GET['res_id'] = 48;
+                $_GET['res_id'] = 50;
             }
 
             $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
@@ -72,7 +72,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
                                 <p><?php echo $rows['address']; ?></p>
                                 <ul class="nav nav-inline">
-                                    <li class="nav-item"> <a class="nav-link active" href="#"><i class="fa fa-check"></i> Min $ 10,00</a> </li>
+                                    <li class="nav-item"> <a class="nav-link active" href="#"><i class="fa fa-check"></i> Min RM 10.00</a> </li>
                                     <li class="nav-item"> <a class="nav-link" href="#"><i class="fa fa-motorcycle"></i> 30 min</a> </li>
                                     <li class="nav-item ratings">
                                         <a class="nav-link" href="#"> <span>

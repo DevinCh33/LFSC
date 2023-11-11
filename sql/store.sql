@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2023 at 08:35 AM
+-- Generation Time: Nov 11, 2023 at 07:13 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
-(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', NULL, '2023-11-08 00:32:08'),
+(10, 'admin', '202cb962ac59075b964b07152d234b70', 'admin@lf.net', 'SUPA', 'ADMIN', NULL, '2023-11-11 05:46:30'),
 (11, 'aaa', '202cb962ac59075b964b07152d234b70', 'aaa@gmail.com', 'SUPP', 'SELLER', 49, '2023-11-07 15:25:03'),
 (12, 'wcs', '202cb962ac59075b964b07152d234b70', 'wcswong@gmail.com', 'SUPP', 'SELLER', 48, '2023-11-08 00:32:26'),
 (13, 'specialMicheal', '202cb962ac59075b964b07152d234b70', 'specialMicheal@gmail.com', 'SUPP', 'SELLER', 50, '2023-11-08 07:27:04');
@@ -87,33 +87,12 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`categories_id`, `categories_name`, `categories_active`, `categories_status`) VALUES
 (1, 'Organic', 1, 1),
 (2, 'Recommended', 1, 1),
-(3, 'Fake', 1, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `dishes`
---
-
-CREATE TABLE `dishes` (
-  `d_id` int(222) NOT NULL,
-  `rs_id` int(222) NOT NULL,
-  `title` varchar(222) NOT NULL,
-  `slogan` varchar(222) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `img` varchar(222) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `dishes`
---
-
-INSERT INTO `dishes` (`d_id`, `rs_id`, `title`, `slogan`, `price`, `img`) VALUES
-(12, 48, 'Carrot', 'A classic carrot', 22.12, '652d4383278bd.jpg'),
-(13, 49, 'Mango', 'Less popular than power-up mango', 12.35, '652d43db19251.jpg'),
-(15, 49, 'Power-up Mango', 'Subsidized by government', 11.99, '652d42d37a242.jpg'),
-(16, 48, 'Ultra Carrot', 'Grown only in Dreamland', 22.55, '652d42bfc10ce.jpg'),
-(17, 10, 'Apple', 'Great taste', 17.99, '652d429436b21.jpg');
+(3, 'Fake', 1, 1),
+(4, 'All', 1, 1),
+(5, 'Leafy Green', 1, 1),
+(6, 'Root Vegetables', 1, 1),
+(7, 'Pome Fruits', 1, 1),
+(8, 'Other', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -146,7 +125,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `vat`, `total_amount`, `discount`, `grand_total`, `paid`, `due`, `payment_type`, `payment_status`, `payment_place`, `gstn`, `order_status`, `user_id`) VALUES
-(1, '2023-11-04', 'cust1', '0115138', '44.24', '7.96', '52.20', '0', '52.20', '52.2', '0', 1, 1, 2, '3.98', 2, 10);
+(1, '2023-11-04', 'Allen', '01151389237', '44.24', '7.96', '52.20', '0', '52.20', '52.2', '0', 1, 1, 2, '3.98', 2, 10);
 
 -- --------------------------------------------------------
 
@@ -197,13 +176,12 @@ INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categorie
 (12, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', 1, 15.000, 22.12, '48', 1, 1),
 (13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', 1, 20.000, 12.35, '49', 1, 1),
 (15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 3, 20.000, 11.99, '49', 1, 1),
-(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 1, 14.000, 22.55, '48', 1, 1),
-(17, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/652d429436b21.jpg', 1, 1200.000, 17.99, '10', 1, 1),
-(18, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 2, 121.000, 12.00, '10', 1, 1),
+(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 3, 14.000, 22.55, '48', 1, 1),
+(17, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/652d429436b21.jpg', 7, 1200.000, 17.99, '50', 1, 1),
+(18, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 8, 121.000, 12.00, '50', 1, 1),
 (19, 'Corn', 'http://localhost/lfsc/inventory/assets/images/stock/1154826493654b38a43e286.jpg', 1, 123.000, 6.00, '50', 1, 1),
-(20, 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/424624986654b38b5db833.jpg', 1, 321.000, 5.00, '50', 1, 1),
-(21, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/318972849654b38c80c89f.jpg', 1, 69.000, 8.00, '50', 1, 1),
-(22, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/400964473654b38dbc5023.jpg', 1, 420.000, 12.00, '50', 1, 1);
+(20, 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/424624986654b38b5db833.jpg', 5, 321.000, 5.00, '50', 1, 1),
+(21, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/318972849654b38c80c89f.jpg', 6, 69.000, 8.00, '50', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -260,9 +238,9 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
-(48, 0, 'Carrot Seller', 'carrot@gmail.com', ' 090412 64676', 'carrotseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Palace, Natwar Jalandhar ', '652d4258ec2f2.jpg', '2023-10-21 08:17:21'),
-(49, 0, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-10-21 08:17:25'),
-(50, 0, 'Little Farmer', 'gg@gmail,com', '+60111626597', 'www.litterfarmer.com', '6am', '6pm', '24hr-x7', '123131233123', '654b38481b1d1.png', '2023-11-08 07:27:04');
+(48, 5, 'Carrot Seller', 'carrot@gmail.com', ' 090412 64676', 'carrotseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Palace, Natwar Jalandhar ', '652d4258ec2f2.jpg', '2023-11-11 05:50:07'),
+(49, 5, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-11-11 05:50:12'),
+(50, 5, 'Little Farmer', 'gg@littlefarmer.com', '+60111626597', 'www.littlefarmer.com', '6am', '6pm', '24hr-x7', 'AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak', '654b38481b1d1.png', '2023-11-11 05:50:04');
 
 -- --------------------------------------------------------
 
@@ -281,11 +259,11 @@ CREATE TABLE `res_category` (
 --
 
 INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
-(5, 'grill', '2018-04-14 18:45:28'),
-(6, 'pizza', '2018-04-14 18:44:56'),
-(7, 'pasta', '2018-04-14 18:45:13'),
-(8, 'thaifood', '2018-04-14 18:32:56'),
-(9, 'fish', '2018-04-14 18:44:33');
+(5, 'Fresh', '2023-11-11 05:37:41'),
+(6, 'Frozen', '2023-11-11 05:37:51'),
+(7, 'Dried', '2023-11-11 05:38:02'),
+(8, 'Canned', '2023-11-11 05:38:12'),
+(9, 'Other', '2023-11-11 05:38:24');
 
 -- --------------------------------------------------------
 
@@ -368,12 +346,6 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`categories_id`);
 
 --
--- Indexes for table `dishes`
---
-ALTER TABLE `dishes`
-  ADD PRIMARY KEY (`d_id`);
-
---
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -441,13 +413,7 @@ ALTER TABLE `admin_codes`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `dishes`
---
-ALTER TABLE `dishes`
-  MODIFY `d_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `orders`

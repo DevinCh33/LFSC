@@ -70,11 +70,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div> 
         <!--end:Hero inner -->
 
-
-
     <!-- Search part starts-->
     </section>
-  <?php
+    <?php
     if (isset($_GET['search']))
     {
     echo '<section class="popular">
@@ -85,32 +83,30 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 <div class="row">';
  
                 // fetch records from database to display first 12 products searched from the database
-                $query_res = mysqli_query($db,"select * from dishes WHERE title LIKE '%".$_GET['search']."%' LIMIT 12"); 
+                $query_res = mysqli_query($db,"select * from product WHERE product_name LIKE '%".$_GET['search']."%' LIMIT 12"); 
                 
                 while($r=mysqli_fetch_array($query_res))
                 {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image" data-image-src="seller/Res_img/dishes/'.$r['img'].'">
+                                <div class="figure-wrap bg-image" data-image-src="'.$r['product_image'].'">
                                     <div class="distance"><i class="fa fa-pin"></i>1240m</div>
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
                                 </div>
                                 <div class="content">
-                                    <h5><a href="dishes.php?res_id='.$r['rs_id'].'">'.$r['title'].'</a></h5>
-                                    <div class="product-name">'.$r['slogan'].'</div>
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
+                                    <h5>'.$r['product_name'].'</a></h5>
+                                    <div class="product-name"> Stock: '.$r['quantity'].'</div>
+                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
                                 </div>
                             </div>
-                    </div>';              
-                    }
+                        </div>';              
+                }
         echo   '</div>
             </div>
         </section>';
     }
-    ?> 
-
-    
+    ?>
     <!-- Search part ends-->
 
     <!-- Popular block starts -->
@@ -127,6 +123,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
   // fetching records from table and filter using html data-filter tag
   if (isset($_GET['categories_id'])) {
     $id = $_GET['categories_id'];
+  }
+
+  else
+  {
+    $id = 0;
   }
 
   // fetch records from database to display popular first 12 products from database

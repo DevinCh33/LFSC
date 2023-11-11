@@ -221,8 +221,6 @@
 						</div>
 			        </div> <!-- /form-group-->	     	        
 
-			     
-
 			        <div class="form-group">
 			        	<label for="editCategoryName" class="col-sm-3 control-label">Category Name: </label>
 			        	<label class="col-sm-1 control-label">: </label>

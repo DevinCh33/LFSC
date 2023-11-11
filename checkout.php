@@ -17,13 +17,13 @@ foreach ($_SESSION["cart_item"] as $item)
 
     if($_POST['submit'])
     {
-        $SQL = "insert into users_orders(u_id,title,quantity,price) values('".$_SESSION["user_id"]."','".$item["title"]."','".$item["quantity"]."','".$item["price"]."')";
+        $SQL = "insert into users_orders(u_id,title,quantity,price) values('".$_SESSION["user_id"]."','".$item["product_name"]."','".$item["quantity"]."','".$item["price"]."')";
         mysqli_query($db,$SQL);
         
-        $oldQuantity = mysqli_fetch_array(mysqli_query($db,"SELECT quantity from product WHERE product.product_name = '".$item["title"]."'"));
+        $oldQuantity = mysqli_fetch_array(mysqli_query($db,"SELECT quantity from product WHERE product.product_name = '".$item["product_name"]."'"));
         $newQuantity = $oldQuantity["quantity"] - $item["quantity"];
 
-        $SQL2 = "UPDATE product SET quantity = '".$newQuantity."' WHERE product_name = '".$item["title"]."'";
+        $SQL2 = "UPDATE product SET quantity = '".$newQuantity."' WHERE product_name = '".$item["product_name"]."'";
         mysqli_query($db,$SQL2);
 
         $success = "Thank you! Your order has been placed successfully!";

@@ -93,7 +93,7 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from dishes";
+                                        <h2><?php $sql="select * from product";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         

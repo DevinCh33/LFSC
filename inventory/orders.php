@@ -107,7 +107,7 @@ if($_GET['o'] == 'add') {
 			  					<select class="form-control" name="productName[]" id="productName<?php echo $x; ?>" onchange="getProductData(<?php echo $x; ?>)">
 									<option value="">~~SELECT~~</option>
 									<?php
-									$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0 AND owner = '".$_SESSION['adm_id']."'";
+									$productSql = "SELECT * FROM product WHERE active = 1 AND status = 1 AND quantity != 0 AND owner = '".$_SESSION['store']."'";
 									$productData = $db->query($productSql);
 
 									while($row = $productData->fetch_array()) {    

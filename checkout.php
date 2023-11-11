@@ -24,7 +24,7 @@ if($_POST['submit'])
 		$user2 = $user1->fetch_array();
 		
 	
-		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$today', '".$user2['f_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1,1,1, 1, ".$_SESSION['user_id'].")";
+		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1,1,1, 1, ".$_SESSION['user_id'].")";
 		
 		$order_id;
 		$orderStatus = false;

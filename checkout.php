@@ -11,23 +11,62 @@ if(empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to l
 	header('location:login.php');
 }
 
-foreach ($_SESSION["cart_item"] as $item)
+if($_POST['submit'])
 {
-    $item_total += ($item["price"]*$item["quantity"]);
-
-    if($_POST['submit'])
+    $times = 0;
+	foreach ($_SESSION["cart_item"] as $item)
     {
-        $SQL = "insert into users_orders(u_id,title,quantity,price) values('".$_SESSION["user_id"]."','".$item["product_name"]."','".$item["quantity"]."','".$item["price"]."')";
-        mysqli_query($db,$SQL);
-        
-        $oldQuantity = mysqli_fetch_array(mysqli_query($db,"SELECT quantity from product WHERE product.product_name = '".$item["product_name"]."'"));
-        $newQuantity = $oldQuantity["quantity"] - $item["quantity"];
+		$item_total += ($item["price"]*$item["quantity"]);
+		$today = date("Y/m/d");
+		
+		$user = "SELECT * FROM users WHERE u_id = '".$_SESSION['user_id']."'";
+		$user1 = $db->query($user);
+		$user2 = $user1->fetch_array();
+		
+	
+		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$today', '".$user2['f_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1,1,1, 1, ".$_SESSION['user_id'].")";
+		
+		$order_id;
+		$orderStatus = false;
+		if($db->query($sql) === true) {
+			$order_id = $db->insert_id;
+			$valid['order_id'] = $order_id;	
 
-        $SQL2 = "UPDATE product SET quantity = '".$newQuantity."' WHERE product_name = '".$item["product_name"]."'";
-        mysqli_query($db,$SQL2);
+			$orderStatus = true;
+		}
+		$orderItemStatus = false;
+		
+					
+			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['product_id']."";
+			$updateProductQuantityData = $db->query($updateProductQuantitySql);
+		
+			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) {
+				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];							
+					// update product table
+					$updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = ".$item['product_id']."";
+					$db->query($updateProductTable);
+					// add into order_item
+					$orderItemSql = "INSERT INTO order_item (order_id, product_id, quantity, price, total, order_item_status) 
+					VALUES ('$order_id', '".$item['product_id']."', '".$item['quantity']."', '".$item['price']."', '".$item_total."', 1)";
 
-        $success = "Thank you! Your order has been placed successfully!";
-    }
+					$db->query($orderItemSql);		
+			} // while
+		++$times;
+	}
+	if($times == count($_SESSION["cart_item"])){
+		$success = "Thank you! Your order has been placed successfully!";
+		// Unset the entire cart_item array
+		unset($_SESSION["cart_item"]);
+		?>
+        <script>
+            // Redirect to another page after the countdown
+            setTimeout(function () {
+                window.location.href = 'http://localhost/lfsc/market.php';
+            }, 1 * 1000); // Convert seconds to milliseconds
+        </script>
+    <?php
+	}
+	
 }
 ?>
 

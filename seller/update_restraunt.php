@@ -134,8 +134,17 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                 <form action='' method='post'  enctype="multipart/form-data">
                                     <div class="form-body">
                                         <?php 
-                                            $ssql = "select * from restaurant where rs_id='$store'";
-                                            $res = mysqli_query($db, $ssql); 
+                                            if (($_SESSION['adm_co'] == "SUPA") && isset($_GET['res_upd']))
+                                            {
+                                                $ssql = "select * from restaurant where rs_id='".$_GET['res_upd']."'";
+                                            }
+
+                                            else
+                                            {
+                                                $ssql = "select * from restaurant where rs_id='$store'";
+                                            }
+
+                                            $res = mysqli_query($db, $ssql);
                                             $row = mysqli_fetch_array($res);
                                         ?>
                                         <hr>

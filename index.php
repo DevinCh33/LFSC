@@ -20,7 +20,7 @@ include("connection/connect.php"); // connection to database
 
 		<ul>
 			<li><a href="index.php" class="active">Home</a></li>
-			<li><a href="market.php" class=>Market</a></li>
+			<li><a href="market.php">Market</a></li>
 			<li><a href="#">About US</a></li>
 			<li><a href="#">Order Now</a></li>
 			<li><a href="buysell.php">Login</a></li>
@@ -56,7 +56,6 @@ include("connection/connect.php"); // connection to database
 
 	<!-- Product -->
 	<section class="showProduct">
-		
 		<div class="top-section">
 			<div class="promo">
 				<h1>Something Important</h1>

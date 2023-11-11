@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Seller Login</title>
+	<title>Forgot Password</title>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 	<link rel="stylesheet prefetch" href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900'>
@@ -23,38 +23,46 @@ if (isset($_SESSION["adm_id"])) // if already logged in
 	header("refresh:0;url=dashboard.php"); // redirect to market.php page
 }
 
-if(isset($_POST['submit']))
+if(isset($_POST['submit'])) // if submit button was preseed
 {
-	$username = $_POST['username'];
-	$password = $_POST['password'];
-	
-	if(!empty($_POST["submit"])) 
-    {
-		$loginquery = "SELECT adm_id, code, password, u_role, store FROM admin WHERE username='$username'";
-		$result = mysqli_query($db, $loginquery);
-		$row = mysqli_fetch_array($result);
-		
-		if(md5($password) == $row['password'])
-		{
-			
-			$_SESSION["adm_id"] = $row['adm_id'];
-			$_SESSION["adm_co"] = $row['code'];
-			$_SESSION["u_role"] = $row['u_role'];
-			$_SESSION['store'] = $row['store'];
-			header("refresh:1;url=dashboard.php");
-		} 
+	if(empty($_POST['username']) ||
+	   empty($_POST['password']) ||
+       empty($_POST['cpassword']))
+   	{
+      $message = "All fields are required to be filled!";
+   	}
+
+	else
+	{
+		if($_POST['password'] != $_POST['cpassword']) // matching passwords
+		{  
+			$message = "Passwords do not match!";
+		}
+
 		else
 		{
-			$message = "Invalid Username or Password!";
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$cpassword = $_POST['cpassword'];
+			
+			if(!empty($_POST['submit'])) // if records were not empty
+			{
+				$query = "UPDATE admin SET password = '".md5($password)."' WHERE username='$username'"; // update password
+
+				if(mysqli_query($db, $query)) // if successful
+				{
+					header("refresh:1;url=index.php"); // redirect to index.php page
+				} 
+			}
 		}
-	 }
+	}
 }
 ?>
 
 <body>
 	<div class="container">
 		<div class="info">
-			<h1>Merchant </h1><span> Login Account</span>
+			<h1>Merchant </h1><span> New Password</span>
 		</div>
 	</div>
 
@@ -64,12 +72,12 @@ if(isset($_POST['submit']))
 		<span style="color:red;"><?php echo $message; ?></span>
 		<span style="color:green;"><?php echo $success; ?></span>
 
-		<form class="login-form" action="index.php" method="post">
-			<input type="text" placeholder="Username" name="username" value="admin" />
-			<input type="password" placeholder="Password" name="password" value="123"/>
-			<input type="submit" name="submit" value="Login" />
+		<form class="login-form" method="post">
+			<input type="text" placeholder="Username" name="username"/>
+			<input type="password" placeholder="Password" name="password"/>
+			<input type="password" placeholder="Confirm Password" name="cpassword"/>
+			<input type="submit" name="submit" value="Change" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
-			or <a href="forgotpassword.php" style="color:#f30;">Forgot password?</a>
 		</form>
 	</div>
 

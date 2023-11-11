@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
+	<title>Forgot Password</title>
   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900">
@@ -31,25 +31,42 @@ if (isset($_SESSION["user_id"])) // if already logged in
 
 if(isset($_POST['submit'])) // if submit button was preseed
 {
-	$username = $_POST['username']; // fetch records from login form
-	$password = $_POST['password'];
-	
-	if(!empty($_POST['submit'])) // if records were not empty
-    {
-		$loginquery = "SELECT u_id, password FROM users WHERE username='$username'"; // selecting matching records
-		$result = mysqli_query($db, $loginquery); // executing
-		$row = mysqli_fetch_array($result);
-	
-		if(password_verify($password, $row['password'])) // if matching records in the array & if everything is right
+	if(empty($_POST['username']) ||
+	   empty($_POST['password']) ||
+       empty($_POST['cpassword']))
+   	{
+      $message = "All fields are required to be filled!";
+   	}
+
+	else
+	{
+		if($_POST['password'] != $_POST['cpassword']) // matching passwords
+		{  
+			$message = "Passwords do not match!";
+		}
+
+		elseif(strlen($_POST['password']) < 6)  // cal password length
 		{
-			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
-			header("refresh:1;url=market.php"); // redirect to market.php page
-		} 
+			$message = "Passwords must be longer than 6 characters!";
+		}
+
 		else
 		{
-			$message = "Invalid Username or Password!"; // throw error
+			$username = $_POST['username'];
+			$password = $_POST['password'];
+			$cpassword = $_POST['cpassword'];
+			
+			if(!empty($_POST['submit'])) // if records were not empty
+			{
+				$query = "UPDATE users SET password = '".password_hash($password, PASSWORD_BCRYPT)."' WHERE username='$username'"; // update password
+
+				if(mysqli_query($db, $query)) // if successful
+				{
+					header("refresh:1;url=login.php"); // redirect to login.php page
+				} 
+			}
 		}
-	 }
+	}
 }
 ?>
   
@@ -58,7 +75,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 <!-- Button Mixin-->
 <!-- Pen Title-->
 <div class="pen-title">
-  	<h1>Login Form</h1>
+  	<h1>Forgot Password</h1>
 </div>
 
 <!-- Form Module-->
@@ -66,19 +83,19 @@ if(isset($_POST['submit'])) // if submit button was preseed
 	<div class="toggle">
 	</div>
 	<div class="form">
-		<h2>Login to your account</h2>
+		<h2>New Password</h2>
 		<span style="color:red;"><?php echo $message; ?></span>
 		<span style="color:green;"><?php echo $success; ?></span>
 		<form action="" method="post">
 			<input type="text" placeholder="Username" name="username"/>
 			<input type="password" placeholder="Password" name="password"/>
-			<input type="submit" id="buttn" name="submit" value="Login"/>
+			<input type="password" placeholder="Confirm Password" name="cpassword"/>
+			<input type="submit" id="buttn" name="submit" value="Change"/>
 		</form>
 	</div>
   
 	<div class="cta">
 		Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
-		or <a href="forgotpassword.php" style="color:#f30;">Forgot password?</a>
 	</div>
 </div>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

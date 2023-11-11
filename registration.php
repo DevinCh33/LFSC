@@ -26,7 +26,8 @@ include("connection/connect.php"); // connection to database
 
 if(isset($_POST['submit'] )) // if submit button was pressed
 {
-   if(empty($_POST['firstname']) ||  // fetching and find if its empty
+   if(empty($_POST['username']) || // fetching and find if its empty
+      empty($_POST['firstname']) ||  
       empty($_POST['lastname']) || 
       empty($_POST['email']) ||  
       empty($_POST['phone']) ||

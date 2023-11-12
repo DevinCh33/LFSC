@@ -185,7 +185,12 @@ only screen and (max-width: 760px),
                         
                         <?php 
 // displaying current session user login orders 
-$query_res = mysqli_query($db,"select * from users_orders where u_id='".$_SESSION['user_id']."'");
+$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, product.*, restaurant.*
+    FROM orders
+    JOIN order_item ON orders.order_id = order_item.order_id
+    JOIN product ON order_item.product_id = product.product_id
+    JOIN restaurant ON product.owner = restaurant.rs_id
+    WHERE orders.user_id = '".$_SESSION['user_id']."'");
 
 if(!mysqli_num_rows($query_res) > 0 )
 {
@@ -199,23 +204,23 @@ else
                         ?>
                         <tr>	
                             <td data-column="Item"> <?php echo $row['title']; ?></td>
-                            <td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
-                            <td data-column="price">$<?php echo $row['price']; ?></td>
+                            <td data-column="Quantity"> <?php echo $row['order_id']; ?></td>
+                            <td data-column="price">$<?php echo $row['orders.total_amount']; ?></td>
                             <td data-column="status"> 
                             <?php 
-                                $status = $row['status'];
-                                if($status=="" or $status=="NULL")
+                                $status = $row['orders.order_status'];
+                                if($status=="" or $status=="1")
                                 {
-                            ?>
-                            <button type="button" class="btn btn-info" style="font-weight:bold;">Dispatch</button>
-                            <?php 
+								?>
+								<button type="button" class="btn btn-info" style="font-weight:bold;">Dispatch</button>
+								<?php 
                                 }
-                                if($status=="in process")
+                                if($status=="2")
                                 { ?>
                                 <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true" ></span>On a Way!</button>
                             <?php
                                 }
-                            if($status=="closed")
+                            if($status=="3")
                                 {
                             ?>
                                 <button type="button" class="btn btn-success" ><span  class="fa fa-check-circle" aria-hidden="true">Delivered</button> 
@@ -223,7 +228,7 @@ else
                             } 
                             ?>
                             <?php
-                            if($status=="rejected")
+                            if($status=="4")
                                 {
                             ?>
                                 <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>cancelled</button>
@@ -231,7 +236,7 @@ else
                             } 
                             ?>
                             </td>
-                            <td data-column="Date"> <?php echo $row['date']; ?></td>
+                            <td data-column="Date"> <?php echo $row['order_date']; ?></td>
                             <td data-column="Action"> <a href="delete_orders.php?order_del=<?php echo $row['o_id'];?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
                             </td>                           
                         </tr>           

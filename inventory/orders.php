@@ -76,7 +76,7 @@ if($_GET['o'] == 'add') {
 				  	<datalist id="clientNameList">
 					  
 					</datalist>
-				
+				<input type="hidden" class="form-control" id="custID" name="custID" value="">
 			  </div> <!--/form-group-->
 			  <div class="form-group">
 			    <label for="clientContact" class="col-sm-2 control-label">Client Contact</label>

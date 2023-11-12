@@ -2,7 +2,7 @@
 
 require_once 'core.php';
 
-$sql = "SELECT order_id, order_date, client_name, client_contact, payment_status FROM orders WHERE order_status = 1";
+$sql = "SELECT order_id, order_date, client_name, client_contact, payment_status FROM orders WHERE order_status = 1 AND order_belong = '".$_SESSION['store']."'";
 $result = $db->query($sql);
 
 

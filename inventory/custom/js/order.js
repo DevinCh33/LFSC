@@ -26,6 +26,7 @@ $(document).ready(function() {
 		$.getJSON('php_action/fetchUserData.php', {searchID:selectedUserId}, function(data) {
 			$.each(data, function(index, value) {
 			  $('#clientContact').val(value['phone']);
+			  $('#custID').val(selectedUserId);
 			});
 		});
 		
@@ -73,6 +74,7 @@ $(document).ready(function() {
 			var paymentType = $("#paymentType").val();
 			var paymentStatus = $("#paymentStatus").val();	
 			var paymentPlace = $("#paymentPlace").val();
+			var custID = $("#custID").val();
 
 			// form validation 
 			if(orderDate == "") {
@@ -244,7 +246,8 @@ $(document).ready(function() {
 			var paid = $("#paid").val();
 			var discount = $("#discount").val();
 			var paymentType = $("#paymentType").val();
-			var paymentStatus = $("#paymentStatus").val();		
+			var paymentStatus = $("#paymentStatus").val();
+			
 
 			// form validation 
 			if(orderDate == "") {

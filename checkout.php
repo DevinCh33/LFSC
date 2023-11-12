@@ -14,29 +14,37 @@ if(empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to l
 if($_POST['submit'])
 {
     $times = 0;
-	foreach ($_SESSION["cart_item"] as $item)
-    {
-		$item_total += ($item["price"]*$item["quantity"]);
-		$today = date("Y/m/d");
-		
-		$user = "SELECT * FROM users WHERE u_id = '".$_SESSION['user_id']."'";
-		$user1 = $db->query($user);
-		$user2 = $user1->fetch_array();
-		
+	$today = date("Y/m/d");
+	// Rearrange the array based on owner ID
+	$groupedProducts = [];
+	$user = "SELECT * FROM users WHERE u_id = '".$_SESSION['user_id']."'";
+	$user1 = $db->query($user);
+	$user2 = $user1->fetch_array();
 	
+	foreach ($_SESSION["cart_item"] as $product) {
+		$ownerId = $product['owner'];
+		$groupedProducts[$ownerId][] = $product;
+	}
+	
+	
+	foreach ($groupedProducts as $ownerId => $products) {
+		$totalPrice = 0;
 		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1,1,1, 1, ".$_SESSION['user_id'].")";
-		
-		$order_id;
-		$orderStatus = false;
-		if($db->query($sql) === true) {
-			$order_id = $db->insert_id;
-			$valid['order_id'] = $order_id;	
+			
+			$order_id;
+			$orderStatus = false;
+			if($db->query($sql) === true) {
+				$order_id = $db->insert_id;
+				$valid['order_id'] = $order_id;	
 
-			$orderStatus = true;
-		}
-		$orderItemStatus = false;
+				$orderStatus = true;
+			}
 		
-					
+		foreach ($products as $item) {
+			$item_total = 0;
+			$item_total += ($item["price"]*$item["quantity"]);
+			$totalPrice += $item_total;
+			$orderItemStatus = false;
 			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['product_id']."";
 			$updateProductQuantityData = $db->query($updateProductQuantitySql);
 		
@@ -51,7 +59,10 @@ if($_POST['submit'])
 
 					$db->query($orderItemSql);		
 			} // while
-		++$times;
+			++$times;
+		}
+		$updateOrderTotalSql = "UPDATE orders SET sub_total = '$totalPrice', due= '$totalPrice', total_amount = '$totalPrice' WHERE order_id = '$order_id'";
+    	$db->query($updateOrderTotalSql);
 	}
 	if($times == count($_SESSION["cart_item"])){
 		$success = "Thank you! Your order has been placed successfully!";
@@ -65,6 +76,7 @@ if($_POST['submit'])
             }, 1 * 1000); // Convert seconds to milliseconds
         </script>
     <?php
+	
 	}
 	
 }

@@ -60,6 +60,78 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 </div>
             </div>
         </div>
+
+        <div class="banner-form" style = "text-align: center;margin-bottom:20px;">
+            <form class="form-inline" method="get">
+                <div class="form-group" style="margin-top:50px;">
+                    <label class="sr-only" for="exampleInputAmount">Search product....</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search product...">
+                        <input type="submit" class="btn theme-btn btn-lg" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search part starts-->
+        </section>
+
+        <?php
+       if (isset($_GET['search'])) {
+        $searchTerm = mysqli_real_escape_string($db, $_GET['search']);
+        $query_res = mysqli_query($db, "SELECT * FROM restaurant WHERE title LIKE '%$searchTerm%' LIMIT 12");
+    
+        echo '<section class="restaurants-page">
+                <div class="container">
+                    <div class="title text-xs-center m-b-30">
+                        <h2>Search Results</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
+                            <div class="bg-gray restaurant-entry">
+                             <div class="row">';
+    
+                                while($rows=mysqli_fetch_array($query_res))
+                                {
+                                    echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
+                                        <div class="entry-logo">
+                                            <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt=Merchant logo"></a>
+                                        </div>
+                                        <!-- end:Logo -->
+                                        <div class="entry-dscr">
+                                            <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows['address'].' <a href="#">...</a></span>
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item"><i class="fa fa-check"></i> Min RM 10.00</li>
+                                                <li class="list-inline-item"><i class="fa fa-motorcycle"></i> 30 min</li>
+                                            </ul>
+                                        </div>
+                                        <!-- end:Entry description -->
+                                    </div>
+                                    
+                                        <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
+                                            <div class="right-content bg-white">
+                                                <div class="right-review">
+                                                    <div class="rating-block"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Menu</a> </div>
+                                            </div>
+                                            <!-- end:right info -->
+                                        </div>';
+                                }
+                
+        echo '</div>
+                </div>
+                </div>
+                </div>
+                </div>
+            </section>';
+    }
+    
+        ?>
+        <!-- Search part ends-->
+
+
+
+
         <!-- //results show -->
         <section class="restaurants-page">
             <div class="container">

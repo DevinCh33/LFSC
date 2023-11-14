@@ -1,36 +1,53 @@
 var manageOrderTable;
 
 $(document).ready(function() {
-	
-	
-	$('#clientName').keyup(function(event) {
-    var custName = $(this).val();
-    $.getJSON('php_action/fetchUserData.php', { searchText: custName }, function(data) {
-        var dataList = $('#clientNameList'); // Get the datalist element
+		
+	$('#clientName').on('keyup', function(event) {
+		var userDataArray = [];
+    	var custName = $(this).val();
+		$.getJSON('php_action/fetchUserData.php', { searchText: custName }, function(data) {
+		var dataList = $('#clientNameList');
 
-        // Clear existing options
-        dataList.empty();
-
-        // Add new options based on the received data
-        $.each(data, function(index, value) {
-            // Use the 'value' attribute to store the user's ID
-            dataList.append('<option id="' + value['u_id'] +'" value="'+ value['f_name'] + " " + value['l_name'] + '">');
-        });
-    });
-});
+			// Clear existing options
+			dataList.empty();
+			if ('error' in data) {
+				$('.text-danger').remove();
+				// Remove the 'has-error' class from the closest '.form-group'
+				$('#errorMsg').closest('.form-group').removeClass('has-error');
+				// Handle the case where no records were found
+				$("#clientName").after('<p class="text-danger"> Client not found </p>');
+				$('#clientName').closest('.form-group').addClass('has-error');
+				
+			} else {
+				// Add new options based on the received data
+				// Remove the error message
+				$('.text-danger').remove();
+				// Remove the 'has-error' class from the closest '.form-group'
+				$('#clientName').closest('.form-group').removeClass('has-error');
+				$.each(data, function(index, value) {
+					dataList.append('<option id="' + value['u_id'] +'" value="'+ value['f_name'] + " " + value['l_name'] + '">');
+				});
+			}
+    	});
+	});
 
 	$('#clientName').on('change', function(event){
 		var selectedOption = $('datalist#clientNameList option[value="' + $(this).val() + '"]');
 		var selectedUserId = selectedOption.attr('id');
+		console.log(selectedUserId);
+		
 		
 		$.getJSON('php_action/fetchUserData.php', {searchID:selectedUserId}, function(data) {
 			$.each(data, function(index, value) {
+				// Remove the error message
+			$('.text-danger').remove();
+			// Remove the 'has-error' class from the closest '.form-group'
+			$('#errorMsg').closest('.form-group').removeClass('has-error');
+				
 			  $('#clientContact').val(value['phone']);
 			  $('#custID').val(selectedUserId);
 			});
 		});
-		
-		
 	});
 
 
@@ -96,6 +113,13 @@ $(document).ready(function() {
 				$('#clientContact').closest('.form-group').addClass('has-error');
 			} else {
 				$('#clientContact').closest('.form-group').addClass('has-success');
+			} // /else
+			
+			if(custID == "") {
+				$("#errorMsg").after('<p class="text-danger"> The Contact field is required </p>');
+				$('#errorMsg').closest('.form-group').addClass('has-error');
+			} else {
+				$('#errorMsg').closest('.form-group').addClass('has-success');
 			} // /else
 
 			if(paid == "") {
@@ -882,3 +906,10 @@ function paymentOrder(orderId = null) {
 
 
 }
+
+document.getElementById('discount').addEventListener('keypress', function (event) {
+      // Allow only numeric input (0-9)
+      if (event.key < '0' || event.key > '9') {
+        event.preventDefault();
+      }
+    });

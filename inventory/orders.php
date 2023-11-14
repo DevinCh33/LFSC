@@ -71,11 +71,12 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientName" class="col-sm-2 control-label">Client Name</label>
 			    <div class="col-sm-10">
-			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
+			      	<input type="browsers" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
 			    </div>		
 				  	<datalist id="clientNameList">
 					  
 					</datalist>
+				  	
 				<input type="hidden" class="form-control" id="custID" name="custID" value="">
 			  </div> <!--/form-group-->
 			  <div class="form-group">
@@ -83,7 +84,8 @@ if($_GET['o'] == 'add') {
 			    <div class="col-sm-10">
 			      <input type="text" class="form-control" id="clientContact" name="clientContact" placeholder="Contact Number" autocomplete="off" />
 			    </div>
-			  </div> <!--/form-group-->			  
+			  </div> <!--/form-group-->		
+				
 
 			  <table class="table" id="productTable">
 			  	<thead>
@@ -169,6 +171,14 @@ if($_GET['o'] == 'add') {
 				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" value="0" />
 				    </div>
 				  </div> <!--/form-group-->	
+				  <script>
+					  document.getElementById('discount').addEventListener('keypress', function (event) {
+						  // Allow only numeric input (0-9)
+						  if (event.key < '0' || event.key > '9') {
+							event.preventDefault();
+						  }
+						});
+				  </script>
 				  <div class="form-group">
 				    <label for="grandTotal" class="col-sm-3 control-label">Grand Total</label>
 				    <div class="col-sm-9">

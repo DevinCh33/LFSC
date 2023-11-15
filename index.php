@@ -22,7 +22,6 @@ include("connection/connect.php"); // connection to database
 			<li><a href="index.php" class="active">Home</a></li>
 			<li><a href="market.php">Market</a></li>
 			<li><a href="#">About US</a></li>
-			<li><a href="#">Order Now</a></li>
 			<li><a href="buysell.php">Login</a></li>
 			<li><a href="registration.php">Sign Up</a></li>
 		</ul>
@@ -46,7 +45,7 @@ include("connection/connect.php"); // connection to database
 			<h1>Fresh Produce</h1>
 			<h2>Delivery</h2>
 			<p>From Our Farm to Your Doorstep</p>
-			<a href="#" class="order-button">Order Online</a>
+			<a href="market.php" class="order-button">Order Online</a>
 		</div>
 
 		<div class="dots-container">

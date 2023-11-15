@@ -75,7 +75,7 @@
 				    <div class="col-sm-8">
 				      <input type="email" class="form-control" id="uemail" placeholder="Email" name="uemail" autocomplete="off">
 				    </div>
-	        </div> <!-- /form-group-->	 
+	        </div> <!-- /form-group-->
 	        	         	        
 	      </div> <!-- /modal-body -->
 	      

@@ -21,8 +21,9 @@
 
 <body class="home">
 <?php
+session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include_once 'product-action.php'; // including controller
+include("connection/connect.php"); // connection to database
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -107,47 +108,24 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <div class="clearfix"></div>
                         </div>
                         <div class="order-row bg-white">
-                            <div class="widget-body">						
-                                <?php
-                                    $item_total = 0;
-                                    // fetch items defined in current session ID
-                                    foreach ($_SESSION["cart_item"] as $item)  
-                                    {
-                                ?>				
-                                									
-                                <div class="title-row">
-                                    <a href="dishes.php?res_id=<?php echo $item['owner'];?>"><?php echo $item["product_name"]; ?></a>
-                                    <a href="dishes.php?res_id=<?php echo $_GET['res_id']; ?>&action=remove&id=<?php echo $item["product_id"]; ?>" >
-                                        <i class="fa fa-trash pull-right"></i>
-                                    </a>
-                                </div>
-                                
-                                <div class="form-group row no-gutter">
-                                    <div class="col-xs-8">
-                                        <input type="text" class="form-control b-r-0" value=<?php echo "Quantity ".$item["price"]; ?> readonly id="exampleSelect1">
-                                            
-                                    </div>
-                                    <div class="col-xs-4">
-                                        <input class="form-control" type="text" readonly value='<?php echo $item["quantity"]; ?>' id="example-number-input"> </div>
-                                </div>
-                                    
-                            <?php // calculating current price into cart
-                                $item_total += ($item["price"]*$item["quantity"]); 
-                                }
-                            ?>								  
-                                </div>
-                            </div>
-                            <!-- end:Order row -->
-                            
-                            <div class="widget-body">
-                                <div class="price-wrap text-xs-center">
-                                    <p>TOTAL</p>
-                                    <h3 class="value"><strong><?php echo "RM ".$item_total; ?></strong></h3>
-                                    <p>Free Shipping</p>
-                                    <a href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                            <div class="widget-body">	
+                                <div id="cart">
+                                    <p>Cart:</p>
+                                    <ul id="cartItems"></ul>
                                 </div>
                             </div>
                         </div>
+                        <!-- end:Order row -->
+                            
+                        <div class="widget-body">
+                            <div class="price-wrap text-xs-center">
+                                <p>TOTAL</p>
+                                <h3 id="cartTotal" class="value">Total Price: RM 0.00</h3>
+                                <p>Free Shipping</p>
+                                <a href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
@@ -177,23 +155,18 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <div class="food-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-lg-8">
-                                    <form method="post" action='dishes.php?res_id=<?php echo $_GET['res_id'];?>&action=add&id=<?php echo $product['product_id']; ?>'>
-                                        <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
-                                        </div>
-                                        <!-- end:Logo -->
-                                        <div class="rest-descr">
-                                            <h6><?php echo $product['product_name']; ?></h6>
-                                        </div>
-                                        <!-- end:Description -->
-                                
+                                    <div class="rest-logo pull-left">
+                                        <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
+                                    </div>
+                                    <!-- end:Logo -->
+                            
                                     <!-- end:col -->
-                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info"> 
-                                            <span class="price pull-left" >RM <?php echo $product['price']; ?></span>
-                                            <input class="b-r-0" type="text" name="quantity"  style="margin-left:30px;" value="1" size="2" />
-                                            <input type="submit" class="btn theme-btn" style="margin-left:40px;" value="Add to cart" />
-                                        </div>
-                                    </form>
+                                    <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
+                                        <h6><?php echo $product['product_name']; ?></h6>
+                                        <span class="price pull-left" >RM <?php echo $product['price']; ?></span>
+                                        <input class="b-r-0" type="text" name="quantity" style="margin-left:30px;" value="1" size="2" />
+                                        <button class="btn theme-btn addsToCart" style="margin-left:40px;">Add to Cart</button>
+                                    </div>
                                 </div>
                             </div>
                             <!-- end:row -->
@@ -203,7 +176,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <?php
                                 }
                             }
-                            
                         ?>
                     </div>
                     <!-- end:Collapse -->

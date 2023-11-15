@@ -94,10 +94,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
                                 </div>
-                                <div class="content">
-                                    <h5>'.$r['product_name'].'</a></h5>
-                                    <div class="product-name"> Stock: '.$r['quantity'].'</div>
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
+                                <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
+                                    <div class="price-btn-block">
+                                        <h6>'.$r['product_name'].'</h6>
+                                        <div class="product-name"> Stock: '.$r['quantity'].'</div>
+                                        <span class="price">RM '.$r['price'].'</span> 
+                                        <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>';              

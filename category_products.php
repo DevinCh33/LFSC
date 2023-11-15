@@ -94,10 +94,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
                                 </div>
-                                <div class="content">
-                                    <h5>'.$r['product_name'].'</a></h5>
-                                    <div class="product-name"> Stock: '.$r['quantity'].'</div>
-                                    <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
+                                <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
+                                    <div class="price-btn-block">
+                                        <h6>'.$r['product_name'].'</h6>
+                                        <div class="product-name"> Stock: '.$r['quantity'].'</div>
+                                        <span class="price">RM '.$r['price'].'</span> 
+                                        <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>';              
@@ -117,51 +120,41 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 <p class="lead">Fresh and pesticide free!</p>-->
             </div>
 
-
             <div class="row">
-  <?php
-  // fetching records from table and filter using html data-filter tag
-  if (isset($_GET['categories_id'])) {
-    $id = $_GET['categories_id'];
-  }
+            <?php
+            // fetching records from table and filter using html data-filter tag
+            if (isset($_GET['categories_id'])) 
+            {
+                $id = $_GET['categories_id'];
+            }
 
-  else
-  {
-    $id = 0;
-  }
+            else
+            {
+                $id = 0;
+            }
 
-  // fetch records from database to display popular first 12 products from database
-  $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
-  while ($r = mysqli_fetch_array($ress)) {
+            // fetch records from database to display popular first 12 products from database
+            $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
 
-    echo
- 
-'<div class="col-xs-12 col-sm-6 col-md-4 food-item">
-      <div class="food-item-wrap">
-        
-
-        <div class="figure-wrap bg-image" data-image-src="' . $r['product_image'] . '">
-
+            while ($r = mysqli_fetch_array($ress)) 
+            {
+                echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                        <div class="food-item-wrap">
+                            <div class="figure-wrap bg-image" data-image-src="' . $r['product_image'] . '">
+                            </div>
+                            <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
+                                <div class="price-btn-block">
+                                    <h6>'.$r['product_name'].'</h6>
+                                    <div class="product-name"> Stock: '.$r['quantity'].'</div>
+                                    <span class="price">RM '.$r['price'].'</span> 
+                                    <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+            }
+            ?>  
         </div>
-
-
-
-
-        <div class="content">
-          <h5><a href="dishes.php?res_id=?' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
-
-            <div class="product-name"> Stock: '.$quantity.'</div>
-
-         <div class="price-btn-block"> <span class="price">$'.$r['price'].'</span> <a href="dishes.php?res_id='.$r['rs_id'].'" class="btn theme-btn-dash pull-right">Order Now</a> </div>
-            
-        </div>
-
-      </div>
-    </div>';
-  }
-  ?>  
-</div>
-
     </section>
     <!-- Popular block ends -->
   

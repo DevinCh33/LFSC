@@ -45,7 +45,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
       <ul class="nav navbar-nav navbar-right">        
       	<li id="navDashboard"><a href="index.php"><i class="glyphicon glyphicon-list-alt"></i>  Dashboard</a></li>
-		 <li id="navDashboard"><a href="../market.php"><i class='fas fa-store'></i>  Store</a></li>   
+		 <li id="navDashboard"><a href="../market.php"><i class='fas fa-store'></i>  Market</a></li>   
         
 		<?php if(isset($_SESSION['adm_id']) && $_SESSION['u_role'] == "ADMIN") { ?>
         <li id="navCategories"><a href="categories.php"> <i class="glyphicon glyphicon-th-list"></i> Category</a></li>        

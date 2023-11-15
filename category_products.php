@@ -148,7 +148,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
 
         <div class="content">
-          <h5><a href="category_products.php?categories_id=' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
+          <h5><a href="dishes.php?res_id=?' . $r['categories_id'] . '">' . $r['product_name'] . '</a></h5>
 
             <div class="product-name"> Stock: '.$quantity.'</div>
 

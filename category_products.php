@@ -40,7 +40,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="hero-inner">
             <h1>Order Delivery & Take-Out </h1>
             <h5 class="font-white space-xs">Find merchants, specials, and coupons for free</h5>
-            <a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>
+            <!--<a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>-->
             <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
             <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>
             <a href="category_products.php?categories_id=7" class="btn btn-outline-info" role="button">Pome Fruits</a>

@@ -70,7 +70,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
                 $row = mysqli_fetch_array($res);
                 $id = $row['AUTO_INCREMENT'];
 
-                $sql1 = "INSERT INTO restaurant(rs_id,title,email,phone,url,o_hr,c_hr,o_days,address,image) VALUE('".$id."','".$res_name."','".$_POST['email']."','".$_POST['phone']."','".$_POST['url']."','".$_POST['o_hr']."','".$_POST['c_hr']."','".$_POST['o_days']."','".$_POST['address']."','".$fnew."')";  // store the submited data ino the database :images
+                $sql1 = "INSERT INTO restaurant(rs_id,c_id,title,email,phone,url,o_hr,c_hr,o_days,address,image) VALUE('".$id."','".$_POST['c_name']."','".$res_name."','".$_POST['email']."','".$_POST['phone']."','".$_POST['url']."','".$_POST['o_hr']."','".$_POST['c_hr']."','".$_POST['o_days']."','".$_POST['address']."','".$fnew."')";  // store the submited data ino the database :images
                 mysqli_query($db, $sql1);
                 move_uploaded_file($temp, $store);
 

@@ -6,11 +6,13 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("connection/connect.php"); // connection to database
 
-if(empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to login page
+if(empty($_SESSION['user_id']))  // if user is not logged in, redirect back to login page
 {
 	header('location:login.php');
 }
 
+else
+{
 if($_POST['submit'])
 {
     $times = 0;
@@ -21,64 +23,71 @@ if($_POST['submit'])
 	$user1 = $db->query($user);
 	$user2 = $user1->fetch_array();
 	
-	foreach ($_SESSION["cart_item"] as $product) {
+	foreach ($_SESSION["cart"] as $product) 
+    {
 		$ownerId = $product['owner'];
 		$groupedProducts[$ownerId][] = $product;
 	}
 	
-	
-	foreach ($groupedProducts as $ownerId => $products) {
+	foreach ($groupedProducts as $ownerId => $products) 
+    {
 		$totalPrice = 0;
-		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id, order_belong) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1,1,1, 1, ".$_SESSION['user_id'].", $ownerId)";
+		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id, order_belong) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1, 1, 1, 1, ".$_SESSION['user_id'].", $ownerId)";
 			
-			$order_id;
-			$orderStatus = false;
-			if($db->query($sql) === true) {
-				$order_id = $db->insert_id;
-				$valid['order_id'] = $order_id;	
+        $order_id;
+        $orderStatus = false;
 
-				$orderStatus = true;
-			}
+        if($db->query($sql) === true) 
+        {
+            $order_id = $db->insert_id;
+            $valid['order_id'] = $order_id;	
+
+            $orderStatus = true;
+        }
 		
-		foreach ($products as $item) {
+		foreach ($products as $item) 
+        {
 			$item_total = 0;
 			$item_total += ($item["price"]*$item["quantity"]);
 			$totalPrice += $item_total;
 			$orderItemStatus = false;
-			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['product_id']."";
+			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['id']."";
 			$updateProductQuantityData = $db->query($updateProductQuantitySql);
 		
-			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) {
+			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) 
+            {
 				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];							
-					// update product table
-					$updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = ".$item['product_id']."";
-					$db->query($updateProductTable);
-					// add into order_item
-					$orderItemSql = "INSERT INTO order_item (order_id, product_id, quantity, price, total, order_item_status) 
-					VALUES ('$order_id', '".$item['product_id']."', '".$item['quantity']."', '".$item['price']."', '".$item_total."', 1)";
+                // update product table
+                $updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = ".$item['id']."";
+                $db->query($updateProductTable);
+                // add into order_item
+                $orderItemSql = "INSERT INTO order_item (order_id, product_id, quantity, price, total, order_item_status) 
+                VALUES ('$order_id', '".$item['id']."', '".$item['quantity']."', '".$item['price']."', '".$item_total."', 1)";
 
-					$db->query($orderItemSql);		
+                $db->query($orderItemSql);		
 			} // while
 			++$times;
 		}
+
 		$updateOrderTotalSql = "UPDATE orders SET sub_total = '$totalPrice', due= '$totalPrice', total_amount = '$totalPrice' WHERE order_id = '$order_id'";
     	$db->query($updateOrderTotalSql);
 	}
-	if($times == count($_SESSION["cart_item"])){
+
+	if($times == count($_SESSION["cart"]))
+    {
 		$success = "Thank you! Your order has been placed successfully!";
 		// Unset the entire cart_item array
-		unset($_SESSION["cart_item"]);
-		?>
-        <script>
-            // Redirect to another page after the countdown
-            setTimeout(function () {
-                window.location.href = 'http://localhost/lfsc/market.php';
-            }, 1 * 1000); // Convert seconds to milliseconds
-        </script>
-    <?php
-	
+		unset($_SESSION["cart"]);
+?>
+<script>
+    // Redirect to another page after the countdown
+    setTimeout(function () {
+        window.location.href = 'http://localhost/lfsc/market.php';
+    }, 1 * 1000); // Convert seconds to milliseconds
+</script>
+<?php
 	}
-	
+}
 }
 ?>
 
@@ -139,15 +148,11 @@ if($_POST['submit'])
 											<tbody>
                                                 <tr>
                                                     <td>Cart Subtotal</td>
-                                                    <td> <?php echo "$".$item_total; ?></td>
+                                                    <td class="text-color" id="cartTotal">Total Price: RM 0.00</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Shipping &amp; Handling</td>
                                                     <td>Free Shipping</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-color"><strong>Total</strong></td>
-                                                    <td class="text-color"><strong> <?php echo "$".$item_total; ?></strong></td>
                                                 </tr>
                                             </tbody>
                                             </table>

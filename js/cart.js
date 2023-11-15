@@ -54,6 +54,19 @@ $(document).ready(function()
 		addToCart(productId, productName, productPrice, productOwner, productAmount);
 	});
 
+	$('.checkout').on('click', function()
+	{
+		// Get product information from the clicked element
+		const productId = $(this).closest('.product').data('product-id');
+		const productOwner = $(this).closest('.product').data('product-owner');
+		const productName = $(this).siblings('h6').text();
+		const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
+
+		// Add the product to the cart
+		addToCart(productId, productName, productPrice, productOwner);
+		alert("Product added to cart!");
+	});
+
 	// Function to add a product to the cart
 	function addToCart(id, name, price, owner, quantity=1) 
 	{

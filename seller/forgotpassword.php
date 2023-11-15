@@ -34,9 +34,16 @@ if(isset($_POST['submit'])) // if submit button was preseed
 
 	else
 	{
+		$check_username = mysqli_query($db, "SELECT username FROM admin where username = '".$_POST['username']."' ");
+
 		if($_POST['password'] != $_POST['cpassword']) // matching passwords
 		{  
 			$message = "Passwords do not match!";
+		}
+
+		elseif(mysqli_num_rows($check_username) == 0)
+		{
+			$message = 'User does not exist!';
 		}
 
 		else
@@ -47,7 +54,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 			
 			if(!empty($_POST['submit'])) // if records were not empty
 			{
-				$query = "UPDATE admin SET password = '".md5($password)."' WHERE username='$username'"; // update password
+				$query = "UPDATE admin SET password = '".password_hash($password, PASSWORD_BCRYPT)."' WHERE username='$username'"; // update password
 
 				if(mysqli_query($db, $query)) // if successful
 				{

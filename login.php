@@ -70,8 +70,8 @@ if(isset($_POST['submit'])) // if submit button was preseed
 		<span style="color:red;"><?php echo $message; ?></span>
 		<span style="color:green;"><?php echo $success; ?></span>
 		<form action="" method="post">
-			<input type="text" placeholder="Username" name="username"/>
-			<input type="password" placeholder="Password" name="password"/>
+			<input type="text" placeholder="Username" name="username" value="customer1"/>
+			<input type="password" placeholder="Password" name="password" value="123456"/>
 			<input type="submit" id="buttn" name="submit" value="Login"/>
 		</form>
 	</div>

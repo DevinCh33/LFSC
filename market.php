@@ -40,7 +40,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="hero" style = "background-color: #36454f;">
         <div class="hero-inner">
             <h1>Order Delivery & Take-Out </h1></br>
-            <!--<a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>-->
+            <!--<a href="category_products.php?categories_id=4" class="btn btn-info" role="button">Artificial</a>-->
             <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
             <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>
             <a href="category_products.php?categories_id=7" class="btn btn-outline-info" role="button">Pome Fruits</a>
@@ -117,7 +117,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <div class="container">
         <div class="title text-center mb-30">
             <h2>Little Farmer's Specials Section</h2>
-            <p class="lead">Somethinng about Little Farmer</p>
+            <p class="lead">Something about Little Farmer</p>
         </div>
         <div class="row">
             <?php
@@ -181,7 +181,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="content">
                                         <h4>'.$r['title'].'</h4>
                                         <div class="product-name"> '.$r['email'].'</div>
-                                        <div class="product-name"> Phone no. : '.$r['phone'].'</div>
+                                        <div class="product-name"> Phone Number: '.$r['phone'].'</div>
                                     </div></a> 
                                 </div>
                             </div>';   

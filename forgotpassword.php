@@ -40,6 +40,8 @@ if(isset($_POST['submit'])) // if submit button was preseed
 
 	else
 	{
+		$check_username = mysqli_query($db, "SELECT username FROM users where username = '".$_POST['username']."' ");
+
 		if($_POST['password'] != $_POST['cpassword']) // matching passwords
 		{  
 			$message = "Passwords do not match!";
@@ -48,6 +50,11 @@ if(isset($_POST['submit'])) // if submit button was preseed
 		elseif(strlen($_POST['password']) < 6)  // cal password length
 		{
 			$message = "Passwords must be longer than 6 characters!";
+		}
+
+		elseif(mysqli_num_rows($check_username) == 0)
+		{
+			$message = 'User does not exist!';
 		}
 
 		else

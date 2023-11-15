@@ -205,7 +205,7 @@ else
                         <tr>	
                             <td data-column="Item"> <?php echo $row['title']; ?></td>
                             <td data-column="Quantity"> <?php echo $row['order_id']; ?></td>
-                            <td data-column="price">$<?php echo $row['orders.total_amount']; ?></td>
+                            <td data-column="price">RM <?php echo $row['orders.total_amount']; ?></td>
                             <td data-column="status"> 
                             <?php 
                                 $status = $row['orders.order_status'];

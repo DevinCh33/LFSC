@@ -108,7 +108,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                <li><a href="#" class="active">
                   <span style="color:red;"><?php echo $message; ?></span>
                   <span style="color:green;">
-                        <?php echo $success; ?>
+                     <?php echo $success; ?>
                   </span>
                </a></li>
             </ul>

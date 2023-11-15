@@ -34,9 +34,8 @@ if(isset($_POST['submit']))
 		$result = mysqli_query($db, $loginquery);
 		$row = mysqli_fetch_array($result);
 		
-		if(md5($password) == $row['password'])
+		if(password_verify($password, $row['password']))
 		{
-			
 			$_SESSION["adm_id"] = $row['adm_id'];
 			$_SESSION["adm_co"] = $row['code'];
 			$_SESSION["u_role"] = $row['u_role'];
@@ -66,7 +65,7 @@ if(isset($_POST['submit']))
 
 		<form class="login-form" action="index.php" method="post">
 			<input type="text" placeholder="Username" name="username" value="admin" />
-			<input type="password" placeholder="Password" name="password" value="123"/>
+			<input type="password" placeholder="Password" name="password" value="123456"/>
 			<input type="submit" name="submit" value="Login" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
 			or <a href="forgotpassword.php" style="color:#f30;">Forgot password?</a>

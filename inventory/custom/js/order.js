@@ -7,13 +7,18 @@ $(document).ready(function() {
     	var custName = $(this).val();
 		$.getJSON('php_action/fetchUserData.php', { searchText: custName }, function(data) {
 		var dataList = $('#clientNameList');
-
+			if(custName == "")
+			{
+				$('.text-danger').remove();
+				// Remove the 'has-error' class from the closest '.form-group'
+				$('#clientName').closest('.form-group').removeClass('has-error');
+			}
 			// Clear existing options
 			dataList.empty();
 			if ('error' in data) {
 				$('.text-danger').remove();
 				// Remove the 'has-error' class from the closest '.form-group'
-				$('#errorMsg').closest('.form-group').removeClass('has-error');
+				$('#clientName').closest('.form-group').removeClass('has-error');
 				// Handle the case where no records were found
 				$("#clientName").after('<p class="text-danger"> Client not found </p>');
 				$('#clientName').closest('.form-group').addClass('has-error');
@@ -428,7 +433,7 @@ function printOrder(orderId = null) {
 			dataType: 'text',
 			success:function(response) {
 				
-				var mywindow = window.open('', 'Stock Management System', 'height=400,width=600');
+		var mywindow = window.open('', 'Stock Management System', 'height=400,width=600');
         mywindow.document.write('<html><head><title>Order Invoice</title>');        
         mywindow.document.write('</head><body>');
         mywindow.document.write(response);
@@ -469,6 +474,7 @@ function addRow() {
 		count = 1;
 		arrayNumber = 0;
 	}
+	
 
 	$.ajax({
 		url: 'php_action/fetchProductData.php',
@@ -492,7 +498,7 @@ function addRow() {
 					'</div>'+
 				'</td>'+
 				'<td style="padding-left:20px;"">'+
-					'<input type="text" name="price[]" id="price'+count+'" autocomplete="off"  class="form-control" />'+
+					'<input type="text" name="price[]" id="price'+count+'" autocomplete="off"  class="form-control" onkeypress="allowNumericInput(event)" onkeyup="getTotal(<?php echo $x ?>)"/>'+
 					'<input type="hidden" name="priceValue[]" id="priceValue'+count+'" autocomplete="off" class="form-control" />'+
 				'</td style="padding-left:20px;">'+
 				'<td style="padding-left:20px;">'+
@@ -502,7 +508,7 @@ function addRow() {
 				'</td>'+
 				'<td style="padding-left:20px;">'+
 					'<div class="form-group">'+
-					'<input type="text" name="quantity[]" id="quantity'+count+'" onkeyup="getTotal('+count+')" autocomplete="off" class="form-control" min="1" value="1" />'+
+					'<input type="text" name="quantity[]" id="quantity'+count+'" onkeyup="getTotal('+count+')" autocomplete="off" class="form-control" min="1" value="1" onkeypress="allowNumericInput(event)" onkeyup="getTotal(<?php echo $x ?>)"/>'+
 					'</div>'+
 				'</td>'+
 				'<td style="padding-left:20px;">'+
@@ -523,6 +529,8 @@ function addRow() {
 	});	// get the product data
 
 } // /add row
+
+
 
 function removeProductRow(row = null) {
 	if(row) {
@@ -907,9 +915,19 @@ function paymentOrder(orderId = null) {
 
 }
 
-document.getElementById('discount').addEventListener('keypress', function (event) {
-      // Allow only numeric input (0-9)
-      if (event.key < '0' || event.key > '9') {
+function allowNumericInput(event) {
+	const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+
+    // Allow backspace and delete keys
+    if (event.key === 'Backspace' || event.key === 'Delete') {
+        return;
+    }
+	
+	const currentInput = event.target.value;
+    const dotIndex = currentInput.indexOf('.');
+
+    // Allow only numeric input or a single dot
+    if ((!allowedKeys.includes(event.key) || (event.key === '.' && dotIndex !== -1) || (dotIndex !== -1 && currentInput.length - dotIndex > 2))) {
         event.preventDefault();
-      }
-    });
+    }
+}

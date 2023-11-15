@@ -71,7 +71,7 @@ if($_GET['o'] == 'add') {
 			  <div class="form-group">
 			    <label for="clientName" class="col-sm-2 control-label">Client Name</label>
 			    <div class="col-sm-10">
-			      	<input type="browsers" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
+			      	<input type="text" class="form-control" id="clientName" name="clientName" placeholder="Client Name" autocomplete="off" list="clientNameList">
 			    </div>		
 				  	<datalist id="clientNameList">
 					  
@@ -84,6 +84,16 @@ if($_GET['o'] == 'add') {
 			    <div class="col-sm-10">
 			      <input type="text" class="form-control" id="clientContact" name="clientContact" placeholder="Contact Number" autocomplete="off" />
 			    </div>
+				 <script>
+					  document.getElementById('clientContact').addEventListener('keypress', function (event) {
+						  // Allow only numeric input (0-9)
+						  if ((event.key < '0' || event.key > '9') || this.value.length >= 11) {
+								event.preventDefault();
+							}
+						});
+				  </script>
+				  
+				  </script>
 			  </div> <!--/form-group-->		
 				
 
@@ -120,8 +130,8 @@ if($_GET['o'] == 'add') {
 			  					</div>
 			  				</td>
 			  				<td style="padding-left:20px;">			  					
-			  					<input type="text" name="price[]" id="price<?php echo $x; ?>" autocomplete="off" class="form-control" onkeyup="getTotal(<?php echo $x ?>)"/>			  					
-			  					<input type="hidden" name="priceValue[]" id="priceValue<?php echo $x; ?>" autocomplete="off" class="form-control" />			  					
+			  					<input type="text" name="price[]" id="price<?php echo $x; ?>" autocomplete="off" class="form-control" onkeyup="getTotal(<?php echo $x ?>)" onkeypress="allowNumericInput(event)"/>			  					
+			  					<input type="hidden" name="priceValue[]" id="priceValue<?php echo $x; ?>" autocomplete="off" class="form-control" />	
 			  				</td>
 							<td style="padding-left:20px;">
 			  					<div class="form-group">
@@ -130,7 +140,7 @@ if($_GET['o'] == 'add') {
 			  				</td>
 			  				<td style="padding-left:20px;">
 			  					<div class="form-group">
-			  					<input type="text" name="quantity[]" id="quantity<?php echo $x; ?>" onkeyup="getTotal(<?php echo $x ?>)" autocomplete="off" class="form-control" min="1" value="1" />
+			  					<input type="text" name="quantity[]" id="quantity<?php echo $x; ?>" onkeyup="getTotal(<?php echo $x ?>)" autocomplete="off" class="form-control" min="1" value="1" onkeypress="allowNumericInput(event)"/>
 			  					</div>
 			  				</td>
 			  				<td style="padding-left:20px;">			  					
@@ -168,17 +178,10 @@ if($_GET['o'] == 'add') {
 				  <div class="form-group">
 				    <label for="discount" class="col-sm-3 control-label">Discount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" value="0" />
+				      <input type="text" class="form-control" id="discount" name="discount" onkeyup="discountFunc()" autocomplete="off" value="0" onkeypress="allowNumericInput(event)"/>
 				    </div>
 				  </div> <!--/form-group-->	
-				  <script>
-					  document.getElementById('discount').addEventListener('keypress', function (event) {
-						  // Allow only numeric input (0-9)
-						  if (event.key < '0' || event.key > '9') {
-							event.preventDefault();
-						  }
-						});
-				  </script>
+				  
 				  <div class="form-group">
 				    <label for="grandTotal" class="col-sm-3 control-label">Grand Total</label>
 				    <div class="col-sm-9">
@@ -199,9 +202,9 @@ if($_GET['o'] == 'add') {
 			  	<div class="form-group">
 				    <label for="paid" class="col-sm-3 control-label">Paid Amount</label>
 				    <div class="col-sm-9">
-				      <input type="text" class="form-control" id="paid" name="paid" autocomplete="off" onkeyup="paidAmount()" value="0"/>
+				      <input type="text" class="form-control" id="paid" name="paid" autocomplete="off" onkeyup="paidAmount()" value="0" onkeypress="allowNumericInput(event)"/>
 				    </div>
-				  </div> <!--/form-group-->			  
+				  </div> <!--/form-group-->
 				  <div class="form-group">
 				    <label for="due" class="col-sm-3 control-label">Due Amount</label>
 				    <div class="col-sm-9">

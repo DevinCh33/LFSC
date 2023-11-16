@@ -32,7 +32,7 @@ $(document).ready(function()
 		// Get product information from the clicked element
 		const productId = $(this).closest('.product').data('product-id');
 		const productOwner = $(this).closest('.product').data('product-owner');
-		const productName = $(this).siblings('h6').text();
+		const productName = $(this).siblings('a').children('h5').text();
 		const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
 
 		// Add the product to the cart
@@ -137,7 +137,6 @@ $(document).ready(function()
 	// Function to update the UI with the current cart state
 	function updateCartUI() 
 	{
-		console.log(JSON.stringify(cart))
 		// Clear the cartItems list
 		$('#cartItems').empty();
 

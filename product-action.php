@@ -1,9 +1,18 @@
 <?php
 session_start();
 
-if (isset($_POST['cart']))
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    $_SESSION['cart'] = $_POST['cart'];
+    if (isset($_POST['cart']))
+    {
+        $_SESSION['cart'] = $_POST['cart'];
+    }
+
+    else
+    {
+        // In the case of empty cart
+        unset($_SESSION['cart']);
+    }
 }
 
 elseif(isset($_SESSION['cart'])) 

@@ -96,7 +96,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 </div>
                                 <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
                                     <div class="price-btn-block">
-                                        <h6>'.$r['product_name'].'</h6>
+                                        <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].'</h5></a>
                                         <div class="product-name"> Stock: '.$r['quantity'].'</div>
                                         <span class="price">RM '.$r['price'].'</span> 
                                         <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>

@@ -93,7 +93,7 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from product";
+                                        <h2><?php $sql="select * from product where owner = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         
@@ -133,7 +133,7 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from users_orders";
+                                        <h2><?php $sql="select * from orders where order_belong = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         
@@ -153,7 +153,7 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from users_orders";
+                                        <h2><?php $sql="select * from orders where order_belong = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         

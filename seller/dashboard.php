@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -150,7 +151,7 @@ if(empty($_SESSION["adm_id"]))
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle"> 
-                                        <span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
+                                        <span><i class='fa fa-archive f-s-40' ></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
                                         <h2><?php $sql="select * from orders where order_belong = '".$_SESSION['store']."'";
@@ -158,7 +159,27 @@ if(empty($_SESSION["adm_id"]))
                                                         $rws=mysqli_num_rows($result);
                                                         
                                                         echo $rws;?></h2>
-                                        <p class="m-b-0">Inventory Management System</p>
+                                        <p class="m-b-0">Inventory</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+					
+					<div class="col-md-3">
+                        <a href="/lfsc/inventory/index.php">
+                            <div class="card p-30">
+                                <div class="media">
+                                    <div class="media-left meida media-middle"> 
+                                        <span><i class='fa fa-money f-s-58' ></i></span>
+                                    </div>
+                                    <div class="media-body media-text-right">
+                                        <h2><?php $sql="SELECT admin.store , SUM(orders.total_amount) as totalorder FROM orders INNER JOIN admin ON orders.order_belong = admin.store WHERE orders.order_status = '1'";
+                                                    $result=$db->query($sql); 
+                                                        $rws=$result->fetch_assoc();
+                                                        
+                                                        echo "RM ".$rws['totalorder'];?></h2>
+                                        <p class="m-b-0">Monthly Income</p>
                                     </div>
                                 </div>
                             </div>

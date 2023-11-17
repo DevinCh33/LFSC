@@ -107,14 +107,14 @@ if(empty($_SESSION["adm_id"]))
                     </div>
 					
                     <div class="col-md-3">
-                        <a href="allusers.php">
+                        <a href="#">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle">
                                         <span><i class="fa fa-user f-s-40 color-danger"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from users";
+                                        <h2><?php $sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         
@@ -167,7 +167,7 @@ if(empty($_SESSION["adm_id"]))
                     </div>
 					
 					<div class="col-md-3">
-                        <a href="/lfsc/inventory/index.php">
+                        <a href="#">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle"> 

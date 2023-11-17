@@ -18,11 +18,10 @@ $lowStockSql = "SELECT * FROM product WHERE quantity <= 3 AND status = 1 AND own
 $lowStockQuery = $db->query($lowStockSql);
 $countLowStock = $lowStockQuery->num_rows;
 
-$userwisesql = "SELECT admin.username , SUM(users_orders.price) as totalorder FROM users_orders INNER JOIN admin ON users_orders.u_id = admin.adm_id WHERE users_orders.status = 'status'";
+$userwisesql = "SELECT * FROM orders WHERE orders.order_belong = '".$_SESSION['store']."'";
 $userwiseQuery = $db->query($userwisesql);
 $userwiseOrder = $userwiseQuery->num_rows;
 
-$db->close();
 ?>
 
 <style type="text/css">
@@ -84,19 +83,7 @@ $db->close();
 		</div> 
 		<br/>
 
-		<div class="card">
-		  <div class="cardHeader" style="background-color:#245580;">
-		    <h1><?php if($totalRevenue) {
-		    	echo "RM".$totalRevenue;
-		    	} else {
-		    		echo 'RM 0';
-		    		} ?></h1>
-		  </div>
-
-		  <div class="cardContainer">
-		    <p> INR Total Revenue</p>
-		  </div>
-		</div>
+		
 	</div>
 	
 	<?php  if(isset($_SESSION['adm_id'])) { ?>
@@ -108,15 +95,39 @@ $db->close();
 			  	<thead>
 			  		<tr>			  			
 			  			<th style="width:40%;">Name</th>
-			  			<th style="width:20%;">Orders in Rupees</th>
+			  			<th style="width:20%;">Amount</th>
+						<th style="width:20%;">Item Quantity</th>
+						<th style="width:20%;">Status</th>
 			  		</tr>
 			  	</thead>
 			  	<tbody>
 					<?php while ($orderResult = $userwiseQuery->fetch_assoc()) { ?>
 						<tr>
-							<td><?php echo $orderResult['username']?></td>
-							<td><?php echo $orderResult['totalorder']?></td>
+							<?php
+								
+								$userCheck = "SELECT orders.*, users.* FROM orders INNER JOIN users ON orders.user_id = users.u_id  WHERE orders.order_id = '".$orderResult['order_id']."'";
+								$quanRes = $db->query($userCheck);
+								$quanRes1 = $quanRes->fetch_assoc();
+	
+								$quantityCheck = "SELECT * FROM order_item WHERE order_id = '".$orderResult['order_id']."'";
+								$quantityRes = $db->query($quantityCheck);
+							?>
+							<td><?php echo $quanRes1['username'];?></td>
+							<td><?php echo $quanRes1['total_amount'];?></td>
+							<td><?php echo $quantityRes->num_rows;?></td>
 							
+							<td><?php
+									if($quanRes1['order_status'] == '1')
+										$res = "Dispatch";
+									else if($quanRes1['order_status'] == '2')
+										$res = "In Process";
+									else if($quanRes1['order_status'] == '3')
+										$res = "Delivered";
+									else if($quanRes1['order_status'] == '4')
+										$res = "Rejected";
+									echo $res;
+								
+								?></td>
 						</tr>
 					<?php } ?>
 				</tbody>

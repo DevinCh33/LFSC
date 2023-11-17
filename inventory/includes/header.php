@@ -43,8 +43,10 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">      
-      <ul class="nav navbar-nav navbar-right">        
-      	<li id="navDashboard"><a href="index.php"><i class="glyphicon glyphicon-list-alt"></i>  Dashboard</a></li>
+      <ul class="nav navbar-nav navbar-right">
+		  
+      	<li id="navDashboard"><a href="index.php"><i class="glyphicon glyphicon-list-alt"></i>  Customer Order</a></li>
+		  <li id="navDashboard"><a href="http://localhost/lfsc/seller/dashboard.php"><i class="glyphicon glyphicon-list-alt"></i>  Dashboard</a></li>
 		 <li id="navDashboard"><a href="../market.php"><i class='fas fa-store'></i>  Market</a></li>   
         
 		<?php if(isset($_SESSION['adm_id']) && $_SESSION['u_role'] == "ADMIN") { ?>

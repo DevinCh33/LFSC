@@ -35,7 +35,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     include("includes/header.php");
     ?>
     
-    <div class="page-wrapper"  style="padding-top: 5%;" >
+    <div class="page-wrapper" >
         <!-- top Links -->
         <div class="top-links">
             <div class="container">

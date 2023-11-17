@@ -285,7 +285,7 @@ a .product-card:hover h2, a .product-card:hover p, a .mainProduct-card:hover h2,
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 6%;
     background-color: #005522;
     color: white; 
 }

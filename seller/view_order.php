@@ -78,7 +78,14 @@ if(isset($_SESSION["adm_id"]))
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <tbody>
                                            <?php
-											    $sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id where o_id='".$_GET['user_upd']."'";
+												$sql = "SELECT orders.*, order_item.*, product.product_name, restaurant.*, users.*
+														FROM orders
+														JOIN order_item ON orders.order_id = order_item.order_id
+														JOIN users ON orders.user_id = users.u_id
+														JOIN product ON order_item.product_id = product.product_id
+														JOIN restaurant ON product.owner = restaurant.rs_id 
+														WHERE orders.order_id = '".$_GET['order_upd']."'";
+	
 												$query = mysqli_query($db,$sql);
 												$rows = mysqli_fetch_array($query);						
 											?>
@@ -87,7 +94,7 @@ if(isset($_SESSION["adm_id"]))
                                                 <td><strong>Username:</strong></td>
                                                 <td><center><?php echo $rows['username']; ?></center></td>
                                                 <td><center>
-                                                    <a href="javascript:void(0);" onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['o_id']);?>');" title="Update order">
+                                                    <a href="javascript:void(0);" onClick="popUpWindow('order_update.php?form_id=<?php echo htmlentities($rows['order_id']);?>');" title="Update order">
                                                     <button type="button" class="btn btn-primary">Take Action</button></a>
                                                     </center></td>																									
 											</tr>	
@@ -95,7 +102,7 @@ if(isset($_SESSION["adm_id"]))
 												<td><strong>Title:</strong></td>
                                                 <td><center><?php echo $rows['title']; ?></center></td>
                                                 <td><center>
-                                                    <a href="javascript:void(0);" onClick="popUpWindow('userprofile.php?newform_id=<?php echo htmlentities($rows['o_id']);?>');" title="Update order">
+                                                    <a href="javascript:void(0);" onClick="popUpWindow('userprofile.php?newform_id=<?php echo htmlentities($rows['order_id']);?>');" title="Update order">
                                                     <button type="button" class="btn btn-primary">View User Detials</button></a>
                                                 </center></td>   																								
 											</tr>	
@@ -118,20 +125,20 @@ if(isset($_SESSION["adm_id"]))
 											<tr>
                                                 <td><strong>Status:</strong></td>
                                                 <?php 
-                                                    $status=$rows['status'];
-                                                    if($status=="" or $status=="NULL")
+                                                    $status=$rows['order_status'];
+                                                    if($status=="1" )
                                                     {
                                                 ?>
                                                 <td><center><button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Dispatch</button></center></td>
                                                 <?php 
                                                     }
-                                                    if($status=="in process")
+                                                    if($status=="2")
                                                     { 
                                                 ?>
                                                 <td><center><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the way!</button></center></td> 
                                                 <?php
                                                     }
-                                                    if($status=="closed")
+                                                    if($status=="3")
                                                     {
                                                 ?>
                                                 <td><center><button type="button" class="btn btn-success" ><span  class="fa fa-check-circle" aria-hidden="true">Delivered</button></center></td> 
@@ -139,7 +146,7 @@ if(isset($_SESSION["adm_id"]))
                                                     } 
                                                 ?>
                                                 <?php
-                                                    if($status=="rejected")
+                                                    if($status=="4")
                                                     {
                                                 ?>
                                                 <td><center><button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>Cancelled</button> </center></td> 
@@ -158,8 +165,6 @@ if(isset($_SESSION["adm_id"]))
             </div>
             <!-- End Container fluid  -->
 
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. Template designed by <a href="https://colorlib.com">Colorlib</a></footer>
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->

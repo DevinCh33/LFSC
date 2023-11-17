@@ -92,12 +92,21 @@ include("./../connection/connect.php"); // connection to database
 if(isset($_POST['update']))
 {
   $form_id=$_GET['form_id'];
-  $status=$_POST['status'];
+	if($_POST['status'] == "dispatch")
+		$status = 1;
+	else if($_POST['status'] == "in process")
+		$status = 2;
+	else if($_POST['status'] == "closed")
+		$status = 3;
+	else if($_POST['status'] == "rejected")
+		$status = 4;
   $remark=$_POST['remark'];
   $query=mysqli_query($db,"insert into remark(frm_id,status,remark) values('$form_id','$status','$remark')");
-  $sql=mysqli_query($db,"update users_orders set status='$status' where o_id='$form_id'");
+  $sql=mysqli_query($db,"update orders set order_status='$status' where order_id='$form_id'");
+
 
   echo "<script>alert('Form details updated successfully!');</script>";
+	echo '<script type="text/javascript">window.close();</script>';
 }
 
 ?>

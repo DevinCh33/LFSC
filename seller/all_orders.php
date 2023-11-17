@@ -76,7 +76,14 @@ if(isset($_SESSION["adm_co"]))
                                         </thead>
                                         <tbody>
 											<?php
-												$sql = "SELECT users.*, users_orders.* FROM users INNER JOIN users_orders ON users.u_id=users_orders.u_id ";
+												$sql = "SELECT orders.*, order_item.*, product.product_name, restaurant.*, users.*
+														FROM orders
+														JOIN order_item ON orders.order_id = order_item.order_id
+														JOIN users ON orders.user_id = users.u_id
+														JOIN product ON order_item.product_id = product.product_id
+														JOIN restaurant ON product.owner = restaurant.rs_id
+														WHERE orders.order_belong = '".$_SESSION['store']."'
+														ORDER BY order_status";
 												$query = mysqli_query($db,$sql);
 												
                                                 if(!mysqli_num_rows($query) > 0 )
@@ -97,21 +104,21 @@ if(isset($_SESSION["adm_co"]))
                                                                 <td>$'.$rows['price'].'</td>
                                                                 <td>'.$rows['address'].'</td>';
                                                         ?>
-                                                        <?php 
-                                                            $status=$rows['status'];
-                                                            if($status=="" or $status=="NULL")
+                                                        <?php
+                                                            $status=$rows['order_status'];
+                                                            if($status=="1" )
                                                             {
                                                         ?>
                                                         <td> <button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Dispatch</button></td>
                                                         <?php 
                                                             }
-                                                            if($status=="in process")
+                                                            if($status=="2")
                                                             { 
                                                         ?>
                                                         <td> <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the way!</button></td> 
                                                         <?php
                                                             }
-                                                            if($status=="closed")
+                                                            if($status=="3")
                                                             {
                                                         ?>
                                                         <td> <button type="button" class="btn btn-success" ><span  class="fa fa-check-circle" aria-hidden="true">Delivered</button></td> 
@@ -119,7 +126,7 @@ if(isset($_SESSION["adm_co"]))
                                                             } 
                                                         ?>
                                                         <?php
-                                                            if($status=="rejected")
+                                                            if($status=="4")
                                                             {
                                                         ?>
                                                         <td> <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>Cancelled</button></td> 
@@ -130,9 +137,9 @@ if(isset($_SESSION["adm_co"]))
                                                         echo '	<td>'.$rows['date'].'</td>';
                                                         ?>
                                                             <td>
-                                                                <a href="delete_orders.php?order_del=<?php echo $rows['o_id'];?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+                                                                <a href="delete_orders.php?order_del=<?php echo $rows['order_id'];?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
                                                             <?php
-                                                                echo '<a href="view_order.php?user_upd='.$rows['o_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
+                                                                echo '<a href="view_order.php?order_upd='.$rows['order_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
                                                             </td>
                                                          </tr>';
                                                     }	

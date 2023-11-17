@@ -3,23 +3,23 @@
 include("../connection/connect.php");
 error_reporting(0);
 session_start();
-if(strlen($_SESSION['user_id'])==0)
-  { 
-header('location:login.php');
+if(strlen($_SESSION['adm_id'])==0)
+{ 
+	header('location:login.php');
 }
 else
 {
-  if(isset($_POST['update']))
-  {
-$form_id=$_GET['form_id'];
-$status=$_POST['status'];
-$remark=$_POST['remark'];
-$query=mysqli_query($db,"insert into remark(frm_id,status,remark) values('$form_id','$status','$remark')");
-$sql=mysqli_query($db,"update users_orders set status='$status' where o_id='$form_id'");
+	  if(isset($_POST['update']))
+	  {
+		$form_id=$_GET['form_id'];
+		$status=$_POST['status'];
+		$remark=$_POST['remark'];
+		$query=mysqli_query($db,"insert into remark(frm_id,status,remark) values('$form_id','$status','$remark')");
+		$sql=mysqli_query($db,"update orders set order_status='$status' where order_id='$form_id'");
 
-echo "<script>alert('form details updated successfully');</script>";
+		echo "<script>alert('Order details updated successfully');</script>";
 
-  }
+	  }
 
  ?>
 <script language="javascript" type="text/javascript">
@@ -143,9 +143,9 @@ td, th {
     
 <?php 
 
-$ret1=mysqli_query($db,"select * FROM users_orders where o_id='".$_GET['newform_id']."'");
+$ret1=mysqli_query($db,"select * FROM orders where order_id='".$_GET['newform_id']."'");
 $ro=mysqli_fetch_array($ret1);
-$ret2=mysqli_query($db,"select * FROM users where u_id='".$ro['u_id']."'");
+$ret2=mysqli_query($db,"select * FROM users where u_id='".$ro['user_id']."'");
 
 while($row=mysqli_fetch_array($ret2))
 {
@@ -155,7 +155,7 @@ while($row=mysqli_fetch_array($ret2))
   
 		
     <tr>
-      <td colspan="2"><b><?php echo $row['f_name'];?>'s profile</b></td>
+      <td colspan="2"><b><?php echo $row['f_name']." ".$row['l_name'];?>'s profile</b></td>
       
     </tr>
     

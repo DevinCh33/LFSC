@@ -43,6 +43,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 		if(password_verify($password, $row['password'])) // if matching records in the array & if everything is right
 		{
 			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
+			$_SESSION['loginStatus'] = true;
 			header("refresh:1;url=market.php"); // redirect to market.php page
 		} 
 		else

@@ -174,11 +174,16 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class='fa fa-money f-s-58' ></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="SELECT admin.store , SUM(orders.total_amount) as totalorder FROM orders INNER JOIN admin ON orders.order_belong = admin.store WHERE orders.order_status = '1'";
+                                        <h2><?php $sql="SELECT admin.store , SUM(orders.total_amount) as totalorder FROM orders INNER JOIN admin ON orders.order_belong = admin.store WHERE orders.order_status = '1' AND admin.store ='".$_SESSION['store']."'";
+													
                                                     $result=$db->query($sql); 
-                                                        $rws=$result->fetch_assoc();
+                                                    $rws=$result->fetch_assoc();
+													if($rws['totalorder'] == 0)
+														$income = 0;
+													else
+														$income = $rws['totalorder'];
                                                         
-                                                        echo "RM ".$rws['totalorder'];?></h2>
+                                                        echo "RM ".$income;?></h2>
                                         <p class="m-b-0">Monthly Income</p>
                                     </div>
                                 </div>

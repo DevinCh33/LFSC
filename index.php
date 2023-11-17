@@ -20,10 +20,16 @@ include("connection/connect.php"); // connection to database
 
 		<ul>
 			<li><a href="index.php" class="active">Home</a></li>
-			<li><a href="market.php">Market</a></li>
 			<li><a href="#">About US</a></li>
+			<li><a href="market.php">Market</a></li>
+			<?php
+			if($_SESSION['loginStatus'] == false){
+			?>
 			<li><a href="buysell.php">Login</a></li>
 			<li><a href="registration.php">Sign Up</a></li>
+			<?php
+			}
+			?>
 		</ul>
 	</header>
 

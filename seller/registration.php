@@ -15,7 +15,8 @@
    <link href="./../css/animsition.min.css" rel="stylesheet">
    <link href="./../css/animate.css" rel="stylesheet">
    <!-- Custom styles for this template -->
-   <link href="./../css/style.css" rel="stylesheet">
+   <link href="../css/style.css" rel="stylesheet">
+   <link rel="stylesheet" type="text/css" href="../landing/style.css">
 </head>
 
 <body>
@@ -88,7 +89,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
 ?>
    <!--header starts-->
    <?php
-   include("includes/header.php");
+   include("../includes/header.php");
    ?>
    <div class="page-wrapper">
       <div class="breadcrumb">
@@ -148,8 +149,9 @@ if(isset($_POST['submit'] )) // if submit button was pressed
       
       <!-- start: FOOTER -->
       <?php
-      include("includes/footer.php");
+      include("../includes/footer.php");
       ?>
+      
       <!-- end:Footer -->
    </div>
    <!-- end:page wrapper -->

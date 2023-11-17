@@ -185,7 +185,7 @@ only screen and (max-width: 760px),
                         
                         <?php 
 // displaying current session user login orders 
-$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, product.*, restaurant.*
+$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, product.product_name, restaurant.*
     FROM orders
     JOIN order_item ON orders.order_id = order_item.order_id
     JOIN product ON order_item.product_id = product.product_id
@@ -203,9 +203,9 @@ else
     {
                         ?>
                         <tr>	
-                            <td data-column="Item"> <?php echo $row['title']; ?></td>
-                            <td data-column="Quantity"> <?php echo $row['order_id']; ?></td>
-                            <td data-column="price">RM <?php echo $row['orders.total_amount']; ?></td>
+                            <td data-column="Item"><?php echo $row['product_name']; ?> (<?php echo $row['title']; ?>)</td>
+                            <td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
+                            <td data-column="price">RM <?php echo $row['price']; ?></td>
                             <td data-column="status"> 
                             <?php 
                                 $status = $row['orders.order_status'];

@@ -136,12 +136,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     $productQuantity = intval($product['quantity']);
                     // Format price to ensure it has two decimal places
                     $productPrice = number_format($product['price'], 2);
+                    $productOwner = number_format($product['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
                     echo '    <div class="card michealProductCard">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body">';
-                    echo '            <h5 class="card-title">' . $productName . '</h5>';
+                    echo '            <a href="dishes.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . '</h5></a>';
                     echo '            <p class="card-text">Quantity: ' . $productQuantity . '</p>';
                     echo '            <p class="card-text">Price: RM ' . $productPrice . '</p>';
                     echo '        </div>';

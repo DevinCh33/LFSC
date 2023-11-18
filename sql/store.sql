@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2023 at 02:30 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 18, 2023 at 06:40 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `admin` (
   `u_role` text NOT NULL,
   `store` int(11) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
@@ -56,7 +56,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`
 CREATE TABLE `admin_codes` (
   `id` int(222) NOT NULL,
   `codes` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin_codes`
@@ -77,7 +77,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `categories`
@@ -118,26 +118,26 @@ CREATE TABLE `orders` (
   `order_status` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
   `order_belong` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `vat`, `total_amount`, `discount`, `grand_total`, `paid`, `due`, `payment_type`, `payment_status`, `payment_place`, `gstn`, `order_status`, `user_id`, `order_belong`) VALUES
-(1, '2023-11-12', 'aaa aaa', '01151385427', '44.24', '0', '44.24', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 51),
-(2, '2023-11-12', 'aaa aaa', '01151385427', '44.67', '0', '44.67', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 48),
-(3, '2023-11-12', 'aaa aaa', '01151385427', '22.12', '0', '22.12', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 51),
-(4, '2023-11-12', 'aaa aaa', '01151385427', '12.35', '0', '12.35', '0', '0', '0', '22.12', 1, 1, 1, '1', 1, 34, 48),
+(1, '2023-11-12', 'aaa aaa', '01151385427', '44.24', '0', '44.24', '0', '0', '0', '', 1, 1, 1, '1', 1, 1, 51),
+(2, '2023-11-12', 'aaa aaa', '01151385427', '44.67', '0', '44.67', '0', '0', '0', '', 1, 1, 1, '1', 1, 1, 48),
+(3, '2023-11-12', 'aaa aaa', '01151385427', '22.12', '0', '22.12', '0', '0', '0', '', 1, 1, 1, '1', 1, 1, 51),
+(4, '2023-11-12', 'aaa aaa', '01151385427', '12.35', '0', '12.35', '0', '0', '0', '22.12', 1, 1, 1, '1', 1, 1, 48),
 (5, '2023-11-12', 'aaa aaa', '01151385427', '22.55', '0', '22.55', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 51),
 (6, '2023-11-12', 'aaa aaa', '01151385427', '12.35', '0', '12.35', '0', '0', '0', '22.55', 1, 1, 1, '1', 1, 34, 48),
 (7, '2023-11-12', 'aaa aaa', '01151385427', '22.12', '0', '22.12', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 48),
 (8, '2023-11-12', 'aaa aaa', '01151385427', '24.34', '0', '24.34', '0', '0', '0', '24.34', 1, 1, 1, '1', 1, 34, 48),
 (9, '2023-11-12', 'aaa aaa', '01151385427', '44.67', '0', '44.67', '0', '0', '0', '44.67', 1, 1, 1, '1', 1, 12, 48),
 (10, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 1, '3.24', 1, 10, 0),
-(11, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 2, '3.24', 1, 34, 10),
-(12, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 1, '3.24', 1, 34, 51),
-(13, '2023-11-13', 'fyp fyp', '0198186518', '17.99', '3.24', '21.23', '88', '-66.77', '0', '-66.77', 1, 1, 2, '3.24', 1, 33, 51);
+(11, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 2, '3.24', 1, 1, 50),
+(12, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 1, '3.24', 1, 1, 50),
+(13, '2023-11-13', 'fyp fyp', '0198186518', '17.99', '3.24', '21.23', '88', '-66.77', '0', '-66.77', 1, 1, 2, '3.24', 2, 1, 50);
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ CREATE TABLE `order_item` (
   `price` varchar(255) NOT NULL,
   `total` varchar(255) NOT NULL,
   `order_item_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_item`
@@ -188,28 +188,31 @@ CREATE TABLE `product` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `product_image` text NOT NULL,
+  `descr` varchar(500) NOT NULL,
+  `weight` int(5) NOT NULL,
   `categories_id` int(11) NOT NULL,
   `quantity` decimal(11,3) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `owner` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
-(11, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', 3, 52.000, 22.12, '48', 1, 1),
-(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', 1, 75.000, 12.35, '49', 1, 1),
-(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', 4, 25.000, 11.99, '49', 1, 1),
-(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', 4, 28.000, 22.55, '48', 1, 1),
-(17, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/15461769106548c4cd82e3d.png', 2, 61.000, 12.00, '50', 1, 1),
-(19, 'Corn', 'http://localhost/lfsc/inventory/assets/images/stock/1154826493654b38a43e286.jpg', 6, 123.000, 6.00, '50', 1, 1),
-(20, 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/424624986654b38b5db833.jpg', 5, 321.000, 5.00, '50', 1, 1),
-(21, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/318972849654b38c80c89f.jpg', 6, 69.000, 8.00, '50', 1, 1),
-(22, 'Apple', 'http://localhost/lfsc/inventory/assets/images/stock/400964473654b38dbc5023.jpg', 7, 420.000, 12.00, '50', 1, 1);
+INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `descr`, `weight`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
+(11, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', '', 0, 3, '52.000', '22.12', '48', 1, 1),
+(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', '', 0, 1, '75.000', '12.35', '49', 1, 1),
+(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', '', 0, 4, '25.000', '11.99', '49', 1, 1),
+(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', '', 0, 4, '28.000', '22.55', '48', 1, 1),
+(17, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/6558f58fe4414.jpg', 'This is a chili from Ryan\r\nFresh\r\n', 100, 2, '100.000', '100.00', '50', 2, 1),
+(19, 'Corn', 'http://localhost/lfsc/inventory/assets/images/stock/6558f5f5b259d.jpg', '150', 120, 6, '123.000', '6.00', '50', 1, 1),
+(20, 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/424624986654b38b5db833.jpg', '', 0, 5, '321.000', '5.00', '50', 1, 1),
+(21, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/318972849654b38c80c89f.jpg', '', 0, 6, '69.000', '8.00', '50', 1, 1),
+(23, 'aaa', 'http://localhost/lfsc/inventory/assets/images/stock/200825119365587db45b98f.jpg', '123', 0, 1, '120.000', '100.00', '50', 1, 1),
+(24, 'Apple Swinburne', 'http://localhost/lfsc/inventory/assets/images/stock/196945794965588389151ae.jpg', 'This is a apple from swinburne\r\nFresh', 15, 1, '120.000', '200.00', '50', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -223,7 +226,7 @@ CREATE TABLE `remark` (
   `status` varchar(255) NOT NULL,
   `remark` mediumtext NOT NULL,
   `remarkDate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `remark`
@@ -238,7 +241,28 @@ INSERT INTO `remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
 (67, 35, 'closed', 'ok', '2018-04-18 18:59:08'),
 (68, 37, 'in process', 'on the way!', '2018-04-18 19:50:06'),
 (69, 37, 'rejected', 'if admin cancel for any reason this box is for remark only for buter perposes', '2018-04-18 19:51:19'),
-(70, 37, 'closed', 'delivered success', '2018-04-18 19:51:50');
+(70, 37, 'closed', 'delivered success', '2018-04-18 19:51:50'),
+(71, 13, 'closed', 'no things', '2023-11-17 04:45:05'),
+(72, 13, 'closed', 'finished', '2023-11-17 04:47:07'),
+(73, 13, 'closed', 'aaa', '2023-11-17 04:51:17'),
+(74, 13, 'closed', 'd', '2023-11-17 04:54:37'),
+(75, 13, '', '11', '2023-11-17 04:57:17'),
+(76, 13, '', 'ss', '2023-11-17 04:57:28'),
+(77, 13, '', 'aaa', '2023-11-17 04:58:29'),
+(78, 13, '', 'aaa', '2023-11-17 04:59:02'),
+(79, 13, '', 'aaa', '2023-11-17 04:59:37'),
+(80, 13, '3', 'aa', '2023-11-17 05:00:12'),
+(81, 13, '', 'aaa', '2023-11-17 05:00:28'),
+(82, 13, '', 'aaa', '2023-11-17 05:00:36'),
+(83, 13, '', 'aaa', '2023-11-17 05:01:13'),
+(84, 13, '', 'aaa', '2023-11-17 05:01:28'),
+(85, 13, '2', 'aaa', '2023-11-17 05:01:44'),
+(86, 13, '3', 'aaa', '2023-11-17 05:02:02'),
+(87, 13, '4', 'aaa', '2023-11-17 05:02:13'),
+(88, 13, '3', 'aaa', '2023-11-17 05:02:39'),
+(89, 13, '2', '111', '2023-11-17 05:04:11'),
+(90, 13, '4', '123', '2023-11-17 05:05:01'),
+(91, 13, '2', '123', '2023-11-17 05:05:07');
 
 -- --------------------------------------------------------
 
@@ -259,7 +283,7 @@ CREATE TABLE `restaurant` (
   `address` text NOT NULL,
   `image` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `restaurant`
@@ -280,7 +304,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `res_category`
@@ -311,7 +335,7 @@ CREATE TABLE `users` (
   `address` text NOT NULL,
   `status` int(222) NOT NULL DEFAULT 1,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -334,19 +358,19 @@ CREATE TABLE `users_orders` (
   `price` decimal(10,2) NOT NULL,
   `status` varchar(222) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users_orders`
 --
 
 INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
-(37, 31, 'Apple', 5, 17.99, 'closed', '2023-10-21 08:14:27'),
-(38, 31, 'Power-up Mango', 2, 11.99, NULL, '2023-10-21 08:15:02'),
-(39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
-(40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
-(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
-(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56');
+(37, 31, 'Apple', 5, '17.99', 'closed', '2023-10-21 08:14:27'),
+(38, 31, 'Power-up Mango', 2, '11.99', NULL, '2023-10-21 08:15:02'),
+(39, 32, 'Ultra Carrot', 1, '22.55', NULL, '2023-10-21 08:16:10'),
+(40, 33, 'Carrot', 1, '22.12', NULL, '2023-10-21 08:16:03'),
+(41, 33, 'Apple', 2, '17.99', NULL, '2023-10-21 08:16:00'),
+(42, 34, 'Carrot', 1, '22.12', NULL, '2023-10-31 05:38:56');
 
 --
 -- Indexes for dumped tables
@@ -426,7 +450,7 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
@@ -456,13 +480,13 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `remark`
 --
 ALTER TABLE `remark`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `restaurant`

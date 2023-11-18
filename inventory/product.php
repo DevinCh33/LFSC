@@ -70,7 +70,16 @@
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="productName" placeholder="Product Name" name="productName" autocomplete="off">
 				</div>
-	        </div> <!-- /form-group-->	    
+	        </div> <!-- /form-group-->
+			  
+			<div class="form-group">
+	        	<label for="productName" class="col-sm-3 control-label">Description<br>(Max 50)</label>
+	        	<label class="col-sm-1 control-label">: </label>
+				<div class="col-sm-8">
+					<textarea rows="4" cols="50" class="form-control" id="productDescr" placeholder="Product Description(Max 50 WORDS)" name="productDescr" autocomplete="off"></textarea>
+				</div>
+	        </div> <!-- /form-group-->
+			  
 
 	        <div class="form-group">
 	        	<label for="quantity" class="col-sm-3 control-label">Quantity </label>
@@ -78,7 +87,15 @@
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="quantity" placeholder="Quantity" name="quantity" autocomplete="off">
 				</div>
-	        </div> <!-- /form-group-->	        	 
+	        </div> <!-- /form-group-->
+			  
+			<div class="form-group">
+	        	<label for="productName" class="col-sm-3 control-label">Weight(G) / Unit</label>
+	        	<label class="col-sm-1 control-label">: </label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="productWeight" placeholder="Weight" name="productWeight" autocomplete="off">
+				</div>
+	        </div> <!-- /form-group-->
 
 	        <div class="form-group">
 	        	<label for="price" class="col-sm-3 control-label">Price </label>
@@ -197,13 +214,21 @@
 
 				    	<div id="edit-product-messages"></div>
 
-				    	<div class="form-group">
+				    <div class="form-group">
 			        	<label for="editProductName" class="col-sm-3 control-label">Product Name: </label>
 			        	<label class="col-sm-1 control-label">: </label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" id="editProductName" placeholder="Product Name" name="editProductName" autocomplete="off">
 						</div>
-			        </div> <!-- /form-group-->	    
+			        </div> <!-- /form-group-->
+							
+					<div class="form-group">
+			        	<label for="editProductName" class="col-sm-3 control-label">Product Description: </label>
+			        	<label class="col-sm-1 control-label">: </label>
+						<div class="col-sm-8">
+							<textarea rows="4" cols="50" class="form-control" id="editProductDescr" placeholder="Product Description(Max 50 WORDS)" name="editProductDescr" autocomplete="off"></textarea>
+						</div>
+			        </div> <!-- /form-group-->
 
 			        <div class="form-group">
 			        	<label for="editQuantity" class="col-sm-3 control-label">Quantity: </label>
@@ -211,7 +236,15 @@
 						<div class="col-sm-8">
 							<input type="text" class="form-control" id="editQuantity" placeholder="Quantity" name="editQuantity" autocomplete="off">
 						</div>
-			        </div> <!-- /form-group-->	        	 
+			        </div> <!-- /form-group-->
+							
+					<div class="form-group">
+			        	<label for="editWeight" class="col-sm-3 control-label">Weight(G) / Unit </label>
+			        	<label class="col-sm-1 control-label">: </label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="editWeight" placeholder="Weight" name="editWeight" autocomplete="off">
+						</div>
+			        </div> <!-- /form-group-->
 
 			        <div class="form-group">
 			        	<label for="editPrice" class="col-sm-3 control-label">Price: </label>
@@ -285,7 +318,7 @@
       </div>
       <div class="modal-footer removeProductFooter">
         <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-        <button type="button" class="btn btn-primary" id="removeProductBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Save changes</button>
+        <button type="button" class="btn btn-primary" id="removeProductBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Remove</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

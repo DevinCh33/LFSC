@@ -182,20 +182,21 @@ session_start();
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-											 <th>Merchant</th>
+												<th>Status</th>
                                                 <th>Product Name</th>
-                                                <th>Slogan</th>
+                                                <th>Description</th>
                                                 <th>Price</th>
                                                 <th>Image</th>
+												
                                                <th>Action</th>
 												  
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-											 <th>Merchant</th>
+												<th>Status</th>
                                                 <th>Product Name</th>
-                                                <th>Slogan</th>
+                                                <th>Description</th>
                                                 <th>Price</th>
                                                 <th>Image</th>
                                                <th>Action</th>
@@ -205,7 +206,7 @@ session_start();
 										
                                            
                                                	<?php
-												$sql="SELECT * FROM dishes order by d_id desc";
+												$sql="SELECT * FROM product WHERE owner = '".$_SESSION['store']."' ORDER BY active";
 												$query=mysqli_query($db,$sql);
 												
 													if(!mysqli_num_rows($query) > 0 )
@@ -214,32 +215,30 @@ session_start();
 														}
 													else
 														{				
-																	while($rows=mysqli_fetch_array($query))
-																		{
-																				$mql="select * from restaurant where rs_id='".$rows['rs_id']."'";
-																				$newquery=mysqli_query($db,$mql);
-																				$fetch=mysqli_fetch_array($newquery);
-																				
-																				
-																					echo '<tr><td>'.$fetch['title'].'</td>
-																					
-																								<td>'.$rows['title'].'</td>
-																								<td>'.$rows['slogan'].'</td>
-																								<td>$'.$rows['price'].'</td>
-																								
-																								
-																								<td><div class="col-md-3 col-lg-8 m-b-10">
-																								<center><img src="Res_img/dishes/'.$rows['img'].'" class="img-responsive  radius" style="max-height:100px;max-width:150px;" /></center>
-																								</div></td>
-																								
-																							
-																									 <td><a href="delete_menu.php?menu_del='.$rows['d_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-																									 <a href="update_menu.php?menu_upd='.$rows['d_id'].'" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
-																									</td></tr>';
-																					 
-																						
-																						
-																		}	
+															while($rows=mysqli_fetch_array($query))
+															{
+																if($rows['active'] == 1){
+																	$status = 'ACTIVE';
+																	$fontColor = 'green';
+																}																	
+																else{
+																	$status = 'DEACTIVE';
+																	$fontColor = 'red';
+																}
+																	
+																	echo '<tr><td style="color:'.$fontColor.'" >'.$status.'</td>
+																		<td>'.$rows['product_name'].'</td>
+																		<td>'.$rows['descr'].'</td>
+																		<td>$'.$rows['price'].'</td>
+																		<td><div class="col-md-3 col-lg-8 m-b-10">
+																				<center><img src="'.$rows['product_image'].'" class="img-responsive  radius" style="max-height:100px;max-width:150px;" /></center>
+																			</div>
+																		</td>
+																		<td>
+																			<a href="delete_menu.php?menu_del='.$rows['product_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+																			<a href="update_menu.php?menu_upd='.$rows['product_id'].'" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
+																		</td></tr>';
+															}	
 														}
 												
 											

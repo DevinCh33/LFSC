@@ -3,7 +3,7 @@ require_once 'core.php';
 
 $productId = $_POST['productId'];
 
-$sql = "SELECT product_id, product_name, product_image, categories_id, quantity, price, active, status FROM product WHERE product_id = $productId AND owner = '".$_SESSION['store']."'";
+$sql = "SELECT product_id, product_name, product_image,descr, weight, categories_id, quantity, price, active, status FROM product WHERE product_id = $productId AND owner = '".$_SESSION['store']."'";
 $result = $db->query($sql);
 
 if($result->num_rows > 0) 

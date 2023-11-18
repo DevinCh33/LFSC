@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -68,7 +68,7 @@ if(empty($_SESSION["adm_id"]))
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle">
-                                        <span><i class="fa fa-archive f-s-40 color-warning"></i></span>
+                                        <span><i class="fa-solid fa-store f-s-40"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
                                         <h2><?php $sql="select * from restaurant";
@@ -107,7 +107,7 @@ if(empty($_SESSION["adm_id"]))
                     </div>
 					
                     <div class="col-md-3">
-                        <a href="#">
+                        <a href="allusers.php">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle">
@@ -117,7 +117,6 @@ if(empty($_SESSION["adm_id"]))
                                         <h2><?php $sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
-                                                        
                                                         echo $rws;?></h2>
                                         <p class="m-b-0">Customer</p>
                                     </div>

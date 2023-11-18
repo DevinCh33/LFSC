@@ -47,6 +47,8 @@ $(document).ready(function() {
 			var categoryName = $("#categoryName").val();
 			var productStatus = $("#productStatus").val();
 			var userIdentify = $("#userIdentify").val();
+			var productDescr = $("#productDescr").val();
+			var productWeight = $("#productWeight").val();
 	
 			if(productImage == "") {
 				$("#productImage").closest('.center-block').after('<p class="text-danger">Product Image field is required</p>');
@@ -67,6 +69,26 @@ $(document).ready(function() {
 				// success out for form 
 				$("#productName").closest('.form-group').addClass('has-success');	  	
 			}	// /else
+			
+			if(productDescr == "") {
+				$("#productDescr").after('<p class="text-danger">Product Description field is required</p>');
+				$('#productDescr').closest('.form-group').addClass('has-error');
+			}	else {
+				// remov error text field
+				$("#productDescr").find('.text-danger').remove();
+				// success out for form 
+				$("#productDescr").closest('.form-group').addClass('has-success');	  	
+			}
+			
+			if(productWeight == "") {
+				$("#productWeight").after('<p class="text-danger">Product Weight field is required</p>');
+				$('#productWeight').closest('.form-group').addClass('has-error');
+			}	else {
+				// remov error text field
+				$("#productWeight").find('.text-danger').remove();
+				// success out for form 
+				$("#productWeight").closest('.form-group').addClass('has-success');	  	
+			}
 
 			if(quantity == "") {
 				$("#quantity").after('<p class="text-danger">Quantity field is required</p>');
@@ -118,7 +140,7 @@ $(document).ready(function() {
 				$("#productStatus").closest('.form-group').addClass('has-success');	  	
 			}	// /else
 
-			if(productImage && productName && quantity && price && brandName && categoryName && productStatus) {
+			if(productImage && productName && quantity && price && brandName && categoryName && productStatus && productWeight &&productDescr) {
 				// submit loading button
 				$("#createProductBtn").button('loading');
 
@@ -226,15 +248,20 @@ function editProduct(productId = null) {
 			 //    layoutTemplates: {main2: '{preview} {remove} {browse}'},								    
 		  // 		allowedFileExtensions: ["jpg", "png", "gif", "JPG", "PNG", "GIF"]
 				// });  
-
+				console.log(response);
 				// product id 
 				$(".editProductFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.product_id+'" />');				
 				$(".editProductPhotoFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.product_id+'" />');				
 				
 				// product name
 				$("#editProductName").val(response.product_name);
+				
+				// product description
+				$("#editProductDescr").val(response.descr);
 				// quantity
 				$("#editQuantity").val(response.quantity);
+				// weight
+				$("#editWeight").val(response.weight);
 				// price
 				$("#editPrice").val(response.price);
 				
@@ -247,12 +274,14 @@ function editProduct(productId = null) {
 				$("#editProductForm").unbind('submit').bind('submit', function() {
 
 					// form validation
-					var productImage = $("#editProductImage").val();
-					var productName = $("#editProductName").val();
-					var quantity = $("#editQuantity").val();
-					var price = $("#editPrice").val();
-					var categoryName = $("#editCategoryName").val();
-					var productStatus = $("#editProductStatus").val();
+					var productImage 	= $("#editProductImage").val();
+					var productName 	= $("#editProductName").val();
+					var quantity 		= $("#editQuantity").val();
+					var price 			= $("#editPrice").val();
+					var categoryName 	= $("#editCategoryName").val();
+					var productStatus 	= $("#editProductStatus").val();
+					var productDescr 	= $("#editProductDescr").val();
+					var productWeight 	= $("#editWeight").val(); 
 								
 
 					if(productName == "") {
@@ -264,6 +293,26 @@ function editProduct(productId = null) {
 						// success out for form 
 						$("#editProductName").closest('.form-group').addClass('has-success');	  	
 					}	// /else
+					
+					if(productDescr == "") {
+						$("#productDescr").after('<p class="text-danger">Product Description field is required</p>');
+						$('#productDescr').closest('.form-group').addClass('has-error');
+					}	else {
+						// remov error text field
+						$("#productDescr").find('.text-danger').remove();
+						// success out for form 
+						$("#productDescr").closest('.form-group').addClass('has-success');	  	
+					}
+
+					if(productWeight == "") {
+						$("#productWeight").after('<p class="text-danger">Product Weight field is required</p>');
+						$('#productWeight').closest('.form-group').addClass('has-error');
+					}	else {
+						// remov error text field
+						$("#productWeight").find('.text-danger').remove();
+						// success out for form 
+						$("#productWeight").closest('.form-group').addClass('has-success');	  	
+					}
 
 					if(quantity == "") {
 						$("#editQuantity").after('<p class="text-danger">Quantity field is required</p>');
@@ -307,7 +356,7 @@ function editProduct(productId = null) {
 						$("#editProductStatus").closest('.form-group').addClass('has-success');	  	
 					}	// /else					
 
-					if(productName && quantity && price &&  categoryName && productStatus) {
+					if(productName && quantity && price &&  categoryName && productStatus && productDescr && productWeight) {
 						// submit loading button
 						$("#editProductBtn").button('loading');
 

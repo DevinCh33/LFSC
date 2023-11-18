@@ -12,6 +12,8 @@ if($_POST)
 	$categoryName 	= $_POST['categoryName'];
 	$productStatus 	= $_POST['productStatus'];
 	$userIdentify 	= $_POST['userIdentify'];
+	$productDescr	= $_POST['productDescr'];
+	$productWeight	= $_POST['productWeight'];
 	
 	$type = explode('.', $_FILES['productImage']['name']);
 	$type = $type[count($type)-1];
@@ -21,8 +23,8 @@ if($_POST)
 		if(is_uploaded_file($_FILES['productImage']['tmp_name'])) {			
 			if(move_uploaded_file($_FILES['productImage']['tmp_name'], $url)) {
 				$url = 'http://localhost/lfsc/inventory/assets/images/stock/'.$tmp;
-				echo $sql = "INSERT INTO product(product_name, product_image, categories_id, quantity, price, owner, active, status) 
-				VALUES ('$productName', '$url',  '$categoryName', '$quantity', '$price','$userIdentify', '$productStatus', 1)";
+				$sql = "INSERT INTO product(product_name, product_image, descr, weight, categories_id, quantity, price, owner, active, status) 
+				VALUES ('$productName', '$url','$productDescr', '$productWeight',  '$categoryName', '$quantity', '$price','$userIdentify', '$productStatus', 1)";
 
 				//$sql2 = "INSERT INTO dishes (rs_id, title, slogan, price, img) 
 				//VALUES (0, '$productName', 'great taste great whatever', '$price', '$url')";

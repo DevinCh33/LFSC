@@ -177,6 +177,7 @@ only screen and (max-width: 760px),
                             <th>Item</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>Total Price</th>
                             <th>Status</th>
                             <th>Date</th>
                             <th>Action</th> 
@@ -191,7 +192,10 @@ $query_res = mysqli_query($db,"SELECT orders.*, order_item.*, product.product_na
     JOIN order_item ON orders.order_id = order_item.order_id
     JOIN product ON order_item.product_id = product.product_id
     JOIN restaurant ON product.owner = restaurant.rs_id
-    WHERE orders.user_id = '".$_SESSION['user_id']."'");
+    WHERE orders.user_id = '".$_SESSION['user_id']."'
+    ORDER BY orders.order_id DESC");
+
+
 
 if(!mysqli_num_rows($query_res) > 0 )
 {
@@ -207,6 +211,7 @@ else
                             <td data-column="Item"><?php echo $row['product_name']; ?> (<?php echo $row['title']; ?>)</td>
                             <td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
                             <td data-column="price">RM <?php echo $row['price']; ?></td>
+                            <td data-column="Total Price">RM <?php echo $row['total']; ?></td>
                             <td data-column="status"> 
                             <?php 
                                 $status = $row['orders.order_status'];

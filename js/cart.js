@@ -23,9 +23,9 @@ $(document).ready(function() {
         const productOwner = $(this).closest('.product').data('product-owner');
         const productName = $(this).siblings('a').children('h5').text();
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
-        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src'); // Updated selector for the image
+        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src');
 
-        addToCart(productId, productName, productPrice, productOwner, 1, productImage); // Include image parameter
+        addToCart(productId, productName, productPrice, productOwner, 1, productImage); 
         alert("Product added to cart!");
     });
 
@@ -36,9 +36,9 @@ $(document).ready(function() {
         const productName = $(this).siblings('h6').text();
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
         const productAmount = Number($(this).siblings('input').val());
-        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src'); // Updated selector for the image
+        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src');
 
-        addToCart(productId, productName, productPrice, productOwner, productAmount, productImage); // Include image parameter
+        addToCart(productId, productName, productPrice, productOwner, productAmount, productImage);
     });
 
     $('.checkout').on('click', function() {
@@ -46,9 +46,9 @@ $(document).ready(function() {
         const productOwner = $(this).closest('.product').data('product-owner');
         const productName = $(this).siblings('h6').text();
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
-        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src'); // Updated selector for the image
+        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src'); 
 
-        addToCart(productId, productName, productPrice, productOwner, 1, productImage); // Include image parameter
+        addToCart(productId, productName, productPrice, productOwner, 1, productImage);
         alert("Product added to cart!");
     });
 

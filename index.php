@@ -47,12 +47,6 @@ include("connection/connect.php"); // connection to database
 		<div class="slides fade">
 			<img src="landing/slide4.png" alt="slide4">
 		</div>
-		<div class="slide-content">
-			<h1>Fresh Produce</h1>
-			<h2>Delivery</h2>
-			<p>From Our Farm to Your Doorstep</p>
-			<a href="market.php" class="order-button">Order Online</a>
-		</div>
 
 		<div class="dots-container">
     		<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>

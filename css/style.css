@@ -2551,4 +2551,13 @@ a[aria-expanded=false] .fa-angle-down {
     margin-bottom: 0.5rem; 
 }
 
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
 /* Micheal Special Section end */

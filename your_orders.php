@@ -140,6 +140,7 @@ only screen and (max-width: 760px),
 <body>
     <!--header starts-->
     <?php
+    $currentPage = 'orders';
     include("includes/header.php");
     ?>
     

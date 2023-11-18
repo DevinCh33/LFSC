@@ -43,9 +43,16 @@ header li a {
 
 header li a.active,
 header li a:hover {
-    color: #FF6B35;
-    background-color: transparent;
+    color: #FF6B35 !important;
+    background-color: transparent !important;
 }
+
+header li.active a,
+header li.active a:hover {
+    color: #FF6B35 !important;
+    background-color: transparent !important;
+}
+
 
 /* slide */
 .slide-container {

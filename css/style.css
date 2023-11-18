@@ -1217,7 +1217,7 @@ App section
 ============================*/
 
 footer {
-    background: url(../images/pattern.png)center repeat;
+    background-color: #005522;
     padding: 90px 0;
     z-index: 1;
     position: relative;
@@ -1283,7 +1283,7 @@ footer ul li a {
 }
 
 footer ul li a:hover {
-    color: #f30;
+    color: #FF6B35;
 }
 
 footer li a {
@@ -2549,6 +2549,15 @@ a[aria-expanded=false] .fa-angle-down {
 
 .littleFarmer .michealProductCard .card-text {
     margin-bottom: 0.5rem; 
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 /* Micheal Special Section end */

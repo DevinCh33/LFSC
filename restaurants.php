@@ -32,6 +32,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 ?>
     <!--header starts-->
     <?php
+    $currentPage = 'merchants';
     include("includes/header.php");
     ?>
     

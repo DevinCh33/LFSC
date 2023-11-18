@@ -33,8 +33,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
 ?>
     <!--header starts-->
     <?php
+    $currentPage = 'market';
     include("includes/header.php");
     ?>
+
 
     <!-- banner part starts -->
     <section class="hero" style = "background-color: #36454f;">

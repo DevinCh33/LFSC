@@ -4,6 +4,10 @@
 <head>
 	<title>Little Farmer Website</title>
 	<meta charset="UTF-8">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animsition.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="landing/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -47,12 +51,6 @@ include("connection/connect.php"); // connection to database
 		<div class="slides fade">
 			<img src="landing/slide4.png" alt="slide4">
 		</div>
-		<div class="slide-content">
-			<h1>Fresh Produce</h1>
-			<h2>Delivery</h2>
-			<p>From Our Farm to Your Doorstep</p>
-			<a href="market.php" class="order-button">Order Online</a>
-		</div>
 
 		<div class="dots-container">
     		<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -63,9 +61,8 @@ include("connection/connect.php"); // connection to database
 	<section class="showProduct">
 		<div class="top-section">
 			<div class="promo">
-				<h1>Something Important</h1>
-				<p>This is some random paragraph describing the product</p>
-				<!-- Add promotional images or other elements here -->
+				<h1>Sign Up Now</h1>
+				<p>Join one of the best online fresh product merchant</p>
 			</div>
 			<div class="mainProduct-card">
 				<a href="#">
@@ -76,39 +73,36 @@ include("connection/connect.php"); // connection to database
 			</div>
 		</div>
 
-		<!-- Product Categories Grid -->
 		<div class="products-grid">
-			<a href="#">
-				<div class="product-card">
-					<h2>Cresses</h2>
-					<img src="landing/cress.jpg" alt="Cresses">
-					<p>View range</p>
-				</div>
-			</a>
-			<a href="#">
-				<div class="product-card">
-					<h2>Potato</h2>
-					<img src="landing/potato.jpg" alt="Potato">
-					<p>View range</p>
-				</div>
-			</a>
-			<a href="#">                    
-				<div class="product-card">
-					<h2>Cresses</h2>
-					<img src="landing/cress.jpg" alt="Cresses2">
-					<p>View range</p>
-				</div>
-			</a>
+		<?php
+			// Query a maximum of 4 random active products
+			$randomProductsQuery = "SELECT * FROM product WHERE active = 1 ORDER BY RAND() LIMIT 4";
+			$result = mysqli_query($db, $randomProductsQuery);
 
-			<a href="#">
-				<div class="product-card">
-					<h2>Potato</h2>
-					<img src="landing/potato.jpg" alt="Potato2">
-					<p>View range</p>
-				</div>
-			</a>
+			// Check if there are any products returned by the query
+			if ($result && mysqli_num_rows($result) > 0) {
+				// Loop through each product and display the card
+				while ($product = mysqli_fetch_assoc($result)) {
+					// Use htmlspecialchars to escape any special characters
+					$productName = htmlspecialchars($product['product_name']);
+					$productImage = htmlspecialchars($product['product_image']);
+
+					echo '<a href="market.php">';
+					echo '    <div class="product-card">';
+					echo '        <h2>' . $productName . '</h2>';
+					echo '        <img src="' . $productImage . '" alt="' . $productName . '">';
+					// No need for <p>View range</p>
+					echo '    </div>';
+					echo '</a>';
+				}
+			} else {
+				// No products found
+				echo '<p>No products found.</p>';
+			}
+			?>
 		</div>
 	</section>
+
 
 	<!-- About Little Farmer Section -->
 	<section class="about-farmer">
@@ -126,35 +120,22 @@ include("connection/connect.php"); // connection to database
 		</div>
 	</section>
 
-	<!-- Footer -->
-	<footer class="footer">
-		<div class="row-container">
-			<div class="address">
-				<p>Little Farmer</p>
-				<p>Sarawak, Malaysia</p>
-				<p>Email</p>
-				<p>Tel: </p>
-				<p>Fax: </p>
-			</div>
-			<div class="operating-hours">
-				<h4>Operating Hours</h4>
-				<p>Mon - Fri: 8am - 8pm</p>
-				<p>Saturday: 9am - 7pm</p>
-				<p>Sunday: 9am - 8pm</p>
-			</div>
-			<div class="delivery-hours">
-				<h4>Delivery Hours</h4>
-				<p>Mon - Fri: 8am - 8pm</p>
-				<p>Saturday: 9am - 7pm</p>
-				<p>Sunday: 9am - 8pm</p>
-			</div>
-		</div>
-		<div class="social-links">
-			<a href="#">Facebook</a>
-			<a href="#">Twitter</a>
-			<a href="#">Instagram</a>
-		</div>
-	</footer>
+    <?php
+    include("includes/footer.php");
+    ?>
+    <!-- end:Footer -->
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/tether.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/animsition.min.js"></script>
+    <script src="js/bootstrap-slider.min.js"></script>
+    <script src="js/jquery.isotope.min.js"></script>
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.min.js"></script>
+    <script src="js/cart.js"></script>
 
 	<script>
     var slideIndex = 1; // Start with 1 to match your logic in displaySlide

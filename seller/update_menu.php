@@ -15,13 +15,13 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 	}
 	else
 	{
-		$fname = $_FILES['file']['name'];
-		$temp = $_FILES['file']['tmp_name'];
-		$fsize = $_FILES['file']['size'];
+		$fname = $_FILES['proImg']['name'];
+		$temp = $_FILES['proImg']['tmp_name'];
+		$fsize = $_FILES['proImg']['size'];
 		$extension = explode('.',$fname);
 		$extension = strtolower(end($extension));  
 		$fnew = uniqid().'.'.$extension;
-   		$store = "Res_img/dishes/".basename($fnew);                      // the path to store the upload image
+   		$store = "../inventory/assets/images/stock/".basename($fnew);                      // the path to store the upload image
 		if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
 		{        
 			if($fsize>=1000000)
@@ -30,7 +30,6 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<strong>Max Image Size is 1024kb!</strong> Try different Image.
 							</div>';
-	   
 			}
 			else
 			{
@@ -39,17 +38,20 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 						categories_id='".$_POST['proCat']."',
 						descr='".$_POST['proDesc']."', 
 						price='".$_POST['proPrice']."', 
-						quantity='".$_POST['proQuantity']."'";
+						quantity='".$_POST['proQuan']."'";
 
 				if (!empty($fname)) {
+                    move_uploaded_file($temp, $store);
+                    $store = "http://localhost/lfsc/inventory/assets/images/stock/".$fnew;
+
 					// If $fname is not empty, include it in the update statement
-					$sql .= ", product_image='".$fnew."'";
+					$sql .= ", product_image='".$store."'";
 				}
 
 				$sql .= ", active='" . $_POST['proActive'] . "' WHERE product_id='" . $_GET['menu_upd'] . "'";
 				  // update the submited data ino the database :images
 				mysqli_query($db, $sql); 
-				move_uploaded_file($temp, $store);
+				
 			  	$success = 	'<div class="alert alert-success alert-dismissible fade show">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<strong>Record</strong>Updated.
@@ -317,24 +319,19 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 								<li><a href="allrestraunt.php">All Stores</a></li>
 								<li><a href="add_category.php">Add Category</a></li>
                                 <li><a href="add_restraunt.php">Add Restaurant</a></li>
-                                
                             </ul>
                         </li>
                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="all_menu.php">All Menues</a></li>
-								<li><a href="add_menu.php">Add Menu</a></li>
-                              
-                                
+								<li><a href="add_menu.php">Add Menu</a></li>   
                             </ul>
                         </li>
 						 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="hide-menu">Orders</span></a>
                             <ul aria-expanded="false" class="collapse">
-								<li><a href="all_orders.php">All Orders</a></li>
-								  
+								<li><a href="all_orders.php">All Orders</a></li>  
                             </ul>
                         </li>
-                         
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -359,14 +356,11 @@ if(isset($_POST['submit']))           //if upload btn is pressed
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <!-- Start Page Content -->
-                  
-									
-									<?php  echo $error;
-									        echo $success; ?>
-									
-									
-								
-								
+
+                <?php 
+                    echo $error;
+                    echo $success; ?>
+										
 					    <div class="col-lg-12">
                         <div class="card card-outline-primary">
                             <div class="card-header">
@@ -491,19 +485,6 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                             </div>
                         </div>
                     </div>
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
                 </div>
                 <!-- End PAge Content -->
             </div>
@@ -528,7 +509,5 @@ if(isset($_POST['submit']))           //if upload btn is pressed
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
-
 </body>
-
 </html>

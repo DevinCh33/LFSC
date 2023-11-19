@@ -1,51 +1,70 @@
 <?php
 
+require_once 'core.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve start and end dates from the AJAX request
-    $startDate = $_POST["startDate"];
-    $endDate = $_POST["endDate"];
+    $startDate = strtotime($_POST['startDate']);
+    $start_date = date("Y/m/d", $startDate);
 
-    // Mock data for the report
-    $reportData = [
-        ['order_date' => '2023-01-01', 'product_name' => 'Product A', 'quantity' => 2, 'price' => 25.00],
-        ['order_date' => '2023-01-02', 'product_name' => 'Product B', 'quantity' => 1, 'price' => 15.00],
-    ];
+    $endDate = strtotime($_POST['endDate']);
+    $end_date = date("Y/m/d", $endDate);
 
-    // Generate receipt content based on the report
-    $receiptContent = "<div class='receipt-container'>";
-    $receiptContent .= "<h2>Payment Receipt</h2>";
-    $receiptContent .= "<p><strong>Date:</strong> " . date("Y-m-d H:i:s") . "</p>";
-    $receiptContent .= "<p><strong>Period:</strong> $startDate to $endDate</p>";
-    $receiptContent .= "<table class='table'>";
-    $receiptContent .= "<thead><tr><th>Order Date</th><th>Product Name</th><th>Quantity</th><th>Price</th></tr></thead><tbody>";
+    $sql = "SELECT * FROM orders WHERE order_date >= '$start_date' AND order_date <= '$end_date' AND order_status = '3'";
+    $query = $db->query($sql);
 
-    $totalAmount = 0;
+    // Check if there are results
+    if ($query->num_rows > 0) {
+        // Generate receipt content with added styles
+        $receiptContent = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);'>";
+        $receiptContent .= "<h2 style='text-align: center; color: #333;'>Payment Receipt</h2>";
+        $receiptContent .= "<p style='text-align: right; margin: 10px 0;'><strong>Date:</strong> " . date("Y-m-d H:i:s") . "</p>";
+        $receiptContent .= "<p><strong>Period:</strong> $start_date to $end_date</p>";
+        $receiptContent .= "<table style='width:100%; border-collapse: collapse; margin-top: 20px;'>";
+        $receiptContent .= "<tr><th style='text-align: left; border: 1px solid #ddd; padding: 10px; background-color: #f2f2f2;'>No</th><th style='text-align: left; border: 1px solid #ddd; padding: 10px; background-color: #f2f2f2;'>Order Date</th><th style='text-align: left; border: 1px solid #ddd; padding: 10px; background-color: #f2f2f2;'>Product Name</th><th style='text-align: left; border: 1px solid #ddd; padding: 10px; background-color: #f2f2f2;'>Quantity</th><th style='text-align: left; border: 1px solid #ddd; padding: 10px; background-color: #f2f2f2;'>Price</th></tr>";
 
-    foreach ($reportData as $order) {
-        $orderDate = $order["order_date"];
-        $productName = $order["product_name"];
-        $quantity = $order["quantity"];
-        $price = $order["price"];
-        $totalAmount += $price;
+        $totalAmount = 0;
+        $no = 1;
 
-        // Add order details to the receipt
-        $receiptContent .= "<tr>";
-        $receiptContent .= "<td>$orderDate</td>";
-        $receiptContent .= "<td>$productName</td>";
-        $receiptContent .= "<td>$quantity</td>";
-        $receiptContent .= "<td>$price</td>";
-        $receiptContent .= "</tr>";
+        while ($result = $query->fetch_assoc()) {
+            $order_id = $result['order_id'];
+            $productSql = "SELECT oi.quantity, oi.price, p.product_name FROM order_item oi
+                           INNER JOIN product p ON oi.product_id = p.product_id
+                           WHERE order_id = '$order_id'";
+            $productQuery = $db->query($productSql);
+
+            while ($product = $productQuery->fetch_assoc()) {
+                $orderDate = $result["order_date"];
+                $productName = $product["product_name"];
+                $quantity = $product["quantity"];
+                $price = $product["price"];
+                $totalAmount += $price;
+
+                // Add order details to the receipt
+                $receiptContent .= "<tr><td style='border: 1px solid #ddd; padding: 10px;'>$no</td><td style='border: 1px solid #ddd; padding: 10px;'>$orderDate</td><td style='border: 1px solid #ddd; padding: 10px;'>$productName</td><td style='border: 1px solid #ddd; padding: 10px;'>$quantity</td><td style='border: 1px solid #ddd; padding: 10px;'>$price</td></tr>";
+
+                ++$no;
+            }
+        }
+
+        $receiptContent .= "</table>";
+        $receiptContent .= "<p style='text-align: right; margin-top: 20px; font-weight: bold;'>Total Price: RM " . number_format($totalAmount, 2) . "</p>";
+        $receiptContent .= "<p style='text-align: center; margin-top: 10px; color: #333;'>Thank you for your payment!</p>";
+
+        // Back button inside the receipt redirecting to report.php
+        $receiptContent .= "<button onclick='window.location.href=\"report.php\"' style='display: block; margin: 20px auto; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;'>Back</button>";
+
+        $receiptContent .= "</div>";
+
+        // Generate JavaScript to open a new window and inject the receipt content
+        echo "<script type='text/javascript'>
+                var receiptWindow = window.open('', '_blank');
+                receiptWindow.document.write('" . addslashes($receiptContent) . "');
+              </script>";
+    } else {
+        echo "No results found";
     }
-
-    $receiptContent .= "</tbody></table>";
-    $receiptContent .= "<p><strong>Total Amount:</strong> $totalAmount</p>";
-    $receiptContent .= "<p>Thank you for your payment!</p>";
-    $receiptContent .= "</div>";
-
-    // Add styles to the PDF button
-    echo '<a tabindex="0" aria-controls="example23" href="#" style="background-color: #3498db; color: #fff; margin-top:5%; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; text-decoration: none; display: inline-block;"><span>PDF</span></a>';
-          
-    // Return the receipt content as HTML
-    echo $receiptContent;
+} else {
+    echo "Error: Invalid request method.";
 }
+
 ?>

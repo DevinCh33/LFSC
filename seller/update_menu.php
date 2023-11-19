@@ -5,62 +5,76 @@ include("../connection/connect.php");
 error_reporting(0);
 session_start();
 
-if(isset($_POST['submit']))           //if upload btn is pressed
-{
-	if(empty($_POST['proName']) || empty($_POST['proPrice']) || $_POST['proDesc']=='' || $_POST['proPrice']=='' || $_POST['proWeight']=='' || $_POST['proQuan']=='')
-	{	
-		$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>All fields Must be Fillup!</strong></div>';
-	}
-	else
-	{
-		$fname = $_FILES['proImg']['name'];
-		$temp = $_FILES['proImg']['tmp_name'];
-		$fsize = $_FILES['proImg']['size'];
-		$extension = explode('.',$fname);
-		$extension = strtolower(end($extension));  
-		$fnew = uniqid().'.'.$extension;
-   		$store = "../inventory/assets/images/stock/".basename($fnew);                      // the path to store the upload image
-		if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
-		{        
-			if($fsize>=1000000)
-			{
-				$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<strong>Max Image Size is 1024kb!</strong> Try different Image.
-							</div>';
-			}
-			else
-			{
-				$sql = "UPDATE product SET 
-						product_name='".$_POST['proName']."', 
-						categories_id='".$_POST['proCat']."',
-						descr='".$_POST['proDesc']."', 
-						price='".$_POST['proPrice']."', 
-						quantity='".$_POST['proQuan']."'";
+if(isset($_POST['submit'])) {
+    if(empty($_POST['proName']) || empty($_POST['proPrice']) || empty($_POST['proDesc']) || empty($_POST['proPrice']) || empty($_POST['proWeight']) || empty($_POST['proQuan'])) {   
+        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>All fields Must be Filled Up!</strong></div>';
+    } else {
+        $imageUpdate = "";
+        if(!empty($_FILES['proImg']['name'])) {
+            $fname = $_FILES['proImg']['name'];
+            $temp = $_FILES['proImg']['tmp_name'];
+            $fsize = $_FILES['proImg']['size'];
+            $extension = explode('.', $fname);
+            $extension = strtolower(end($extension));  
+            $fnew = uniqid() . '.' . $extension;
+            $store = "../inventory/assets/images/stock/" . basename($fnew); // The path to store the upload image
 
-				if (!empty($fname)) {
+            if($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
+                if($fsize < 1000000) {
                     move_uploaded_file($temp, $store);
-                    $store = "http://localhost/lfsc/inventory/assets/images/stock/".$fnew;
+                    $store = "http://localhost/lfsc/inventory/assets/images/stock/" . $fnew;
+                    $imageUpdate = ", product_image='" . $store . "'";
+                } else {
+                    $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Max Image Size is 1024kb!</strong> Try a different Image.
+                                </div>';
+                }
+            } else {
+                $error = '<div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Invalid file type!</strong> Only JPG, PNG, and GIF are allowed.
+                            </div>';
+            }
+        }
 
-					// If $fname is not empty, include it in the update statement
-					$sql .= ", product_image='".$store."'";
-				}
+        // Continue with the update if there was no error
+        if(empty($error)) {
+            $sql = "UPDATE product SET 
+                    product_name='" . $_POST['proName'] . "', 
+                    categories_id='" . $_POST['proCat'] . "',
+                    descr='" . $_POST['proDesc'] . "', 
+                    price='" . $_POST['proPrice'] . "', 
+                    weight='" . $_POST['proWeight'] . "',
+                    quantity='" . $_POST['proQuan'] . "'"
+                    . $imageUpdate .
+                    ", active='" . $_POST['proActive'] . "' 
+                    WHERE product_id='" . $_GET['menu_upd'] . "'";
 
-				$sql .= ", active='" . $_POST['proActive'] . "' WHERE product_id='" . $_GET['menu_upd'] . "'";
-				  // update the submited data ino the database :images
-				mysqli_query($db, $sql); 
-				
-			  	$success = 	'<div class="alert alert-success alert-dismissible fade show">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<strong>Record</strong>Updated.
-							</div>';
-          	}
-		}
-	}
+            $result = mysqli_query($db, $sql);
+
+            if($result) {
+                $success = '<div class="alert alert-success alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Record</strong> Updated.
+                            </div>';
+
+                header('Location: all_menu.php');
+                exit();
+            } else {
+                $error = '<div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Error updating record.</strong>
+                            </div>';
+            }
+        }
+    }
 }
+
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -445,7 +459,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">price </label>
+                                                    <label class="control-label">Price </label>
                                                     <input name="proPrice" type="text"  class="form-control" id="proPrice" placeholder="$" value="<?php echo $roww['price'];?>">
                                                    </div>
                                             </div>
@@ -461,10 +475,11 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 										
 										<div class="row p-t-20">
                                             <div class="col-md-6">
-                                              <div class="form-group">
-                                                <label class="control-label">Weight </label>
-                                                  <input name="proWeight" type="text"  class="form-control" id="proWeight" placeholder="$" value="<?php echo $roww['weight'];?>">
-                                                 </div>
+                                              <!-- Weight Input Field -->
+                                                <div class="form-group">
+                                                    <label class="control-label">Weight</label>
+                                                    <input type="text" name="proWeight" class="form-control" id="proWeight" placeholder="Enter weight" value="<?php echo $roww['weight']; ?>">
+                                                </div>
                                             </div>
                                             <!--/span-->
                                             <div class="col-md-6">
@@ -478,8 +493,8 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <input type="submit" name="submit" class="btn btn-success" value="save"> 
-                                        <a href="dashboard.php" class="btn btn-inverse">Cancel</a>
+                                        <input type="submit" name="submit" class="btn btn-success" value="Save"> 
+                                        <a href="all_menu.php" class="btn btn-inverse">Cancel</a>
                                     </div>
                                 </form>
                             </div>

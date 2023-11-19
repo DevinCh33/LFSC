@@ -192,16 +192,6 @@ session_start();
 												  
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-												<th>Status</th>
-                                                <th>Product Name</th>
-                                                <th>Description</th>
-                                                <th>Price</th>
-                                                <th>Image</th>
-                                               <th>Action</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
 										
                                            

@@ -184,6 +184,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="content">
                                         <h4>'.$r['title'].'</h4>
                                         <div class="product-name"> '.$r['email'].'</div>
+                                         <div class="product-name"> '.$r['description'].'</div>                               
                                         <div class="product-name"> Phone Number: '.$r['phone'].'</div>
                                     </div></a> 
                                 </div>

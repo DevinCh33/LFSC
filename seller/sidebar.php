@@ -73,45 +73,51 @@
                 <?php
                 if (isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
                 {
-                ?>
-                <li> <a class="has-arrow  " href="#" aria-expanded="false">  <span><i class="fa fa-user f-s-20 "></i></span><span class="hide-menu">Customer</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="allusers.php">All Customer</a></li>
-                        <li><a href="add_users.php">Add Customer</a></li>
-                    </ul>
-                </li>
-                <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                        <li><a href="allrestraunt.php">All Stores</a></li>
-                        <li><a href="add_category.php">Add Category</a></li>
-                   
-                <?php
+					?>
+					<li> <a class="has-arrow  " href="#" aria-expanded="false">  <span><i class="fa fa-user f-s-20 "></i></span><span class="hide-menu">Customer</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="allusers.php">All Customer</a></li>
+							<li><a href="add_users.php">Add Customer</a></li>
+						</ul>
+					</li>
+					<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="allrestraunt.php">All Stores</a></li>
+							<li><a href="add_category.php">Add Category</a></li>
+
+					<?php
                 }
                 else
                 {
-                ?>
-                <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
-                    <ul aria-expanded="false" class="collapse">
-                <?php
+					?>
+					<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
+						<ul aria-expanded="false" class="collapse">
+					<?php
                 }
 
                 if ($_SESSION['store'] == null)
                 {
-                ?>
-                        <li><a href="add_restraunt.php">Add Store</a></li>
-                    </ul>
-                </li>
-                <?php
+					?>
+							<li><a href="add_restraunt.php">Add Store</a></li>
+						</ul>
+					</li>
+					<?php
                 }
                 else
                 {
-                ?>
-                        <li><a href="update_restraunt.php">Edit Store</a></li>
-                    </ul>
-                </li>
-                <?php
+					?>
+							<li><a href="update_restraunt.php">Edit Store</a></li>
+						</ul>
+					</li>
+					<?php
                 }
                 ?>
+				<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Product</span></a>
+                  	<ul aria-expanded="false" class="collapse">
+						<li><a href="all_menu.php">All Products</a></li>
+						<li><a href="add_menu.php">Add Product</a></li>
+                	</ul>
+                </li>
                 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="hide-menu">Orders</span></a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a href="all_orders.php">All Orders</a></li> 

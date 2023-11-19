@@ -1,8 +1,7 @@
 <?php 
 require_once 'core.php';
 
-if($_POST) 
-{
+if($_POST) {
     $startDate = strtotime($_POST['startDate']);
     $start_date = date("Y/m/d", $startDate);
 
@@ -18,8 +17,8 @@ if($_POST)
             <th style="text-align: left; background-color: #f2f2f2;">Product Name</th>
             <th style="text-align: left; background-color: #f2f2f2;">Quantity</th>
             <th style="text-align: left; background-color: #f2f2f2;">Price</th>
-        </tr>
-        <tr>';
+            <th style="text-align: left; background-color: #f2f2f2;">Total Price</th> <!-- New column header -->
+        </tr>';
 
     $totalAmount = 0;
     $no = 1;
@@ -30,23 +29,24 @@ if($_POST)
         $product1 = $db->query($product);
 
         while($product2 = $product1->fetch_assoc()){
+            $totalPrice = $product2['quantity'] * $product2['price']; // Calculate total price for each product
             $table .= '<tr>
                 <td style="border: 1px solid #ddd; padding: 10px;">'.$no.'</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">'.$result['order_date'].'</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">'.$product2['product_name'].'</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">'.$product2['quantity'].'</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">'.$product2['price'].'</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">'.$totalPrice.'</td> <!-- Display total price -->
             </tr>';    
-            $totalAmount = $totalAmount + $product2['quantity'] * $product2['price'];
+            $totalAmount += $totalPrice;
             ++$no;
         }
         
     }
     $table .= '
-    </tr>
     <tr>
-        <td colspan="4" style="text-align: center; background-color: #f2f2f2; font-weight: bold;">Total Amount</td>
-        <td style="background-color: #f2f2f2; font-weight: bold;">'.$totalAmount.'</td>
+        <td colspan="5" style="text-align: center; background-color: #f2f2f2; font-weight: bold;">Total Income</td>
+        <td style="background-color: #f2f2f2; font-weight: bold;">RM '.$totalAmount.'</td>
     </tr>
 </table>
 '; 

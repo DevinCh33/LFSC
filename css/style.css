@@ -112,7 +112,7 @@ hr {
 *===================================*/
 
 .page-wrapper {
-    padding-top: 68px;
+    padding-top: 0px;
     /* Used for inpper pages if navigation fixed to the top */
 }
 
@@ -501,10 +501,11 @@ hr {
 ============================*/
 
 .hero {
-    padding-top: 12%;
-    padding-bottom: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
     text-align: center;
     position: relative;
+    background-color: #36454f;
 }
 
 .heroro {
@@ -569,7 +570,6 @@ hr {
 ============================*/
 
 .popular {
-    padding: 70px 0 90px;
     background-size: 100%;
 }
 
@@ -2527,7 +2527,8 @@ a[aria-expanded=false] .fa-angle-down {
 /* Micheal Special Section */
 
 .littleFarmer {
-    margin-top: 60px; /
+    margin-top: 60px; 
+    margin-bottom: 30px;
 }
 
 .littleFarmer .michealProductCard {

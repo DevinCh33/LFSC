@@ -52,7 +52,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <?php
             if (!isset($_GET['res_id'])) // hardcoded
             {
-                $_GET['res_id'] = 50;
+                $_GET['res_id'] = 51;
             }
 
             $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");

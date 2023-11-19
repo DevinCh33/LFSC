@@ -10,6 +10,7 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="landing/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -62,7 +63,7 @@ include("connection/connect.php"); // connection to database
 		<div class="top-section">
 			<div class="promo">
 				<h1>Sign Up Now</h1>
-				<p>Join one of the best online fresh product merchant</p>
+				<p>Join one of the best online fresh produce marketplaces!</p>
 			</div>
 			<div class="mainProduct-card">
 				<a href="#">
@@ -87,10 +88,10 @@ include("connection/connect.php"); // connection to database
 					$productName = htmlspecialchars($product['product_name']);
 					$productImage = htmlspecialchars($product['product_image']);
 
-					echo '<a href="market.php">';
-					echo '    <div class="product-card">';
-					echo '        <h2>' . $productName . '</h2>';
-					echo '        <img src="' . $productImage . '" alt="' . $productName . '">';
+					echo '<a class="row" href="market.php">';
+					echo '    <div class="col-3 product-card" style="height: 25rem;">';
+					echo '        <h4>' . $productName . '</h4>';
+					echo '        <img src="' . $productImage . '" alt="' . $productName . '" style="margin-top: 6rem; max-height: 5rem;">';
 					// No need for <p>View range</p>
 					echo '    </div>';
 					echo '</a>';

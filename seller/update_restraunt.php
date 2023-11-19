@@ -34,7 +34,7 @@ $store = $_SESSION['store'];
 
 if(isset($_POST['submit']))           //if upload btn is pressed
 {
-    if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']==''||$_POST['url']==''||$_POST['o_hr']==''||$_POST['c_hr']==''||$_POST['o_days']==''||$_POST['address']=='')
+     if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']==''||$_POST['url']==''||$_POST['o_hr']==''||$_POST['c_hr']==''||$_POST['o_days']==''||$_POST['description']==''||$_POST['address']=='')
     {	
         $error = '<div class="alert alert-danger alert-dismissible fade show">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -67,7 +67,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
             {
                 $res_name = $_POST['res_name'];
                     
-                $sql = "update restaurant set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',address='$_POST[address]',image='$fnew' where rs_id='$store' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
+                $sql = "update restaurant set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',description='_POST[description]' address='$_POST[address]',image='$fnew' where rs_id='$store' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
                 mysqli_query($db, $sql); 
                 move_uploaded_file($temp, $store);
 
@@ -255,6 +255,25 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                                 </div>
                                             </div>
                                         </div>
+
+
+
+                                                                                                                        <!--/row-->
+                                        <h3 class="box-title m-t-40">Description</h3>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <div class="form-group">
+                                                    <textarea name="description" type="text" style="height:100px;" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
+                                        <!--/span-->
+
+
+
+
                                         <!--/row-->
                                         <h3 class="box-title m-t-40">Store Address</h3>
                                         <hr>

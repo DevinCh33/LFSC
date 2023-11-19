@@ -1828,11 +1828,18 @@ a[aria-expanded=false] .fa-angle-down {
 *
 ==============================*/
 
+/*== 
+    ====*/
+
+
 .restaurant-entry {
     border: 1px solid #eaebeb;
     border-radius: 2px;
     margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 .restaurant-entry .entry-logo {
     float: left;
@@ -2561,3 +2568,12 @@ a[aria-expanded=false] .fa-angle-down {
 }
 
 /* Micheal Special Section end */
+
+/* your_orders.php table align */
+
+.center-table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* your_orders.php table align end */

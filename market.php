@@ -118,13 +118,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="littleFarmer">
     <div class="container">
         <div class="title text-center mb-30">
-            <h2>Little Farmer's Specials Section</h2>
+            <h2>Micheal's Products'</h2>
             <p class="lead">Something about Little Farmer</p>
         </div>
         <div class="row">
             <?php
             // Query a maximum of 8 products from the "Little Farmer" where owner is "13"
-            $littleFarmerProductsQuery = "SELECT * FROM product WHERE owner = '50' AND active = 1 LIMIT 4";
+            $littleFarmerProductsQuery = "SELECT * FROM product WHERE owner = '51' AND active = 1 LIMIT 4";
             $result = mysqli_query($db, $littleFarmerProductsQuery);
 
             // Check if there are any products returned by the query

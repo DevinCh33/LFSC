@@ -68,7 +68,7 @@
 	        	<label for="productName" class="col-sm-3 control-label">Product Name </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="productName" placeholder="Product Name" name="productName" autocomplete="off">
+					<input type="text" class="form-control" id="productName" placeholder="Product Name + Quantity per Unit in g" name="productName" autocomplete="off">
 				</div>
 	        </div> <!-- /form-group-->
 			  

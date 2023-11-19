@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2023 at 06:40 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.1
+-- Generation Time: Nov 19, 2023 at 08:41 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,16 +36,20 @@ CREATE TABLE `admin` (
   `u_role` text NOT NULL,
   `store` int(11) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
-(1, 'seller1', '$2y$10$X0dzPMCT.LLM0kFzdh5Kh.MeJPrPPiIM75yPoa52C9j5I/pgLXLaK', '1@seller.com', 'SUPP', 'SELLER', 49, '2023-11-15 13:28:49'),
-(2, 'seller2', '$2y$10$zr7aEeS60EBONqCa7JzyUOJDNbZ.UowpfmstsrpJy6f9LH3K1CuK2', '2@seller.com', 'SUPP', 'SELLER', 48, '2023-11-15 13:28:53'),
-(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 50, '2023-11-15 13:28:45');
+(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 50, '2023-11-15 13:28:45'),
+(12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2023-11-19 06:55:25'),
+(13, 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'qweasd@gmail.com', 'SUPP', 'SELLER', 53, '2023-11-19 07:02:23'),
+(14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2023-11-19 07:13:53'),
+(15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2023-11-19 07:21:25'),
+(16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2023-11-19 07:30:42'),
+(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30');
 
 -- --------------------------------------------------------
 
@@ -56,7 +60,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`
 CREATE TABLE `admin_codes` (
   `id` int(222) NOT NULL,
   `codes` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin_codes`
@@ -77,7 +81,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `categories`
@@ -118,7 +122,7 @@ CREATE TABLE `orders` (
   `order_status` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
   `order_belong` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
@@ -153,7 +157,7 @@ CREATE TABLE `order_item` (
   `price` varchar(255) NOT NULL,
   `total` varchar(255) NOT NULL,
   `order_item_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `order_item`
@@ -196,23 +200,27 @@ CREATE TABLE `product` (
   `owner` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `descr`, `weight`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
-(11, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d4383278bd.jpg', '', 0, 3, '52.000', '22.12', '48', 1, 1),
-(13, 'Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d43db19251.jpg', '', 0, 1, '75.000', '12.35', '49', 1, 1),
-(15, 'Power-up Mango', 'http://localhost/lfsc/inventory/assets/images/stock/652d42d37a242.jpg', '', 0, 4, '25.000', '11.99', '49', 1, 1),
-(16, 'Ultra Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/652d42bfc10ce.jpg', '', 0, 4, '28.000', '22.55', '48', 1, 1),
-(17, 'Chilli', 'http://localhost/lfsc/inventory/assets/images/stock/6558f58fe4414.jpg', 'This is a chili from Ryan\r\nFresh\r\n', 100, 2, '100.000', '100.00', '50', 2, 1),
-(19, 'Corn', 'http://localhost/lfsc/inventory/assets/images/stock/6558f5f5b259d.jpg', '150', 120, 6, '123.000', '6.00', '50', 1, 1),
-(20, 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/424624986654b38b5db833.jpg', '', 0, 5, '321.000', '5.00', '50', 1, 1),
-(21, 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/318972849654b38c80c89f.jpg', '', 0, 6, '69.000', '8.00', '50', 1, 1),
-(23, 'aaa', 'http://localhost/lfsc/inventory/assets/images/stock/200825119365587db45b98f.jpg', '123', 0, 1, '120.000', '100.00', '50', 1, 1),
-(24, 'Apple Swinburne', 'http://localhost/lfsc/inventory/assets/images/stock/196945794965588389151ae.jpg', 'This is a apple from swinburne\r\nFresh', 15, 1, '120.000', '200.00', '50', 2, 1);
+(25, 'Cabbage (50g)', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of (50g)', 50, 5, 50.000, 5.00, '51', 1, 1),
+(26, 'Carrot (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 10, 6, 43.000, 5.00, '51', 1, 1),
+(27, 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 56.000, 3.00, '51', 1, 1),
+(28, 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/4244744986559af281aa94.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 65.000, 4.00, '51', 1, 1),
+(29, 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 20, 6, 45.000, 3.00, '52', 1, 1),
+(30, 'Durians (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 30, 8, 15.000, 80.00, '52', 1, 1),
+(31, 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 10, 6, 40.000, 20.00, '53', 1, 1),
+(32, 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 15, 8, 56.000, 9.00, '53', 1, 1),
+(33, 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 15, 8, 50.000, 15.00, '54', 1, 1),
+(34, 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 30, 8, 70.000, 10.00, '54', 1, 1),
+(35, 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 500, 8, 50.000, 15.00, '55', 1, 1),
+(36, 'Suyob Lingon Berry (1000g)', 'http://localhost/lfsc/inventory/assets/images/stock/5488666076559b8df951d0.jpg', 'Imported from Sweden. 1kg per pack.', 1000, 8, 100.000, 53.00, '55', 1, 1),
+(37, 'Ph Dried Banana (100g)', 'http://localhost/lfsc/inventory/assets/images/stock/11535282526559ba1c506f5.jpg', 'Buy this world renowned snack today! Sold in 100g packs.', 100, 8, 300.000, 5.00, '56', 1, 1),
+(38, 'Southern Grove Mix Berries (141g)', 'http://localhost/lfsc/inventory/assets/images/stock/11065128226559bac10586d.jpg', 'Our famous mix berries! Perfect for your trail walk! sold in packs of 141g', 141, 8, 30.000, 40.00, '56', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -226,7 +234,7 @@ CREATE TABLE `remark` (
   `status` varchar(255) NOT NULL,
   `remark` mediumtext NOT NULL,
   `remarkDate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `remark`
@@ -283,16 +291,19 @@ CREATE TABLE `restaurant` (
   `address` text NOT NULL,
   `image` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `restaurant`
 --
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
-(48, 7, 'Carrot Seller', 'carrot@gmail.com', ' 090412 64676', 'carrotseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Palace, Natwar Jalandhar ', '652d4258ec2f2.jpg', '2023-11-15 13:13:57'),
-(49, 6, 'Mango Seller', 'mango@gmail.com', '011 2677 9070', 'mangoseller.com', '--Select your Hours--', '--Select your Hours--', '--Select your Days--', 'Radisson Blu Plaza Hotel, Delhi Airport, NH-8, New Delhi, 110037 ', '652d4237604a0.jpg', '2023-11-15 13:14:17'),
-(50, 5, 'Little Farmer', 'michael@gmail.com', '+60102170960', 'www.littlefarmer.com', '6am', '6pm', '24hr-x7', 'AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak', '654b38481b1d1.png', '2023-11-15 13:13:32');
+(51, 5, 'Little Farmer', 'wdgwr@gmail.com', '1232343456', 'dbsd.com', '6am', '6pm', 'mon-thu', 'qwdqwd123', '6559abfe547bc.jpg', '2023-11-19 06:32:30'),
+(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '12323434567', 'gg.com', '8am', '8pm', 'mon-wed', '123qwewq', '6559b15ddab32.png', '2023-11-19 06:55:25'),
+(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '1112223334444', 'ff.com', '6am', '6pm', 'mon-thu', 'qqwe qwe 123', '6559b2ffe9dcb.jpg', '2023-11-19 07:02:23'),
+(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '2224445567', 'af.com', '6am', '6pm', 'mon-wed', 'qwe1231qw', '6559b5b11a1d4.jpg', '2023-11-19 07:13:53'),
+(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '3334445568', 'peim.com', '7am', '5pm', 'mon-thu', 'qwe123d', '6559b77536d01.gif', '2023-11-19 07:21:25'),
+(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '1113336790', 'svm.com', '8am', '5pm', 'mon-wed', '12qwrwrqr', '6559b9a2142c4.jpg', '2023-11-19 07:30:42');
 
 -- --------------------------------------------------------
 
@@ -304,7 +315,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `res_category`
@@ -335,14 +346,16 @@ CREATE TABLE `users` (
   `address` text NOT NULL,
   `status` int(222) NOT NULL DEFAULT 1,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`, `phone`, `password`, `address`, `status`, `date`) VALUES
-(1, 'customer1', 'Cust', 'Omer', 'Cust Omer', '1@customer.com', '9126347212', '$2y$10$SqOKooVJ.stcK0F2SXnaMeMCe8ovWj/4i3mQSEgkVg1yGcbwUw/H6', 'Timberland', 1, '2023-11-15 13:17:38');
+(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2023-11-19 06:29:17'),
+(3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54'),
+(4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31');
 
 -- --------------------------------------------------------
 
@@ -358,19 +371,19 @@ CREATE TABLE `users_orders` (
   `price` decimal(10,2) NOT NULL,
   `status` varchar(222) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users_orders`
 --
 
 INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
-(37, 31, 'Apple', 5, '17.99', 'closed', '2023-10-21 08:14:27'),
-(38, 31, 'Power-up Mango', 2, '11.99', NULL, '2023-10-21 08:15:02'),
-(39, 32, 'Ultra Carrot', 1, '22.55', NULL, '2023-10-21 08:16:10'),
-(40, 33, 'Carrot', 1, '22.12', NULL, '2023-10-21 08:16:03'),
-(41, 33, 'Apple', 2, '17.99', NULL, '2023-10-21 08:16:00'),
-(42, 34, 'Carrot', 1, '22.12', NULL, '2023-10-31 05:38:56');
+(37, 31, 'Apple', 5, 17.99, 'closed', '2023-10-21 08:14:27'),
+(38, 31, 'Power-up Mango', 2, 11.99, NULL, '2023-10-21 08:15:02'),
+(39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
+(40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
+(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
+(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56');
 
 --
 -- Indexes for dumped tables
@@ -450,7 +463,7 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
@@ -480,7 +493,7 @@ ALTER TABLE `order_item`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `remark`
@@ -492,7 +505,7 @@ ALTER TABLE `remark`
 -- AUTO_INCREMENT for table `restaurant`
 --
 ALTER TABLE `restaurant`
-  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `res_category`
@@ -504,7 +517,7 @@ ALTER TABLE `res_category`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users_orders`

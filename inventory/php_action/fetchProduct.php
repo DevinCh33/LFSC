@@ -5,7 +5,8 @@ $sql = "SELECT product.product_id, product.product_name, product.product_image, 
  		product.categories_id, product.quantity, product.price, product.active, product.status, 
  		categories.categories_name FROM product 
 		INNER JOIN categories ON product.categories_id = categories.categories_id  
-		WHERE product.status = 1 AND product.quantity>0 AND product.owner = '".$_SESSION['store']."'";
+		WHERE product.quantity>0 AND product.owner = '".$_SESSION['store']."'
+		ORDER BY product.active ASC, product.product_name ASC";
 
 $result = $db->query($sql);
 
@@ -18,7 +19,7 @@ if($result->num_rows > 0) {
 	while($row = $result->fetch_array()) {
 		$productId = $row[0];
 		// active 
-		if($row[6] == 1) 
+		if($row[8] == 1) 
 		{
 			// activate member
 			$active = "<label class='label label-success'>Available</label>";
@@ -49,7 +50,7 @@ if($result->num_rows > 0) {
 		// 	$brand = $row['brand_name'];
 		// }
 
-		$category = $row[8];
+		$category = $row[5];
 
 		$productImage = "<img class='img-round' src='".$row[2]."' style='height:30px; width:50px;'  />";
 
@@ -59,9 +60,9 @@ if($result->num_rows > 0) {
 			// product name
 			$row[1], 
 			// price
-			$row[5],
+			$row[7],
 			// quantity 
-			$row[4], 		 	
+			$row[6], 		 	
 			// category 		
 			$category,
 			// active

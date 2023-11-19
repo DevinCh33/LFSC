@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ['order_date' => '2023-01-01', 'product_name' => 'Product A', 'quantity' => 2, 'price' => 25.00],
         ['order_date' => '2023-01-02', 'product_name' => 'Product B', 'quantity' => 1, 'price' => 15.00],
     ];
-    echo '<a class="dt-button buttons-pdf buttons-html5" tabindex="0" aria-controls="example23" href="#"><span>PDF</span></a>';
+
     // Generate receipt content based on the report
     $receiptContent = "<div class='receipt-container'>";
     $receiptContent .= "<h2>Payment Receipt</h2>";
@@ -42,6 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $receiptContent .= "<p>Thank you for your payment!</p>";
     $receiptContent .= "</div>";
 
+    // Add styles to the PDF button
+    echo '<a tabindex="0" aria-controls="example23" href="#" style="background-color: #3498db; color: #fff; margin-top:5%; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; text-decoration: none; display: inline-block;"><span>PDF</span></a>';
+          
     // Return the receipt content as HTML
     echo $receiptContent;
 }

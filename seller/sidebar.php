@@ -123,6 +123,11 @@
                         <li><a href="all_orders.php">All Orders</a></li> 
                     </ul>
                 </li>
+				<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Report</span></a>
+                  	<ul aria-expanded="false" class="collapse">
+						<li><a href="sellerReport.php">Monthly Report</a></li>
+                	</ul>
+                </li>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

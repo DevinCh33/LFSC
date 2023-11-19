@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-include("../connection/connect.php");
-error_reporting(0);
-session_start();
 
-?>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +10,7 @@ session_start();
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <title>Product Dashboard</title>
+    <title>Seller Montly Report</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -30,6 +25,15 @@ session_start();
 </head>
 
 <body class="fix-header fix-sidebar">
+<?php
+session_start(); // temp session
+error_reporting(0); // hide undefined index errors
+include("./../connection/connect.php"); // connection to database
+
+if ($_SESSION["adm_co"] == "SUPA")
+{
+?>
+
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
@@ -37,7 +41,7 @@ session_start();
     </div>
     <!-- Main wrapper  -->
     <div id="main-wrapper">
-		<?php
+        <?php
         include("sidebar.php");
         ?>
         <!-- Page wrapper  -->
@@ -46,7 +50,6 @@ session_start();
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h3 class="text-primary">Dashboard</h3> </div>
-                
             </div>
             <!-- End Bread crumb -->
             <!-- Container fluid  -->
@@ -54,116 +57,67 @@ session_start();
                 <!-- Start Page Content -->
                 <div class="row">
                     <div class="col-12">
-                        
-                       
-                      
-                       
-						
-						
-						     <div class="card">
+                        <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">All Menu data</h4>
-                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
-								
+                                <h4 class="card-title">All Seller Details</h4>
                                 <div class="table-responsive m-t-40">
-                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+									
+                                    <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-												<th>Status</th>
-                                                <th>Product Name</th>
-                                                <th>Description</th>
-                                                <th>Price</th>
-                                                <th>Image</th>
-												
-                                               <th>Action</th>
-												  
+                                                <th>Username</th>
+                                                <th>Shop Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+												<th>Address</th>												
+												<th>Income (RM)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-										
-                                           
-                                               	<?php
-												$sql="SELECT * FROM product WHERE owner = '".$_SESSION['store']."' ORDER BY active";
-												$query=mysqli_query($db,$sql);
+											<?php
+												$sql = "SELECT admin.*, restaurant.* FROM admin INNER JOIN restaurant ON admin.store = rs_id WHERE admin.code = 'SUPP'";
+												$query = $db->query($sql);
 												
-													if(!mysqli_num_rows($query) > 0 )
-														{
-															echo '<td colspan="11"><center>No product data!</center></td>';
-														}
-													else
-														{				
-															while($rows=mysqli_fetch_array($query))
-															{
-																if($rows['active'] == 1){
-																	$status = 'ACTIVE';
-																	$fontColor = 'green';
-																}																	
-																else{
-																	$status = 'DEACTIVE';
-																	$fontColor = 'red';
-																}
+                                                if(!$query->num_rows > 0 )
+                                                {
+                                                    echo '<td colspan="7"><center>No Seller-Data!</center></td>';
+                                                }
+													
+                                                else
+                                                {				
+                                                    while($rows=mysqli_fetch_array($query))
+                                                    {
+														$fetchUser = "SELECT sum(total_amount) as total FROM orders WHERE order_belong = '".$rows['store']."'";
+														$fetchRec = $db->query($fetchUser);
+														$rec = $fetchRec->fetch_array();
+														if($rec['total'] == 0)
+															$rec['total'] = 0;
+														
+                                                        echo ' <tr><td>'.$rows['username'].'</td>
+                                                                    <td>'.$rows['title'].'</td>
+                                                                    <td>'.$rows['email'].'</td>
+                                                                    <td>'.$rows['phone'].'</td>
+                                                                    <td>'.$rows['address'].'</td>
+																	<td>'.$rec['total'].'</td>
 																	
-																	echo '<tr><td style="color:'.$fontColor.'" >'.$status.'</td>
-																		<td>'.$rows['product_name'].'</td>
-																		<td>'.$rows['descr'].'</td>
-																		<td>$'.$rows['price'].'</td>
-																		<td><div class="col-md-3 col-lg-8 m-b-10">
-																				<center><img src="'.$rows['product_image'].'" class="img-responsive  radius" style="max-height:100px;max-width:150px;" /></center>
-																			</div>
-																		</td>
-																		<td>
-																			<a href="delete_menu.php?menu_del='.$rows['product_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-																			<a href="update_menu.php?menu_upd='.$rows['product_id'].'" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
-																		</td></tr>';
-															}	
-														}
-												
-											
+                                                              </tr>';
+                                                    }	
+                                                }
 											?>
-                                            
-                                           
-                                 
-                                                        
-                                                            
-                                                           
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						 </div>
-                      
-                            </div>
-                        </div>
-                    </div>
+					</div>
                 </div>
-                <!-- End PAge Content -->
             </div>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. </footer>
-            <!-- End footer -->
         </div>
-        <!-- End Page wrapper  -->
     </div>
-    <!-- End Wrapper -->
+    <!-- End Page Content -->
+    <!-- End Container fluid  -->
+    <!-- End footer -->
+
     <!-- All Jquery -->
     <script src="js/lib/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
@@ -177,8 +131,6 @@ session_start();
     <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.min.js"></script>
-
-
     <script src="js/lib/datatables/datatables.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
@@ -188,6 +140,8 @@ session_start();
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
+<?php
+}
+?>
 </body>
-
 </html>

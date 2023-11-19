@@ -68,6 +68,8 @@ table {
     width: 750px; 
     border-collapse: collapse; 
     margin: auto;
+    margin-right: auto;
+
 }
 /* Zebra striping */
 tr:nth-of-type(odd) { 
@@ -133,6 +135,8 @@ only screen and (max-width: 760px),
 		color: #000;
 		font-weight: bold;
 	}
+
+      
 }
 </style>
 </head>
@@ -164,9 +168,7 @@ only screen and (max-width: 760px),
         <section class="restaurants-page">
             <div class="container">
                 <div class="row">
-                    <?php
-                    include("includes/sellertypes.php");
-                    ?>
+                 
 
                     <div class="col-xs-12 col-sm-7 col-md-7 ">
                         <div class="bg-gray restaurant-entry">

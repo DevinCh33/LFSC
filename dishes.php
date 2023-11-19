@@ -72,6 +72,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 profile-desc">
                             <div class="pull-left right-text white-txt">
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
+                                <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
                                 <ul class="nav nav-inline">
                                     <li class="nav-item"> <a class="nav-link active" href="#"><i class="fa fa-check"></i> Min RM 10.00</a> </li>

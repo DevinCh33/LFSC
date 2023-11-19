@@ -21,7 +21,7 @@ if(isset($_POST['submit'])) {
             $fnew = uniqid() . '.' . $extension;
             $store = "../inventory/assets/images/stock/" . basename($fnew); // The path to store the upload image
 
-            if($extension == 'jpg' || $extension == 'png' || $extension == 'gif') {
+            if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'JPG', 'GIF', 'JPEG', 'PNG'))) {
                 if($fsize < 1000000) {
                     move_uploaded_file($temp, $store);
                     $store = "http://localhost/lfsc/inventory/assets/images/stock/" . $fnew;

@@ -40,6 +40,9 @@ if(isset($_POST['submit'])) {
             }
         }
 
+        // Check if the checkbox is checked
+        $activeStatus = isset($_POST['proActive']) ? 1 : 0;
+
         // Continue with the update if there was no error
         if(empty($error)) {
             $sql = "UPDATE product SET 
@@ -50,7 +53,7 @@ if(isset($_POST['submit'])) {
                     weight='" . $_POST['proWeight'] . "',
                     quantity='" . $_POST['proQuan'] . "'"
                     . $imageUpdate .
-                    ", active='" . $_POST['proActive'] . "' 
+                    ", active='" . $activeStatus . "' 
                     WHERE product_id='" . $_GET['menu_upd'] . "'";
 
             $result = mysqli_query($db, $sql);
@@ -72,6 +75,7 @@ if(isset($_POST['submit'])) {
         }
     }
 }
+
 
 ?>
 
@@ -398,8 +402,7 @@ if(isset($_POST['submit'])) {
                                             <div class="col-md-6">
                                                 <div class="form-group has-danger"> 
                                                     <label class="switch">
-													<input type="checkbox" id="proActive" name="proActive" <?php if($roww['active'] == 1 )echo 'checked'; ?> onclick="statusChange()">
-													
+													<input type="checkbox" id="proActive" name="proActive" <?php if($roww['active'] == 1 ) echo 'checked'; ?>>
 													  <span class="slider round"></span>
 													</label>
                                                	</div>

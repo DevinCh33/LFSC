@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2023 at 08:41 AM
+-- Generation Time: Nov 19, 2023 at 09:54 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -49,7 +49,8 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2023-11-19 07:13:53'),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2023-11-19 07:21:25'),
 (16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2023-11-19 07:30:42'),
-(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30');
+(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30'),
+(18, 'TESTSELLER', '$2y$10$BAX.3Nmy.g.6XMVz6lIIluxesIRvmKqRDmmzg/sUbiddKV1W9nGrW', 'qweq@gmail.com', 'SUPP', 'SELLER', 57, '2023-11-19 08:33:17');
 
 -- --------------------------------------------------------
 
@@ -129,11 +130,11 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `vat`, `total_amount`, `discount`, `grand_total`, `paid`, `due`, `payment_type`, `payment_status`, `payment_place`, `gstn`, `order_status`, `user_id`, `order_belong`) VALUES
-(1, '2023-11-12', 'aaa aaa', '01151385427', '44.24', '0', '44.24', '0', '0', '0', '', 1, 1, 1, '1', 1, 1, 51),
+(1, '2023-11-12', 'aaa aaa', '01151385427', '44.24', '0', '44.24', '0', '0', '0', '', 1, 1, 1, '1', 2, 1, 51),
 (2, '2023-11-12', 'aaa aaa', '01151385427', '44.67', '0', '44.67', '0', '0', '0', '', 1, 1, 1, '1', 1, 1, 48),
-(3, '2023-11-12', 'aaa aaa', '01151385427', '22.12', '0', '22.12', '0', '0', '0', '', 1, 1, 1, '1', 1, 1, 51),
+(3, '2023-11-12', 'aaa aaa', '01151385427', '22.12', '0', '22.12', '0', '0', '0', '', 1, 1, 1, '1', 2, 1, 51),
 (4, '2023-11-12', 'aaa aaa', '01151385427', '12.35', '0', '12.35', '0', '0', '0', '22.12', 1, 1, 1, '1', 1, 1, 48),
-(5, '2023-11-12', 'aaa aaa', '01151385427', '22.55', '0', '22.55', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 51),
+(5, '2023-11-12', 'aaa aaa', '01151385427', '22.55', '0', '22.55', '0', '0', '0', '', 1, 1, 1, '1', 2, 34, 51),
 (6, '2023-11-12', 'aaa aaa', '01151385427', '12.35', '0', '12.35', '0', '0', '0', '22.55', 1, 1, 1, '1', 1, 34, 48),
 (7, '2023-11-12', 'aaa aaa', '01151385427', '22.12', '0', '22.12', '0', '0', '0', '', 1, 1, 1, '1', 1, 34, 48),
 (8, '2023-11-12', 'aaa aaa', '01151385427', '24.34', '0', '24.34', '0', '0', '0', '24.34', 1, 1, 1, '1', 1, 34, 48),
@@ -141,7 +142,9 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (10, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 1, '3.24', 1, 10, 0),
 (11, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 2, '3.24', 1, 1, 50),
 (12, '2023-11-12', 'aaa aaa', '01151385427', '17.99', '3.24', '21.23', '0', '21.23', '0', '21.23', 1, 1, 1, '3.24', 1, 1, 50),
-(13, '2023-11-13', 'fyp fyp', '0198186518', '17.99', '3.24', '21.23', '88', '-66.77', '0', '-66.77', 1, 1, 2, '3.24', 2, 1, 50);
+(13, '2023-11-13', 'fyp fyp', '0198186518', '17.99', '3.24', '21.23', '88', '-66.77', '0', '-66.77', 1, 1, 2, '3.24', 2, 1, 50),
+(14, '2023-11-19', 'cust one', '1232343456', '5', '0', '5', '0', '0', '0', '5', 1, 1, 1, '1', 1, 2, 51),
+(15, '2023-11-19', 'cust one', '1232343456', '5', '0', '5', '0', '0', '0', '5', 1, 1, 1, '1', 1, 2, 51);
 
 -- --------------------------------------------------------
 
@@ -164,13 +167,13 @@ CREATE TABLE `order_item` (
 --
 
 INSERT INTO `order_item` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price`, `total`, `order_item_status`) VALUES
-(1, 1, 12, '2', '22.12', '44.24', 1),
+(1, 1, 12, '2', '22.12', '44.24', 2),
 (2, 2, 12, '1', '22.12', '22.12', 1),
 (3, 2, 16, '1', '22.55', '44.67', 1),
-(4, 3, 12, '1', '22.12', '22.12', 1),
+(4, 3, 12, '1', '22.12', '22.12', 2),
 (5, 4, 13, '1', '12.35', '12.35', 1),
-(6, 5, 12, '1', '22.12', '22.12', 1),
-(7, 5, 16, '1', '22.55', '22.55', 1),
+(6, 5, 12, '1', '22.12', '22.12', 2),
+(7, 5, 16, '1', '22.55', '22.55', 2),
 (8, 6, 13, '1', '12.35', '12.35', 1),
 (9, 7, 12, '1', '22.12', '22.12', 1),
 (10, 8, 13, '1', '12.35', '12.35', 1),
@@ -180,7 +183,9 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `product_id`, `quantity`,
 (18, 12, 17, '1', '17.99', '17.99', 1),
 (19, 9, 12, '1', '22.12', '22.12', 1),
 (20, 9, 16, '1', '22.55', '22.55', 1),
-(21, 13, 17, '1', '17.99', '17.99', 1);
+(21, 13, 17, '1', '17.99', '17.99', 1),
+(22, 14, 25, '1', '5', '5', 1),
+(23, 15, 25, '1', '5', '5', 1);
 
 -- --------------------------------------------------------
 
@@ -207,7 +212,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `descr`, `weight`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
-(25, 'Cabbage (50g)', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of (50g)', 50, 5, 50.000, 5.00, '51', 1, 1),
+(25, 'Cabbage (50g)', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of (50g)', 50, 5, 48.000, 5.00, '51', 1, 1),
 (26, 'Carrot (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 10, 6, 43.000, 5.00, '51', 1, 1),
 (27, 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 56.000, 3.00, '51', 1, 1),
 (28, 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/4244744986559af281aa94.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 65.000, 4.00, '51', 1, 1),
@@ -290,20 +295,21 @@ CREATE TABLE `restaurant` (
   `o_days` varchar(222) NOT NULL,
   `address` text NOT NULL,
   `image` text NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `restaurant`
 --
 
-INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
-(51, 5, 'Little Farmer', 'wdgwr@gmail.com', '1232343456', 'dbsd.com', '6am', '6pm', 'mon-thu', 'qwdqwd123', '6559abfe547bc.jpg', '2023-11-19 06:32:30'),
-(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '12323434567', 'gg.com', '8am', '8pm', 'mon-wed', '123qwewq', '6559b15ddab32.png', '2023-11-19 06:55:25'),
-(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '1112223334444', 'ff.com', '6am', '6pm', 'mon-thu', 'qqwe qwe 123', '6559b2ffe9dcb.jpg', '2023-11-19 07:02:23'),
-(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '2224445567', 'af.com', '6am', '6pm', 'mon-wed', 'qwe1231qw', '6559b5b11a1d4.jpg', '2023-11-19 07:13:53'),
-(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '3334445568', 'peim.com', '7am', '5pm', 'mon-thu', 'qwe123d', '6559b77536d01.gif', '2023-11-19 07:21:25'),
-(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '1113336790', 'svm.com', '8am', '5pm', 'mon-wed', '12qwrwrqr', '6559b9a2142c4.jpg', '2023-11-19 07:30:42');
+INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`) VALUES
+(51, 5, 'Little Farmer', 'wdgwr@gmail.com', '1232343456', 'dbsd.com', '6am', '6pm', 'mon-thu', 'qwdqwd123', '6559abfe547bc.jpg', '2023-11-19 08:43:41', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
+(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '12323434567', 'gg.com', '8am', '8pm', 'mon-wed', '123qwewq', '6559b15ddab32.png', '2023-11-19 08:44:32', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
+(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '1112223334444', 'ff.com', '6am', '6pm', 'mon-thu', 'qqwe qwe 123', '6559b2ffe9dcb.jpg', '2023-11-19 08:46:02', 'Prices you can\'t beat!'),
+(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '2224445567', 'af.com', '6am', '6pm', 'mon-wed', 'qwe1231qw', '6559b5b11a1d4.jpg', '2023-11-19 08:46:40', 'Produced and canned locally! Freshness guaranteed or your money back!'),
+(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '3334445568', 'peim.com', '7am', '5pm', 'mon-thu', 'qwe123d', '6559b77536d01.gif', '2023-11-19 08:45:12', 'We import euro plant based goods at a cheap price!'),
+(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '1113336790', 'svm.com', '8am', '5pm', 'mon-wed', '12qwrwrqr', '6559b9a2142c4.jpg', '2023-11-19 08:45:47', 'Award winning global vegan franchise!');
 
 -- --------------------------------------------------------
 
@@ -463,7 +469,7 @@ ALTER TABLE `users_orders`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `admin_codes`
@@ -481,13 +487,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -505,7 +511,7 @@ ALTER TABLE `remark`
 -- AUTO_INCREMENT for table `restaurant`
 --
 ALTER TABLE `restaurant`
-  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `res_category`

@@ -178,17 +178,34 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 while($r=mysqli_fetch_array($query_res))
                 {   
 
-                    echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                                <div class="food-item-wrap">
-                                    <a href="dishes.php?res_id='.$r['rs_id'].'"  " ><div class="figure-wrap bg-image" data-image-src= "seller/Res_img/'.$r['image'].'"></div>
+                    echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
+                            <div class="food-item-wrap">
+                                <a href="dishes.php?res_id=' . $r['rs_id'] . '">
+                                    <div class="figure-wrap bg-image" data-image-src="seller/Res_img/' . $r['image'] . '"></div>
                                     <div class="content">
-                                        <h4>'.$r['title'].'</h4>
-                                        <div class="product-name"> '.$r['email'].'</div>
-                                         <div class="product-name"> '.$r['description'].'</div>                               
-                                        <div class="product-name"> Phone Number: '.$r['phone'].'</div>
-                                    </div></a> 
-                                </div>
-                            </div>';   
+                                        <h4>' . $r['title'] . '</h4>
+                                        <div class="product-name">' . $r['email'] . '</div>
+                                        <div class="product-name">';
+
+                                        $descriptionText = $r['description'];
+                                        $words = explode(" ", $descriptionText);
+
+                                        // Check if the number of words exceeds 12
+                                        if (count($words) > 12) {
+                                            // Join the first 12 words and append "..."
+                                            $truncatedText = implode(" ", array_slice($words, 0, 12)) . "...";
+                                            echo $truncatedText;
+                                        } else {
+                                            echo $descriptionText;
+                                        }
+
+                                        echo '</div>
+                                        <div class="product-name"> Phone Number: ' . $r['phone'] . '</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>';
+
 
                     // echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
                     //             <div class="food-item-wrap">

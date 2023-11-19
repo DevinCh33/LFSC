@@ -37,11 +37,13 @@
 </div>
 <!-- /row -->
 
+
 <!-- Generated report content container -->
 <div id="generatedReportContainer"></div>
 
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="../seller/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
 <script src="custom/js/report.js"></script>
 <script>
     $(document).ready(function () {
@@ -68,6 +70,14 @@
 
                     // Append the button to the report container
                     $('#generatedReportContainer').append(generateReceiptButton);
+
+                    // Initialize DataTables on the generated report content
+                    $('#generatedReportTable').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'pdfHtml5'
+                        ]
+                    });
 
                     // Add click event listener to the "Generate Receipt" button
                     generateReceiptButton.on('click', function () {

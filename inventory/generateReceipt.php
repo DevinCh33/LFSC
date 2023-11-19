@@ -1,4 +1,5 @@
 <?php
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve start and end dates from the AJAX request
     $startDate = $_POST["startDate"];
@@ -9,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ['order_date' => '2023-01-01', 'product_name' => 'Product A', 'quantity' => 2, 'price' => 25.00],
         ['order_date' => '2023-01-02', 'product_name' => 'Product B', 'quantity' => 1, 'price' => 15.00],
     ];
-
+    echo '<a class="dt-button buttons-pdf buttons-html5" tabindex="0" aria-controls="example23" href="#"><span>PDF</span></a>';
     // Generate receipt content based on the report
     $receiptContent = "<div class='receipt-container'>";
     $receiptContent .= "<h2>Payment Receipt</h2>";

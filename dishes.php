@@ -66,7 +66,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <div class="col-xs-12 col-sm-12  col-md-4 col-lg-4 profile-img">
                             <div class="image-wrap">
                                 <figure><?php echo '<img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo">'; ?></figure>
-                            </div>
+                            </div>  
                         </div>
                         
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 profile-desc">
@@ -117,9 +117,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 
                         <div class="collapse in" id="popular2">
                         <?php // display values and item of products
-                            $stmt = $db->prepare("select * from product where owner = ".$_GET['res_id']);
+                            $stmt = $db->prepare("SELECT * FROM product WHERE owner = ? AND active = 1");
+                            $stmt->bind_param("i", $_GET['res_id']);
                             $stmt->execute();
                             $products = $stmt->get_result();
+                            
                             if (!empty($products)) 
                             {
                                 foreach($products as $product)

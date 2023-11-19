@@ -65,36 +65,21 @@ if ($_SESSION["adm_co"] == "SUPA")
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-											    <th>Cat</th>
-                                                <th>Store-Name</th>
+											    <th>Category</th>
+                                                <th>Store</th>
                                                 <th>Email</th>
                                                 <th>Phone</th>
                                                 <th>Url</th>
-                                                <th>Open Hrs</th>
-                                                <th>Close Hrs</th>
+                                                <th>Open Hours</th>
+                                                <th>Close Hours</th>
 												<th>Open Days</th>
                                                 <th>Address</th>
-                                                <th>Store-Image</th>
+                                                <th>Store Image</th>
                                                 <th>Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-											    <th>Cat</th>
-                                                <th>Store-Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Url</th>
-                                                <th>Open Hrs</th>
-                                                <th>Close Hrs</th>
-												<th>Open Days</th>
-                                                <th>Address</th>
-                                                <th>Store-Image</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
+                                        
                                         <tbody>
                                         <?php
                                         $sql="SELECT * FROM restaurant order by rs_id desc";

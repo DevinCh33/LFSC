@@ -5,10 +5,10 @@ if($_POST)
 {
 	
 	$startDate = strtotime($_POST['startDate']);
-	$start_date = date("Y-m-d", $startDate);
+	$start_date = date("Y/m/d", $startDate);
 
 	$endDate = strtotime($_POST['endDate']);
-	$end_date = date("Y-m-d", $endDate);
+	$end_date = date("Y/m/d", $endDate);
 
 	$sql = "SELECT * FROM orders WHERE order_date >= '$start_date' AND order_date <= '$end_date' AND order_status = '3'";
 	$query = $db->query($sql);

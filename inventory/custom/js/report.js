@@ -1,11 +1,15 @@
 $(document).ready(function () {
-    // order date picker
-    $("#startDate").datepicker();
-    // order date picker
-    $("#endDate").datepicker();
+    // Initialize the datepickers
+    $("#startDate").datepicker({
+        dateFormat: "dd-mm-yy"
+    });
+    $("#endDate").datepicker({
+        dateFormat: "dd-mm-yy"
+    });
 
+    // Bind the form submission event
     $("#getOrderReportForm").unbind('submit').bind('submit', function () {
-
+        // Validate the start and end dates
         var startDate = $("#startDate").val();
         var endDate = $("#endDate").val();
 
@@ -31,43 +35,43 @@ $(document).ready(function () {
 
             var form = $(this);
 
+            // AJAX request to get the report
             $.ajax({
                 url: form.attr('action'),
                 type: form.attr('method'),
                 data: form.serialize(),
                 dataType: 'text',
                 success: function (response) {
-                    var mywindow = window.open('', 'Stock Management System', 'height=400,width=600');
-                    mywindow.document.write('<html><head><title>Order Report Slip</title></head><body>');
-                    mywindow.document.write(response);
+                    // Display the report in the container
+                    $('#generatedReportContainer').html(response);
 
-                    // Dynamically add "Generate Receipt" button to the generated report
-                    mywindow.document.write('<button id="generateReceiptBtn">Generate Receipt</button>');
+                    // Add the "Generate Receipt" button
+                    var generateReceiptButton = $('<button>', {
+                        id: 'generateReceiptBtn',
+                        text: 'Generate Receipt',
+                        class: 'btn btn-primary'
+                    });
+                    $('#generatedReportContainer').append(generateReceiptButton);
 
-                    mywindow.document.write('</body></html>');
-
-                    mywindow.document.close();
-                    mywindow.focus();
-
-                    // Handle "Generate Receipt" button click within the generated window
-                    $(mywindow.document).on('click', '#generateReceiptBtn', function () {
-                        // Make an additional AJAX request to generate the receipt
+                    // Handle the "Generate Receipt" button click
+                    $('#generateReceiptBtn').on('click', function () {
+                        // AJAX request to generate the receipt
                         $.ajax({
                             url: 'php_action/generateReceipt.php',
                             type: 'POST',
                             data: form.serialize(),
                             dataType: 'text',
                             success: function (receiptResponse) {
-                                // Display the receipt content
+                                // Handle the receipt response
+                                // For example, display it in an alert or insert it into a div
                                 alert(receiptResponse);
                             }
                         });
                     });
                 }
             });
-        } // /else
+        }
 
         return false;
     });
-
 });

@@ -1,5 +1,8 @@
 <?php require_once 'includes/header.php'; ?>
 
+<!-- Include jQuery UI CSS for Datepicker -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -13,12 +16,14 @@
                     <div class="form-group">
                         <label for="startDate" class="col-sm-2 control-label">Start Date</label>
                         <div class="col-sm-10">
+                            <!-- Updated to use datepicker -->
                             <input type="text" class="form-control" id="startDate" name="startDate" placeholder="Start Date" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="endDate" class="col-sm-2 control-label">End Date</label>
                         <div class="col-sm-10">
+                            <!-- Updated to use datepicker -->
                             <input type="text" class="form-control" id="endDate" name="endDate" placeholder="End Date" />
                         </div>
                     </div>
@@ -37,18 +42,27 @@
 </div>
 <!-- /row -->
 
-
 <!-- Generated report content container -->
 <div id="generatedReportContainer"></div>
 
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Include jQuery UI JS for Datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="../seller/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
 <script src="../seller/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 <script src="custom/js/report.js"></script>
 <script>
     $(document).ready(function () {
-        // Add an event listener for the form submission
+        // Initialize datepicker with dd-mm-yy format
+        $("#startDate").datepicker({
+            dateFormat: "dd-mm-yy"
+        });
+        $("#endDate").datepicker({
+            dateFormat: "dd-mm-yy"
+        });
+
+        // Existing AJAX form submission code
         $("#getOrderReportForm").submit(function (event) {
             event.preventDefault(); // Prevent the default form submission
 

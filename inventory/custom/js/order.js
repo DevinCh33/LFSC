@@ -424,36 +424,22 @@ $(document).ready(function() {
 
 // print order function
 function printOrder(orderId = null) {
-	if(orderId) {		
-			
-		$.ajax({
-			url: 'php_action/printOrder.php',
-			type: 'post',
-			data: {orderId: orderId},
-			dataType: 'text',
-			success:function(response) {
-				
-		var mywindow = window.open('', 'Stock Management System', 'height=400,width=600');
-        mywindow.document.write('<html><head><title>Order Invoice</title>');        
-        mywindow.document.write('</head><body>');
-        mywindow.document.write(response);
-        mywindow.document.write('</body></html>');
+    if (orderId) {
+        $.ajax({
+            url: 'php_action/printOrder.php',
+            type: 'post',
+            data: { orderId: orderId },
+            dataType: 'text',
+            success: function (response) {
+                // Instead of opening a new window, set the response to a modal's body
+                $('#invoiceModalBody').html(response);
+                // Display the modal
+                $('#invoiceModal').modal('show');
+            }
+        });
+    }
+}
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10
-        mywindow.resizeTo(screen.width, screen.height);
-setTimeout(function() {
-    mywindow.print();
-    mywindow.close();
-}, 1250);
-
-        //mywindow.print();
-        //mywindow.close();
-				
-			}// /success function
-		}); // /ajax function to fetch the printable order
-	} // /if orderId
-} // /print order function
 
 function addRow() {
 	$("#addRowBtn").button("loading");

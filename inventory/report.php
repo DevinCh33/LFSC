@@ -13,13 +13,13 @@
 				  <div class="form-group">
 				    <label for="startDate" class="col-sm-2 control-label">Start Date</label>
 				    <div class="col-sm-10">
-				      <input type="text" class="form-control" id="startDate" name="startDate" placeholder="Start Date" />
+				      <input type="text" class="form-control" id="startDate" name="startDate" placeholder="Start Date" value="2023/09/10" />
 				    </div>
 				  </div>
 				  <div class="form-group">
 				    <label for="endDate" class="col-sm-2 control-label">End Date</label>
 				    <div class="col-sm-10">
-				      <input type="text" class="form-control" id="endDate" name="endDate" placeholder="End Date" />
+				      <input type="text" class="form-control" id="endDate" name="endDate" placeholder="End Date" value="2023/12/10"/>
 				    </div>
 				  </div>
 				  <div class="form-group">

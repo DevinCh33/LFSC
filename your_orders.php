@@ -170,7 +170,7 @@ only screen and (max-width: 760px),
                 <div class="row">
                  
 
-                    <div class="col-xs-12 col-sm-7 col-md-7 ">
+                    <div class="col-xs-12 col-sm-7 col-md-12 ">
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
                         <table>

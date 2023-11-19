@@ -51,7 +51,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
         $extension = strtolower(end($extension));  
         $fnew = uniqid().'.'.$extension;
 
-        $store = "Res_img/".basename($fnew); // the path to store the upload image
+        $url = "Res_img/".basename($fnew); // the path to store the upload image
 
         if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
         {        
@@ -67,9 +67,9 @@ if(isset($_POST['submit']))           //if upload btn is pressed
             {
                 $res_name = $_POST['res_name'];
                     
-                $sql = "update restaurant set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',description='_POST[description]' address='$_POST[address]',image='$fnew' where rs_id='$store' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
+                $sql = "update restaurant set c_id='$_POST[c_name]', title='$res_name',email='$_POST[email]',phone='$_POST[phone]',url='$_POST[url]',o_hr='$_POST[o_hr]',c_hr='$_POST[c_hr]',o_days='$_POST[o_days]',description='$_POST[description]', address='$_POST[address]',image='$fnew' where rs_id='$store' ";  // store the submited data ino the database :images												mysqli_query($db, $sql); 
                 mysqli_query($db, $sql); 
-                move_uploaded_file($temp, $store);
+                move_uploaded_file($temp, $url);
 
                 $success = 	'<div class="alert alert-success alert-dismissible fade show">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

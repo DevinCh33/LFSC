@@ -1,5 +1,7 @@
 <?php
 
+session_start(); // temp session
+error_reporting(0); // hide undefined index errors
 date_default_timezone_set("Asia/Kuala_Lumpur");
 					
 //main connection file for both admin & front end

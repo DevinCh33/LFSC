@@ -6981,3 +6981,23 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* Style for the select element */
+        .select {
+            appearance: none; /* Remove default styles in some browsers */
+            -webkit-appearance: none; /* Remove default styles in WebKit browsers */
+            -moz-appearance: none; /* Remove default styles in Firefox */
+            padding: 8px; /* Adjust padding as needed */
+            font-family: 'Arial', sans-serif; /* Specify desired font */
+            font-size: 14px; /* Specify desired font size */
+            border: none; /* Remove the border */
+            border-bottom: 1px solid #ccc; /* Add an underline */
+            background-color: #fff; /* Specify background color */
+            cursor: pointer; /* Show pointer cursor on hover */
+        }
+
+        /* Style for the select options */
+        .select option {
+            font-family: 'Arial', sans-serif; /* Specify desired font */
+            font-size: 14px; /* Specify desired font size */
+        }

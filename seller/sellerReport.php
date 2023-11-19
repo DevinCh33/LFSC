@@ -26,12 +26,9 @@
 
 <body class="fix-header fix-sidebar">
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-include("./../connection/connect.php"); // connection to database
 
-if ($_SESSION["adm_co"] == "SUPA")
-{
+include("./../connection/connect.php"); // connection to database
+	
 ?>
 
     <!-- Preloader - style you can find in spinners.css -->
@@ -62,47 +59,121 @@ if ($_SESSION["adm_co"] == "SUPA")
                                 <h4 class="card-title">All Seller Details</h4>
                                 <div class="table-responsive m-t-40">
 									
-                                    <table id="myTable" class="table table-bordered table-striped">
+                                    <table id="example23" class="table table-bordered table-striped">
                                         <thead>
+											<tr>
+												<th colspan="6" style="border: none">
+													<center>
+														<select class="select" name="month" id="month" onChange="retakeData()">
+															<?php
+														
+																for ($i = 1; $i <= 12; $i++) {
+																	$monthName = strtolower(date("M", mktime(0, 0, 0, $i, 1, date("Y"))));
+																	$isSelected = ($i == date("n")) ? 'selected' : '';
+																	echo '<option value="' . $i . '" ' . $isSelected . '>' . strtoupper($monthName) . '</option>';
+																}
+															?>
+														</select>
+														<select name="year" class="select" id="year" onChange="retakeData()">
+															<?php
+																for ($i = 2023; $i <= 2060; $i++) {
+																	$isSelected = ($i == $currentYear) ? 'selected' : '';
+																	echo '<option value="' . $i . '" ' . $isSelected . '>' . $i . '</option>';
+																}
+															?>
+														</select>
+													</center>
+
+												</th>
+											</tr>
                                             <tr>
+											<?php
+												if($_SESSION['adm_co'] == 'SUPA'){
+											?>
                                                 <th>Username</th>
                                                 <th>Shop Name</th>
                                                 <th>Email</th>
                                                 <th>Phone</th>
 												<th>Address</th>												
 												<th>Income (RM)</th>
+											<?php
+												}
+												else if($_SESSION['adm_co'] == 'SUPP'){
+											?>
+												<th>No</th>
+                                                <th>Order Date</th>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+												<th>Price</th>		
+											<?php
+												}
+											?>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="tableBody">
 											<?php
-												$sql = "SELECT admin.*, restaurant.* FROM admin INNER JOIN restaurant ON admin.store = rs_id WHERE admin.code = 'SUPP'";
-												$query = $db->query($sql);
+												if($_SESSION['adm_co'] == 'SUPA'){
+													$sql = "SELECT admin.*, restaurant.*, SUM(orders.total_amount) AS total 
+															FROM admin 
+															INNER JOIN restaurant ON admin.store = rs_id 
+															LEFT JOIN orders ON admin.store = orders.order_belong 
+																AND orders.order_date LIKE '$selectedDate%'
+															WHERE admin.code = 'SUPP'
+															GROUP BY admin.store
+															ORDER BY total DESC";
+													$query = $db->query($sql);
+
+													if (!$query->num_rows > 0) {
+														echo '<td colspan="7"><center>No Seller-Data!</center></td>';
+													} else {
+														while ($rows = mysqli_fetch_array($query)) {
+															if ($rows['total'] == 0) {
+																$rows['total'] = 0;
+															}
+															echo '<tr>
+																	<td>' . $rows['username'] . '</td>
+																	<td>' . $rows['title'] . '</td>
+																	<td>' . $rows['email'] . '</td>
+																	<td>' . $rows['phone'] . '</td>
+																	<td>' . $rows['address'] . '</td>
+																	<td>' . $rows['total'] . '</td>
+																  </tr>';
+														}
+													}
+												}
+												else{
+													$sql = "SELECT 
+																o.order_id, 
+																o.order_date, 
+																oi.quantity, 
+																oi.price, 
+																p.product_name 
+															FROM orders o
+															INNER JOIN order_item oi ON o.order_id = oi.order_id
+															INNER JOIN product p ON oi.product_id = p.product_id
+															WHERE o.order_date LIKE '$selectedDate%' 
+																	AND o.order_status = '3'";
+													$query = $db->query($sql);
+													$no =1;
+													if (!$query->num_rows > 0) {
+														echo '<tr><td colspan="5"><center>No Order Record</center></td></tr>';
+													} else {
+														while ($rows = mysqli_fetch_array($query)) {
+															if ($rows['total'] == 0) {
+																$rows['total'] = 0;
+															}
+															echo '<tr>
+																	<td>' . $no . '</td>
+																	<td>' . $rows['order_date'] . '</td>
+																	<td>' . $rows['product_name'] . '</td>
+																	<td>' . $rows['quantity'] . '</td>
+																	<td>' . $rows['price'] . '</td>
+																  </tr>';
+															++$no;
+														}
+													}
+												}
 												
-                                                if(!$query->num_rows > 0 )
-                                                {
-                                                    echo '<td colspan="7"><center>No Seller-Data!</center></td>';
-                                                }
-													
-                                                else
-                                                {				
-                                                    while($rows=mysqli_fetch_array($query))
-                                                    {
-														$fetchUser = "SELECT sum(total_amount) as total FROM orders WHERE order_belong = '".$rows['store']."'";
-														$fetchRec = $db->query($fetchUser);
-														$rec = $fetchRec->fetch_array();
-														if($rec['total'] == 0)
-															$rec['total'] = 0;
-														
-                                                        echo ' <tr><td>'.$rows['username'].'</td>
-                                                                    <td>'.$rows['title'].'</td>
-                                                                    <td>'.$rows['email'].'</td>
-                                                                    <td>'.$rows['phone'].'</td>
-                                                                    <td>'.$rows['address'].'</td>
-																	<td>'.$rec['total'].'</td>
-																	
-                                                              </tr>';
-                                                    }	
-                                                }
 											?>
                                         </tbody>
                                     </table>
@@ -140,8 +211,32 @@ if ($_SESSION["adm_co"] == "SUPA")
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
-<?php
-}
-?>
+
 </body>
 </html>
+
+<script>
+    function retakeData() {
+        var month = ($('#month').val() < 10) ? '0' + $('#month').val() : $('#month').val();
+        var date = $('#year').val() + '-' + month;
+
+        // AJAX request to fetch data based on selected date
+        $.ajax({
+            type: 'POST',
+            url: 'fetchReportRec.php', // Replace with the actual URL handling the server-side logic
+            data: { date: date },
+            success: function(response) {
+				console.log(response);
+                $('#tableBody').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error: ' + status, error);
+            }
+        });
+    }
+
+    // Initial load
+    $(document).ready(function() {
+        retakeData();
+    });
+</script>

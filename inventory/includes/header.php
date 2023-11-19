@@ -63,16 +63,18 @@
           </ul>
         </li> 
 		
+<!--
 		<?php  if(isset($_SESSION['adm_id'])) { ?>
         <li id="navReport"><a href="report.php"> <i class="glyphicon glyphicon-check"></i> Report </a></li>
 		<?php } ?> 
+-->
       
         <li class="dropdown" id="navSetting">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-user"></i> <span class="caret"></span></a>
           <ul class="dropdown-menu">    
 			<?php if(isset($_SESSION['adm_id'])) { ?>
             <li id="topNavSetting"><a href="setting.php"> <i class="glyphicon glyphicon-wrench"></i> Settings</a></li>
-            <li id="topNavUser"><a href="user.php"> <i class="glyphicon glyphicon-wrench"></i> Add User</a></li>
+<!--            <li id="topNavUser"><a href="user.php"> <i class="glyphicon glyphicon-wrench"></i> Add User</a></li>-->
 <?php } ?>              
             <li id="topNavLogout"><a href="logout.php"> <i class="glyphicon glyphicon-log-out"></i> Logout</a></li>            
           </ul>

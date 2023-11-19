@@ -89,7 +89,7 @@ $userwiseOrder = $userwiseQuery->num_rows;
 	<?php  if(isset($_SESSION['adm_id'])) { ?>
 	<div class="col-md-8">
 		<div class="panel panel-default">
-			<div class="panel-heading"> <i class="glyphicon glyphicon-calendar"></i> User Wise Order</div>
+			<div class="panel-heading"> <i class="glyphicon glyphicon-calendar"></i> Customer Order</div>
 			<div class="panel-body">
 				<table class="table" id="productTable">
 			  	<thead>

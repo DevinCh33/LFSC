@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date'])) {
         $receiptContent .= "<p style='font-size: 14px; color: #555;'>AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak</p>";
         $receiptContent .= "<p style='font-size: 14px; color: #555;'>TEL: 010-217 0960</p>";
         $receiptContent .= "<h3 style='color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 10px;'>RECEIPT</h3>";
-        $receiptContent .= "<p style='font-size: 16px; color: #f00; margin-bottom: 10px;'>Receipt No: LF$receiptNo</p>";
+        $receiptContent .= "<p style='font-size: 16px; color: #f00; margin-bottom: 10px;'><strong>RECEIPT NO. : LF$receiptNo</strong></p>";
         $receiptContent .= "<div style='display: flex; justify-content: space-between; align-items: center; margin: 10px 0;'>";
         $receiptContent .= "<p style='font-size: 14px; color: #555;'><strong>Date:</strong> " . date("Y-m-d H:i:s") . "</p>";
         $receiptContent .= "</div>";

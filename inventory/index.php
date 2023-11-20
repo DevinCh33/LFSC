@@ -41,7 +41,7 @@ $userwiseOrder = $userwiseQuery->num_rows;
 			<div class="panel-heading">
 				
 				<a href="product.php" style="text-decoration:none;color:black;">
-					Total Product
+					Total Products
 					<span class="badge pull pull-right"><?php echo $countProduct; ?></span>	
 				</a>
 			</div> <!--/panel-hdeaing-->
@@ -89,7 +89,7 @@ $userwiseOrder = $userwiseQuery->num_rows;
 	<?php  if(isset($_SESSION['adm_id'])) { ?>
 	<div class="col-md-8">
 		<div class="panel panel-default">
-			<div class="panel-heading"> <i class="glyphicon glyphicon-calendar"></i> Customer Order</div>
+			<div class="panel-heading"> <i class="glyphicon glyphicon-calendar"></i> Customer Orders</div>
 			<div class="panel-body">
 				<table class="table" id="productTable">
 			  	<thead>

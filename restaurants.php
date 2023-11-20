@@ -42,8 +42,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="top-links">
             <div class="container">
                 <ul class="row links">
-                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="restaurants.php">Pick Your Merchant</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Choose Your Product</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item active"><span>1</span><a href="restaurants.php">Choose Merchant</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item"><span>2</span><a href="#">Pick Your Products</a></li>
                     <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay Online</a></li>
                 </ul>
             </div>
@@ -79,56 +79,54 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </section>
 
         <?php
-       if (isset($_GET['search'])) {
-        $searchTerm = mysqli_real_escape_string($db, $_GET['search']);
-        $query_res = mysqli_query($db, "SELECT * FROM restaurant WHERE title LIKE '%$searchTerm%' LIMIT 12");
-    
-        echo '<section class="restaurants-page">
-                <div class="container">
-                    <div class="title text-xs-center m-b-30">
-                        <h2>Search Results</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
-                            <div class="bg-gray restaurant-entry">
-                             <div class="row">';
-    
-                                while($rows=mysqli_fetch_array($query_res))
-                                {
-                                    echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
-                                        <div class="entry-logo">
-                                            <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt=Merchant logo"></a>
-                                        </div>
-                                        <!-- end:Logo -->
-                                        <div class="entry-dscr">
-                                            <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows['address'].' <a href="#">...</a></span>
-                                        </div>
-                                        <!-- end:Entry description -->
-                                    </div>
-                                    
-                                        <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
-                                            <div class="right-content bg-white">
-                                                <div class="right-review">
-                                                    <div class="rating-block"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a> </div>
+        if (isset($_GET['search'])) 
+        {
+            include("includes/sellertypes.php");
+
+            $searchTerm = mysqli_real_escape_string($db, $_GET['search']);
+            $query_res = mysqli_query($db, "SELECT * FROM restaurant WHERE title LIKE '%$searchTerm%' LIMIT 12");
+        
+            echo '<section class="restaurants-page">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
+                                <div class="bg-gray restaurant-entry">
+                                    <div class="row">';
+        
+                                    while($rows=mysqli_fetch_array($query_res))
+                                    {
+                                        echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
+                                                <div class="entry-logo">
+                                                    <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt=Merchant logo"></a>
+                                                </div>
+                                                <!-- end:Logo -->
+                                                <div class="entry-dscr">
+                                                    <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows['address'].' <a href="#">...</a></span>
+                                                </div>
+                                                <!-- end:Entry description -->
                                             </div>
-                                            <!-- end:right info -->
-                                        </div>';
-                                }
-                
-        echo '</div>
-                </div>
-                </div>
-                </div>
-                </div>
-            </section>';
-    }
-    
+                                        
+                                            <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
+                                                <div class="right-content bg-white">
+                                                    <div class="right-review">
+                                                        <div class="rating-block"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
+                                                        <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a> </div>
+                                                </div>
+                                                <!-- end:right info -->
+                                            </div>';
+                                    }
+                                echo '</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>';
+        }
+
+        else
+        {
         ?>
         <!-- Search part ends-->
-
-
-
 
         <!-- //results show -->
         <section class="restaurants-page">
@@ -186,7 +184,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
     </section>
-
+    <?php
+        }
+    ?>
     <!-- start: FOOTER -->
     <?php
     include("includes/footer.php");

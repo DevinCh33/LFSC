@@ -30,7 +30,7 @@ include("connection/connect.php"); // connection to database
 			<?php
 			if($_SESSION['loginStatus'] == false){
 			?>
-			<li><a href="buysell.php">Login/Sign Up</a></li>
+			<li><a href="buysell.php">Login / Sign Up</a></li>
 			<!--<li><a href="registration.php">Sign Up</a></li>-->
 			<?php
 			}
@@ -101,7 +101,6 @@ include("connection/connect.php"); // connection to database
 		</div>
 	</section>
 
-
 	<!-- About Little Farmer Section -->
 	<section class="about-farmer">
 		<div class="about-container">
@@ -162,9 +161,7 @@ include("connection/connect.php"); // connection to database
     dots[slideIndex-1].className += " active-dot";
 	}
 
-// Existing incrementSlide and other functions remain unchanged.
-
-
+	// Existing incrementSlide and other functions remain unchanged.
     function currentSlide(n) {
         clearInterval(slideInterval);  // Stop the auto slideshow
         slideIndex = n;

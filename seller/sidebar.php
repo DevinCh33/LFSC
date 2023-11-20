@@ -71,7 +71,7 @@
                 <li class="nav-label">Log</li>
 					<li> <a class="has-arrow  " href="#" aria-expanded="false">  <span><i class="fa fa-user f-s-20 "></i></span><span class="hide-menu">Customer</span></a>
 						<ul aria-expanded="false" class="collapse">
-							<li><a href="allusers.php">All Customer</a></li>
+							<li><a href="allusers.php">All Customers</a></li>
                             <?php
                                 if($_SESSION["adm_co"] == "SUPA"){
                             ?>

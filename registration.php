@@ -98,9 +98,28 @@ if(isset($_POST['submit'] )) // if submit button was pressed
 }
 ?>
    <!--header starts-->
-   <?php
-   include("includes/header.php");
-   ?>
+   <header>
+      <link rel="stylesheet" type="text/css" href="landing/style.css">
+      <img src="landing/logo.png" alt="logo">
+
+      <ul>
+         <li <?php echo ($currentPage == 'home') ? 'class="active"' : ''; ?>>
+               <a href="index.php">Little Farmer</a>
+         </li>
+         <li <?php echo ($currentPage == 'market') ? 'class="active"' : ''; ?>>
+               <a href="market.php">Market</a>
+         </li>
+         <li <?php echo ($currentPage == 'merchants') ? 'class="active"' : ''; ?>>
+               <a href="restaurants.php">Merchants</a>
+         </li>
+         <li <?php echo ($currentPage == 'products') ? 'class="active"' : ''; ?>>
+               <a href="dishes.php">Products / Cart</a>
+         </li>
+         <li <?php echo ($currentPage == 'orders') ? 'class="active"' : ''; ?>>
+               <a href="your_orders.php">Orders</a>
+         </li>
+      </ul>
+   </header>
 
    <div class="page-wrapper">
       <div class="breadcrumb">
@@ -119,7 +138,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
          <div class="container">
             <div class="row">
                <!-- REGISTER -->
-               <div class="col-md-8">
+               <div class="col-md-12">
                   <div class="widget">
                      <div class="widget-body">
                         <form action="" method="post">
@@ -137,11 +156,11 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                                  <input class="form-control" type="text" name="lastname" value="<?php if(isset($_POST['lastname'])) { echo htmlentities ($_POST['lastname']); }?>" id="example-text-input-2" placeholder="Last Name"> 
                               </div>
                               <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Email address</label>
-                                 <input type="text" class="form-control" name="email" value="<?php if(isset($_POST['email'])) { echo htmlentities ($_POST['email']); }?>" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                 <label for="exampleInputEmail1">Email Address</label>
+                                 <input type="text" class="form-control" name="email" value="<?php if(isset($_POST['email'])) { echo htmlentities ($_POST['email']); }?>" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
                               </div>
                               <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Mobile number</label>
+                                 <label for="exampleInputEmail1">Mobile Number</label>
                                  <input class="form-control" type="text" name="phone" value="<?php if(isset($_POST['phone'])) { echo htmlentities ($_POST['phone']); }?>" id="example-tel-input-3" placeholder="Mobile Number">  
                               </div>
                               <div class="form-group col-sm-6">
@@ -149,7 +168,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                                  <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
                               </div>
                               <div class="form-group col-sm-6">
-                                 <label for="exampleInputPassword1">Repeat password</label>
+                                 <label for="exampleInputPassword1">Repeat Password</label>
                                  <input type="password" class="form-control" name="cpassword" id="exampleInputPassword2" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
                               </div>
                               <div class="form-group col-sm-12">

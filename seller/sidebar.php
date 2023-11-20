@@ -1,4 +1,5 @@
 <!-- Header  -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <div class="header">
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <!-- Logo -->
@@ -125,7 +126,7 @@
                         <li><a href="all_orders.php">All Orders</a></li> 
                     </ul>
                 </li>
-				<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Report</span></a>
+				<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-file-alt" aria-hidden="true"></i><span class="hide-menu">Report</span></a>
                   	<ul aria-expanded="false" class="collapse">
 						<li><a href="sellerReport.php">Monthly Report</a></li>
                 	</ul>

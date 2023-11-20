@@ -64,31 +64,46 @@ if(isset($_SESSION["adm_co"]))
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Username</th>		
+                                                <th>Username</th>
+												<?php if($_SESSION['adm_id'] == "SUPA"){ ?>
                                                 <th>Title</th>
+												<?php } ?>
                                                 <th>Quantity</th>
                                                 <th>Price</th>
                                                 <th>Address</th>
                                                 <th>Status</th>												
-                                                <th>Reg-Date</th>
+                                                <th>Order Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 											<?php
-												$sql = "SELECT orders.*, order_item.*, product.product_name, restaurant.*, users.*
+												if($_SESSION['adm_id'] == "SUPA")
+													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, order_item.quantity, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
 														FROM orders
 														JOIN order_item ON orders.order_id = order_item.order_id
 														JOIN users ON orders.user_id = users.u_id
 														JOIN product ON order_item.product_id = product.product_id
 														JOIN restaurant ON product.owner = restaurant.rs_id
-														WHERE orders.order_belong = '".$_SESSION['store']."'
-														ORDER BY order_status";
+														WHERE orders.order_belong = '".$_SESSION['store']."' AND orders.order_status <= 2
+														ORDER BY orders.order_status";
+												else
+													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, order_item.quantity, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
+														FROM orders
+														JOIN order_item ON orders.order_id = order_item.order_id
+														JOIN users ON orders.user_id = users.u_id
+														JOIN product ON order_item.product_id = product.product_id
+														JOIN restaurant ON product.owner = restaurant.rs_id
+														WHERE orders.order_status <= 2
+														ORDER BY orders.order_status";
 												$query = mysqli_query($db,$sql);
 												
                                                 if(!mysqli_num_rows($query) > 0 )
                                                 {
-                                                    echo '<td colspan="8"><center>No orders data!</center></td>';
+													if($_SESSION['adm_id'] == "SUPA")
+                                                    	echo '<td colspan="8"><center>No orders data!</center></td>';
+													else
+														echo '<td colspan="7"><center>No orders data!</center></td>';
                                                 }
 
                                                 else
@@ -98,9 +113,10 @@ if(isset($_SESSION["adm_co"]))
                                                         ?>
                                                         <?php
                                                         echo ' <tr>
-                                                                <td>'.$rows['username'].'</td>
-                                                                <td>'.$rows['title'].'</td>
-                                                                <td>'.$rows['quantity'].'</td>
+                                                                <td>'.$rows['username'].'</td>';
+																if($_SESSION['adm_id'] == "SUPA")
+                                                            		echo '<td>'.$rows['title'].'</td>';
+                                                                echo '<td>'.$rows['quantity'].'</td>
                                                                 <td>$'.$rows['price'].'</td>
                                                                 <td>'.$rows['address'].'</td>';
                                                         ?>
@@ -131,10 +147,8 @@ if(isset($_SESSION["adm_co"]))
                                                         ?>
                                                         <td> <button type="button" class="btn btn-danger"> <i class="fa fa-close"></i>Cancelled</button></td> 
                                                         <?php 
-                                                            } 
-                                                        ?>
-                                                        <?php																									
-                                                        echo '	<td>'.$rows['date'].'</td>';
+                                                            } 																									
+                                                        echo '	<td>'.$rows['order_date'].'</td>';
                                                         ?>
                                                             <td>
                                                                 <a href="delete_orders.php?order_del=<?php echo $rows['order_id'];?>" onclick="return confirm('Are you sure?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 

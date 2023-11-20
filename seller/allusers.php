@@ -67,38 +67,62 @@ include("./../connection/connect.php"); // connection to database
                                                 <th>Last-Name</th>
                                                 <th>Email</th>
                                                 <th>Phone</th>
-												<th>Address</th>												
+												<th>Address</th>
+											<?php
+												if($_SESSION['adm_co'] == "SUPA"){	
+											?>
 												<th>Reg-Date</th>
 												<th>Action</th>
+											<?php
+												}
+											?>
                                             </tr>
                                         </thead>
                                         <tbody>
 											<?php
-												$sql = "SELECT DISTINCT user_id FROM orders WHERE order_status != 4 AND order_belong = '".$_SESSION['store']."' ORDER BY order_status DESC";
+											if($_SESSION['adm_co'] == "SUPA")
+												$sql = "SELECT * FROM users WHERE status < 3 ORDER BY status";
+											else
+												$sql = "SELECT DISTINCT user_id FROM orders WHERE status < 3 AND order_status != 4 AND order_belong = '".$_SESSION['store']."' ORDER BY order_status DESC";
+											
 												$query = $db->query($sql);
 												
                                                 if(!$query->num_rows > 0 )
                                                 {
-                                                    echo '<td colspan="8"><center>No User-Data!</center></td>';
+													if($_SESSION['adm_co'] == "SUPA")
+                                                    	echo '<td colspan="8"><center>No User-Data!</center></td>';
+													else
+														echo '<td colspan="6"><center>No User-Data!</center></td>';
                                                 }
 													
                                                 else
                                                 {				
                                                     while($rows=mysqli_fetch_array($query))
                                                     {
-														$fetchUser = "SELECT * FROM users WHERE u_id = '".$rows['user_id']."'";
-														$fetchRec = $db->query($fetchUser);
-														$rec = $fetchRec->fetch_array();
-                                                        echo ' <tr><td>'.$rec['username'].'</td>
-                                                                    <td>'.$rec['f_name'].'</td>
-                                                                    <td>'.$rec['l_name'].'</td>
-                                                                    <td>'.$rec['email'].'</td>
-                                                                    <td>'.$rec['phone'].'</td>
-                                                                    <td>'.$rec['address'].'</td>																								
-                                                                    <td>'.$rec['date'].'</td>
-                                                                    <td><a href="delete_users.php?user_del='.$rec['u_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-                                                                    <a href="update_users.php?user_upd='.$rec['u_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
-                                                                    </td></tr>';
+														if($_SESSION['adm_co'] == "SUPA"){
+															echo ' <tr><td>'.$rows['username'].'</td>
+																		<td>'.$rows['f_name'].'</td>
+																		<td>'.$rows['l_name'].'</td>
+																		<td>'.$rows['email'].'</td>
+																		<td>'.$rows['phone'].'</td>
+																		<td>'.$rows['address'].'</td>	
+																		<td>'.$rows['date'].'</td>
+																		<td><a href="delete_users.php?user_del='.$rows['u_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+																		<a href="update_users.php?user_upd='.$rows['u_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
+																		</td></tr>';
+														}
+														else{
+															$fetchUser = "SELECT * FROM users WHERE u_id = '".$rows['user_id']."'";
+															$fetchRec = $db->query($fetchUser);
+															$rec = $fetchRec->fetch_array();
+															echo ' <tr><td>'.$rec['username'].'</td>
+																		<td>'.$rec['f_name'].'</td>
+																		<td>'.$rec['l_name'].'</td>
+																		<td>'.$rec['email'].'</td>
+																		<td>'.$rec['phone'].'</td>
+																		<td>'.$rec['address'].'</td></tr>';
+														}
+														
                                                     }	
                                                 }
 											?>

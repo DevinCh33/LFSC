@@ -83,7 +83,10 @@ session_start();
 										
                                            
                                                	<?php
-												$sql="SELECT * FROM product WHERE owner = '".$_SESSION['store']."' ORDER BY active";
+												if($_SESSION['adm_co'] == "SUPA")
+													$sql="SELECT * FROM product ORDER BY active";
+												else
+													$sql="SELECT * FROM product WHERE owner = '".$_SESSION['store']."' ORDER BY active";
 												$query=mysqli_query($db,$sql);
 												
 													if(!mysqli_num_rows($query) > 0 )

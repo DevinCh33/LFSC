@@ -31,13 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        			AND o.order_status = '3'";
 	}
 	$query = $db->query($sql);
-
+	$response = array(); // Initialize an array to store the response data
+    $htmlContent = ''; // Initialize an empty string to store HTML content
+	
 	if (!$query->num_rows > 0) {
 		if($_SESSION['adm_co'] == "SUPA"){
-			echo '<td colspan="7"><center>No Seller-Data!</center></td>';
+			$htmlContent = '<td colspan="7"><center>No Seller-Data!</center></td>';
 		}
 		else{
-			echo '<td colspan="5"><center>No Order Record</center></td>';
+			$htmlContent = '<td colspan="5"><center>No Order Record</center></td>';
 		}
 	} else {
 		$totalAmount = 0;
@@ -48,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				if ($rows['total'] == 0) {
 					$rows['total'] = 0;
 				}
-				echo '<tr>
+				$htmlContent .= '<tr>
 						<td>' . $rows['username'] . '</td>
 						<td>' . $rows['title'] . '</td>
 						<td>' . $rows['email'] . '</td>
@@ -56,9 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						<td>' . $rows['address'] . '</td>
 						<td>' . $rows['total'] . '</td>
 					  </tr>';
+				$totalAmount += $rows['total'];
 			}
 			else{
-				echo '<tr>
+				$htmlContent .= '<tr>
 						<td>' . $no . '</td>
 						<td>' . $rows['order_date'] . '</td>
 						<td>' . $rows['product_name'] . '</td>
@@ -66,10 +69,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						<td>' . $rows['price'] . '</td>
 					  </tr>';
 				++$no;
+				$totalAmount += $rows['price'];
 			}
 			
 			
 		}
+		
 	}
+	// At the end of your PHP script
+	// Store data in the response array
+    $response['html'] = $htmlContent;
+    $response['totalAmount'] = floatval($totalAmount);
+
+    // At the end of your PHP script
+    echo json_encode($response);
+
 }
 ?>

@@ -96,9 +96,13 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from product where owner = '".$_SESSION['store']."'";
+                                        <h2><?php 
+											if($_SESSION['adm_co'] == "SUPA")
+												$sql="select * from product where status < '3'";
+											else
+												$sql="select * from product where owner = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
-                                                        $rws=mysqli_num_rows($result);
+                                                   	$rws=mysqli_num_rows($result);
                                                         
                                                         echo $rws;?></h2>
                                         <p class="m-b-0">Products</p>
@@ -116,7 +120,11 @@ if(empty($_SESSION["adm_id"]))
                                         <span><i class="fa fa-user f-s-40 color-danger"></i></span>
                                     </div>
                                     <div class="media-body media-text-right">
-                                        <h2><?php $sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."'";
+                                        <h2><?php 
+												if($_SESSION['adm_co'] == "SUPA")
+													$sql="select * from users WHERE status < 3";
+												else
+													$sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."'";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         echo $rws;?></h2>
@@ -126,59 +134,68 @@ if(empty($_SESSION["adm_id"]))
                             </a>
                         </div>
                     </div>
-					
-					<div class="col-md-3">
-                        <a href="all_orders.php">
-                            <div class="card p-30">
-                                <div class="media">
-                                    <div class="media-left meida media-middle"> 
-                                        <span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
-                                    </div>
-                                    <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from orders where order_belong = '".$_SESSION['store']."'";
-                                                    $result=mysqli_query($db,$sql); 
-                                                        $rws=mysqli_num_rows($result);
-                                                        
-                                                        echo $rws;?></h2>
-                                        <p class="m-b-0">Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+						<div class="col-md-3">
+							<a href="all_orders.php">
+								<div class="card p-30">
+									<div class="media">
+										<div class="media-left meida media-middle"> 
+											<span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
+										</div>
+										<div class="media-body media-text-right">
+											<h2><?php
+													if($_SESSION['adm_co'] == "SUPA")
+														$sql="select * from orders WHERE order_status < '3' ORDER BY order_status";
+													else
+														$sql="select * from orders where order_status < '3' AND order_belong = '".$_SESSION['store']."'";
+														$result=mysqli_query($db,$sql); 
+															$rws=mysqli_num_rows($result);
 
-                    <div class="col-md-3">
-                        <a href="/lfsc/inventory/index.php">
-                            <div class="card p-30">
-                                <div class="media">
-                                    <div class="media-left meida media-middle"> 
-                                        <span><i class='fa fa-archive f-s-40' ></i></span>
-                                    </div>
-                                    <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from orders where order_belong = '".$_SESSION['store']."'";
-                                                    $result=mysqli_query($db,$sql); 
-                                                        $rws=mysqli_num_rows($result);
-                                                        
-                                                        echo $rws;?></h2>
-                                        <p class="m-b-0">Inventory</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+															echo $rws;?></h2>
+											<p class="m-b-0">Orders</p>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="col-md-3">
+							<a href="/lfsc/inventory/index.php">
+								<div class="card p-30">
+									<div class="media">
+										<div class="media-left meida media-middle"> 
+											<span><i class='fa fa-archive f-s-40' ></i></span>
+										</div>
+										<div class="media-body media-text-right">
+											<h2><?php
+													$sql="select * from orders where order_belong = '".$_SESSION['store']."'";
+														$result=mysqli_query($db,$sql); 
+															$rws=mysqli_num_rows($result);
+
+															echo $rws;?></h2>
+											<p class="m-b-0">Inventory</p>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
+					
 					
 					<div class="col-md-3">
                         <a href="#">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle"> 
-                                        <span><i class='fa fa-money f-s-58' ></i></span>
+                                        <span><i class='fa fa-dollar-sign f-s-40' ></i></span>
                                     </div>
                                     <!--
 
                                     -->
                                         <div class="media-body media-text-right">
-                                        <h2><?php $sql="SELECT admin.store , SUM(orders.total_amount) as totalorder FROM orders INNER JOIN admin ON orders.order_belong = admin.store WHERE orders.order_status = '1' AND admin.store ='".$_SESSION['store']."'";
+                                        <h2><?php 
+											if($_SESSION['adm_co'] == "SUPA")
+												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders WHERE orders.order_status = '3' ";
+											else
+												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders INNER JOIN admin ON orders.order_belong = admin.store WHERE orders.order_status = '3' AND admin.store ='".$_SESSION['store']."'";
 
                                                     $result=$db->query($sql); 
                                                     $rws=$result->fetch_assoc();

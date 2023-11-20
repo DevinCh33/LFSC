@@ -66,8 +66,10 @@ include("./../connection/connect.php"); // connection to database
                                     <table id="example23" class="table table-bordered table-striped">
                                         <thead>
 											<tr>
-												<th colspan="6" style="border: none">
-													<center>
+												<th colspan="2" style="border-right: none"><left>Total Income: RM <a id="monthlyIncome"></a>  </left></th>
+												<th colspan="4" style="border: none">
+													
+													<a style="margin-left: 25%;">
 														<select class="select" name="month" id="month" onChange="retakeData()">
 															<?php
 														
@@ -86,7 +88,7 @@ include("./../connection/connect.php"); // connection to database
 																}
 															?>
 														</select>
-													</center>
+													</a>
 
 												</th>
 											</tr>
@@ -131,6 +133,7 @@ include("./../connection/connect.php"); // connection to database
 														echo '<td colspan="7"><center>No Seller-Data!</center></td>';
 													} else {
 														while ($rows = mysqli_fetch_array($query)) {
+															
 															if ($rows['total'] == 0) {
 																$rows['total'] = 0;
 															}
@@ -140,7 +143,7 @@ include("./../connection/connect.php"); // connection to database
 																	<td>' . $rows['email'] . '</td>
 																	<td>' . $rows['phone'] . '</td>
 																	<td>' . $rows['address'] . '</td>
-																	<td>' . $rows['total'] . '</td>
+																	<td>' . floatval($rows['total']) . '</td>
 																  </tr>';
 														}
 													}
@@ -229,9 +232,11 @@ include("./../connection/connect.php"); // connection to database
             type: 'POST',
             url: 'fetchReportRec.php', // Replace with the actual URL handling the server-side logic
             data: { date: date },
+			dataType: 'json', // Specify the expected data type
             success: function(response) {
 				console.log(response);
-                $('#tableBody').html(response);
+                $('#tableBody').html(response.html);
+				$("#monthlyIncome").text(response.totalAmount);
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error: ' + status, error);

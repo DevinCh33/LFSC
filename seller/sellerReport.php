@@ -56,6 +56,10 @@ include("./../connection/connect.php"); // connection to database
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                            <div class="d-flex justify-content-end mb-3">
+                                <!-- Generate Receipt Button -->
+                                <button class="btn btn-primary" onclick="generateReceipt()">Generate Receipt</button>
+                            </div>
                                 <h4 class="card-title">All Seller Details</h4>
                                 <div class="table-responsive m-t-40">
 									
@@ -228,6 +232,26 @@ include("./../connection/connect.php"); // connection to database
             success: function(response) {
 				console.log(response);
                 $('#tableBody').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error: ' + status, error);
+            }
+        });
+    }
+
+    function generateReceipt() {
+        var month = ($('#month').val() < 10) ? '0' + $('#month').val() : $('#month').val();
+        var date = $('#year').val() + '-' + month;
+
+        // AJAX request to generate receipt based on selected date
+        $.ajax({
+            type: 'POST',
+            url: 'generateReceipt.php', // Replace with the actual URL handling the server-side logic
+            data: { date: date },
+            success: function(response) {
+                // Open a new window and inject the receipt content
+                var receiptWindow = window.open('', '_blank');
+                receiptWindow.document.write(response);
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error: ' + status, error);

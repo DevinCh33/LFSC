@@ -3,12 +3,10 @@
     <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <!-- Logo -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="dashboard.php">
+            <a class="navbar-brand" href="./../market.php">
                 <!-- Logo icon -->
-                <b><img src="images/logo.png" alt="homepage" class="dark-logo" /></b>
+                <b><img src="./../landing/logo.png" alt="homepage" class="dark-logo" style="width: 100px; height: auto;" /></b>
                 <!-- End Logo icon -->
-                <!-- Logo text -->
-                <span><img src="images/logo-text.png" alt="homepage" class="dark-logo" /></span>
             </a>
         </div>
         <!-- End Logo -->

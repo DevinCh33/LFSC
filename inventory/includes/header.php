@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="assets/plugins/datatables/jquery.dataTables.min.css">
   <!-- file input -->
   <link rel="stylesheet" href="assets/plugins/fileinput/css/fileinput.min.css">
+  <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
 
   <!-- jquery -->
   <script src="assets/jquery/jquery.min.js"></script>

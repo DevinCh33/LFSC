@@ -107,6 +107,7 @@ if($_POST['submit'])
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
 </head>
 
 <body>

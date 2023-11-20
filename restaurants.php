@@ -17,6 +17,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
 </head>
 
 <body class="home">
@@ -113,7 +114,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <div class="right-content bg-white">
                                                 <div class="right-review">
                                                     <div class="rating-block"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Menu</a> </div>
+                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a> </div>
                                             </div>
                                             <!-- end:right info -->
                                         </div>';
@@ -178,7 +179,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <div class="right-content bg-white">
                                                 <div class="right-review">
                                                     <div class="rating-block"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Menu</a> </div>
+                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a> </div>
                                             </div>
                                             <!-- end:right info -->
                                         </div>';

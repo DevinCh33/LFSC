@@ -7,7 +7,7 @@
    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
    <meta name="description" content="">
    <meta name="author" content="">
-   <link rel="icon" href="#">
+   <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
    <title>Seller Registration</title>
    <!-- Bootstrap core CSS -->
    <link href="./../css/bootstrap.min.css" rel="stylesheet">
@@ -108,14 +108,6 @@ if(isset($_POST['submit'] )) // if submit button was pressed
         <li <?php echo ($currentPage == 'orders') ? 'class="active"' : ''; ?>>
             <a href="../../lfsc/your_orders.php">Orders</a>
         </li>
-
-        <?php
-        if (isset($_SESSION['adm_id'])) {
-            echo '<li><a href="seller/dashboard.php">Dashboard</a></li>';
-        }
-
-        echo '<li><a href="logout.php">Logout</a></li>';
-        ?>
     </ul>
 </header>
 

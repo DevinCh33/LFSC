@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8"> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="#">
@@ -16,59 +14,42 @@
     <link href="css/animsition.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> <!-- Make sure this line is correct for your CSS file -->
+    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
 </head>
-
 <body class="home">
-<?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
-
-if (empty($_SESSION["user_id"])) // if not logged in
-{
-	header("refresh:0;url=login.php"); // redirect to login.php page
-}
-?>
-    <!--header starts-->
     <?php
-    include("includes/header.php");
+    session_start(); // temp session
+    error_reporting(0); // hide undefined index errors
+    include("connection/connect.php"); // connection to database
+
+    if (empty($_SESSION["user_id"])) // if not logged in
+    {
+        header("refresh:0;url=login.php"); // redirect to login.php page
+    }
     ?>
 
-    <!-- banner part starts -->
+    <!-- Header starts -->
+    <?php include("includes/header.php"); ?>
+
+    <!-- Banner part starts -->
     <section class="hero">
         <div class="hero-inner">
-            <!--<a href="category_products.php?categories_id=4" class="btn btn-info" role="button">All</a>-->
-            <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
-            <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>
-            <a href="category_products.php?categories_id=7" class="btn btn-outline-info" role="button">Pome Fruits</a>
-            <a href="category_products.php?categories_id=8" class="btn btn-outline-info" role="button">Other</a>
-            <!--<a href="login.php" class="btn btn-info" role="button">All</a>
-            <a href="login.php" class="btn btn-outline-info" role="button">Salad</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Herbs</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Baby Green</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Microgreen</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Edible Flower</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Retail Pack</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Organic</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Pesticide Free</a>
-            <a href="#link" class="btn btn-outline-info" role="button">End Product</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Services</a> -->
-            <div class="banner-form">
-                <form class="form-inline" method="get">
-                    <div class="form-group" style="margin-top:50px;">
-                        <label class="sr-only" for="exampleInputAmount">Search product....</label>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search product...">
-                            <input type="submit" class="btn theme-btn btn-lg" value="Search">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div> 
-        <!--end:Hero inner -->
+            <!-- Add your PHP code here to determine the active category -->
+            <?php
+                $activeCategoryId = isset($_GET['categories_id']) ? $_GET['categories_id'] : '';
+            ?>
 
-    <!-- Search part starts-->
+            <!-- Category Links -->
+            <div>
+                <a href="category_products.php?categories_id=5" class="btn btn-outline-info <?= $activeCategoryId == 5 ? 'active-link' : '' ?>" role="button">Leafy Green</a>
+                <a href="category_products.php?categories_id=6" class="btn btn-outline-info <?= $activeCategoryId == 6 ? 'active-link' : '' ?>" role="button">Root Vegetables</a>
+                <a href="category_products.php?categories_id=7" class="btn btn-outline-info <?= $activeCategoryId == 7 ? 'active-link' : '' ?>" role="button">Pome Fruits</a>
+                <a href="category_products.php?categories_id=8" class="btn btn-outline-info <?= $activeCategoryId == 8 ? 'active-link' : '' ?>" role="button">Other</a>
+            </div>
+            
+            <!-- ... Rest of your existing hero-inner content ... -->
+        </div>
     </section>
     <?php
     if (isset($_GET['search']))

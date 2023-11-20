@@ -9,7 +9,7 @@
 	<link rel="stylesheet prefetch" href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900'>
 	<link rel="stylesheet prefetch" href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
 	<link rel="stylesheet prefetch" href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-
+	<link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
 	<link rel="stylesheet" href="css/login.css">
 </head>
 
@@ -64,8 +64,8 @@ if(isset($_POST['submit']))
 		<span style="color:green;"><?php echo $success; ?></span>
 
 		<form class="login-form" action="index.php" method="post">
-			<input type="text" placeholder="Username" name="username" value="admin" />
-			<input type="password" placeholder="Password" name="password" value="123456"/>
+			<input type="text" placeholder="Username" name="username" />
+			<input type="password" placeholder="Password" name="password"/>
 			<input type="submit" name="submit" value="Login" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
 			or <a href="forgotpassword.php" style="color:#f30;">Forgot password?</a>

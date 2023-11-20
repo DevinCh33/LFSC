@@ -1,6 +1,7 @@
 <header>
     <link rel="stylesheet" type="text/css" href="landing/style.css">
     <img src="landing/logo.png" alt="logo">
+    <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
 
     <ul>
         <li <?php echo ($currentPage == 'home') ? 'class="active"' : ''; ?>>

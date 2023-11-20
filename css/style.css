@@ -2579,3 +2579,8 @@ a[aria-expanded=false] .fa-angle-down {
 }
 
 /* your_orders.php table align end */
+.active-link {
+    color: #fff; /* White text */
+    background-color: #17a2b8; /* Bootstrap info color */
+    border-color: #17a2b8; /* Bootstrap info border color */
+}

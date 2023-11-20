@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="landing/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="css/style.css" rel="stylesheet">
+	<link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
 </head>
 
 <body>

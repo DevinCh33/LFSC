@@ -14,6 +14,7 @@
    <link href="css/font-awesome.min.css" rel="stylesheet">
    <link href="css/animsition.min.css" rel="stylesheet">
    <link href="css/animate.css" rel="stylesheet">
+   <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
    <!-- Custom styles for this template -->
    <link href="css/style.css" rel="stylesheet">
 </head>
@@ -140,8 +141,8 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                                  <input type="text" class="form-control" name="email" value="<?php if(isset($_POST['email'])) { echo htmlentities ($_POST['email']); }?>" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                               </div>
                               <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Phone number</label>
-                                 <input class="form-control" type="text" name="phone" value="<?php if(isset($_POST['phone'])) { echo htmlentities ($_POST['phone']); }?>" id="example-tel-input-3" placeholder="Phone">  
+                                 <label for="exampleInputEmail1">Mobile number</label>
+                                 <input class="form-control" type="text" name="phone" value="<?php if(isset($_POST['phone'])) { echo htmlentities ($_POST['phone']); }?>" id="example-tel-input-3" placeholder="Mobile Number">  
                               </div>
                               <div class="form-group col-sm-6">
                                  <label for="exampleInputPassword1">Password</label>
@@ -153,7 +154,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                               </div>
                               <div class="form-group col-sm-12">
                                  <label for="exampleTextarea">Delivery Address</label>
-                                 <textarea class="form-control" id="exampleTextarea"  name="address" value="<?php if(isset($_POST['address'])) { echo htmlentities ($_POST['address']); }?>" rows="3"></textarea>
+                                 <textarea class="form-control" id="exampleTextarea" placeholder="Delivery Address" name="address" value="<?php if(isset($_POST['address'])) { echo htmlentities ($_POST['address']); }?>" rows="3"></textarea>
                               </div>
                            </div>
                            

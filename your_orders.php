@@ -28,6 +28,7 @@ if(empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to l
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
 <style type="text/css" rel="stylesheet">
 .indent-small {
     margin-left: 5px;

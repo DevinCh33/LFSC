@@ -76,8 +76,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
                                 <ul class="nav nav-inline">
-                                    <li class="nav-item"> <a class="nav-link active" href="#"><i class="fa fa-check"></i> Min RM 10.00</a> </li>
-                                    <li class="nav-item"> <a class="nav-link" href="#"><i class="fa fa-motorcycle"></i> 30 min</a> </li>
                                     <li class="nav-item ratings">
                                         <a class="nav-link" href="#"> <span>
                                         <i class="fa fa-star"></i>
@@ -85,6 +83,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o"></i>
+                                        <p>245 Review</p>
                                         </span> </a>
                                     </li>
                                 </ul>

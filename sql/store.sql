@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2023 at 09:54 AM
+-- Generation Time: Nov 20, 2023 at 06:00 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -304,12 +304,12 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`) VALUES
-(51, 5, 'Little Farmer', 'wdgwr@gmail.com', '1232343456', 'dbsd.com', '6am', '6pm', 'mon-thu', 'qwdqwd123', '6559abfe547bc.jpg', '2023-11-19 08:43:41', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
-(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '12323434567', 'gg.com', '8am', '8pm', 'mon-wed', '123qwewq', '6559b15ddab32.png', '2023-11-19 08:44:32', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
-(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '1112223334444', 'ff.com', '6am', '6pm', 'mon-thu', 'qqwe qwe 123', '6559b2ffe9dcb.jpg', '2023-11-19 08:46:02', 'Prices you can\'t beat!'),
-(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '2224445567', 'af.com', '6am', '6pm', 'mon-wed', 'qwe1231qw', '6559b5b11a1d4.jpg', '2023-11-19 08:46:40', 'Produced and canned locally! Freshness guaranteed or your money back!'),
-(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '3334445568', 'peim.com', '7am', '5pm', 'mon-thu', 'qwe123d', '6559b77536d01.gif', '2023-11-19 08:45:12', 'We import euro plant based goods at a cheap price!'),
-(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '1113336790', 'svm.com', '8am', '5pm', 'mon-wed', '12qwrwrqr', '6559b9a2142c4.jpg', '2023-11-19 08:45:47', 'Award winning global vegan franchise!');
+(51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2023-11-20 05:00:04', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
+(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2023-11-20 04:47:03', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
+(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-20 04:48:00', 'Prices you can\'t beat!'),
+(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!'),
+(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!'),
+(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!');
 
 -- --------------------------------------------------------
 

@@ -19,6 +19,18 @@
     <link href="css/style.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
     
+    <style>
+        .food-item-wrap {
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .food-item-wrap:hover {
+            transform: scale(1.05);
+        }
+    </style> 
+
 </head>
 
 <body class="home">
@@ -173,58 +185,48 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
             <div class="row">
                 <?php 
-                // fetch records from database to display popular first 12 products from database
-                $query_res = mysqli_query($db,"select * from restaurant LIMIT 6"); 
+                // fetch records from the database to display the first 6 products
+                $query_res = mysqli_query($db, "select * from restaurant LIMIT 6"); 
                 
-                while($r=mysqli_fetch_array($query_res))
-                {   
-
+                while ($r = mysqli_fetch_array($query_res)) {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
                                 <a href="dishes.php?res_id=' . $r['rs_id'] . '">
                                     <div class="figure-wrap bg-image" data-image-src="seller/Res_img/' . $r['image'] . '"></div>
                                     <div class="content">
-                                        <h4>' . $r['title'] . '</h4>
-                                        <div class="product-name">' . $r['email'] . '</div>
-                                        <div class="product-name">';
+                                        <h4 class="title">' . $r['title'] . '</h4>
+                                        <div class="seller-info text-xs-center">
+                                            <div class="email" style="color: black;">' . $r['email'] . '</div></br>
+                                            <div class="description" style="color: black;">';
 
-                                        $descriptionText = $r['description'];
-                                        $words = explode(" ", $descriptionText);
+                                            $descriptionText = $r['description'];
+                                            $words = explode(" ", $descriptionText);
 
-                                        // Check if the number of words exceeds 12
-                                        if (count($words) > 12) {
-                                            // Join the first 12 words and append "..."
-                                            $truncatedText = implode(" ", array_slice($words, 0, 12)) . "...";
-                                            echo $truncatedText;
-                                        } else {
-                                            echo $descriptionText;
-                                        }
+                                            // Check if the number of words exceeds 12
+                                            if (count($words) > 12) {
+                                                // Join the first 12 words and append "..."
+                                                $truncatedText = implode(" ", array_slice($words, 0, 12)) . "...";
+                                                echo $truncatedText;
+                                            } else {
+                                                echo $descriptionText;
+                                            }
 
-                                        echo '</div>
-                                        <div class="product-name"> Phone Number: ' . $r['phone'] . '</div>
+                                            echo '</div></br>
+                                            <div class="phone" style="color: black;"> Phone Number: ' . $r['phone'] . '</div>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
                         </div>';
-
-
-                    // echo '  <div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                    //             <div class="food-item-wrap">
-                    //                 <div class="figure-wrap bg-image" data-image-src="'.$r['product_image'].'">
-                    //                 </div>
-                    //                 <div class="content">
-                    //                     <h5>'.$r['product_name'].'</a></h5>
-                    //                     <div class="product-name"> Stock: '.(int)$r['quantity'].'</div>
-                    //                     <div class="price-btn-block"> <span class="price">RM '.$r['price'].'</span> <div productId="'.$r['product_id'].'" id="addOneToCart" class="btn theme-btn-dash pull-right">Order Now</div> </div>
-                    //                 </div>
-                    //             </div>
-                    //         </div>';   
                 }
                 ?>
             </div>
         </div>
     </section>
     <!-- Popular block ends -->
+
+
+
   
     <!-- start: FOOTER -->
     <?php

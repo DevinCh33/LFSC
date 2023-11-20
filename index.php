@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+//tetsing
 <head>
 	<title>Little Farmer Website</title>
 	<meta charset="UTF-8">
@@ -67,7 +67,7 @@ include("connection/connect.php"); // connection to database
 				<p>Join one of the best online fresh produce marketplaces!</p>
 			</div>
 			<div class="mainProduct-card">
-				<h2>Fruit</h2>
+				<h2>Your one stop shop for you cooking needs!</h2>
 				<img src="landing/fruit.jpg" alt="fruit">
 			</div>
 		</div>

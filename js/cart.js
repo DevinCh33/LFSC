@@ -23,7 +23,7 @@ $(document).ready(function() {
         const productOwner = $(this).closest('.product').data('product-owner');
         const productName = $(this).siblings('a').children('h5').text();
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
-        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src');
+        const productImage = $(this).closest('.product').find('.search-product').data('image-src');
 
         addToCart(productId, productName, productPrice, productOwner, 1, productImage); 
         alert("Product added to cart!");
@@ -41,19 +41,12 @@ $(document).ready(function() {
         addToCart(productId, productName, productPrice, productOwner, productAmount, productImage);
     });
 
-    $('.checkout').on('click', function() {
-        const productId = $(this).closest('.product').data('product-id');
-        const productOwner = $(this).closest('.product').data('product-owner');
-        const productName = $(this).siblings('h6').text();
-        const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
-        const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src'); 
-
-        addToCart(productId, productName, productPrice, productOwner, 1, productImage);
-        alert("Product added to cart!");
-    });
-
     // Function to add a product to the cart
     function addToCart(id, name, price, owner, quantity=1, image='') {
+        if (quantity <= 0) {
+            alert("Please enter a number of at least 1!");
+            return;
+        }
         const existingProduct = cart.find(item => item.id === id);
         if (existingProduct) {
             existingProduct.quantity += quantity;
@@ -81,10 +74,13 @@ $(document).ready(function() {
     // Function to update cart item quantity
     function updateCartItemQuantity(productId, newQuantity) {
         const productToUpdate = cart.find(item => item.id === productId);
-        if (productToUpdate && Number.isInteger(newQuantity)) {
+        if (productToUpdate && Number.isInteger(newQuantity) && newQuantity > 0) {
             productToUpdate.quantity = newQuantity;
             updateCartUI();
             saveCart();
+        }
+        else {
+            alert("Please enter a number of at least 1!");
         }
     }
 
@@ -105,10 +101,11 @@ $(document).ready(function() {
                     <img src="${item.image}" alt="${item.name}" style="width:50px; height:50px;"><br/>
                     <a href="dishes.php?res_id=${item.owner}">${item.name}</a> - 
                     RM ${item.price.toFixed(2)} x <br> <input type="number" class="product quantity" style="max-width: 4rem;" value="${item.quantity}" min="0" data-product-id="${item.id}"/>
-                    <button class="product removeProduct" data-product-id="${item.id}">
-                        <i class="fa fa-trash pull-right">Remove</i>
+                    <button class="btn theme-btn product removeProduct" data-product-id="${item.id}">
+                        <i class="fa fa-trash pull-right">&nbsp;Remove</i>
                     </button>
-                </li>`);
+                </li>
+                <br/>`);
 
             $('.removeProduct').on('click', function() {
                 const productId = $(this).data('product-id');

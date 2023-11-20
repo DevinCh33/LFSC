@@ -4,12 +4,12 @@
 	<div class="col-md-12">
 		<ol class="breadcrumb">
 		  <li><a href="dashboard.php">Home</a></li>		  
-		  <li class="active">Product</li>
+		  <li class="active">Products</li>
 		</ol>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Manage Product</div>
+				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Manage Products</div>
 			</div> <!-- /panel-heading -->
 			<div class="panel-body">
 				<div class="remove-messages"></div>
@@ -76,7 +76,7 @@
 	        	<label for="productName" class="col-sm-3 control-label">Description<br>(Max 50)</label>
 	        	<label class="col-sm-1 control-label">: </label>
 				<div class="col-sm-8">
-					<textarea rows="4" cols="50" class="form-control" id="productDescr" placeholder="Product Description(Max 50 WORDS)" name="productDescr" autocomplete="off"></textarea>
+					<textarea rows="4" cols="50" class="form-control" id="productDescr" placeholder="Product Description (Max 50 WORDS)" name="productDescr" autocomplete="off"></textarea>
 				</div>
 	        </div> <!-- /form-group-->
 			  

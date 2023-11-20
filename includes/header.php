@@ -14,7 +14,7 @@
             <a href="restaurants.php">Merchants</a>
         </li>
         <li <?php echo ($currentPage == 'products') ? 'class="active"' : ''; ?>>
-            <a href="dishes.php">Product / Cart</a>
+            <a href="dishes.php">Products / Cart</a>
         </li>
         <li <?php echo ($currentPage == 'orders') ? 'class="active"' : ''; ?>>
             <a href="your_orders.php">Orders</a>

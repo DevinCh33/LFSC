@@ -108,7 +108,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <div class="menu-widget" id="2">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
-                                POPULAR ORDERS Quality products! <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
+                                Product List <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
                                 <i class="fa fa-angle-right pull-right"></i>
                                 <i class="fa fa-angle-down pull-right"></i>
                                 </a>

@@ -122,7 +122,7 @@ if($_POST['submit'])
                 <div class="container">
                     <ul class="row links"> 
                         <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="restaurants.php">Choose Merchant</a></li>
-                        <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Pick Your favorite food</a></li>
+                        <li class="col-xs-12 col-sm-4 link-item "><span>2</span><a href="#">Pick Your Products</a></li>
                         <li class="col-xs-12 col-sm-4 link-item active" ><span>3</span><a href="checkout.php">Order and Pay online</a></li>
                     </ul>
                 </div>

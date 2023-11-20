@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
-    <title>Customer Dashboard</title>
+    <title>Merchant Dashboard</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -30,6 +30,9 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("./../connection/connect.php"); // connection to database
 
+
+if (isset($_SESSION['adm_id']))
+{
 ?>
 
     <!-- Preloader - style you can find in spinners.css -->
@@ -57,7 +60,7 @@ include("./../connection/connect.php"); // connection to database
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">All Registered users</h4>
+                                <h4 class="card-title">All Registered Users</h4>
                                 <div class="table-responsive m-t-40">
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
@@ -138,5 +141,9 @@ include("./../connection/connect.php"); // connection to database
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
+
+<?php
+}
+?>
 </body>
 </html>

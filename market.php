@@ -194,7 +194,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <a href="dishes.php?res_id=' . $r['rs_id'] . '">
                                     <div class="figure-wrap bg-image" data-image-src="seller/Res_img/' . $r['image'] . '"></div>
                                     <div class="content">
-                                        <h4 class="title">' . $r['title'] . '</h4>
+                                        <h4 class="title"><strong>' . $r['title'] . '</strong></h4>
                                         <div class="seller-info text-xs-center">
                                             <div class="email" style="color: black;">' . $r['email'] . '</div></br>
                                             <div class="description" style="color: black;"><i>';

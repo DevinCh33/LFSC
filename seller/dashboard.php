@@ -37,6 +37,7 @@ if(empty($_SESSION["adm_id"]))
 ?>
 
 <body class="fix-header">
+    
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
@@ -47,6 +48,7 @@ if(empty($_SESSION["adm_id"]))
         <?php
         include("sidebar.php");
         ?>
+        
         <!-- Page wrapper  -->
         <div class="page-wrapper" style="height:1200px;">
             <!-- Bread crumb -->

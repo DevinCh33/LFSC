@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
-    <title>Merchant Dashboard</title>
+    <title>Customer Dashboard</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -30,8 +30,6 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("./../connection/connect.php"); // connection to database
 
-if ($_SESSION["adm_co"] == "SUPA")
-{
 ?>
 
     <!-- Preloader - style you can find in spinners.css -->
@@ -81,7 +79,7 @@ if ($_SESSION["adm_co"] == "SUPA")
 												
                                                 if(!$query->num_rows > 0 )
                                                 {
-                                                    echo '<td colspan="7"><center>No User-Data!</center></td>';
+                                                    echo '<td colspan="8"><center>No User-Data!</center></td>';
                                                 }
 													
                                                 else
@@ -140,8 +138,5 @@ if ($_SESSION["adm_co"] == "SUPA")
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
     <script src="js/lib/datatables/datatables-init.js"></script>
-<?php
-}
-?>
 </body>
 </html>

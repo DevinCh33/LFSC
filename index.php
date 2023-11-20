@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-//tetsing
 <head>
 	<title>Little Farmer Website</title>
 	<meta charset="UTF-8">

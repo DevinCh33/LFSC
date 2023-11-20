@@ -68,31 +68,24 @@
                     </ul>
                 </li>
                 <li class="nav-label">Log</li>
-                <?php
-                if (isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
-                {
-					?>
 					<li> <a class="has-arrow  " href="#" aria-expanded="false">  <span><i class="fa fa-user f-s-20 "></i></span><span class="hide-menu">Customer</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="allusers.php">All Customer</a></li>
-							<li><a href="add_users.php">Add Customer</a></li>
+                            <?php
+                                if($_SESSION["adm_co"] == "SUPA"){
+                            ?>
+							    <li><a href="add_users.php">Add Customer</a></li>
+                            <?php
+                            }
+                            ?>
 						</ul>
 					</li>
 					<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="allrestraunt.php">All Stores</a></li>
 							<li><a href="add_category.php">Add Category</a></li>
-
+				
 					<?php
-                }
-                else
-                {
-					?>
-					<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
-						<ul aria-expanded="false" class="collapse">
-					<?php
-                }
-
                 if ($_SESSION['store'] == null)
                 {
 					?>

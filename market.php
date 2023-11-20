@@ -197,7 +197,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <h4 class="title">' . $r['title'] . '</h4>
                                         <div class="seller-info text-xs-center">
                                             <div class="email" style="color: black;">' . $r['email'] . '</div></br>
-                                            <div class="description" style="color: black;">';
+                                            <div class="description" style="color: black;"><i>';
 
                                             $descriptionText = $r['description'];
                                             $words = explode(" ", $descriptionText);
@@ -211,7 +211,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                                 echo $descriptionText;
                                             }
 
-                                            echo '</div></br>
+                                            echo '</i></div></br>
                                             <div class="phone" style="color: black;"> Phone Number: ' . $r['phone'] . '</div>
                                         </div>
                                     </div>

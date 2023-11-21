@@ -16,6 +16,8 @@
     <!-- Custom CSS -->
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha384-GLhlTQ8iKu1rHN/9Q02oSMWSfpED+6Z/hRTt8+pTime5OeVeCaBtSTQ+PiixFvV" crossorigin="anonymous">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
     <!--[if lt IE 9]>
@@ -57,8 +59,6 @@ include("./../connection/connect.php"); // connection to database
                         <div class="card">
                             <div class="card-body">
                             <div class="d-flex justify-content-end mb-3">
-                                <!-- Generate Receipt Button -->
-                                <button class="btn btn-primary" onclick="generateReceipt()">Generate Receipt</button>
                             </div>
                                 <h4 class="card-title">All Seller Details</h4>
                                 <div class="table-responsive m-t-40">
@@ -102,6 +102,7 @@ include("./../connection/connect.php"); // connection to database
                                                 <th>Phone</th>
 												<th>Address</th>												
 												<th>Income (RM)</th>
+                                                <th>Generate Receipt</th>
 											<?php
 												}
 												else if($_SESSION['adm_co'] == 'SUPP'){
@@ -118,69 +119,80 @@ include("./../connection/connect.php"); // connection to database
                                         </thead>
                                         <tbody id="tableBody">
 											<?php
-												if($_SESSION['adm_co'] == 'SUPA'){
-													$sql = "SELECT admin.*, restaurant.*, SUM(orders.total_amount) AS total 
-															FROM admin 
-															INNER JOIN restaurant ON admin.store = rs_id 
-															LEFT JOIN orders ON admin.store = orders.order_belong 
-																AND orders.order_date LIKE '$selectedDate%'
-															WHERE admin.code = 'SUPP'
-															GROUP BY admin.store
-															ORDER BY total DESC";
-													$query = $db->query($sql);
-
-													if (!$query->num_rows > 0) {
-														echo '<td colspan="7"><center>No Seller-Data!</center></td>';
-													} else {
-														while ($rows = mysqli_fetch_array($query)) {
-															
-															if ($rows['total'] == 0) {
-																$rows['total'] = 0;
-															}
-															echo '<tr>
-																	<td>' . $rows['username'] . '</td>
-																	<td>' . $rows['title'] . '</td>
-																	<td>' . $rows['email'] . '</td>
-																	<td>' . $rows['phone'] . '</td>
-																	<td>' . $rows['address'] . '</td>
-																	<td>' . floatval($rows['total']) . '</td>
-																  </tr>';
-														}
-													}
-												}
-												else{
-													$sql = "SELECT 
-																o.order_id, 
-																o.order_date, 
-																oi.quantity, 
-																oi.price, 
-																p.product_name 
-															FROM orders o
-															INNER JOIN order_item oi ON o.order_id = oi.order_id
-															INNER JOIN product p ON oi.product_id = p.product_id
-															WHERE o.order_date LIKE '$selectedDate%' 
-																	AND o.order_status = '3'";
-													$query = $db->query($sql);
-													$no =1;
-													if (!$query->num_rows > 0) {
-														echo '<tr><td colspan="5"><center>No Order Record</center></td></tr>';
-													} else {
-														while ($rows = mysqli_fetch_array($query)) {
-															if ($rows['total'] == 0) {
-																$rows['total'] = 0;
-															}
-															echo '<tr>
-																	<td>' . $no . '</td>
-																	<td>' . $rows['order_date'] . '</td>
-																	<td>' . $rows['product_name'] . '</td>
-																	<td>' . $rows['quantity'] . '</td>
-																	<td>' . $rows['price'] . '</td>
-																  </tr>';
-															++$no;
-														}
-													}
-												}
-												
+												if ($_SESSION['adm_co'] == 'SUPA') {
+                                                    $sql = "SELECT admin.*, restaurant.*, orders.*, SUM(orders.total_amount) AS total
+                                                            FROM admin
+                                                            INNER JOIN restaurant ON admin.store = rs_id
+                                                            LEFT JOIN orders ON admin.store = orders.order_belong
+                                                                AND orders.order_date LIKE '$selectedDate%'
+                                                            WHERE admin.code = 'SUPP'
+                                                            GROUP BY orders.order_id
+                                                            ORDER BY total DESC";
+                                                
+                                                    $query = $db->query($sql);
+                                                
+                                                    if (!$query->num_rows > 0) {
+                                                        echo '<td colspan="7"><center>No Seller-Data!</center></td>';
+                                                    } else {
+                                                        while ($rows = mysqli_fetch_array($query)) {
+                                                
+                                                            if ($rows['total'] == 0) {
+                                                                $rows['total'] = 0;
+                                                            }
+                                                
+                                                            echo '<tr>
+                                                                    <td>' . $rows['username'] . '</td>
+                                                                    <td>' . $rows['title'] . '</td>
+                                                                    <td>' . $rows['email'] . '</td>
+                                                                    <td>' . $rows['phone'] . '</td>
+                                                                    <td>' . $rows['address'] . '</td>
+                                                                    <td>' . number_format($rows['total'], 2) . '</td>
+                                                                    <td>
+                                                                        <i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(\'' . $rows['order_belong'] . '\')"></i>
+                                                                    </td>
+                                                                  </tr>';
+                                                        }
+                                                    }
+                                                }
+												else {
+                                                    $sql = "SELECT 
+                                                                o.order_id, 
+                                                                o.order_date, 
+                                                                oi.quantity, 
+                                                                oi.price, 
+                                                                p.product_name,
+                                                                o.order_belong
+                                                            FROM orders o
+                                                            INNER JOIN order_item oi ON o.order_id = oi.order_id
+                                                            INNER JOIN product p ON oi.product_id = p.product_id
+                                                            WHERE o.order_date LIKE '$selectedDate%' 
+                                                                AND o.order_status = '3'";
+                                                    $query = $db->query($sql);
+                                                    $no = 1;
+                                                
+                                                    // Fetch the last row
+                                                    $lastRow = mysqli_fetch_assoc($query);
+                                                
+                                                    if (!$query->num_rows > 0) {
+                                                        echo '<tr><td colspan="5"><center>No Order Record</center></td></tr>';
+                                                    } else {
+                                                        while ($rows = mysqli_fetch_array($query)) {
+                                                            // Display order details
+                                                            echo '<tr>
+                                                                    <td>' . $no . '</td>
+                                                                    <td>' . $rows['order_date'] . '</td>
+                                                                    <td>' . $rows['product_name'] . '</td>
+                                                                    <td>' . $rows['quantity'] . '</td>
+                                                                    <td>' . $rows['price'] . '</td>
+                                                                </tr>';
+                                                            ++$no;
+                                                        }
+                                                
+                                                        // Display the button for generating a receipt outside the loop
+                                                        echo '<button class="btn btn-primary" onclick="generateReceipt(\'' . $lastRow['order_belong'] . '\')">Generate Receipt</button>';
+                                                    }
+                                                }
+                                                
 											?>
                                         </tbody>
                                     </table>
@@ -244,15 +256,15 @@ include("./../connection/connect.php"); // connection to database
         });
     }
 
-    function generateReceipt() {
+    function generateReceipt(order_belong) {
         var month = ($('#month').val() < 10) ? '0' + $('#month').val() : $('#month').val();
         var date = $('#year').val() + '-' + month;
 
-        // AJAX request to generate receipt based on selected date
+        // AJAX request to generate receipt based on selected date and order_belong
         $.ajax({
             type: 'POST',
-            url: 'generateReceipt.php', // Replace with the actual URL handling the server-side logic
-            data: { date: date },
+            url: 'generateReceipt.php',
+            data: { date: date, order_belong: order_belong },
             success: function(response) {
                 // Open a new window and inject the receipt content
                 var receiptWindow = window.open('', '_blank');
@@ -263,6 +275,9 @@ include("./../connection/connect.php"); // connection to database
             }
         });
     }
+
+
+
 
     // Initial load
     $(document).ready(function() {

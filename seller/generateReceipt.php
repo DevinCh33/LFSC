@@ -2,15 +2,16 @@
 // Include database connection or any necessary files
 include("./../connection/connect.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POST['order_belong'])) {
     $selectedDate = $_POST['date'];
+    $order_belong = $_POST['order_belong'];
 
-    // Your SQL query to fetch data and generate receipt content
+    // Your SQL query to fetch data and generate receipt content based on order_belong
     $sql = "SELECT o.order_id, o.order_date, oi.quantity, oi.price, p.product_name
             FROM orders o
             INNER JOIN order_item oi ON o.order_id = oi.order_id
             INNER JOIN product p ON oi.product_id = p.product_id
-            WHERE o.order_date LIKE '$selectedDate%' AND o.order_status = '3'";
+            WHERE o.order_belong = '$order_belong' AND o.order_date LIKE '$selectedDate%' AND o.order_status = '3'";
     $query = $db->query($sql);
 
     if ($query->num_rows > 0) {
@@ -50,7 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date'])) {
 
         echo $receiptContent;
     } else {
-        echo "No results found";
+         // Display a styled message when no orders are found
+         echo "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;'>";
+         echo "<p style='font-size: 16px; color: #f00; font-weight: bold;'>No orders found for the selected date and seller.</p>";
+         echo "</div>";
     }
 } else {
     echo "Error: Invalid request method or missing parameters.";

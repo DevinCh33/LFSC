@@ -86,7 +86,7 @@ if (isset($_SESSION['adm_id']))
 											if($_SESSION['adm_co'] == "SUPA")
 												$sql = "SELECT * FROM users WHERE status < 3 ORDER BY status";
 											else
-												$sql = "SELECT DISTINCT user_id FROM orders WHERE status < 3 AND order_status != 4 AND order_belong = '".$_SESSION['store']."' ORDER BY order_status DESC";
+												$sql = "SELECT DISTINCT user_id FROM orders JOIN users ON orders.user_id = users.u_id WHERE status < 3 AND order_status != 4 AND order_belong = '".$_SESSION['store']."' ORDER BY order_status DESC";
 											
 												$query = $db->query($sql);
 												

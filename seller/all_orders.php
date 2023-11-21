@@ -78,7 +78,7 @@ if(isset($_SESSION["adm_co"]))
                                         </thead>
                                         <tbody>
 											<?php
-												if($_SESSION['adm_id'] == "SUPA")
+												if($_SESSION['adm_co'] == "SUPP")
 													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, order_item.quantity, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
 														FROM orders
 														JOIN order_item ON orders.order_id = order_item.order_id

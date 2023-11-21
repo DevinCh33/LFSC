@@ -181,7 +181,7 @@ if(empty($_SESSION["adm_id"]))
 					
 					
 					<div class="col-md-3">
-                        <a href="#">
+                        <a href="/lfsc/seller/sellerReport.php">
                             <div class="card p-30">
                                 <div class="media">
                                     <div class="media-left meida media-middle"> 

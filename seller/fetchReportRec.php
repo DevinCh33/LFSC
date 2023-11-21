@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				FROM admin 
 				INNER JOIN restaurant ON admin.store = rs_id 
 				LEFT JOIN orders ON admin.store = orders.order_belong 
-					AND orders.order_date LIKE '$selectedDate%'
-				WHERE admin.code = 'SUPP'
+					AND orders.order_date LIKE '$selectedDate%' AND orders.order_status = '3'
+				WHERE admin.code = 'SUPP' 
 				GROUP BY admin.store
 				ORDER BY total DESC";
 	}
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         FROM orders o
         INNER JOIN order_item oi ON o.order_id = oi.order_id
         INNER JOIN product p ON oi.product_id = p.product_id
-      	WHERE o.order_date LIKE '$selectedDate%' 
+      	WHERE o.order_date LIKE '$selectedDate%
        			AND o.order_status = '3'";
 	}
 	$query = $db->query($sql);

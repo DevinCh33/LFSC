@@ -112,7 +112,7 @@ if(isset($_SESSION["adm_id"]))
 											</tr>
 											<tr>
                                                 <td><strong>Price:</strong></td>
-                                                <td><center>$<?php echo $rows['price']; ?></center></td>																							
+                                                <td><center>RM <?php echo $rows['price']; ?></center></td>																							
 											</tr>
 											<tr>
                                                 <td><strong>Address:</strong></td>

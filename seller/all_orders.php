@@ -10,18 +10,49 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
-    <title>Merchant Dashboard</title>
+    <title>Order Dashboard</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
-    <!--[if lt IE 9]>
-    <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+    <style>
+
+        .popup-container {
+			display: none;
+			position: fixed;
+			top: 30%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			z-index: 1000;
+			width: 70%;
+		}
+
+		.popup-container button {
+			background-color: transparent;
+			border: none;
+			padding: 8px 12px;
+			color: #333;
+			font-size: 14px;
+			cursor: pointer;
+		}
+
+		.overlay {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			z-index: 999;
+		}
+
+    </style>
 </head>
 
 <body class="fix-header fix-sidebar">
@@ -64,9 +95,10 @@ if(isset($_SESSION["adm_co"]))
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
+												<th>Order ID#</th>
                                                 <th>Username</th>
-												<?php if($_SESSION['adm_id'] == "SUPA"){ ?>
-                                                <th>Title</th>
+												<?php if($_SESSION['adm_co'] == "SUPA"){ ?>
+                                                	<th>Title</th>
 												<?php } ?>
                                                 <th>Quantity</th>
                                                 <th>Price</th>
@@ -113,8 +145,9 @@ if(isset($_SESSION["adm_co"]))
                                                         ?>
                                                         <?php
                                                         echo ' <tr>
+																<td><button onclick="openPopup(\''.$rows['order_id'].'\')">'.$rows['order_id'].'</button></td>
                                                                 <td>'.$rows['username'].'</td>';
-																if($_SESSION['adm_id'] == "SUPA")
+																if($_SESSION['adm_co'] == "SUPA")
                                                             		echo '<td>'.$rows['title'].'</td>';
                                                                 echo '<td>'.$rows['quantity'].'</td>
                                                                 <td>$'.$rows['price'].'</td>
@@ -166,14 +199,32 @@ if(isset($_SESSION["adm_co"]))
                         </div>
 					</div>
                 </div>
+				<div id="popup" class="popup-container">
+					<button onclick="closePopup()" style="text-align: right">X</button>
+					<table style="width: 100%; " border="1">
+						<thead style="text-align: center;">
+							<tr>
+								<th>Image</th>
+								<th>Product Name</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody id="orderBody">
+							
+						</tbody>
+					</table>
+				</div>
+
+				<div id="overlay" class="overlay" onclick="closePopup()"></div>
+				
                 <!-- End Page Content -->
             </div>
             <!-- End Container fluid  -->
             <!-- End footer -->
         </div>
-        <!-- End Page wrapper  -->
     </div>
     <!-- End Wrapper -->
+	
     <!-- All Jquery -->
     <script src="js/lib/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
@@ -202,3 +253,44 @@ if(isset($_SESSION["adm_co"]))
 ?>
 </body>
 </html>
+
+<script>
+function openPopup(orderId) {
+	 document.getElementById('popup').style.display = 'block';
+     document.getElementById('overlay').style.display = 'block';
+	
+	 $.ajax({
+        url: 'getOrderProduct.php', // Path to your PHP script
+        type: 'GET',
+		data: { orderId: orderId },
+        dataType: 'json',
+        success: function(data) {
+            var tbody = document.getElementById('orderBody');
+    
+			// Clear existing rows
+			tbody.innerHTML = '';
+
+			// Iterate through the data and append rows to the table
+			for (var i = 0; i < data.length; i++) {
+				console.log()
+				var row = '<tr>' +
+						  '<td><center><img src="' + data[i].product_image + '" alt="Product Image" width="200" height="150" width="30%"></center></td>' +
+						  '<td width="50%">' + data[i].product_name + '</td>' +
+						  '<td width="20%">' + data[i].quantity + '</td>' +
+						  '</tr>';
+				tbody.innerHTML += row;
+			}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+			console.error('AJAX Error:', textStatus, errorThrown);
+		}
+    });
+}
+
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
+</script>

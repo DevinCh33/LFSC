@@ -132,7 +132,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="littleFarmer">
     <div class="container">
         <div class="title text-center mb-30">
-            <h2>Micheal's Products'</h2>
+            <h2>Micheal's Products</h2>
             <p class="lead">Something about Little Farmer</p>
         </div>
         <div class="row">

@@ -143,6 +143,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                                             <p><?php echo $product['descr']; ?></p>
 
+                                            <p style="color: green;">Stock Left: <?php echo (int)$product['quantity']; ?></p>
+
                                             <span class="price pull-left" >RM <?php echo $product['price']; ?></span>
                                             <input type="text" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem" value="1" size="2" />
                                             <button class="btn theme-btn addsToCart">Add to Cart</button>

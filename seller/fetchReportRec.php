@@ -5,7 +5,7 @@ include './../connection/connect.php'; // Include your database connection file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $selectedDate = $_POST['date'];
-	
+	$any ='';
 	
 	if($_SESSION['adm_co'] == "SUPA"){
 		$sql = "SELECT admin.username, restaurant.*, SUM(orders.total_amount) AS total 
@@ -31,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					o.order_date LIKE '".$selectedDate."%'
 					AND o.order_belong = '".$_SESSION['store']."'
 				GROUP BY
-					oi.product_id;";
+					oi.product_id";
 	}
+	$any = $sql;
 	$query = $db->query($sql);
 	$response = array(); // Initialize an array to store the response data
     $htmlContent = ''; // Initialize an empty string to store HTML content

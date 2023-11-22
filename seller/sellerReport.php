@@ -189,18 +189,14 @@ include("./../connection/connect.php"); // connection to database
 																o.order_date LIKE '".$selectedDate."%'
 																AND o.order_belong = '".$_SESSION['store']."'
 															GROUP BY
-																oi.product_id;";
+																oi.product_id";
                                                     $query = $db->query($sql);
                                                     $no = 1;
-                                                
-                                                    // Fetch the last row
-                                                    $lastRow = mysqli_fetch_assoc($query);
-                                                
+                                                                                               
                                                     if (!$query->num_rows > 0) {
                                                         echo '<tr><td colspan="4"><center>No Order Record</center></td></tr>';
                                                     } else {
                                                         while ($rows = mysqli_fetch_array($query)) {
-                                                            // Display order details
                                                             echo '<tr>
                                                                     <td>' . $no . '</td>
                                                                     <td>' . $rows['product_name'] . '</td>

@@ -23,8 +23,8 @@ $(document).ready(function() {
         const productOwner = $(this).closest('.product').data('product-owner');
         const productName = $(this).siblings('a').children('h5').text();
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
-        const productImage = $(this).closest('.product').find('.search-product').data('image-src');
-
+        const productImage = $(this).closest('.product').siblings('.search-product').data('image-src');
+        
         addToCart(productId, productName, productPrice, productOwner, 1, productImage); 
         alert("Product added to cart!");
     });

@@ -104,7 +104,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image search-product"  data-image-src="'.$r['product_image'].'">
+                                <div class="figure-wrap bg-image search-product" data-image-src="'.$r['product_image'].'">
                                     <div class="distance"><i class="fa fa-pin"></i>1240m</div>
                                     <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
                                     <div class="review pull-right"><a href="#">198 reviews</a> </div>
@@ -112,8 +112,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
                                     <div class="price-btn-block">
                                         <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].'</h5></a>
-                                        <div class="product-name"> Stock: '.$r['descr'].'</div>                                        
-                                        <div class="product-name"> Stock: '.$r['quantity'].'</div>
+                                        <div>'.$r['descr'].'</div>                                        
+                                        <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>
                                         <span class="price">RM '.$r['price'].'</span> 
                                         <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
                                     </div>

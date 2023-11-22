@@ -145,7 +145,7 @@ if(isset($_SESSION["adm_co"]))
                                                         ?>
                                                         <?php
                                                         echo ' <tr>
-																<td><button onclick="openPopup(\''.$rows['order_id'].'\')">'.$rows['order_id'].'</button></td>
+																<td style="text-decoration: underline;font-weight: bold;"><a onclick="openPopup(\''.$rows['order_id'].'\')">'.$rows['order_id'].'</a></td>
                                                                 <td>'.$rows['username'].'</td>';
 																if($_SESSION['adm_co'] == "SUPA")
                                                             		echo '<td>'.$rows['title'].'</td>';
@@ -200,13 +200,20 @@ if(isset($_SESSION["adm_co"]))
 					</div>
                 </div>
 				<div id="popup" class="popup-container">
-					<button onclick="closePopup()" style="text-align: right">X</button>
+					<div style="display: flex; justify-content: space-between; align-items: center; text-align: right; font-size: 30px;">
+						<div><a style="color: black; text-align: center">Order Detail</a></div>
+						<button onclick="closePopup()" style="font-size: 20px;">X</button>
+					</div>
+
+
+
 					<table style="width: 100%; " border="1">
 						<thead style="text-align: center;">
 							<tr>
 								<th>Image</th>
 								<th>Product Name</th>
-								<th>Quantity</th>
+								<th style="text-align: center;">Quantity</th>
+								
 							</tr>
 						</thead>
 						<tbody id="orderBody">
@@ -273,10 +280,10 @@ function openPopup(orderId) {
 			// Iterate through the data and append rows to the table
 			for (var i = 0; i < data.length; i++) {
 				console.log()
-				var row = '<tr>' +
-						  '<td><center><img src="' + data[i].product_image + '" alt="Product Image" width="200" height="150" width="30%"></center></td>' +
-						  '<td width="50%">' + data[i].product_name + '</td>' +
-						  '<td width="20%">' + data[i].quantity + '</td>' +
+				var row = '<tr  width="200" height="200">' +
+						  '<td><center><img src="' + data[i].product_image + '" alt="Product Image" width="200" height="200"></center></td>' +
+						  '<td width="50%"style="text-align: center; color: black;">' + data[i].product_name + '</td>' +
+						  '<td width="20%" style="text-align: center;">' + data[i].quantity + '</td>' +
 						  '</tr>';
 				tbody.innerHTML += row;
 			}

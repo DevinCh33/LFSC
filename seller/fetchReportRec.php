@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	
 	
 	if($_SESSION['adm_co'] == "SUPA"){
-		$sql = "SELECT admin.*, restaurant.*, SUM(orders.total_amount) AS total 
+		$sql = "SELECT admin.username, restaurant.*, SUM(orders.total_amount) AS total 
 				FROM admin 
 				INNER JOIN restaurant ON admin.store = rs_id 
 				LEFT JOIN orders ON admin.store = orders.order_belong 
@@ -18,17 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				ORDER BY total DESC";
 	}
 	else if($_SESSION['adm_co'] == "SUPP"){
-		$sql = "SELECT 
-            o.order_id, 
-            o.order_date, 
-            oi.quantity, 
-            oi.price, 
-            p.product_name 
-        FROM orders o
-        INNER JOIN order_item oi ON o.order_id = oi.order_id
-        INNER JOIN product p ON oi.product_id = p.product_id
-      	WHERE o.order_date LIKE '$selectedDate%
-       			AND o.order_status = '3'";
+		$sql = "SELECT
+					oi.product_id,
+					SUM(oi.quantity) AS total_quantity,
+					SUM(oi.total) AS total_price,
+					p.product_name
+				FROM
+					orders o
+				INNER JOIN order_item oi ON o.order_id = oi.order_id
+				INNER JOIN product p ON p.product_id = oi.product_id
+				WHERE
+					o.order_date LIKE '".$selectedDate."%'
+					AND o.order_belong = '".$_SESSION['store']."'
+				GROUP BY
+					oi.product_id;";
 	}
 	$query = $db->query($sql);
 	$response = array(); // Initialize an array to store the response data
@@ -57,19 +60,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						<td>' . $rows['phone'] . '</td>
 						<td>' . $rows['address'] . '</td>
 						<td>' . $rows['total'] . '</td>
+						<td>
+                       		<i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt('.$rows['rs_id'].')"></i>
+                        </td>
 					  </tr>';
 				$totalAmount += $rows['total'];
 			}
 			else{
 				$htmlContent .= '<tr>
 						<td>' . $no . '</td>
-						<td>' . $rows['order_date'] . '</td>
 						<td>' . $rows['product_name'] . '</td>
-						<td>' . $rows['quantity'] . '</td>
-						<td>' . $rows['price'] . '</td>
+						<td>' . $rows['total_quantity'] . '</td>
+						<td>' . $rows['total_price'] . '</td>
 					  </tr>';
 				++$no;
-				$totalAmount += $rows['price'];
+				$totalAmount += $rows['total_price'];
 			}
 			
 			

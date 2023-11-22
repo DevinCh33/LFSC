@@ -26,7 +26,7 @@ if($_POST) {
   $userid 						= $_POST['custID'];
   $orderCreator 				= $_SESSION['store'];
 				
-	$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id, order_belong) VALUES ('$orderDate', '$clientName', '$clientContact', '$subTotalValue', '$vatValue', '$totalAmountValue', '$discount', '$grandTotalValue', '$paid', '$dueValue', $paymentType, $paymentStatus,$paymentPlace,$gstn, 1,$userid, $orderCreator)";
+	$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id, order_belong) VALUES ('$orderDate', '$clientName', '$clientContact', '$subTotalValue', '0', '$totalAmountValue', '$discount', '0', '$paid', '$dueValue', $paymentType, $paymentStatus,$paymentPlace,0, 1,$userid, $orderCreator)";
 //	
 	$order_id;
 	$orderStatus = false;

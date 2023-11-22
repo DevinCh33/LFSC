@@ -191,11 +191,15 @@ if(empty($_SESSION["adm_id"]))
 
                                     -->
                                         <div class="media-body media-text-right">
-                                        <h2><?php 
-											if($_SESSION['adm_co'] == "SUPA")
-												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders WHERE orders.order_status = '3' ";
-											else
-												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders INNER JOIN admin ON orders.order_belong = admin.store WHERE orders.order_status = '3' AND admin.store ='".$_SESSION['store']."'";
+                                        <h2><?php
+											$date = date("Y-m");
+											if($_SESSION['adm_co'] == "SUPA"){
+												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders WHERE orders.order_status = '3' AND orders.order_date LIKE '".$date."%'";
+											}
+											else{
+												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders WHERE orders.order_status = '3' AND orders.order_belong ='".$_SESSION['store']."' AND orders.order_date LIKE '".$date."%'";
+											}
+												
 
                                                     $result=$db->query($sql); 
                                                     $rws=$result->fetch_assoc();

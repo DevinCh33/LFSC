@@ -654,7 +654,8 @@ function subAmount() {
 	$("#vatValue").val(vat);
 
 	// total amount
-	var totalAmount = (Number($("#subTotal").val()) + Number($("#vat").val()));
+	//var totalAmount = (Number($("#subTotal").val()) + Number($("#vat").val()));
+	var totalAmount = Number($("#subTotal").val());
 	totalAmount = totalAmount.toFixed(2);
 	$("#totalAmount").val(totalAmount);
 	$("#totalAmountValue").val(totalAmount);

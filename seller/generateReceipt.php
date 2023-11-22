@@ -2,17 +2,30 @@
 // Include database connection or any necessary files
 include("./../connection/connect.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POST['order_belong'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POST['rs_id'])) {
     $selectedDate = $_POST['date'];
-    $order_belong = $_POST['order_belong'];
+    $order_belong = $_POST['rs_id'];
 
     // Your SQL query to fetch data and generate receipt content based on order_belong
-    $sql = "SELECT o.order_id, o.order_date, oi.quantity, oi.price, p.product_name
-            FROM orders o
-            INNER JOIN order_item oi ON o.order_id = oi.order_id
-            INNER JOIN product p ON oi.product_id = p.product_id
-            WHERE o.order_belong = '$order_belong' AND o.order_date LIKE '$selectedDate%' AND o.order_status = '3'";
+    $sql = "SELECT
+					oi.product_id,
+					SUM(oi.quantity) AS total_quantity,
+					SUM(oi.total) AS total_price,
+					p.product_name
+				FROM
+					orders o
+				INNER JOIN order_item oi ON o.order_id = oi.order_id
+				INNER JOIN product p ON p.product_id = oi.product_id
+				WHERE
+					o.order_date LIKE '".$selectedDate."%'
+					AND o.order_belong = '".$order_belong."'
+				GROUP BY
+					oi.product_id";
     $query = $db->query($sql);
+	
+//	$companyInfo = "SELECT * FROM restaurant WHERE rs_id = '".$_POST['rs_id']."'";
+//	$companyInfo1 = $db->query($companyInfo);
+//	$companyInfo2 = $companyInfo1->fetch_assoc();
 
     if ($query->num_rows > 0) {
         $receiptNo = rand(10000, 99999); // Generating a random receipt number
@@ -26,23 +39,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POS
         $receiptContent .= "<p style='font-size: 14px; color: #555;'><strong>Date:</strong> " . date("Y-m-d H:i:s") . "</p>";
         $receiptContent .= "</div>";
         $receiptContent .= "<table style='width:100%; border-collapse: collapse; margin-top: 20px;'>";
-        $receiptContent .= "<tr style='background-color: #f2f2f2;'><th style='padding: 10px;'>No</th><th style='padding: 10px;'>Order Date</th><th style='padding: 10px;'>Product Name</th><th style='padding: 10px;'>Quantity</th><th style='padding: 10px;'>Price</th></tr>";
+        $receiptContent .= "<tr style='background-color: #f2f2f2; text-align: left;'><th style='width: 10%;'>No</th><th style='width: 30%;'>Product Name</th><th style='width: 20%;'>Quantity</th><th style='width: 20%; text-align: right'>Price</th></tr>";
 
         $totalAmount = 0;
         $totalItems = 0;
         $no = 1;
 
         while ($result = $query->fetch_assoc()) {
-            $totalPrice = $result["quantity"] * $result["price"];
-            $totalAmount += $totalPrice;
-            $totalItems += $result["quantity"];
+            $totalAmount += $result["total_price"];
+            $totalItems += $result["total_quantity"];
 
-            $receiptContent .= "<tr><td style='padding: 10px;text-align: right;'>$no</td><td style='padding: 10px;text-align: right;'>".$result["order_date"]."</td><td style='padding: 10px;text-align: right;'>".$result["product_name"]."</td><td style='padding: 10px;text-align: right;'>".$result["quantity"]."</td><td style='padding: 10px; text-align: right;'>".number_format($result["price"], 2)."</td></tr>";
+            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["total_quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($result["total_price"], 2)."</td></tr>";
 
             ++$no;
         }
 
-        $receiptContent .= "<tr style='background-color: #f2f2f2;'><td colspan='3' style='text-align: left; font-weight: bold; padding: 10px;'>Total Items: $totalItems</td><td colspan='2' style='text-align: right; font-weight: bold; padding: 10px;'>Total Price: RM " . number_format($totalAmount, 2) . "</td></tr>";
+        $receiptContent .= "<tr style='background-color: #f2f2f2;'><td colspan='2' style='text-align: left; font-weight: bold; padding: 10px;'>Total Items: $totalItems</td><td colspan='2' style='text-align: right; font-weight: bold; padding: 10px;'>Total Price: RM " . number_format($totalAmount, 2) . "</td></tr>";
 
         $receiptContent .= "</table>";
         $receiptContent .= "<p style='font-size: 12px; margin-top: 20px;'>Thank you for shopping with us! We appreciate your business.</p>";
@@ -57,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POS
          echo "</div>";
     }
 } else {
+	
     echo "Error: Invalid request method or missing parameters.";
 }
 ?>

@@ -133,7 +133,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <div class="container">
         <div class="title text-center mb-30">
             <h2>Micheal's Products</h2>
-            <p class="lead">Something about Little Farmer</p>
+            <p class="lead">Thinking For Tomorrow</p>
         </div>
         <div class="row">
             <?php

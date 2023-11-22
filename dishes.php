@@ -140,6 +140,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <!-- end:col -->
                                         <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
                                             <h6><?php echo $product['product_name']; ?></h6>
+
+                                            <p><?php echo $product['descr']; ?></p>
+
                                             <span class="price pull-left" >RM <?php echo $product['price']; ?></span>
                                             <input type="text" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem" value="1" size="2" />
                                             <button class="btn theme-btn addsToCart">Add to Cart</button>

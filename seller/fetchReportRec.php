@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				WHERE
 					o.order_date LIKE '".$selectedDate."%'
 					AND o.order_belong = '".$_SESSION['store']."'
+					AND o.order_status = '3'
 				GROUP BY
 					oi.product_id";
 	}

@@ -188,6 +188,7 @@ include("./../connection/connect.php"); // connection to database
 															WHERE
 																o.order_date LIKE '".$selectedDate."%'
 																AND o.order_belong = '".$_SESSION['store']."'
+																AND o.order_status = '3'
 															GROUP BY
 																oi.product_id";
                                                     $query = $db->query($sql);

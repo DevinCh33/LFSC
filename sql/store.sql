@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2023 at 07:51 AM
+-- Generation Time: Nov 24, 2023 at 09:16 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,33 +43,13 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
-(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 50, '2023-11-15 13:28:45'),
+(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', NULL, '2023-11-24 08:14:59'),
 (12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2023-11-19 06:55:25'),
 (13, 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'qweasd@gmail.com', 'SUPP', 'SELLER', 53, '2023-11-19 07:02:23'),
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2023-11-19 07:13:53'),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2023-11-19 07:21:25'),
 (16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2023-11-19 07:30:42'),
-(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30'),
-(18, 'TESTSELLER', '$2y$10$BAX.3Nmy.g.6XMVz6lIIluxesIRvmKqRDmmzg/sUbiddKV1W9nGrW', 'qweq@gmail.com', 'SUPP', 'SELLER', 57, '2023-11-19 08:33:17');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_codes`
---
-
-CREATE TABLE `admin_codes` (
-  `id` int(222) NOT NULL,
-  `codes` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `admin_codes`
---
-
-INSERT INTO `admin_codes` (`id`, `codes`) VALUES
-(1, 'SUPA'),
-(2, 'SUPP');
+(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30');
 
 -- --------------------------------------------------------
 
@@ -299,7 +279,7 @@ CREATE TABLE `restaurant` (
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`) VALUES
 (51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2023-11-20 05:00:04', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
 (52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2023-11-20 04:47:03', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
-(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-20 04:48:00', 'Prices you can\'t beat!'),
+(53, 8, 'Fresh Food Sdn Bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-24 08:14:05', 'Prices you can\'t beat!'),
 (54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!'),
 (55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!'),
 (56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!');
@@ -356,34 +336,6 @@ INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`
 (3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54'),
 (4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users_orders`
---
-
-CREATE TABLE `users_orders` (
-  `o_id` int(222) NOT NULL,
-  `u_id` int(222) NOT NULL,
-  `title` varchar(222) NOT NULL,
-  `quantity` int(222) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `status` varchar(222) DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `users_orders`
---
-
-INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
-(37, 31, 'Apple', 5, 17.99, 'closed', '2023-10-21 08:14:27'),
-(38, 31, 'Power-up Mango', 2, 11.99, NULL, '2023-10-21 08:15:02'),
-(39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
-(40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
-(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
-(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56');
-
 --
 -- Indexes for dumped tables
 --
@@ -393,12 +345,6 @@ INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `statu
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`adm_id`);
-
---
--- Indexes for table `admin_codes`
---
-ALTER TABLE `admin_codes`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `categories`
@@ -449,12 +395,6 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`u_id`);
 
 --
--- Indexes for table `users_orders`
---
-ALTER TABLE `users_orders`
-  ADD PRIMARY KEY (`o_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -463,12 +403,6 @@ ALTER TABLE `users_orders`
 --
 ALTER TABLE `admin`
   MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT for table `admin_codes`
---
-ALTER TABLE `admin_codes`
-  MODIFY `id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -517,12 +451,6 @@ ALTER TABLE `res_category`
 --
 ALTER TABLE `users`
   MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `users_orders`
---
-ALTER TABLE `users_orders`
-  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

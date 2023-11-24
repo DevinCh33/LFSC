@@ -174,11 +174,12 @@ only screen and (max-width: 760px),
                     <div class="col-xs-12 col-sm-7 col-md-12 ">
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
-                        <table>
+                        <table width="100%">
                         <thead>
                         <tr>
-                            <th>Item</th>
-                            <th>Quantity</th>
+							<th>Order ID#</th>
+                            <th>Seller</th>
+                            <th style="width: 10%">Number of Product</th>
                             <th>Price</th>
                             <th>Total Price</th>
                             <th>Status</th>
@@ -190,12 +191,13 @@ only screen and (max-width: 760px),
                         
                         <?php 
 // displaying current session user login orders 
-$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, product.product_name, restaurant.*
+$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, COUNT(order_item_id) as total_product, restaurant.*
     FROM orders
     JOIN order_item ON orders.order_id = order_item.order_id
     JOIN product ON order_item.product_id = product.product_id
     JOIN restaurant ON product.owner = restaurant.rs_id
-    WHERE orders.user_id = '".$_SESSION['user_id']."'
+    WHERE orders.user_id = '".$_SESSION['user_id']."' AND orders.order_status <= 4
+	GROUP BY orders.order_id
     ORDER BY orders.order_id DESC");
 
 
@@ -210,14 +212,15 @@ else
     while($row=mysqli_fetch_array($query_res))
     {
                         ?>
-                        <tr>	
+                        <tr>
+							<td data-column="ProductID"><?php echo $row['order_id']; ?></td>
                             <td data-column="Item"><?php echo $row['product_name']; ?> (<?php echo $row['title']; ?>)</td>
-                            <td data-column="Quantity"> <?php echo $row['quantity']; ?></td>
+                            <td data-column="Quantity"> <?php echo $row['total_product']; ?></td>
                             <td data-column="price">RM <?php echo $row['price']; ?></td>
                             <td data-column="Total Price">RM <?php echo $row['total']; ?></td>
                             <td data-column="status"> 
                             <?php 
-                                $status = $row['orders.order_status'];
+                                $status = $row['order_status'];
                                 if($status=="" or $status=="1")
                                 {
 								?>
@@ -246,7 +249,19 @@ else
                             ?>
                             </td>
                             <td data-column="Date"> <?php echo $row['order_date']; ?></td>
-                            <td data-column="Action"> <a href="delete_orders.php?order_del=<?php echo $row['o_id'];?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+                            <td data-column="Action"> 
+								<?php
+									if($status == 1){
+								?>
+								<a href="delete_orders.php?order_del=<?php echo $row['o_id'];?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
+								<?php
+									}else if($status == 2){
+									}else if($status == 3){
+								?>
+								<a alt="Receipt"><i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(<?php echo $row['order_id']; ?>)"></i></a>
+								<?php
+									}
+								?>
                             </td>                           
                         </tr>           
                         <?php }} ?>
@@ -277,3 +292,24 @@ else
     <script src="js/cart.js"></script>
 </body>
 </html>
+	
+	<script>
+	
+	function generateReceipt(rs_id) {
+		console.log(rs_id);
+        $.ajax({
+            type: 'POST',
+            url: 'orderReceipt.php',
+            data: { rs_id: rs_id },
+            success: function(response) {
+                // Open a new window and inject the receipt content
+				console.log(response);
+                var receiptWindow = window.open('', '_blank');
+                receiptWindow.document.write(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error: ' + status, error);
+            }
+        });
+    }
+</script>

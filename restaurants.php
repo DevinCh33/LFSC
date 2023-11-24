@@ -66,9 +66,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="banner-form" style = "text-align: center;margin-bottom:20px;">
             <form class="form-inline" method="get">
                 <div class="form-group" style="margin-top:50px;">
-                    <label class="sr-only" for="exampleInputAmount">Search product....</label>
+                    <label class="sr-only" for="exampleInputAmount">Search merchant....</label>
                     <div class="form-group">
-                        <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search product...">
+                        <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search merchant...">
                         <input type="submit" class="btn theme-btn btn-lg" value="Search">
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2023 at 08:56 AM
+-- Generation Time: Nov 25, 2023 at 11:06 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,33 +43,13 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`) VALUES
-(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 50, '2023-11-15 13:28:45'),
+(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', NULL, '2023-11-24 08:14:59'),
 (12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2023-11-19 06:55:25'),
 (13, 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'qweasd@gmail.com', 'SUPP', 'SELLER', 53, '2023-11-19 07:02:23'),
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2023-11-19 07:13:53'),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2023-11-19 07:21:25'),
 (16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2023-11-19 07:30:42'),
-(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30'),
-(18, 'TESTSELLER', '$2y$10$BAX.3Nmy.g.6XMVz6lIIluxesIRvmKqRDmmzg/sUbiddKV1W9nGrW', 'qweq@gmail.com', 'SUPP', 'SELLER', 57, '2023-11-19 08:33:17');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admin_codes`
---
-
-CREATE TABLE `admin_codes` (
-  `id` int(222) NOT NULL,
-  `codes` varchar(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `admin_codes`
---
-
-INSERT INTO `admin_codes` (`id`, `codes`) VALUES
-(1, 'SUPA'),
-(2, 'SUPP');
+(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30');
 
 -- --------------------------------------------------------
 
@@ -121,6 +101,14 @@ CREATE TABLE `orders` (
   `order_belong` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `vat`, `total_amount`, `discount`, `grand_total`, `paid`, `due`, `payment_type`, `payment_status`, `payment_place`, `gstn`, `order_status`, `user_id`, `order_belong`) VALUES
+(16, '2023-11-20', 'cust two', '1231231235', '17', '0', '17', '0', '0', '0', '17', 1, 1, 1, '1', 3, 3, 51),
+(17, '2023-11-20', 'cust one', '1232343456', '5', '0', '5', '0', '0', '0', '5', 1, 1, 1, '1', 1, 2, 51);
+
 -- --------------------------------------------------------
 
 --
@@ -136,6 +124,36 @@ CREATE TABLE `order_item` (
   `total` varchar(255) NOT NULL,
   `order_item_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `order_item`
+--
+
+INSERT INTO `order_item` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price`, `total`, `order_item_status`) VALUES
+(1, 1, 12, '2', '22.12', '44.24', 2),
+(2, 2, 12, '1', '22.12', '22.12', 1),
+(3, 2, 16, '1', '22.55', '44.67', 1),
+(4, 3, 12, '1', '22.12', '22.12', 2),
+(5, 4, 13, '1', '12.35', '12.35', 1),
+(6, 5, 12, '1', '22.12', '22.12', 2),
+(7, 5, 16, '1', '22.55', '22.55', 2),
+(8, 6, 13, '1', '12.35', '12.35', 1),
+(9, 7, 12, '1', '22.12', '22.12', 1),
+(10, 8, 13, '1', '12.35', '12.35', 1),
+(11, 8, 15, '1', '11.99', '11.99', 1),
+(16, 10, 17, '1', '17.99', '17.99', 1),
+(17, 11, 17, '1', '17.99', '17.99', 1),
+(18, 12, 17, '1', '17.99', '17.99', 1),
+(19, 9, 12, '1', '22.12', '22.12', 1),
+(20, 9, 16, '1', '22.55', '22.55', 1),
+(21, 13, 17, '1', '17.99', '17.99', 1),
+(22, 14, 25, '1', '5', '5', 2),
+(23, 15, 25, '1', '5', '5', 2),
+(24, 16, 25, '1', '5', '5', 2),
+(25, 16, 26, '1', '5', '5', 2),
+(26, 16, 27, '1', '3', '3', 2),
+(27, 16, 28, '1', '4', '4', 2),
+(28, 17, 25, '1', '5', '5', 1);
 
 -- --------------------------------------------------------
 
@@ -162,19 +180,19 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `product_image`, `descr`, `weight`, `categories_id`, `quantity`, `price`, `owner`, `active`, `status`) VALUES
-(25, 'Cabbage (50g)', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of (50g)', 50, 5, 28.000, 5.00, '51', 1, 1),
-(26, 'Carrot (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 10, 6, 16.000, 5.00, '51', 1, 1),
-(27, 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 51.000, 3.00, '51', 1, 1),
+(25, 'Cabbage (50g)', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of (50g)', 50, 5, 46.000, 5.00, '51', 1, 1),
+(26, 'Carrot (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 10, 6, 42.000, 5.00, '51', 1, 1),
+(27, 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 55.000, 3.00, '51', 1, 1),
 (28, 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/4244744986559af281aa94.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 5, 7, 64.000, 4.00, '51', 1, 1),
-(29, 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 20, 6, 44.000, 3.00, '52', 1, 1),
+(29, 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 20, 6, 45.000, 3.00, '52', 1, 1),
 (30, 'Durians (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 30, 8, 15.000, 80.00, '52', 1, 1),
-(31, 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 10, 6, 35.000, 20.00, '53', 1, 1),
-(32, 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 15, 8, 55.000, 9.00, '53', 1, 1),
-(33, 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 15, 8, 49.000, 15.00, '54', 1, 1),
-(34, 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 30, 8, 69.000, 10.00, '54', 1, 1),
-(35, 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 500, 8, 42.000, 15.00, '55', 1, 1),
+(31, 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 10, 6, 40.000, 20.00, '53', 1, 1),
+(32, 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 15, 8, 56.000, 9.00, '53', 1, 1),
+(33, 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 15, 8, 50.000, 15.00, '54', 1, 1),
+(34, 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 30, 8, 70.000, 10.00, '54', 1, 1),
+(35, 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 500, 8, 50.000, 15.00, '55', 1, 1),
 (36, 'Suyob Lingon Berry (1000g)', 'http://localhost/lfsc/inventory/assets/images/stock/5488666076559b8df951d0.jpg', 'Imported from Sweden. 1kg per pack.', 1000, 8, 100.000, 53.00, '55', 1, 1),
-(37, 'Ph Dried Banana (100g)', 'http://localhost/lfsc/inventory/assets/images/stock/11535282526559ba1c506f5.jpg', 'Buy this world renowned snack today! Sold in 100g packs.', 100, 8, 299.000, 5.00, '56', 1, 1),
+(37, 'Ph Dried Banana (100g)', 'http://localhost/lfsc/inventory/assets/images/stock/11535282526559ba1c506f5.jpg', 'Buy this world renowned snack today! Sold in 100g packs.', 100, 8, 300.000, 5.00, '56', 1, 1),
 (38, 'Southern Grove Mix Berries (141g)', 'http://localhost/lfsc/inventory/assets/images/stock/11065128226559bac10586d.jpg', 'Our famous mix berries! Perfect for your trail walk! sold in packs of 141g', 141, 8, 30.000, 40.00, '56', 1, 1);
 
 -- --------------------------------------------------------
@@ -226,13 +244,7 @@ INSERT INTO `remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
 (89, 13, '2', '111', '2023-11-17 05:04:11'),
 (90, 13, '4', '123', '2023-11-17 05:05:01'),
 (91, 13, '2', '123', '2023-11-17 05:05:07'),
-(92, 16, '3', 'delivered', '2023-11-20 05:14:04'),
-(93, 21, '3', 'deliver', '2023-11-22 03:31:10'),
-(94, 23, '2', 'delivery in process', '2023-11-22 03:48:28'),
-(95, 23, '3', 'delivered', '2023-11-22 03:48:58'),
-(96, 27, '3', 'right now', '2023-11-22 05:21:26'),
-(97, 37, '3', 'delivered', '2023-11-22 12:33:19'),
-(98, 41, '3', 'delivered.', '2023-11-24 07:12:56');
+(92, 16, '3', 'delivered', '2023-11-20 05:14:04');
 
 -- --------------------------------------------------------
 
@@ -263,7 +275,7 @@ CREATE TABLE `restaurant` (
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`) VALUES
 (51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2023-11-20 05:00:04', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
 (52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2023-11-20 04:47:03', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
-(53, 8, 'Fresh Food sdn bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-20 04:48:00', 'Prices you can\'t beat!'),
+(53, 8, 'Fresh Food Sdn Bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-24 08:14:05', 'Prices you can\'t beat!'),
 (54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!'),
 (55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!'),
 (56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!');
@@ -320,34 +332,6 @@ INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`
 (3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54'),
 (4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users_orders`
---
-
-CREATE TABLE `users_orders` (
-  `o_id` int(222) NOT NULL,
-  `u_id` int(222) NOT NULL,
-  `title` varchar(222) NOT NULL,
-  `quantity` int(222) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `status` varchar(222) DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `users_orders`
---
-
-INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
-(37, 31, 'Apple', 5, 17.99, 'closed', '2023-10-21 08:14:27'),
-(38, 31, 'Power-up Mango', 2, 11.99, NULL, '2023-10-21 08:15:02'),
-(39, 32, 'Ultra Carrot', 1, 22.55, NULL, '2023-10-21 08:16:10'),
-(40, 33, 'Carrot', 1, 22.12, NULL, '2023-10-21 08:16:03'),
-(41, 33, 'Apple', 2, 17.99, NULL, '2023-10-21 08:16:00'),
-(42, 34, 'Carrot', 1, 22.12, NULL, '2023-10-31 05:38:56');
-
 --
 -- Indexes for dumped tables
 --
@@ -357,12 +341,6 @@ INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `statu
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`adm_id`);
-
---
--- Indexes for table `admin_codes`
---
-ALTER TABLE `admin_codes`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `categories`
@@ -413,12 +391,6 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`u_id`);
 
 --
--- Indexes for table `users_orders`
---
-ALTER TABLE `users_orders`
-  ADD PRIMARY KEY (`o_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -427,12 +399,6 @@ ALTER TABLE `users_orders`
 --
 ALTER TABLE `admin`
   MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT for table `admin_codes`
---
-ALTER TABLE `admin_codes`
-  MODIFY `id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -444,13 +410,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -462,7 +428,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `remark`
 --
 ALTER TABLE `remark`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `restaurant`
@@ -474,19 +440,13 @@ ALTER TABLE `restaurant`
 -- AUTO_INCREMENT for table `res_category`
 --
 ALTER TABLE `res_category`
-  MODIFY `c_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `c_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `users_orders`
---
-ALTER TABLE `users_orders`
-  MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

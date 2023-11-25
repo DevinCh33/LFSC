@@ -101,8 +101,15 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                                 </div>
                                                 <!-- end:Logo -->
                                                 <div class="entry-dscr">
-                                                    <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows['description'].'</br><span>'.$rows['address'].' <a href="#">...</a></span>
-                                                </div>
+                                                <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
+                                                <span>'.substr($rows['description'], 0, 120);
+    
+                                                if (strlen($rows['description']) > 120) {
+                                                    echo '...';
+                                                }
+
+                                                echo '</span></br></br><span>'.$rows['address'].' <a href="#">...</a></span>
+                                            </div>
 
                                                 <!-- end:Entry description -->
                                             </div>

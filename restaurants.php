@@ -160,10 +160,18 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt=Merchant logo"></a>
                                         </div>
                                         <!-- end:Logo -->
-                                        <div class="entry-dscr">
-                                            <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5> <span>'.$rows['address'].' <a href="#">...</a></span>
+                                            <div class="entry-dscr">
+                                                <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
+                                                <span>'.substr($rows['description'], 0, 120);
+    
+                                                if (strlen($rows['description']) > 120) {
+                                                    echo '...';
+                                                }
 
-                                        </div>
+                                                echo '</span></br></br><span>'.$rows['address'].' <a href="#">...</a></span>
+                                            </div>
+
+
                                         <!-- end:Entry description -->
                                     </div>
                                     

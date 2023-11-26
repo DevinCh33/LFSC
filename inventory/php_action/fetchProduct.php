@@ -50,7 +50,7 @@ if($result->num_rows > 0) {
 		// 	$brand = $row['brand_name'];
 		// }
 
-		$category = $row[5];
+		$category = $row[10];
 
 		$productImage = "<img class='img-round' src='".$row[2]."' style='height:30px; width:50px;'  />";
 

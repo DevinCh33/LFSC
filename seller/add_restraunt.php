@@ -34,11 +34,11 @@ if(isset($_SESSION["adm_co"]))
 
 if(isset($_POST['submit'])) //if upload btn was pressed
 {
-    if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']==''||$_POST['url']==''||$_POST['o_hr']==''||$_POST['c_hr']==''||$_POST['o_days']==''||$_POST['description']==''||$_POST['address']=='')
+    if(empty($_POST['c_name'])||empty($_POST['res_name'])||$_POST['email']==''||$_POST['phone']=='' || $_POST['address']=='')
     {	
         $error = '<div class="alert alert-danger alert-dismissible fade show">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>All fields are required!</strong>
+                        <strong>All <a style="color: red">*</a> fields are required!</strong>
                     </div>';           
     }
 
@@ -109,7 +109,8 @@ if(isset($_POST['submit'])) //if upload btn was pressed
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
-			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> 
+		</svg>
     </div>
     <!-- Main wrapper  -->
     <div id="main-wrapper">
@@ -118,6 +119,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
         ?>
         <!-- Page wrapper  -->
         <div class="page-wrapper" style="height:1200px;">
+			
             <!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
@@ -143,14 +145,14 @@ if(isset($_POST['submit'])) //if upload btn was pressed
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Store Name</label>
+                                                    <label class="control-label">Store Name <a style="color: red">*</a></label>
                                                     <input type="text" name="res_name" class="form-control" placeholder="New Store">
                                                 </div>
                                             </div>
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group has-danger">
-                                                    <label class="control-label">Business Email</label>
+                                                    <label class="control-label">Business Email <a style="color: red">*</a></label>
                                                     <input type="text" name="email" class="form-control form-control-danger" placeholder="example@gmail.com">
                                                 </div>
                                             </div>
@@ -160,7 +162,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Phone </label>
+                                                    <label class="control-label">Phone <a style="color: red">*</a></label>
                                                     <input type="text" name="phone" class="form-control" placeholder="1-(555)-555-5555">
                                                 </div>
                                             </div>
@@ -222,7 +224,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
 											
 											<div class="col-md-6">
                                                 <div class="form-group has-danger">
-                                                    <label class="control-label">Image</label>
+                                                    <label class="control-label">Image <a style="color: red">*</a></label>
                                                     <input type="file" name="file"  id="lastName" class="form-control form-control-danger" placeholder="12n">
                                                 </div>
                                             </div>
@@ -230,7 +232,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
 
 											<div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label">Select Category</label>
+                                                    <label class="control-label">Select Category <a style="color: red">*</a></label>
 													<select name="c_name" class="form-control custom-select" data-placeholder="Choose a Category" tabindex="1">
                                                         <option>--Select Category--</option>
                                                         <?php $ssql ="select * from res_category";
@@ -260,7 +262,7 @@ if(isset($_POST['submit'])) //if upload btn was pressed
                                         <!--/span-->
 
                                         <!--/row-->
-                                        <h3 class="box-title m-t-40">Store Address</h3>
+                                        <h3 class="box-title m-t-40">Store Address <a style="color: red">*</a></h3>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-12 ">
@@ -283,14 +285,11 @@ if(isset($_POST['submit'])) //if upload btn was pressed
                     </div>
                 </div>
                 <!-- End Page Content -->
-            </div>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. </footer>                                        
+            </div>                                     
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->
-    </div>
+    
     <!-- End Wrapper -->
     <!-- All Jquery -->
     <script src="js/lib/jquery/jquery.min.js"></script>

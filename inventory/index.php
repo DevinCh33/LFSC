@@ -5,7 +5,7 @@ $sql = "SELECT * FROM product WHERE status = 1 AND owner = '".$_SESSION['adm_id'
 $query = $db->query($sql);
 $countProduct = $query->num_rows;
 
-$orderSql = "SELECT * FROM users_orders WHERE status = 'closed'";
+$orderSql = "SELECT * FROM orders WHERE order_status = 3";
 $orderQuery = $db->query($orderSql);
 $countOrder = $orderQuery->num_rows;
 

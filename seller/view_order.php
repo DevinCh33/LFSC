@@ -33,8 +33,18 @@ function popUpWindow(URLStr, left, top, width, height)
         if(!popUpWin.closed) popUpWin.close();
     }
 
-    popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,copyhistory=yes,width='+600+',height='+600+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
+    popUpWin = open(URLStr,'popUpWin', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,copyhistory=yes,width='+800+',height='+800+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
 }
+
+function handleMessage(event) 
+{
+    if (event.data === 'formSubmitted') 
+    {
+        location.reload(); // Refresh page
+    }
+}
+
+window.addEventListener('message', handleMessage);
 </script>
 </head>
 
@@ -129,13 +139,13 @@ if(isset($_SESSION["adm_id"]))
                                                     if($status=="1" )
                                                     {
                                                 ?>
-                                                <td><center><button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Dispatch</button></center></td>
+                                                <td><center><button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Processing</button></center></td>
                                                 <?php 
                                                     }
                                                     if($status=="2")
                                                     { 
                                                 ?>
-                                                <td><center><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the way!</button></center></td> 
+                                                <td><center><button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the Way!</button></center></td> 
                                                 <?php
                                                     }
                                                     if($status=="3")

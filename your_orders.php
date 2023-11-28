@@ -150,9 +150,6 @@ only screen and (max-width: 760px),
     ?>
     
     <div class="page-wrapper">
-        <!-- top Links -->
-        
-        <!-- end:Top links -->
         <!-- start: Inner page hero -->
         <div class="inner-page-hero bg-image" data-image-src="images/img/res.jpeg">
             <div class="container"> </div>
@@ -169,8 +166,6 @@ only screen and (max-width: 760px),
         <section class="restaurants-page">
             <div class="container">
                 <div class="row">
-                 
-
                     <div class="col-xs-12 col-sm-7 col-md-12 ">
                         <div class="bg-gray restaurant-entry">
                             <div class="row">
@@ -179,7 +174,7 @@ only screen and (max-width: 760px),
                         <tr>
 							<th>Order ID#</th>
                             <th>Seller</th>
-                            <th style="width: 10%">Number of Product</th>
+                            <th style="width: 10%">Number of Products</th>
                             <th>Price</th>
                             <th>Total Price</th>
                             <th>Status</th>
@@ -200,8 +195,6 @@ $query_res = mysqli_query($db,"SELECT orders.*, order_item.*, COUNT(order_item_i
 	GROUP BY orders.order_id
     ORDER BY orders.order_id DESC");
 
-
-
 if(!mysqli_num_rows($query_res) > 0 )
 {
     echo '<td colspan="6"><center>You have no orders placed yet. </center></td>';
@@ -213,8 +206,8 @@ else
     {
                         ?>
                         <tr>
-							<td data-column="ProductID"><?php echo $row['order_id']; ?></td>
-                            <td data-column="Item"><?php echo $row['product_name']; ?> (<?php echo $row['title']; ?>)</td>
+							<td data-column="ProductID" style="text-decoration: underline;font-weight: bold;"><a onclick="openPopup(<?php echo $row['order_id']; ?>)"><?php echo $row['order_id']; ?></a></td>
+                            <td data-column="Item"><?php echo $row['title']; ?></td>
                             <td data-column="Quantity"> <?php echo $row['total_product']; ?></td>
                             <td data-column="price">RM <?php echo $row['price']; ?></td>
                             <td data-column="Total Price">RM <?php echo $row['total']; ?></td>
@@ -224,12 +217,12 @@ else
                                 if($status=="" or $status=="1")
                                 {
 								?>
-								<button type="button" class="btn btn-info" style="font-weight:bold;">Dispatch</button>
+								<button type="button" class="btn btn-info" style="font-weight:bold;">Processing</button>
 								<?php 
                                 }
                                 if($status=="2")
                                 { ?>
-                                <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true" ></span>On a Way!</button>
+                                <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin" aria-hidden="true"></span>On the Way</button>
                             <?php
                                 }
                             if($status=="3")
@@ -267,6 +260,28 @@ else
                         <?php }} ?>
                         </tbody>
                         </table> 
+
+                        <div id="popup" style="display: none;" class="popup-container">
+                            <div style="display: flex; justify-content: space-between; align-items: center; text-align: right; font-size: 30px;">
+                                <div><a style="color: black; text-align: center">Order Details</a></div>
+                                <button class="btn theme-btn" onclick="closePopup()" style="font-size: 20px;">Close</button>
+                            </div>
+
+                            <table style="width: 100%; " border="1">
+                                <thead style="text-align: center;">
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th style="text-align: center;">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orderBody">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="overlay" class="overlay" onclick="closePopup()"></div>
                             </div>
                             <!--end:row -->
                         </div>
@@ -274,6 +289,7 @@ else
                 </div>
             </div>
         </section>
+        
     <?php
     include("includes/footer.php");
     ?>
@@ -293,8 +309,7 @@ else
 </body>
 </html>
 	
-	<script>
-	
+<script>
 	function generateReceipt(rs_id) {
 		console.log(rs_id);
         $.ajax({
@@ -311,5 +326,42 @@ else
                 console.error('AJAX error: ' + status, error);
             }
         });
+    }
+
+    function openPopup(orderId) {
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+
+        $.ajax({
+            url: './seller/getOrderProduct.php', // Path to your PHP script
+            type: 'GET',
+            data: { orderId: orderId },
+            dataType: 'json',
+            success: function(data) {
+                var tbody = document.getElementById('orderBody');
+        
+                // Clear existing rows
+                tbody.innerHTML = '';
+
+                // Iterate through the data and append rows to the table
+                for (var i = 0; i < data.length; i++) {
+                    
+                    var row = '<tr  width="200" height="200">' +
+                            '<td><center><img src="' + data[i].product_image + '" alt="Product Image" width="200" height="200"></center></td>' +
+                            '<td width="50%"style="text-align: center; color: black;">' + data[i].product_name + '</td>' +
+                            '<td width="20%" style="text-align: center;">' + data[i].quantity + '</td>' +
+                            '</tr>';
+                    tbody.innerHTML += row;
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX Error:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
     }
 </script>

@@ -106,7 +106,8 @@ if(isset($_POST['update']))
 
 
   echo "<script>alert('Form details updated successfully!');</script>";
-	echo '<script type="text/javascript">window.close();</script>';
+  echo '<script type="text/javascript">window.opener.postMessage("formSubmitted", "*");</script>';
+  echo '<script type="text/javascript">window.close();</script>';
 }
 
 ?>

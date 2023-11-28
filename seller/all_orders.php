@@ -158,13 +158,13 @@ if(isset($_SESSION["adm_co"]))
                                                             if($status=="1" )
                                                             {
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Dispatch</button></td>
+                                                        <td> <button type="button" class="btn btn-info" style="font-weight:bold;"><span class="fa fa-bars"  aria-hidden="true">Processing</button></td>
                                                         <?php 
                                                             }
                                                             if($status=="2")
                                                             { 
                                                         ?>
-                                                        <td> <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the way!</button></td> 
+                                                        <td> <button type="button" class="btn btn-warning"><span class="fa fa-cog fa-spin"  aria-hidden="true"></span>On the Way!</button></td> 
                                                         <?php
                                                             }
                                                             if($status=="3")
@@ -201,7 +201,7 @@ if(isset($_SESSION["adm_co"]))
                 </div>
 				<div id="popup" class="popup-container">
 					<div style="display: flex; justify-content: space-between; align-items: center; text-align: right; font-size: 30px;">
-						<div><a style="color: black; text-align: center">Order Detail</a></div>
+						<div><a style="color: black; text-align: center">Order Details</a></div>
 						<button onclick="closePopup()" style="font-size: 20px;">X</button>
 					</div>
 

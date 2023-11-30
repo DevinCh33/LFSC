@@ -109,8 +109,8 @@ if(isset($_SESSION["adm_id"]))
                                                     </center></td>																									
 											</tr>	
 											<tr>
-												<td><strong>Title:</strong></td>
-                                                <td><center><?php echo $rows['title']; ?></center></td>
+												<td><strong>Name:</strong></td>
+                                                <td><center><?php echo $rows['fullName']; ?></center></td>
                                                 <td><center>
                                                     <a href="javascript:void(0);" onClick="popUpWindow('userprofile.php?newform_id=<?php echo htmlentities($rows['order_id']);?>');" title="Update order">
                                                     <button type="button" class="btn btn-primary">View User Detials</button></a>

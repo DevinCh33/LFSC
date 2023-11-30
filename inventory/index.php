@@ -18,7 +18,7 @@ $lowStockSql = "SELECT * FROM product WHERE quantity <= 3 AND status = 1 AND own
 $lowStockQuery = $db->query($lowStockSql);
 $countLowStock = $lowStockQuery->num_rows;
 
-$userwisesql = "SELECT * FROM orders WHERE orders.order_belong = '".$_SESSION['store']."'";
+$userwisesql = "SELECT * FROM orders WHERE orders.order_belong = '".$_SESSION['store']."' AND orders.order_status < 3";
 $userwiseQuery = $db->query($userwisesql);
 $userwiseOrder = $userwiseQuery->num_rows;
 
@@ -101,7 +101,9 @@ $userwiseOrder = $userwiseQuery->num_rows;
 			  		</tr>
 			  	</thead>
 			  	<tbody>
-					<?php while ($orderResult = $userwiseQuery->fetch_assoc()) { ?>
+					<?php 
+						if($userwiseQuery->num_rows >0){			   
+							while ($orderResult = $userwiseQuery->fetch_assoc()) { ?>
 						<tr>
 							<?php
 								
@@ -136,7 +138,12 @@ $userwiseOrder = $userwiseQuery->num_rows;
 			</div>	
 		</div>
 	</div> 
-	<?php  } ?>
+	<?php  
+		}
+		else
+			echo "<td colspan='4' style='text-align: center;'>No Orders Today!!</td>";
+	}
+	?>
 </div> <!--/row-->
 
 <!-- fullCalendar 2.2.5 -->

@@ -116,7 +116,7 @@ if(isset($_SESSION["adm_co"]))
                                         <tbody>
 											<?php
 												if($_SESSION['adm_co'] == "SUPP")
-													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, order_item.quantity, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
+													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, SUM(order_item.quantity) AS totalQ, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
 														FROM orders
 														JOIN order_item ON orders.order_id = order_item.order_id
 														JOIN users ON orders.user_id = users.u_id
@@ -141,7 +141,7 @@ if(isset($_SESSION["adm_co"]))
 													if($_SESSION['adm_id'] == "SUPA")
                                                     	echo '<td colspan="8"><center>No orders data!</center></td>';
 													else
-														echo '<td colspan="7"><center>No orders data!</center></td>';
+														echo '<td colspan="8"><center>No orders data!</center></td>';
                                                 }
 
                                                 else
@@ -155,7 +155,7 @@ if(isset($_SESSION["adm_co"]))
                                                                 <td>'.$rows['username'].'</td>';
 																if($_SESSION['adm_co'] == "SUPA")
                                                             		echo '<td>'.$rows['title'].'</td>';
-                                                                echo '<td>'.$rows['quantity'].'</td>
+                                                                echo '<td>'.$rows['totalQ'].'</td>
                                                                 <td>$'.$rows['price'].'</td>
                                                                 <td>'.$rows['address'].'</td>';
                                                         ?>

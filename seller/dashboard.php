@@ -124,7 +124,7 @@ if(empty($_SESSION["adm_id"]))
 												if($_SESSION['adm_co'] == "SUPA")
 													$sql="select * from users WHERE status < 3";
 												else
-													$sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."'";
+													$sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."' AND order_status < 3";
                                                     $result=mysqli_query($db,$sql); 
                                                         $rws=mysqli_num_rows($result);
                                                         echo $rws;?></h2>

@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+session_start(); // temp session
+error_reporting(0); // hide undefined index errors
+?>
 <html lang="en">
 
 <head>
@@ -18,6 +22,7 @@
     <link href="css/style.css" rel="stylesheet">
     <style>
 
+
         .popup-container {
 			display: none;
 			position: fixed;
@@ -30,6 +35,7 @@
 			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 			z-index: 1000;
 			width: 70%;
+			margin-top: 10%;
 		}
 
 		.popup-container button {
@@ -57,8 +63,7 @@
 
 <body class="fix-header fix-sidebar">
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
+
 include("./../connection/connect.php"); // connection to database
 
 if(isset($_SESSION["adm_co"]))
@@ -118,6 +123,7 @@ if(isset($_SESSION["adm_co"]))
 														JOIN product ON order_item.product_id = product.product_id
 														JOIN restaurant ON product.owner = restaurant.rs_id
 														WHERE orders.order_belong = '".$_SESSION['store']."' AND orders.order_status <= 2
+														Group BY orders.order_id
 														ORDER BY orders.order_status";
 												else
 													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, order_item.quantity, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
@@ -207,12 +213,12 @@ if(isset($_SESSION["adm_co"]))
 
 
 
-					<table style="width: 100%; " border="1">
+					<table style="width: 100%;" border="1">
 						<thead style="text-align: center;">
-							<tr>
-								<th>Image</th>
-								<th>Product Name</th>
-								<th style="text-align: center;">Quantity</th>
+							<tr style="background-color: red;">
+								<th style="text-align: center; color: white;">Image</th>
+								<th style="text-align: center; color: white;">Product Name</th>
+								<th style="text-align: center; color: white;">Quantity</th>
 								
 							</tr>
 						</thead>
@@ -283,7 +289,7 @@ function openPopup(orderId) {
 				var row = '<tr  width="200" height="200">' +
 						  '<td><center><img src="' + data[i].product_image + '" alt="Product Image" width="200" height="200"></center></td>' +
 						  '<td width="50%"style="text-align: center; color: black;">' + data[i].product_name + '</td>' +
-						  '<td width="20%" style="text-align: center;">' + data[i].quantity + '</td>' +
+						  '<td width="20%" style="text-align: center; color: black;">' + data[i].quantity + '</td>' +
 						  '</tr>';
 				tbody.innerHTML += row;
 			}

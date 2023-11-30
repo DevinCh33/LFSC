@@ -139,6 +139,39 @@ only screen and (max-width: 760px),
 
       
 }
+.popup-container {
+			display: none;
+			position: fixed;
+			top: 30%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			z-index: 1000;
+			width: 70%;
+		}
+
+		.popup-container button {
+			background-color: transparent;
+			border: none;
+			padding: 8px 12px;
+			color: #333;
+			font-size: 14px;
+			cursor: pointer;
+		}
+
+		.overlay {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			z-index: 999;
+		}
 </style>
 </head>
 
@@ -249,6 +282,7 @@ else
 								<a href="delete_orders.php?order_del=<?php echo $row['o_id'];?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
 								<?php
 									}else if($status == 2){
+								
 									}else if($status == 3){
 								?>
 								<a alt="Receipt"><i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(<?php echo $row['order_id']; ?>)"></i></a>
@@ -264,7 +298,7 @@ else
                         <div id="popup" style="display: none;" class="popup-container">
                             <div style="display: flex; justify-content: space-between; align-items: center; text-align: right; font-size: 30px;">
                                 <div><a style="color: black; text-align: center">Order Details</a></div>
-                                <button class="btn theme-btn" onclick="closePopup()" style="font-size: 20px;">Close</button>
+                                <button class="btn theme-btn" onclick="closePopup()" style="font-size: 20px;">X</button>
                             </div>
 
                             <table style="width: 100%; " border="1">

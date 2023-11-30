@@ -90,7 +90,7 @@ if(isset($_POST['submit'] )) // if submit button was pressed
                            i.innerHTML = parseInt(i.innerHTML)-1;
                         }
                         setInterval(function(){ countdown(); },1000);
-                     </script>'";
+                     </script>";
 
 		   header("refresh:5;url=login.php"); // redirected once account created
       }

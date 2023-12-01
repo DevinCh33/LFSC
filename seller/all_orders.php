@@ -106,7 +106,7 @@ if(isset($_SESSION["adm_co"]))
                                                 	<th>Title</th>
 												<?php } ?>
                                                 <th>Quantity</th>
-                                                <th>Price</th>
+                                                <th>Total Amount</th>
                                                 <th>Address</th>
                                                 <th>Status</th>												
                                                 <th>Order Date</th>
@@ -116,7 +116,7 @@ if(isset($_SESSION["adm_co"]))
                                         <tbody>
 											<?php
 												if($_SESSION['adm_co'] == "SUPP")
-													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, SUM(order_item.quantity) AS totalQ, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
+													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date,orders.user_id, SUM(order_item.quantity) AS totalQ, orders.total_amount, product.product_name, restaurant.title, users.username, users.address
 														FROM orders
 														JOIN order_item ON orders.order_id = order_item.order_id
 														JOIN users ON orders.user_id = users.u_id
@@ -126,7 +126,7 @@ if(isset($_SESSION["adm_co"]))
 														Group BY orders.order_id
 														ORDER BY orders.order_status";
 												else
-													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date, order_item.quantity, order_item.price, 	product.product_name, restaurant.title, users.username, users.address
+													$sql = "SELECT orders.order_id,orders.order_status, orders.order_date,orders.user_id, order_item.quantity, order_item.price, product.product_name, restaurant.title, users.username, users.address
 														FROM orders
 														JOIN order_item ON orders.order_id = order_item.order_id
 														JOIN users ON orders.user_id = users.u_id
@@ -152,11 +152,11 @@ if(isset($_SESSION["adm_co"]))
                                                         <?php
                                                         echo ' <tr>
 																<td style="text-decoration: underline;font-weight: bold;"><a onclick="openPopup(\''.$rows['order_id'].'\')">'.$rows['order_id'].'</a></td>
-                                                                <td>'.$rows['username'].'</td>';
+                                                                <td  style="text-decoration: underline;font-weight: bold;"><a onclick="userPopup(\''.$rows['user_id'].'\')">'.$rows['username'].'</a></td>';
 																if($_SESSION['adm_co'] == "SUPA")
                                                             		echo '<td>'.$rows['title'].'</td>';
                                                                 echo '<td>'.$rows['totalQ'].'</td>
-                                                                <td>$'.$rows['price'].'</td>
+                                                                <td>$'.$rows['total_amount'].'</td>
                                                                 <td>'.$rows['address'].'</td>';
                                                         ?>
                                                         <?php
@@ -223,6 +223,29 @@ if(isset($_SESSION["adm_co"]))
 							</tr>
 						</thead>
 						<tbody id="orderBody">
+							
+						</tbody>
+					</table>
+				</div>
+				
+				<div id="userPopup" class="popup-container">
+					<div style="display: flex; justify-content: space-between; align-items: center; text-align: right; font-size: 30px;">
+						<div><a style="color: black; text-align: center">Client Details</a></div>
+						<button onclick="closePopup()" style="font-size: 20px;">X</button>
+					</div>
+
+
+
+					<table style="width: 100%;" border="1">
+						<thead style="text-align: center;">
+							<tr style="background-color: red;">
+								<th style="text-align: center; color: white;">Name</th>
+								<th style="text-align: center; color: white;">Phone</th>
+								<th style="text-align: center; color: white;">Email</th>
+								<th style="text-align: center; color: white;">Address</th>
+							</tr>
+						</thead>
+						<tbody id="userBody">
 							
 						</tbody>
 					</table>
@@ -299,9 +322,44 @@ function openPopup(orderId) {
 		}
     });
 }
+	
+function userPopup(userId) {
+	 document.getElementById('userPopup').style.display = 'block';
+     document.getElementById('overlay').style.display = 'block';
+		
+	 $.ajax({
+        url: 'fetchOrderUser.php', // Path to your PHP script
+        type: 'GET',
+		data: { userId: userId },
+        dataType: 'json',
+        success: function(data) {
+            var tbody = document.getElementById('userBody');
+    
+			// Clear existing rows
+			tbody.innerHTML = '';
+
+			// Iterate through the data and append rows to the table
+			for (var i = 0; i < data.length; i++) {
+				
+				var row = '<tr  width="100" height="200">' +
+						  '<td width="30%" style="text-align: center; color: black;">'+data[i].fullName+'</td>' +
+						  '<td width="30%" style="text-align: center; color: black;">' + data[i].phone + '</td>' +
+						  '<td width="20%" style="text-align: center; color: black;">' + data[i].email + '</td>' +
+						  '<td width="20%" style="text-align: center; color: black;">' + data[i].address + '</td>' +
+						  '</tr>';
+				tbody.innerHTML += row;
+			}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+			console.error('AJAX Error:', textStatus, errorThrown);
+		}
+    });
+}
+
 
 function closePopup() {
     document.getElementById('popup').style.display = 'none';
+	document.getElementById('userPopup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
 }
 

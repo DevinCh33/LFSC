@@ -100,7 +100,7 @@ $(document).ready(function() {
                 <li>
                     <img src="${item.image}" alt="${item.name}" style="width:50px; height:50px;"><br/>
                     <a href="dishes.php?res_id=${item.owner}">${item.name}</a> - 
-                    RM ${item.price.toFixed(2)} x <br> <input type="number" class="product quantity" style="max-width: 4rem;" value="${item.quantity}" min="0" data-product-id="${item.id}"/>
+                    RM ${item.price.toFixed(2)} x <br> <input type="number" class="product quantity" style="max-width: 4rem;" value="${item.quantity}" min="1" data-product-id="${item.id}"/>
                     <button class="btn theme-btn product removeProduct" data-product-id="${item.id}">
                         <i class="fa fa-trash pull-right">&nbsp;Remove</i>
                     </button>

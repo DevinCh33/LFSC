@@ -25,6 +25,23 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("connection/connect.php"); // connection to database
 
+function obtainPriceDictionary($db) 
+{
+	$priceDictionary = [];
+	$query = "SELECT product_id, price from product";
+	$products = mysqli_query($db, $query); // executing
+	
+	if (!empty($products)) 
+	{
+		foreach($products as $product)
+		{   
+			$priceDictionary[$product['product_id']] = $product['price'];
+		}
+	}
+
+	$_SESSION['prices'] = $priceDictionary;
+}
+
 if (isset($_SESSION["user_id"])) // if already logged in
 {
 	header("refresh:0;url=market.php"); // redirect to market.php page
@@ -45,6 +62,9 @@ if(isset($_POST['submit'])) // if submit button was preseed
 		{
 			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
 			$_SESSION['loginStatus'] = true;
+
+			obtainPriceDictionary($db);
+
 			header("refresh:1;url=market.php"); // redirect to market.php page
 		} 
 		else

@@ -47,6 +47,10 @@ $(document).ready(function() {
             alert("Please enter a number of at least 1!");
             return;
         }
+        if (!Number.isInteger(quantity)) {
+            alert("Please enter an integer!");
+            return;
+        }
         const existingProduct = cart.find(item => item.id === id);
         if (existingProduct) {
             existingProduct.quantity += quantity;

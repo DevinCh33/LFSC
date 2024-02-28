@@ -5,7 +5,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     if (isset($_POST['cart']))
     {
-        $_SESSION['cart'] = $_POST['cart'];
+        $valid = True;
+
+        foreach ($_POST['cart'] as $item) 
+        {
+            if ((float)$item['price'] != (float)$_SESSION['prices'][$item['id']])
+            {
+                $valid = False;
+                break;
+            }
+        }
+
+        if ($valid) // If prices were not altered
+        {
+            $_SESSION['cart'] = $_POST['cart'];
+        }
     }
 
     else
@@ -25,4 +39,3 @@ elseif(isset($_SESSION['cart']))
     // Make sure numbers remain numbers in JSON
     echo json_encode($cart, JSON_NUMERIC_CHECK);
 }
-?>

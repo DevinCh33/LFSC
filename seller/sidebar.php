@@ -26,12 +26,12 @@
 		
     <ul class="nav-links">
       <li>
-        <a href="index.php">
+        <a href="dashboard.php">
           <i class='bx bx-grid-alt' ></i>
           <span class="link_name">Dashboard</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="index.php">Dashboard</a></li>
+          <li><a class="link_name" href="dashboard.php">Dashboard</a></li>
         </ul>
       </li>
       <li>

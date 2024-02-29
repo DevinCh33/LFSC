@@ -208,7 +208,6 @@ only screen and (max-width: 760px),
 							<th>Order ID#</th>
                             <th>Seller</th>
                             <th style="width: 10%">Number of Products</th>
-                            <th>Price</th>
                             <th>Total Price</th>
                             <th>Status</th>
                             <th>Date</th>
@@ -219,10 +218,11 @@ only screen and (max-width: 760px),
                         
                         <?php 
 // displaying current session user login orders 
-$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, COUNT(order_item_id) as total_product, restaurant.*
+$query_res = mysqli_query($db,"SELECT orders.*, order_item.*, COUNT(order_item_id) as total_product, restaurant.*, tblprice.*, SUM(proPrice) as total
     FROM orders
     JOIN order_item ON orders.order_id = order_item.order_id
-    JOIN product ON order_item.product_id = product.product_id
+	JOIN tblprice ON order_item.priceID = tblprice.priceNo
+    JOIN product ON tblprice.productID = product.product_id
     JOIN restaurant ON product.owner = restaurant.rs_id
     WHERE orders.user_id = '".$_SESSION['user_id']."' AND orders.order_status <= 4
 	GROUP BY orders.order_id
@@ -242,7 +242,6 @@ else
 							<td data-column="ProductID" style="text-decoration: underline;font-weight: bold;"><a onclick="openPopup(<?php echo $row['order_id']; ?>)"><?php echo $row['order_id']; ?></a></td>
                             <td data-column="Item"><?php echo $row['title']; ?></td>
                             <td data-column="Quantity"> <?php echo $row['total_product']; ?></td>
-                            <td data-column="price">RM <?php echo $row['price']; ?></td>
                             <td data-column="Total Price">RM <?php echo $row['total']; ?></td>
                             <td data-column="status"> 
                             <?php 
@@ -367,7 +366,7 @@ else
         document.getElementById('overlay').style.display = 'block';
 
         $.ajax({
-            url: './seller/getOrderProduct.php', // Path to your PHP script
+            url: './seller/action/getOrderProduct.php', // Path to your PHP script
             type: 'GET',
             data: { orderId: orderId },
             dataType: 'json',

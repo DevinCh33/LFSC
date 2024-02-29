@@ -1,23 +1,28 @@
 <?php
 // Include database connection or any necessary files
-include("connection/connect.php");
+include("./../../connection/connect.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POST['rs_id'])) {
+    $selectedDate = $_POST['date'];
+    $order_belong = $_POST['rs_id'];
 
-    $order = $_POST['rs_id'];
-
-    // Your SQL query to fetch data and generate receipt content based on order
+    // Your SQL query to fetch data and generate receipt content based on order_belong
     $sql = "SELECT
-					oi.*,
-					p.product_name,
-					tp.*
+					oi.product_id,
+					SUM(oi.quantity) AS total_quantity,
+					SUM(oi.total) AS total_price,
+					p.product_name
 				FROM
 					orders o
 				JOIN order_item oi ON o.order_id = oi.order_id
 				JOIN tblprice tp ON oi.priceID = tp.priceNo
 				JOIN product p ON tp.productID = p.product_id
+				JOIN restaurant r ON p.owner = r.rs_id
 				WHERE
-					o.order_id = '".$order."'";
+					o.order_date LIKE '".$selectedDate."%'
+					AND o.order_belong = '".$order_belong."'
+				GROUP BY
+					oi.product_id";
     $query = $db->query($sql);
 	
 //	$companyInfo = "SELECT * FROM restaurant WHERE rs_id = '".$_POST['rs_id']."'";
@@ -43,12 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $no = 1;
 
         while ($result = $query->fetch_assoc()) {
-			
-			
-            $totalAmount += $result["proPrice"];
-            $totalItems += $result["quantity"];
+            $totalAmount += $result["total_price"];
+            $totalItems += $result["total_quantity"];
 
-            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($result["proPrice"], 2)."</td></tr>";
+            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["total_quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($result["total_price"], 2)."</td></tr>";
 
             ++$no;
         }

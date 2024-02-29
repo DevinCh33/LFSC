@@ -1,246 +1,289 @@
+<?php include 'connect.php'; ?>
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
+<html lang="en" dir="ltr">
+  <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
-    <title>Merchant Dashboard</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/helper.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
-    <!--[if lt IE 9]>
-    <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!-- Boxiocns CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
-<?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-include("./../connection/connect.php"); // connection to database
-
-if(empty($_SESSION["adm_id"]))
-{
-	header('location:index.php');
-}
-?>
-
-<body class="fix-header">
-    
-    <!-- Preloader - style you can find in spinners.css -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
+   </head>
+	
+<body>
+  <div class="sidebar close">
+    <?php include "sidebar.php"; ?>
+  </div>
+  <section class="home-section">
+    <div class="home-content">
+      <i class='bx bx-menu' ></i>
+      <span class="text">Dashboard</span>
     </div>
-    <!-- Main wrapper  -->
-    <div id="main-wrapper">
-        <?php
-        include("sidebar.php");
-        ?>
-        
-        <!-- Page wrapper  -->
-        <div class="page-wrapper" style="height:1200px;">
-            <!-- Bread crumb -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Dashboard</h3> </div>
-            </div>
-            <!-- End Bread crumb -->
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-                <!-- Start Page Content -->
-                <div class="row">
-                    <?php
-                    if (isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
-                    {
-                    ?>
-                    <div class="col-md-3">
-                        <a href="allrestraunt.php">
-                            <div class="card p-30">
-                                <div class="media">
-                                    <div class="media-left meida media-middle">
-                                        <span><i class="fa-solid fa-store f-s-40"></i></span>
-                                    </div>
-                                    <div class="media-body media-text-right">
-                                        <h2><?php $sql="select * from restaurant";
-                                                    $result=mysqli_query($db,$sql); 
-                                                        $rws=mysqli_num_rows($result);
-                                                        
-                                                        echo $rws;?></h2>
-                                        <p class="m-b-0">Stores</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <?php
+	  
+	  
+<div class="dashboard">
+		<div class="card">
+			<h3>Items Sales</h3>
+		<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT SUM(total_amount) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+        	<p>RM <?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+      	</div>
+		
+		<div class="card">
+			<h3>New Orders</h3>
+			<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(order_id) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		  </div>
+
+		  <div class="card">
+			<h3>Total Products</h3>
+			<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT COUNT(product_id) AS total_current_month FROM product WHERE product_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(product_id) AS total_last_month FROM product WHERE product_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		  </div>
+
+		  <div class="card">
+			<h3>New Visitor</h3>
+			<p>5,186<span class="stat-delta positive">+150%</span></p>
+		  </div>
+	
+	
+		  <div class="sales-graph">
+			<canvas id="salesChart"></canvas>
+		  </div>
+		
+		<div class="multiFunction">
+			<div class="calendar">
+				<h3>Calendar</h3>
+				<h2 id="day"></h2>
+				<p id="month"></p>
+			</div>
+			
+			<div class="alert">
+				<div class="box">
+					<p>Stock Alert    :</p> 
+				</div>
+				<div class="box">
+					<p>Order Reminder :</p> 
+				</div>
+				<div class="box">
+					<p>Product Pending:</p> 
+				</div>
+				
+			</div>
+			
+      	</div>
+</div>
+	  
+	  
+  </section>
+  
+  <script>
+  let arrow = document.querySelectorAll(".arrow");
+  for (var i = 0; i < arrow.length; i++) {
+    arrow[i].addEventListener("click", (e)=>{
+   let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+   arrowParent.classList.toggle("showMenu");
+    });
+  }
+  let sidebar = document.querySelector(".sidebar");
+  let sidebarBtn = document.querySelector(".bx-menu");
+	  let logoImage = document.getElementById("logo");
+	  let logoName = document.getElementById("logo_name");
+  	logoName.hidden = true;
+	  let initialSize = { width: 80, height: 80 };
+	  logoImage.width = initialSize.width;
+	  logoImage.height = initialSize.height;
+	  // Hide the logo name initially
+  logoName.style.opacity = 0;
+
+  // Function to show the logo name with a delay
+  function showLogoName() {
+    logoName.style.opacity = 1;
+  }
+	  
+  sidebarBtn.addEventListener("click", ()=>{
+    sidebar.classList.toggle("close");
+	  if (sidebar.classList.contains("close")) {
+      // Sidebar is closed
+      logoImage.width = initialSize.width;
+      logoImage.height = initialSize.height;
+      logoName.hidden = true;
+    } else {
+      // Sidebar is open
+      // Adjust the logo size as needed
+      logoImage.width = 120; // Increase the width to 120 when the sidebar is open
+      logoImage.height = 120; // Increase the height to 120 when the sidebar is open
+      logoName.hidden = false;
+		setTimeout(showLogoName, 200);
+    }
+  });
+	  
+let currentDate = new Date();
+
+    // Array of month names for display
+    const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+	  document.getElementById("day").textContent = currentDate.getDate();
+    // Update the content of the element with the ID "date" with the formatted date
+    document.getElementById("month").textContent = monthNames[currentDate.getMonth()];
+	  
+	  
+	 
+document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Sales Amount (RM)',
+                    data: [
+                        <?php echo 1200; ?>,
+                        <?php echo 1800; ?>,
+                        <?php echo $data['March']; ?>,
+                        <?php echo $data['April']; ?>,
+                        <?php echo $data['May']; ?>,
+                        <?php echo $data['June']; ?>,
+                        <?php echo $data['July']; ?>,
+                        <?php echo $data['August']; ?>,
+                        <?php echo $data['September']; ?>,
+                        <?php echo $data['October']; ?>,
+                        <?php echo $data['November']; ?>,
+                        <?php echo $data['December']; ?>
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: '#fff', // Color of data labels
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: function(value, context) {
+                            return value + ' RM';
+                        }
                     }
-                    ?>
-                    
-					<div class="col-md-3">
-                        <a href="all_menu.php">
-                            <div class="card p-30">
-                                <div class="media">
-                                    <div class="media-left meida media-middle">
-                                        <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
-                                    </div>
-                                    <div class="media-body media-text-right">
-                                        <h2><?php 
-											if($_SESSION['adm_co'] == "SUPA")
-												$sql="select * from product where status < '3'";
-											else
-												$sql="select * from product where owner = '".$_SESSION['store']."'";
-                                                    $result=mysqli_query($db,$sql); 
-                                                   	$rws=mysqli_num_rows($result);
-                                                        
-                                                        echo $rws;?></h2>
-                                        <p class="m-b-0">Products</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-					
-                    <div class="col-md-3">
-                        <a href="allusers.php">
-                            <div class="card p-30">
-                                <div class="media">
-                                    <div class="media-left meida media-middle">
-                                        <span><i class="fa fa-user f-s-40 color-danger"></i></span>
-                                    </div>
-                                    <div class="media-body media-text-right">
-                                        <h2><?php 
-												if($_SESSION['adm_co'] == "SUPA")
-													$sql="select * from users WHERE status < 3";
-												else
-													$sql="select distinct user_id from orders WHERE order_belong = '".$_SESSION['store']."' AND order_status < 3";
-                                                    $result=mysqli_query($db,$sql); 
-                                                        $rws=mysqli_num_rows($result);
-                                                        echo $rws;?></h2>
-                                        <p class="m-b-0">Customer</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-						<div class="col-md-3">
-							<a href="all_orders.php">
-								<div class="card p-30">
-									<div class="media">
-										<div class="media-left meida media-middle"> 
-											<span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
-										</div>
-										<div class="media-body media-text-right">
-											<h2><?php
-													if($_SESSION['adm_co'] == "SUPA")
-														$sql="select * from orders WHERE order_status < '3' ORDER BY order_status";
-													else
-														$sql="select * from orders where order_status < '3' AND order_belong = '".$_SESSION['store']."'";
-														$result=mysqli_query($db,$sql); 
-															$rws=mysqli_num_rows($result);
-
-															echo $rws;?></h2>
-											<p class="m-b-0">Orders</p>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-
-						<div class="col-md-3">
-							<a href="/lfsc/inventory/index.php">
-								<div class="card p-30">
-									<div class="media">
-										<div class="media-left meida media-middle"> 
-											<span><i class='fa fa-archive f-s-40' ></i></span>
-										</div>
-										<div class="media-body media-text-right">
-											<h2><?php
-													$sql="select * from orders where order_belong = '".$_SESSION['store']."'";
-														$result=mysqli_query($db,$sql); 
-															$rws=mysqli_num_rows($result);
-
-															echo $rws;?></h2>
-											<p class="m-b-0">Inventory</p>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					
-					
-					<div class="col-md-3">
-                        <a href="/lfsc/seller/sellerReport.php">
-                            <div class="card p-30">
-                                <div class="media">
-                                    <div class="media-left meida media-middle"> 
-                                        <span><i class='fa fa-dollar-sign f-s-40' ></i></span>
-                                    </div>
-                                    <!--
-
-                                    -->
-                                        <div class="media-body media-text-right">
-                                        <h2><?php
-											$date = date("Y-m");
-											if($_SESSION['adm_co'] == "SUPA"){
-												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders WHERE orders.order_status = '3' AND orders.order_date LIKE '".$date."%'";
-											}
-											else{
-												$sql="SELECT SUM(orders.total_amount) as totalorder FROM orders WHERE orders.order_status = '3' AND orders.order_belong ='".$_SESSION['store']."' AND orders.order_date LIKE '".$date."%'";
-											}
-												
-
-                                                    $result=$db->query($sql); 
-                                                    $rws=$result->fetch_assoc();
-                                                    if($rws['totalorder'] == 0)
-                                                        $income = 0;
-                                                    else
-                                                        $income = $rws['totalorder'];
-
-                                                        echo "RM ".$income;?></h2>
-                                        <p class="m-b-0">Monthly Income</p>
-                                    </div>
-
-
-
-
-
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <!-- End PAge Content -->
-            </div>
-            <!-- End footer -->
-        </div>
-        <!-- End Page wrapper  -->
-    </div>
-    <!-- End Wrapper -->
-    <!-- All Jquery -->
-    <script src="js/lib/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="js/lib/bootstrap/js/popper.min.js"></script>
-    <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
-    <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+  </script>
 </body>
 </html>

@@ -74,7 +74,7 @@ include("connection/connect.php"); // connection to database
 		<div class="products-grid">
 		<?php
 			// Query a maximum of 4 random active products
-			$randomProductsQuery = "SELECT * FROM product WHERE active = 1 ORDER BY RAND() LIMIT 4";
+			$randomProductsQuery = "SELECT * FROM product WHERE status = 1 ORDER BY RAND() LIMIT 4";
 			$result = mysqli_query($db, $randomProductsQuery);
 
 			// Check if there are any products returned by the query

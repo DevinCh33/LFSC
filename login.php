@@ -63,7 +63,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
 			$_SESSION['loginStatus'] = true;
 
-			obtainPriceDictionary($db);
+			//obtainPriceDictionary($db);
 
 			header("refresh:1;url=market.php"); // redirect to market.php page
 		} 

@@ -118,7 +118,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 
                         <div class="collapse in" id="popular2">
                         <?php // display values and item of products
-                            $stmt = $db->prepare("SELECT * FROM product WHERE owner = ? AND active = 1");
+                            $stmt = $db->prepare("SELECT * FROM product, tblprice WHERE product.owner = ? AND product.status = 1 AND product.product_id = tblprice.productID");
                             $stmt->bind_param("i", $_GET['res_id']);
                             $stmt->execute();
                             $products = $stmt->get_result();
@@ -141,11 +141,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
                                             <h6><?php echo $product['product_name']; ?></h6>
 
-                                            <p><?php echo $product['descr']; ?></p>
+                                            <p><?php echo $product['descr'];  ?></p>
 
                                             <p style="color: green;">Stock Left: <?php echo (int)$product['quantity']; ?></p>
 
-                                            <span class="price pull-left" >RM <?php echo $product['price']; ?></span>
+                                            <span class="price pull-left" >RM <?php echo $product['proPrice']; ?></span>
                                             <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
                                             <button class="btn theme-btn addsToCart">Add to Cart</button>
                                         </div>

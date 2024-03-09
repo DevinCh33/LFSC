@@ -100,7 +100,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
   
 	<div class="cta">
 		Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
-		or <a href="forgotpassword.php" style="color:#f30;">Forgot password?</a>
+		or <a href="enter_email.php" style="color:#f30;">Forgot password?</a>
 	</div>
 </div>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

@@ -11,6 +11,7 @@ $sql = "SELECT
 			product.product_image, 
 			product.descr, 
 			product.quantity,
+			product.lowStock,
 			product.status, 
 			tblprice.proWeight,
 			tblprice.proPrice,
@@ -49,7 +50,8 @@ if ($result->num_rows > 0) {
                 'productImage' => $img,
                 'descr' => $row[4],
                 'quantity' => $row[5],
-                'status' => $row[6],
+				'lowStock' => $row[6],
+                'status' => $row[7],
                 'prices' => array($productPriceWeight) // Start a new array for prices and weights.
             );
         } else {

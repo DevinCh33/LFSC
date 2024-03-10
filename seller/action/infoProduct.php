@@ -17,6 +17,7 @@ $productDescription = $formData['proDescr'];
 $productQuantity = $formData['proQuan'];
 $productCategory = $formData['proCat'];
 $productStatus = $_POST['proStatus'];
+$productStockAlert = $_POST['txtStock'];
 $store = $formData['storeID'];
 
 // Extract weight and price values from the arrays
@@ -28,8 +29,8 @@ $priceNo = $formData['priceNo'];
 
 if ($act == "add") {
     // Perform the INSERT operation for 'product' table
-    $sql = "INSERT INTO product (productCode, product_name, descr, quantity,  owner, product_date, status)
-            VALUES ('$productCode', '$productName', '$productDescription', '$productQuantity',  '$store', '$date', '$productStatus')";
+    $sql = "INSERT INTO product (productCode, product_name, descr, quantity,  owner, product_date, lowStock, status)
+            VALUES ('$productCode', '$productName', '$productDescription', '$productQuantity',  '$store', '$date', '$productStockAlert', '$productStatus')";
 
     if ($db->query($sql) === true) {
         // Get the last inserted product_id

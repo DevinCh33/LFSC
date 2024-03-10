@@ -1,4 +1,5 @@
 let arrow = document.querySelectorAll(".arrow");
+
   for (var i = 0; i < arrow.length; i++) {
     arrow[i].addEventListener("click", (e)=>{
    let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
@@ -80,7 +81,7 @@ function updateSortIndicator(columnIndex) {
 }
 
 function closePopup() {
-    document.getElementById("popupWindow").style.display = "none";
+   	document.getElementById("popupWindow").style.display = "none";
 	document.getElementById('myForm').reset();
 }
 

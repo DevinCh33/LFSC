@@ -414,8 +414,8 @@ html, body {
 
 /* Style for the input fields */
 .form-control {
-  width: 80%;
-  padding: 10px;
+  width: 100%;
+  padding: 10px 0;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -448,12 +448,6 @@ html, body {
 /* 1. Label and text field in one line, with 20% margin on left and right */
 .form-group {
   display: flex;
-  justify-content: space-between;
-  margin: 0 10%;
-	background-color: #fff;
-}
-
-.setting-Dash fieldset{
 	background-color: #fff;
 }
 /* 2. Save Change button under the text field button */
@@ -465,12 +459,12 @@ html, body {
 }
 
 .form-group .label{
-	width: 30%;
+	width: 20%;
 	text-align: left;
 }
 
 .form-group .textfield{
-	width: 70%;
+	width: 80%;
 	text-align: center;
 }
 
@@ -494,313 +488,54 @@ html, body {
     border-bottom: 1px solid #eaeaf1;
     margin-bottom: 30px;
     color: #616670;
-    font-size: 16px
-}
-
-.setting .view-account .content-panel .avatar .figure img {
-    float: right;
-    width: 64px
-}
-
-.setting .view-account .content-panel .content-header-wrapper {
-    position: relative;
-    margin-bottom: 30px
-}
-
-.setting .view-account .content-panel .content-header-wrapper .actions {
-    position: absolute;
-    right: 0;
-    top: 0
-}
-
-.setting .view-account .content-panel .content-utilities {
-    position: relative;
-    margin-bottom: 30px
-}
-
-.setting .view-account .content-panel .content-utilities .btn-group {
-    margin-right: 5px;
-    margin-bottom: 15px
-}
-
-.setting .view-account .content-panel .content-utilities .fa {
     font-size: 16px;
-    margin-right: 0
+	display: flex;
 }
 
-.setting .view-account .content-panel .content-utilities .page-nav {
-    position: absolute;
-    right: 0;
-    top: 0
+.setting .view-account .content-panel .fieldset-title .btnVerify {
+    margin-left: 20px; /* Pushes the div to the right */
+	background-color: lightgreen;
+	border-radius: 10px;
+	padding: 5px 10px;
+	color: black;
+	border: none;
 }
 
-.setting .view-account .content-panel .content-utilities .page-nav .btn-group {
-    margin-bottom: 0
+
+
+.setting .view-account .content-panel .fieldset {
+    border: none;
 }
 
-.setting .view-account .content-panel .content-utilities .page-nav .indicator {
-    color: #a2a6af;
-    margin-right: 5px;
-    display: inline-block
+.setting .view-account .content-panel .updateButtonBox {
+    width: 100%;
+	text-align: center;
 }
 
-.setting .view-account .content-panel .mails-wrapper .mail-item {
-    position: relative;
-    padding: 10px;
-    border-bottom: 1px solid #f3f3f3;
-    color: #616670;
-    overflow: hidden
+.setting .view-account .content-panel .updateButton {
+    background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+	border-radius: 10px;
 }
 
-.setting .view-account .content-panel .mails-wrapper .mail-item>div {
-    float: left
+.form-group .textfield .passAlert {
+	text-align: left;
+	color: red;
+	padding: 0;
+	font-size: 12px;
+	font-style: italic;
 }
 
-.setting .view-account .content-panel .mails-wrapper .mail-item .icheck {
-    background-color: #fff
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item:hover {
-    background: #f9f9fb
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item:nth-child(even) {
-    background: #fcfcfd
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item:nth-child(even):hover {
-    background: #f9f9fb
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item a {
-    color: #616670
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item a:hover {
-    color: #494d55;
-    text-decoration: none
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .checkbox-container,
-.setting .view-account .content-panel .mails-wrapper .mail-item .star-container {
-    display: inline-block;
-    margin-right: 5px
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .star-container .fa {
-    color: #a2a6af;
-    font-size: 16px;
-    vertical-align: middle
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .star-container .fa.fa-star {
-    color: #f2b542
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .star-container .fa:hover {
-    color: #868c97
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-to {
-    display: inline-block;
-    margin-right: 5px;
-    min-width: 120px
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject {
-    display: inline-block;
-    margin-right: 5px
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label {
-    margin-right: 5px
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label:last-child {
-    margin-right: 10px
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label a,
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label a:hover {
-    color: #fff
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-1 {
-    background: #f77b6b
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-2 {
-    background: #58bbee
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-3 {
-    background: #f8a13f
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-4 {
-    background: #ea5395
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-5 {
-    background: #8a40a7
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .time-container {
-    display: inline-block;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    color: #a2a6af;
-    text-align: left
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .time-container .attachment-container {
-    display: inline-block;
-    color: #a2a6af;
-    margin-right: 5px
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .time-container .time {
-    display: inline-block;
-    text-align: right
-}
-
-.setting .view-account .content-panel .mails-wrapper .mail-item .time-container .time.today {
-    font-weight: 700;
-    color: #494d55
-}
-
-.setting .drive-wrapper {
-    padding: 15px;
-    background: #f5f5f5;
-    overflow: hidden
-}
-
-.setting .drive-wrapper .drive-item {
-    width: 130px;
-    margin-right: 15px;
-    display: inline-block;
-    float: left
-}
-
-.setting .drive-wrapper .drive-item:hover {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
-    z-index: 1
-}
-
-.setting .drive-wrapper .drive-item-inner {
-    padding: 15px
-}
-
-.setting .drive-wrapper .drive-item-title {
-    margin-bottom: 15px;
-    max-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis
-}
-
-.setting .drive-wrapper .drive-item-title a {
-    color: #494d55
-}
-
-.setting .drive-wrapper .drive-item-title a:hover {
-    color: #40babd
-}
-
-.setting .theme-2 .drive-wrapper .drive-item-title a:hover {
-    color: #6dbd63
-}
-
-.setting .theme-3 .drive-wrapper .drive-item-title a:hover {
-    color: #497cb1
-}
-
-.setting .theme-4 .drive-wrapper .drive-item-title a:hover {
-    color: #ec6952
-}
-
-.setting .drive-wrapper .drive-item-thumb {
-    width: 100px;
-    height: 80px;
-    margin: 0 auto;
-    color: #616670
-}
-
-.setting .drive-wrapper .drive-item-thumb a {
-    -webkit-opacity: .8;
-    -moz-opacity: .8;
-    opacity: .8
-}
-
-.setting .drive-wrapper .drive-item-thumb a:hover {
-    -webkit-opacity: 1;
-    -moz-opacity: 1;
-    opacity: 1
-}
-
-.setting .drive-wrapper .drive-item-thumb .fa {
-    display: inline-block;
-    font-size: 36px;
-    margin: 0 auto;
-    margin-top: 20px
-}
-
-.setting .drive-wrapper .drive-item-footer .utilities {
-    margin-bottom: 0
-}
-
-.setting .drive-wrapper .drive-item-footer .utilities li:last-child {
-    padding-right: 0
-}
-
-.setting .drive-list-view .name {
-    width: 60%
-}
-
-.setting .drive-list-view .name.truncate {
-    max-width: 100px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis
-}
-
-.setting .drive-list-view .type {
-    width: 15px
-}
-
-.setting .drive-list-view .date,
-.setting .drive-list-view .size {
-    max-width: 60px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis
-}
-
-.setting .drive-list-view a {
-    color: #494d55
-}
-
-.setting .drive-list-view a:hover {
-    color: #40babd
-}
-
-.setting .theme-2 .drive-list-view a:hover {
-    color: #6dbd63
-}
-
-.setting .theme-3 .drive-list-view a:hover {
-    color: #497cb1
-}
-
-.setting .theme-4 .drive-list-view a:hover {
-    color: #ec6952
-}
-
-.setting .drive-list-view td.date,
-.setting .drive-list-view td.size {
-    color: #a2a6af
-}
 
 
 
@@ -813,7 +548,22 @@ html, body {
 	margin-right: auto;
 	margin-top: 20px;
 }
+
+.empMainCon .container {
+	display: flex; 
+	justify-content: space-between;
+}
+
+.empMainCon .container .subCon{
+	display: inline-block;
+	text-align: center;
+	margin-top: 15px;
+}
 /* Control Container Styles */
+.empMainCon .container .headerButton{
+	text-align: right;
+	margin-bottom: 10px;
+}
 
 .controls-container {
     display: flex;

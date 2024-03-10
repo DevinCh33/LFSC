@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 29, 2024 at 06:13 AM
+-- Generation Time: Mar 10, 2024 at 01:28 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2023-11-19 07:13:53'),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2023-11-19 07:21:25'),
 (16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2023-11-19 07:30:42'),
-(17, 'Little Farmer', '$2y$10$aRI0T5A58P15co/vP9KXa.cDkXraVa9s.ZbvbEVYWzZlNf/ie7Gju', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2023-11-19 06:32:30');
+(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2024-03-10 09:08:17');
 
 -- --------------------------------------------------------
 
@@ -142,6 +142,7 @@ CREATE TABLE `product` (
   `quantity` float NOT NULL,
   `owner` text NOT NULL,
   `product_date` text NOT NULL,
+  `lowStock` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -149,20 +150,20 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_image`, `descr`, `categories_id`, `quantity`, `owner`, `product_date`, `status`) VALUES
-(25, 'C0012', 'Cabbage2', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of ', 5, 380, '51', '2023-12-15', 1),
-(26, 'C002', 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 6, 200, '51', '2023-12-15', 1),
-(27, '', 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 1),
-(28, '', 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 1),
-(29, '', 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 6, 0, '52', '2023-12-15', 1),
-(30, '', 'Durians (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 8, 0, '52', '2023-12-15', 1),
-(31, '', 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 6, 0, '53', '2023-12-15', 1),
-(32, '', 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 8, 0, '53', '2023-12-15', 1),
-(33, '', 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 8, 0, '54', '2023-12-15', 1),
-(34, '', 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 8, 0, '54', '2023-12-15', 1),
-(35, '', 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 8, 0, '55', '2023-12-15', 1),
-(41, 'C005', 'Y', '', '1', 0, 280, '51', '2023-12-29', 1),
-(42, 'C004', 'Y', '', '1', 5, 520, '51', '2023-12-29', 3);
+INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_image`, `descr`, `categories_id`, `quantity`, `owner`, `product_date`, `lowStock`, `status`) VALUES
+(25, 'C0012', 'Cabbage2', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of ', 5, 380, '51', '2023-12-15', 30, 1),
+(26, 'C002', 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 6, 200, '51', '2023-12-15', 30, 1),
+(27, '', 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
+(28, '', 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
+(29, '', 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 6, 0, '52', '2023-12-15', 0, 1),
+(30, '', 'Durians (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 8, 0, '52', '2023-12-15', 0, 1),
+(31, '', 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 6, 0, '53', '2023-12-15', 0, 1),
+(32, '', 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 8, 0, '53', '2023-12-15', 0, 1),
+(33, '', 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 8, 0, '54', '2023-12-15', 0, 1),
+(34, '', 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 8, 0, '54', '2023-12-15', 0, 1),
+(35, '', 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 8, 0, '55', '2023-12-15', 0, 1),
+(41, 'C005', 'Y', '', '1', 0, 280, '51', '2023-12-29', 30, 1),
+(42, 'C004', 'Y', '', '1', 5, 520, '51', '2023-12-29', 30, 3);
 
 -- --------------------------------------------------------
 

@@ -9,8 +9,11 @@
 		$_SESSION["adm_co"] = "SUPP";
 		$_SESSION["u_role"] = "SELLER";
 		$_SESSION['store'] = 51;
+	  
+	  include 'action';
 
 	  ?>
+	  
 	  <link rel="stylesheet" href="style.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -131,10 +134,33 @@
         <!--<img src="image/profile.jpg" alt="profileImg">-->
       </div>
       <div class="name-job">
-        <div class="profile_name">Prem Shahi</div>
-        <div class="job">Web Desginer</div>
+        <div class="profile_name"><span id="userName" /></div>
+        <div class="job"><span id="userRole" /></div>
       </div>
-      <i class='bx bx-log-out' ></i>
+		<a href="logout.php"><i class='bx bx-log-out' ></i></a>
     </div>
   </li>
 </ul>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+	fetchData();
+});
+
+function fetchData() {
+	var userid = <?php echo $_SESSION['adm_id']; ?>;
+    $.ajax({
+        url: 'action/fetchAdminData.php',
+        type: 'GET',
+		data:{userId: userid},
+        dataType: 'json',
+        success: function(response) {
+			$('#userName').text(response[0][1]);
+			$('#userRole').text(response[0][5]);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+</script>

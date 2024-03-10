@@ -23,10 +23,12 @@
       <span class="text">Products</span>
     </div>
 	  
-	  <div class="empMainCon">
-		  <div style="text-align: right; margin-bottom: 10px">
-		  	<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Product</button>
-		  </div>
+	<div class="empMainCon">
+		<div class="container">
+			<div class="subCon">Low Stock Alert: <input type="text" style="height: 20px;" id="stockAlert" onKeyUp="lowStockNumber()"></div>
+			<div class="headerButton"><button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Product</button></div>
+		</div>
+		  
 		  
 		   	<div class="controls-container">
 		  		<div class="records-per-page">
@@ -131,6 +133,14 @@
 			</div>
 			<div class="myform-row">
 				<div class="label">
+					<label for="productDescr">Low Stock Alert:</label>
+				</div>
+				<div class="input">
+					<input type="text" id="txtStock" name="txtStock" class="myform-input" required>
+				</div>
+			</div>
+			<div class="myform-row">
+				<div class="label">
 					<label for="proStatus">Categories:</label>
 				</div>
 				<div class="input">
@@ -211,6 +221,23 @@ $(document).ready(function() {
 	$('#divalert').hide();	
 	fetchData();
 });
+	
+function lowStockNumber(){
+	var num = $("#stockAlert").val();
+	console.log(num);
+	
+	$.ajax({
+      		url: "action/updateLowStock.php",
+            type: "GET",
+            data: {store: <?php echo $_SESSION['store'] ?>, num : num},
+            success: function (response) {
+				
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+}
 
 function addPriceRow() {
     var priceTable = document.getElementById("priceTable");
@@ -332,6 +359,7 @@ function updateTableAndPagination(data) {
     var tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = '';
     // Populate the table with the data for the current page
+	
     for (var i = startIndex; i < endIndex && i < data.length; i++) {
         var rowData = data[i];
         var newRow = document.createElement('tr');
@@ -413,6 +441,8 @@ function fetchData() {
         dataType: 'json',
 		data: {search:  search},
         success: function(response) {
+			$("#stockAlert").val(response[0].lowStock);
+			$("#txtStock").val(response[0].lowStock);
             updateTableAndPagination(response);
         },
         error: function(xhr, status, error) {

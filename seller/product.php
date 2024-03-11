@@ -82,7 +82,7 @@
 		  	<span class="close" onclick="closePopup()">&times;</span>
 		  </div>
         	
-			<form action="action/infoProduct.php" method="POST" class="myform" name="myForm" id="myForm">
+			<form action="action/infoProduct.php" method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
 			<input type="hidden" value="<?php echo $_SESSION['store']; ?>" id="storeID" name="storeID">
 			<div class="myform-row">
 				<div id="divalert" class="divalert" name="divalert"></div>
@@ -102,7 +102,7 @@
 					<label for="productImage" class="myform-label">Image</label>
 				</div>
 				<div class="input" id="addImageFile">
-        			<input type="file" id="imageInput" accept="image/*" onchange="previewImage()">
+        			<input type="file" id="proImage" name="proImage" class="myform-input" onchange="validateImage()">
 				</div>
 			</div>
 				
@@ -314,13 +314,24 @@ function productInfo(action, form) {
         }, 3000);
     } else {
 		var text = "";
+		var form = document.getElementById('myForm');
+		var formData = new FormData(form);
+		var imageInput = document.getElementById('proImage').files[0];
+		formData.append('image', imageInput);
+		formData.append('act', action);
+		formData.append('proID', productID);
         $.ajax({
             url: $(form).attr('action'),
             type: $(form).attr('method'),
-            data: {act: action, data: $("#myForm").serialize(), proID: productID},
+			data: formData,
+			processData: false,
+			contentType: false,
+            //data: {act: action, data: $("#myForm").serialize(), proID: productID, image: imageInput},
             success: function (response) {
-				if(action == "add")
+				if(action == "add"){
 					text = "Product Added Successfully!";
+					document.getElementById("myForm").reset();
+				}
 				else if(action == "edit")
 					text = "Information Updated Successfully!";
 				else if(action == 'del')
@@ -598,6 +609,33 @@ function openPopup(type) {
 		
 }
 	
+function validateImage() {
+    var fileInput = document.getElementById("proImage");
+    var filePath = fileInput.value;
+    // Get the file extension
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+	// Get the file size
+    var fileSize = fileInput.files[0].size;
+	
+    if (!allowedExtensions.exec(filePath)) {
+        fileInput.value = '';
+		$("#imageAlert").text("Please upload file having extensions .jpeg/.jpg/.png/.gif only.");
+        return false;
+		
+    }
+	else{
+		$("#imageAlert").hide();
+		if (fileSize > 10 * 1024 * 1024) {
+			fileInput.value = '';
+			$("#imageAlert").text("File size should not exceed 5MB.");
+			return false;
+		}
+		else{
+			$("#imageAlert").hide();
+			return true;
+		}
+	}
+}
 
 
 

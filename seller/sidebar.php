@@ -9,8 +9,6 @@
 		$_SESSION["adm_co"] = "SUPP";
 		$_SESSION["u_role"] = "SELLER";
 		$_SESSION['store'] = 51;
-	  
-	  include 'action';
 
 	  ?>
 	  
@@ -29,6 +27,8 @@
 	</div>
 		
     <ul class="nav-links">
+		
+		
       <li>
         <a href="dashboard.php">
           <i class='bx bx-grid-alt' ></i>
@@ -38,6 +38,9 @@
           <li><a class="link_name" href="dashboard.php">Dashboard</a></li>
         </ul>
       </li>
+		
+	
+		<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
         <div class="iocn-link">
           <a href="employee.php">
@@ -53,6 +56,9 @@
           <li><a href="#">PHP & MySQL</a></li>
         </ul>
       </li>
+		<?php } ?>
+		
+	<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
         <div class="iocn-link">
           <a href="product.php">
@@ -68,6 +74,9 @@
           <li><a href="#">Card Design</a></li>
         </ul>
       </li>
+	<?php } ?> 
+		
+	
       <li>
         <a href="customer.php">
           <i class='bx bx-pie-chart-alt-2' ></i>
@@ -77,6 +86,9 @@
           <li><a class="link_name" href="customer.php">Customer</a></li>
         </ul>
       </li>
+		
+		
+		
       <li>
         <a href="order.php">
           <i class='bx bx-line-chart' ></i>
@@ -86,30 +98,8 @@
           <li><a class="link_name" href="order.php">Order</a></li>
         </ul>
       </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-plug' ></i>
-            <span class="link_name">Plugins</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Plugins</a></li>
-          <li><a href="#">UI Face</a></li>
-          <li><a href="#">Pigments</a></li>
-          <li><a href="#">Box Icons</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="inventory.php">
-          <i class='bx bx-compass' ></i>
-          <span class="link_name">Inventory</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="inventory.php">Inventory</a></li>
-        </ul>
-      </li>
+      
+      <?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
         <a href="#">
           <i class='bx bx-history'></i>
@@ -119,6 +109,9 @@
           <li><a class="link_name" href="#">Report</a></li>
         </ul>
       </li>
+		<?php } ?>
+		
+		
       <li>
         <a href="setting.php">
           <i class='bx bx-cog' ></i>
@@ -155,7 +148,7 @@ function fetchData() {
 		data:{userId: userid},
         dataType: 'json',
         success: function(response) {
-			$('#userName').text(response[0][1]);
+			$('#userName').text(response[0][0]);
 			$('#userRole').text(response[0][5]);
         },
         error: function(xhr, status, error) {

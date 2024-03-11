@@ -4,33 +4,46 @@ include('../connect.php');
 $valid = false;
 $check = false;
 
-$act = $_POST['act'];
-$data = $_POST['data'];
-parse_str($data, $formData);
+$formDataArray = array();
+    foreach ($_POST as $key => $value) {
+        $formDataArray[$key] = $value;
+    }
+
+
+$act = $formDataArray['act'];
+$data = $formDataArray['data'];
 
 $date = date("Y-m-d");
-$proID = $_POST['proID'];
-$productID = $formData['proID'];
-$productCode = $formData['productCode'];
-$productName = $formData['proName'];
-$productDescription = $formData['proDescr'];
-$productQuantity = $formData['proQuan'];
-$productCategory = $formData['proCat'];
-$productStatus = $_POST['proStatus'];
-$productStockAlert = $_POST['txtStock'];
-$store = $formData['storeID'];
+$proID = $formDataArray['proID'];
+
+$productID = $formDataArray['proID'];
+$productCode = $formDataArray['productCode'];
+$productName = $formDataArray['proName'];
+$productDescription = $formDataArray['proDescr'];
+$productQuantity = $formDataArray['proQuan'];
+$productCategory = $formDataArray['proCat'];
+$productStatus = $formDataArray['proStatus'];
+$productStockAlert = $formDataArray['txtStock'];
+$store = $formDataArray['storeID'];
 
 // Extract weight and price values from the arrays
-$weightValues = $formData['weight'];
-$priceValues = $formData['price'];
-$priceNo = $formData['priceNo'];
+$weightValues = $formDataArray['weight'];
+$priceValues = $formDataArray['price'];
+$priceNo = $formDataArray['priceNo'];
 
-// Validation and sanitization should be performed here
+$uploadDirectory = "../images/product/";
+$fileDirectory = "http://localhost/lfsc/seller/images/product/";
+$fileName = uniqid() . '.' . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+$imageTmpName = $_FILES['image']['tmp_name'];
+$uploadFile = $uploadDirectory.$fileName;
+move_uploaded_file($imageTmpName, $uploadFile);
+$urlImage = $fileDirectory . $fileName;
+
 
 if ($act == "add") {
     // Perform the INSERT operation for 'product' table
-    $sql = "INSERT INTO product (productCode, product_name, descr, quantity,  owner, product_date, lowStock, status)
-            VALUES ('$productCode', '$productName', '$productDescription', '$productQuantity',  '$store', '$date', '$productStockAlert', '$productStatus')";
+    $sql = "INSERT INTO product (productCode, product_name, product_image, descr, quantity,  owner, product_date, lowStock, status)
+            VALUES ('$productCode', '$productName','$urlImage', '$productDescription', '$productQuantity',  '$store', '$date', '$productStockAlert', '$productStatus')";
 
     if ($db->query($sql) === true) {
         // Get the last inserted product_id
@@ -93,5 +106,5 @@ else if($act == 'del'){
 }
 
 // Return a JSON response
-echo json_encode($valid);
+echo json_encode($imageTmpName);
 ?>

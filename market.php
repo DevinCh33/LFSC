@@ -29,8 +29,7 @@
         .food-item-wrap:hover {
             transform: scale(1.05);
         }
-    </style> 
-
+    </style>
 </head>
 
 <body class="home">
@@ -49,7 +48,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     $currentPage = 'market';
     include("includes/header.php");
     ?>
-
 
     <!-- banner part starts -->
     <section class="hero" style = "background-color: #36454f;">
@@ -128,30 +126,59 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?>
     <!-- Search part ends-->
 
-    <!-- Micheal Special Section-->
+    <!-- Featured products-->
     <section class="littleFarmer">
     <div class="container">
         <div class="title text-center mb-30">
-            <h2>Micheal's Products</h2>
-            <p class="lead">Thinking For Tomorrow</p>
+            <h2>Recommended for You</h2>
+            <p class="lead">Based on your recent orders:</p>
         </div>
         <div class="row">
             <?php
-            // Query a maximum of 8 products from the "Little Farmer" where owner is "13"
-            $littleFarmerProductsQuery = "SELECT * FROM product WHERE owner = '51' AND status = 1 LIMIT 4";
-            $result = mysqli_query($db, $littleFarmerProductsQuery);
+            // Four featured products
+            // Most recent order
+            $query = "SELECT orders.order_id, orders.user_id, product.product_id, product.categories_id, 
+                        product.owner, tblprice.proPrice FROM orders 
+                        JOIN order_item ON orders.order_id = order_item.order_item_id 
+                        JOIN tblprice ON order_item.priceID = tblprice.priceNo 
+                        JOIN product ON tblprice.productID = product.product_id 
+                        WHERE user_id = ".$_SESSION["user_id"]." ORDER BY orders.order_id DESC LIMIT 1;";
+
+            $result = mysqli_query($db, $query);
 
             // Check if there are any products returned by the query
             if ($result && mysqli_num_rows($result) > 0) {
+                $data = mysqli_fetch_assoc($result);
+
+                $productQuery = "SELECT * from product JOIN tblprice
+                                    WHERE product.product_id = ".$data['product_id'];
+                $recommended['product'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+
+                $productQuery = "SELECT * from product JOIN tblprice
+                                    WHERE product.categories_id = ".$data['categories_id']." 
+                                    AND product_id <> ".$data['product_id']." ORDER BY RAND() LIMIT 1";
+                $recommended['category'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+
+                $productQuery = "SELECT * from product JOIN tblprice
+                                    WHERE product.owner = ".$data['owner']." 
+                                    AND product_id <> ".$data['product_id']." ORDER BY RAND() LIMIT 1";
+                $recommended['owner'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+
+                $productQuery = "SELECT * from product JOIN tblprice
+                                    WHERE tblprice.proPrice >= ".((float)$data['proPrice']-10)." 
+                                    AND tblprice.proPrice <= ".((float)$data['proPrice']+10)."
+                                    AND product_id <> ".$data['product_id']." ORDER BY RAND() LIMIT 1";
+                $recommended['price'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+
                 // Loop through each product and display the card
-                while ($product = mysqli_fetch_assoc($result)) {
+                foreach($recommended as $product) {
                     // Use htmlspecialchars to escape any special characters
                     $productName = htmlspecialchars($product['product_name']);
                     $productImage = htmlspecialchars($product['product_image']);
                     // Convert quantity to an integer
                     $productQuantity = intval($product['quantity']);
                     // Format price to ensure it has two decimal places
-                    $productPrice = number_format($product['price'], 2);
+                    $productPrice = number_format($product['proPrice'], 2);
                     $productOwner = number_format($product['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
@@ -167,15 +194,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 }
             } else {
                 // No products found
-                echo '<div class="col-12"><p>No products found in Little Farmer\'s Specials.</p></div>';
+                echo '<div class="col-12"><p>Purchase some products to unlock recommendations!</p></div>';
             }
             ?>
         </div>
     </div>
     </section>
-
-
-    <!-- Micheal Special section ends-->
+    <!-- Featured products ends-->
 
     <!-- Popular block starts -->
     <section class="popular">

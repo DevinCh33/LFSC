@@ -150,33 +150,53 @@ if (empty($_SESSION["user_id"])) // if not logged in
             if ($result && mysqli_num_rows($result) > 0) {
                 $data = mysqli_fetch_assoc($result);
 
-                $productQuery = "SELECT * from product JOIN tblprice
+                $productQuery[0] = "SELECT * from product JOIN tblprice
                                     WHERE product.product_id = ".$data['product_id'];
-                $recommended['product'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
 
-                $productQuery = "SELECT * from product JOIN tblprice
+                // Recommendation from same category
+                $productQuery[1] = "SELECT * from product JOIN tblprice
                                     WHERE product.categories_id = ".$data['categories_id']." 
-                                    AND product_id <> ".$data['product_id']." ORDER BY RAND() LIMIT 1";
-                $recommended['category'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+                                    ORDER BY RAND() LIMIT 1";
 
-                $productQuery = "SELECT * from product JOIN tblprice
+                // Recommendation from same merchant
+                $productQuery[2] = "SELECT * from product JOIN tblprice
                                     WHERE product.owner = ".$data['owner']." 
-                                    AND product_id <> ".$data['product_id']." ORDER BY RAND() LIMIT 1";
-                $recommended['owner'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+                                    ORDER BY RAND() LIMIT 1";
 
-                $productQuery = "SELECT * from product JOIN tblprice
+                 // Recommendation from similar price range (+- RM 10)
+                $productQuery[3] = "SELECT * from product JOIN tblprice
                                     WHERE tblprice.proPrice >= ".((float)$data['proPrice']-10)." 
                                     AND tblprice.proPrice <= ".((float)$data['proPrice']+10)."
-                                    AND product_id <> ".$data['product_id']." ORDER BY RAND() LIMIT 1";
-                $recommended['price'] = mysqli_fetch_assoc(mysqli_query($db,$productQuery));
+                                    ORDER BY RAND() LIMIT 1";
+
+                $recommended[0] = 0;
+
+                for ($i = 0; $i < 4; $i++) {
+                    $a = mysqli_fetch_assoc(mysqli_query($db, $productQuery[$i]));
+
+                    // Check for duplicates
+                    if (!in_array($a, $recommended)) {
+                        $recommended[$i] = $a;
+                    }
+
+                    // If duplicate, then suggest random product
+                    else {
+                        $productQuery[$i] = "SELECT * from product JOIN tblprice
+                                             ORDER BY RAND() LIMIT 1";
+
+                        continue;
+                    }
+                }
 
                 // Loop through each product and display the card
                 foreach($recommended as $product) {
                     // Use htmlspecialchars to escape any special characters
                     $productName = htmlspecialchars($product['product_name']);
                     $productImage = htmlspecialchars($product['product_image']);
+
                     // Convert quantity to an integer
                     $productQuantity = intval($product['quantity']);
+
                     // Format price to ensure it has two decimal places
                     $productPrice = number_format($product['proPrice'], 2);
                     $productOwner = number_format($product['owner']);
@@ -192,6 +212,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '    </div>';
                     echo '</div>';
                 }
+                
             } else {
                 // No products found
                 echo '<div class="col-12"><p>Purchase some products to unlock recommendations!</p></div>';

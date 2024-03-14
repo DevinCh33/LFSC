@@ -153,22 +153,21 @@ if (empty($_SESSION["user_id"])) // if not logged in
         ?>
         <!-- Search part ends-->
 
-                <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
+<div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
     <div class="right-content bg-white">
         <div class="right-review">
             <div class="rating-block">
                 <?php
-              
                 $avgRating = 3.5; 
 
+                echo '<p>Average Rating: ' . $avgRating . '</p>';
 
-                echo '<p> Average Rating: ' . $avgRating . '</p>';
-
-
+                // Loop to display stars
                 for ($i = 1; $i <= 5; $i++) {
-                  
-                    echo '<a href="#" onclick="saveRating(' . $i . ', ' . $rows['rs_id'] . ')">';
-                 
+                    echo '<a href="#" 
+                            onmouseover="fillStars(' . $i . ')" 
+                            onmouseout="resetStars()" 
+                            onclick="saveRating(' . $rows['rs_id'] . ', ' . $i . ')">';
                     if ($i <= $userRating) {
                         echo '<i class="fa fa-star"></i>';
                     } else {

@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  
    </head>
 	
 <body>
@@ -28,7 +27,6 @@
 			<div class="subCon">Low Stock Alert: <input type="text" style="height: 20px;" id="stockAlert" onKeyUp="lowStockNumber()"></div>
 			<div class="headerButton"><button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Product</button></div>
 		</div>
-		  
 		  
 		   	<div class="controls-container">
 		  		<div class="records-per-page">
@@ -56,7 +54,6 @@
 			<th onclick="sortTable(5)">Quantity <span class="sort-indicator" id="indicator4"></span></th>
 			<th onclick="sortTable(6)">Status <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(7)">Action <span class="sort-indicator" id="indicator5"></span></th>
-
 		  </tr>
 		</thead>
 		<tbody id="tableBody">
@@ -64,7 +61,6 @@
 		</tbody>
 	  </table>
 	</div>
-
 
     <div class="pagination-summary">
       <span id="tableSummary">Showing 1-10 of 100 Records</span>
@@ -74,9 +70,7 @@
     </div>
 	  </div>
 	  
-	  
     <div id="popupWindow" class="popup">
-		
       <div class="popup-content">
 		  <div class="xclose">
 		  	<span class="close" onclick="closePopup()">&times;</span>
@@ -160,7 +154,6 @@
 						?>
 					</select>
 				</div>
-				
 			</div>
 				
 			<!-- Price table -->
@@ -173,19 +166,19 @@
 						<tr style="text-align: center">
 							<th>Weight</th>
 							<th>Price</th>
+							<th>Discount</th>
 							<th>Action</th>
 						</tr>
 						<tr style="border: none">
 							<td><input type="text" name="weight[]" class="myform-input" placeholder="Weight" required></td>
 							<td><input type="text" name="price[]" class="myform-input" placeholder="Price" required></td>
+							<td><input type="text" name="discount[]" class="myform-input" placeholder="Discount"></td>
 							<td><button type="button" onclick="addPriceRow()">Add More</button></td>
 						</tr>
 					</table>
 				</div>
 			</div>
 
-
-				
 			<div class="myform-row">
 				<div class="label">
 					<label for="proStatus">Status:</label>
@@ -205,16 +198,12 @@
     </form>
       </div>
     </div>
-	  
-	  
-	  
   </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
 <script>
 $(document).ready(function() {
@@ -246,11 +235,13 @@ function addPriceRow() {
     // Create cells for weight, price, and action
     var weightCell = newRow.insertCell(0);
     var priceCell = newRow.insertCell(1);
-    var actionCell = newRow.insertCell(2);
+	var discountCell = newRow.insertCell(2);
+    var actionCell = newRow.insertCell(3);
 
     // Add input fields for weight and price
     weightCell.innerHTML = '<input type="text" name="weight[]" class="myform-input" placeholder="Weight" required>';
     priceCell.innerHTML = '<input type="text" name="price[]" class="myform-input" placeholder="Price" required>';
+	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" placeholder="Discount" required>';
 
     // Create a button element and set a unique id for it
     var removeButton = document.createElement("button");
@@ -270,15 +261,11 @@ function addPriceRow() {
     actionCell.appendChild(removeButton);
 }
 
-
-
 function removePriceRow(button) {
     var row = button.parentElement.parentElement;
     row.remove();
 }
 
-
-	
 function productInfo(action, form) {
     var productCode = $('#productCode').val();
     var productName = $('#proName').val();
@@ -288,22 +275,25 @@ function productInfo(action, form) {
 	var productID = $("#proID").val();
     var store = $('#storeID').val();
 
-    // Extract weight and price pairs from the table
+    // Extract weight, price and discount values from the table
     var weightValues = [];
     var priceValues = [];
+	var discountValues = [];
     $('#priceTable tbody tr').each(function () {
 		var weightInput = $(this).find('input[name="weight[]"]');
 		var priceInput = $(this).find('input[name="price[]"]');
+		var discountInput = $(this).find('input[name="discount[]"]');
 		var weight = weightInput.val();
 		var price = priceInput.val();
+		var discount = discountInput.val();
 		var priceId = $(this).data('price-id') || 'new'; // 'new' for new entries
 		if (weight && price) {
 			weightValues.push({weight: weight, priceId: priceId});
 			priceValues.push({price: price, priceId: priceId});
+			discountValues.push({discount: discount, priceId: priceId});
 		}
 	});
-
-
+	
     // Check if required fields are filled
     if (productCode === "" || productName === "" || weightValues.length === 0 || priceValues.length === 0 || proQuan === "" && action != "del") {
         $('#divalert').css('background-color', 'red');
@@ -355,9 +345,6 @@ function productInfo(action, form) {
     }
 }
 
-
-
-	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
@@ -524,7 +511,7 @@ function findRec(windowType, name){
 
             // Populate price table
             response[0].prices.forEach(function(item) {
-                addPriceRowWithData(item.proWeight, item.proPrice, item.priceNo);
+                addPriceRowWithData(item.proWeight, item.proPrice, item.proDisc, item.priceNo);
             });
         },
         error: function(xhr, status, error) {
@@ -533,17 +520,19 @@ function findRec(windowType, name){
     });
 }
 
-function addPriceRowWithData(weight, price, priceNo) {
+function addPriceRowWithData(weight, price, discount, priceNo) {
     var priceTable = document.getElementById("priceTable");
     var newRow = priceTable.insertRow(priceTable.rows.length - 1); // Insert before the last row
 
     var weightCell = newRow.insertCell(0);
     var priceCell = newRow.insertCell(1);
-    var actionCell = newRow.insertCell(2);
+	var discountCell = newRow.insertCell(2);
+    var actionCell = newRow.insertCell(3);
 
     weightCell.innerHTML = '<input type="text" name="weight[]" class="myform-input" value="' + weight + '" placeholder="Weight" required>';
     priceCell.innerHTML = '<input type="text" name="price[]" class="myform-input" value="' + price + '" placeholder="Price" required>';
-    actionCell.innerHTML = '<input type="hidden" value="'+priceNo+'" name="priceNo[]" id="priNo"><button type="button" onclick="removePriceRow(this)">Remove</button>';
+	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" value="' + discount + '" placeholder="Discount" required>';
+	actionCell.innerHTML = '<input type="hidden" value="'+priceNo+'" name="priceNo[]" id="priNo"><button type="button" onclick="removePriceRow(this)">Remove</button>';
 }
 
 	
@@ -572,15 +561,13 @@ function confirmDelete(form) {
     if (confirm("Are you sure you want to delete this product?")) {
     	// If the user confirms the second time, proceed with deletion
         productInfo('del', form);
- 
     }
 }
 	
 function addPriceRow() {
-    addPriceRowWithData("", "", true); // Passing true to indicate that action buttons should be added
+    addPriceRowWithData("", "", "", true); // Passing true to indicate that action buttons should be added
 }
 
-	
 function openPopup(type) {
     document.getElementById("popupWindow").style.display = "block";
 	
@@ -636,7 +623,4 @@ function validateImage() {
 		}
 	}
 }
-
-
-
 </script>

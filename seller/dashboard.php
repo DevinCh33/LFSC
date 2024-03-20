@@ -27,6 +27,7 @@
 	  
 <div class="dashboard">
 		<div class="card">
+			<?php if($_SESSION["u_role"] == "SELLER"){ ?>
 			<h3>Items Sales</h3>
 		<?php
 			// Query to get the total amount of orders for the current month
@@ -57,6 +58,34 @@
 			
 		?>
         	<p>RM <?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		<?php }else if($_SESSION["u_role"] == "ADMIN"){ ?>
+			<h3>Items Sales</h3>
+		<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT SUM(total_amount) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}?>
+		<?php } ?>
       	</div>
 		
 		<div class="card">

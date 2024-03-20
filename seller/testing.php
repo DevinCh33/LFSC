@@ -19,7 +19,7 @@ try {
     $mail->Username = 'wcswong@student.pilley.edu.my';
     $mail->Password = 'Pilley@BiYe@2022';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-    $mail->Port = 25; // TCP port to connect to
+    $mail->Port = 465; // TCP port to connect to
 
     // Sender and recipient
     $mail->setFrom('wcswong@student.pilley.edu.my', 'SHAN');

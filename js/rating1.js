@@ -2,6 +2,15 @@ function fillStars(num) {
     for (var i = 1; i <= num; i++) {
         document.getElementById('star_' + i).classList.remove('fa-star-o');
         document.getElementById('star_' + i).classList.add('fa-star');
+        // Add custom style to fill the star with yellow color
+        document.getElementById('star_' + i).style.color = 'rgba(255, 255, 0, 0.5)';
+    }
+    // Reset the rest of the stars to their default state
+    for (var i = num + 1; i <= 5; i++) {
+        document.getElementById('star_' + i).classList.remove('fa-star');
+        document.getElementById('star_' + i).classList.add('fa-star-o');
+        // Reset the color to default for the rest of the stars
+        document.getElementById('star_' + i).style.color = '';
     }
 }
 

@@ -30,6 +30,7 @@ $store = $formDataArray['storeID'];
 $weightValues = $formDataArray['weight'];
 $priceValues = $formDataArray['price'];
 $priceNo = $formDataArray['priceNo'];
+$discountValues = $formDataArray['discount'];
 
 $uploadDirectory = "../images/product/";
 $fileDirectory = "http://localhost/lfsc/seller/images/product/";
@@ -52,10 +53,11 @@ if ($act == "add") {
         // Insert data into 'tblprice' table
         foreach ($weightValues as $key => $weight) {
             $price = $priceValues[$key];
+			$discount = $discountValues[$key];
 
             // Perform the INSERT operation for 'tblprice' table, linking it to the last inserted 'product_id'
-            $priceInsertSQL = "INSERT INTO tblprice (productID, proWeight, proPrice)
-                                VALUES ('$lastProductID', '$weight', '$price')";
+            $priceInsertSQL = "INSERT INTO tblprice (productID, proWeight, proPrice, proDisc)
+                                VALUES ('$lastProductID', '$weight', '$price', '$discount')";
 
             if ($db->query($priceInsertSQL) !== true) {
                 // Handle error if the 'tblprice' insert fails
@@ -88,13 +90,13 @@ elseif ($act == "edit") {
 	foreach ($priceNo as $index => $price) {
 		$proPrice = $priceValues[$index];
 		$proWeight = $weightValues[$index];
+		$proDisc = $discountValues[$index];
 
 		// Use the retrieved values to update the database
-		$updatePrice = "UPDATE tblprice SET proWeight = '$proWeight', proPrice = '$proPrice' WHERE priceNo = '$price'";
+		$updatePrice = "UPDATE tblprice SET proWeight = '$proWeight', proPrice = '$proPrice', proDisc = '$proDisc' WHERE priceNo = '$price'";
 		$db->query($updatePrice);
 	}
 
-	
 	$valid = true;
 	
 }
@@ -102,7 +104,6 @@ else if($act == 'del'){
 	$delSQL = "UPDATE product SET status = 3 WHERE product_id = '$proID'";
 	if($db->query($delSQL))
 		$valid = true;
-	
 }
 
 // Return a JSON response

@@ -7,14 +7,30 @@ if(isset($_POST['rating']) && isset($_POST['res_id'])) {
     // Sanitize and validate input
     $rating = intval($_POST['rating']);
     $res_id = intval($_POST['res_id']);
+    $user_id = $_SESSION['user_id']; // Assuming you have user authentication and user ID in session
 
-    // Perform the update query using prepared statements
-    $updateQuery = "UPDATE restaurant SET rating = ? WHERE rs_id = ?";
-    $stmt = mysqli_prepare($db, $updateQuery);
-    mysqli_stmt_bind_param($stmt, "ii", $rating, $res_id);
+    // Check if the user has already rated this restaurant
+    $checkQuery = "SELECT * FROM user_ratings WHERE user_id = ? AND res_id = ?";
+    $stmt = mysqli_prepare($db, $checkQuery);
+    mysqli_stmt_bind_param($stmt, "ii", $user_id, $res_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if(mysqli_num_rows($result) > 0) {
+        // If user has already rated, update the existing rating
+        $updateQuery = "UPDATE user_ratings SET rating = ? WHERE user_id = ? AND res_id = ?";
+        $stmt = mysqli_prepare($db, $updateQuery);
+        mysqli_stmt_bind_param($stmt, "iii", $rating, $user_id, $res_id);
+    } else {
+        // If user has not rated, insert a new rating
+        $insertQuery = "INSERT INTO user_ratings (user_id, res_id, rating) VALUES (?, ?, ?)";
+        $stmt = mysqli_prepare($db, $insertQuery);
+        mysqli_stmt_bind_param($stmt, "iii", $user_id, $res_id, $rating);
+    }
+
     $result = mysqli_stmt_execute($stmt);
 
-    // Check if the update was successful
+    // Check if the insert/update was successful
     if($result) {
         // Return success response with HTTP status code 200
         http_response_code(200);
@@ -29,3 +45,4 @@ if(isset($_POST['rating']) && isset($_POST['res_id'])) {
     http_response_code(400);
     echo json_encode(array("error" => "Invalid data received"));
 }
+

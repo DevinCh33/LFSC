@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
     document.getElementById('commentForm').addEventListener('submit', function(event) {
         event.preventDefault();
         var comment = document.getElementById('comment').value.trim();
@@ -16,14 +15,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        if (comment.split(' ').length > 100) {
-            commentError.textContent = 'Comment must be less than 100 words';
-            return;
-        }
-
         // AJAX request to save the comment
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'save_comment.php');
+        xhr.open('POST', 'save_comment.php?res_id=<?php echo $_GET["res_id"]; ?>');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
             if (xhr.status === 200) {
@@ -37,6 +31,4 @@ document.addEventListener("DOMContentLoaded", function() {
         };
         xhr.send('comment=' + encodeURIComponent(comment));
     });
-
-
 });

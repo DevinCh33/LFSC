@@ -214,21 +214,32 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 echo '<i class="fa fa-star '.$class.'"></i>';
                             }
                             
-                            echo '</div>
-                                    <p class="num-reviews">245 Reviews</p>
-                                    <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
+
+                            echo '</div>';
+
+                            // Fetch average rating from the database
+                            $avgRatingQuery = "SELECT AVG(rating) AS average_rating FROM user_ratings WHERE res_id = ".$rows['rs_id'];
+                            $avgRatingResult = mysqli_query($db, $avgRatingQuery);
+                            $avgRatingRow = mysqli_fetch_assoc($avgRatingResult);
+                            $averageRating = $avgRatingRow['average_rating'];
+                        
+                            echo '<p class="average-rating">Avg Rating: ' . number_format($averageRating, 1) . '</p>';
+                            
+                            echo '<a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
                                 </div>
                             </div>
                         </div>'; // End of rating block
-                    }
-                    ?>     
-                </div>
-                <!--end:row -->
-            </div>   
-        </div>
-    </div>
-</div>
-</section>
+                        }
+                        ?>
+                        
+                                        </div>
+                                        <!--end:row -->
+                                    </div>   
+                                </div>
+                            </div>
+                        </div>
+                        </section>
+
 
 
 
@@ -256,6 +267,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
 
     <script src="js/rating1.js"></script>
-    <script src="js/rating2.js"></script>
+
+
 </body>
 </html>

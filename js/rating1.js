@@ -6,6 +6,23 @@ document.addEventListener("DOMContentLoaded", function() {
         let restaurantId = ratingBlock.dataset.resid;
 
         stars.forEach(function(star, index) {
+            // Add mouseover event listener to each star
+            star.addEventListener("mouseover", function() {
+                // Light up the stars up to the current index
+                for (let i = 0; i <= index; i++) {
+                    stars[i].classList.add("star-hover");
+                }
+            });
+
+            // Add mouseleave event listener to each star
+            star.addEventListener("mouseleave", function() {
+                // Remove hover effect from all stars
+                stars.forEach(function(star) {
+                    star.classList.remove("star-hover");
+                });
+            });
+
+            // Add click event listener to each star
             star.addEventListener("click", function() {
                 // Update the rating value in the database
                 let rating = index + 1; // Rating is 1-based
@@ -39,4 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     });
+
+
+
 });

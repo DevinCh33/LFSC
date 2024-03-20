@@ -754,6 +754,13 @@ hr {
     font-size: 17px;
 }
 
+/* Add this CSS to style inactive stars as blank */
+.star-inactive {
+    color: transparent; /* Make inactive stars transparent */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+
 .food-item-wrap .rating {
     position: absolute;
     bottom: 30px;
@@ -1011,7 +1018,13 @@ button.close span {
     color: #f30;
 }
 
-.featured-restaurants .ratings .fa-star-o {}
+/***    .featured-restaurants .ratings .fa-star-o {}  ***/
+
+.featured-restaurants .ratings .fa-star-o {
+    color: transparent; /* Make inactive stars transparent */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
 
 .restaurants-filter ul li {
     display: inline-block;

@@ -29,4 +29,3 @@ if(isset($_POST['rating']) && isset($_POST['res_id'])) {
     http_response_code(400);
     echo json_encode(array("error" => "Invalid data received"));
 }
-

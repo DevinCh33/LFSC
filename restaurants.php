@@ -205,7 +205,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             echo '<div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
                                     <div class="right-content bg-white">
                                         <div class="right-review">
-                                            <div class="rating-block" data-resid="'.$rows['rs_id'].'">';
+                                            <div class="rating-block" data-resid="'.$rows['rs_id'].'" data-rating="'.$rating.'">';
                                             
                             // Loop through 5 stars and generate each one dynamically
                             for ($i = 1; $i <= 5; $i++) {
@@ -215,7 +215,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             }
                             
                             echo '</div>
-                                    <p>245 Reviews</p>
+                                    <p class="num-reviews">245 Reviews</p>
                                     <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
                                 </div>
                             </div>
@@ -229,6 +229,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     </div>
 </div>
 </section>
+
 
 
 
@@ -255,5 +256,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
 
     <script src="js/rating1.js"></script>
+    <script src="js/rating2.js"></script>
 </body>
 </html>

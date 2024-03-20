@@ -254,3 +254,59 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/cart.js"></script>
 </body>
 </html>
+
+
+
+
+                            <div class="right-content bg-white">
+                                <div class="right-review">
+                                    <div class="rating-block" data-resid="<?php echo $rows['rs_id']; ?>">
+                                        <?php
+                                        // Fetch the average rating for the restaurant
+                                        $avgRatingQuery = "SELECT AVG(rating) AS avg_rating FROM ratings WHERE res_id = " . $rows['rs_id'];
+                                        $avgRatingResult = mysqli_query($db, $avgRatingQuery);
+                                        $avgRatingRow = mysqli_fetch_assoc($avgRatingResult);
+                                        $avgRating = round($avgRatingRow['avg_rating'], 1);
+            
+                                        // Display stars based on average rating
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $avgRating) {
+                                                echo '<i class="fa fa-star"></i>';
+                                            } else {
+                                                echo '<i class="fa fa-star-o"></i>';
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                    <p><?php echo $avgRating; ?> Average Rating (<?php echo $avgRatingRow['num_reviews']; ?> Reviews)</p>
+                                    <a href="dishes.php?res_id=<?php echo $rows['rs_id']; ?>" class="btn theme-btn-dash">View Merchant</a>
+                                </div>
+                            </div>
+
+
+                                        <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
+                                                    <div class="right-content bg-white">
+                                                        <div class="right-review">
+                                                            <div class="rating-block" data-resid="<?php echo $rows['rs_id']; ?>">
+                                                                <?php
+                                                                // Fetch the average rating for the restaurant
+                                                                $avgRatingQuery = "SELECT AVG(rating) AS avg_rating FROM ratings WHERE res_id = " . $rows['rs_id'];
+                                                                $avgRatingResult = mysqli_query($db, $avgRatingQuery);
+                                                                $avgRatingRow = mysqli_fetch_assoc($avgRatingResult);
+                                                                $avgRating = round($avgRatingRow['avg_rating'], 1);
+                                                                
+                                                                // Display stars based on average rating
+                                                                for ($i = 1; $i <= 5; $i++) {
+                                                                    if ($i <= $avgRating) {
+                                                                        echo '<i class="fa fa-star"></i>';
+                                                                    } else {
+                                                                        echo '<i class="fa fa-star-o"></i>';
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </div>
+                                                            <p><?php echo $avgRating; ?> Average Rating</p>
+                                                            <!-- No num_reviews information available in the code provided -->
+                                                            <a href="dishes.php?res_id=<?php echo $rows['rs_id']; ?>" class="btn theme-btn-dash">View Merchant</a>
+                                                        </div>
+                                                    </div>

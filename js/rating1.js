@@ -1,36 +1,57 @@
-function fillStars(num) {
-    for (var i = 1; i <= num; i++) {
-        document.getElementById('star_' + i).classList.remove('fa-star-o');
-        document.getElementById('star_' + i).classList.add('fa-star');
-        // Add custom style to fill the star with yellow color
-        document.getElementById('star_' + i).style.color = 'rgba(255, 255, 0, 0.5)';
-    }
-    // Reset the rest of the stars to their default state
-    for (var i = num + 1; i <= 5; i++) {
-        document.getElementById('star_' + i).classList.remove('fa-star');
-        document.getElementById('star_' + i).classList.add('fa-star-o');
-        // Reset the color to default for the rest of the stars
-        document.getElementById('star_' + i).style.color = '';
-    }
-}
+// JavaScript function to handle star rating interaction
+document.addEventListener("DOMContentLoaded", function() {
+    let ratingBlock = document.querySelector(".rating-block");
+    let stars = ratingBlock.querySelectorAll("i");
 
-function resetStars() {
-    for (var i = 1; i <= 5; i++) {
-        document.getElementById('star_' + i).classList.remove('fa-star');
-        document.getElementById('star_' + i).classList.add('fa-star-o');
-    }
-}
+    $.ajax({
+        url: "update_rating.php",
+        method: "POST",
+        data: { rating: rating, res_id: restaurantId },
+        success: function(response) {
+            console.log("Rating updated successfully");
+        },
+        error: function(xhr, status, error) {
+            console.error("Failed to update rating:", error);
+        }
+    });
 
-// Pass the restaurant ID and rating to the function
-function saveRating(resId, rating) {
-    fetch('rate.php?res_id=' + resId + '&rating=' + rating)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+
+    stars.forEach(function(star, index) {
+        star.addEventListener("mouseover", function() {
+            // Set all stars up to this index as active
+            for (let i = 0; i <= index; i++) {
+                stars[i].classList.add("star-active");
             }
-            // You can handle the response as needed
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+            // Set all stars after this index as inactive
+            for (let i = index + 1; i < stars.length; i++) {
+                stars[i].classList.remove("star-active");
+            }
         });
-}
+
+        star.addEventListener("click", function() {
+            // Update the rating value in the database (you'll need AJAX for this)
+            // Here, you'll send the selected rating to the server to be stored in the database
+            // You can use the data-resid attribute to identify the restaurant ID
+            let rating = index + 1; // Rating is 1-based
+            let restaurantId = ratingBlock.dataset.resid;
+
+            // Example AJAX call to update_rating.php
+            // Replace this with your actual AJAX implementation
+            // Make sure to include proper error handling and validation
+            // AJAX call to update_rating.php with the selected rating and restaurant ID
+            /*
+            $.ajax({
+                url: "update_rating.php",
+                method: "POST",
+                data: { rating: rating, res_id: restaurantId },
+                success: function(response) {
+                    console.log("Rating updated successfully");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Failed to update rating:", error);
+                }
+            });
+            */
+        });
+    });
+});

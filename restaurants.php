@@ -153,35 +153,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         ?>
         <!-- Search part ends-->
 
-<div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
-    <div class="right-content bg-white">
-        <div class="right-review">
-            <div class="rating-block">
-                <?php
-                $avgRating = 3.5; 
 
-                echo '<p>Average Rating: ' . $avgRating . '</p>';
-
-                // Loop to display stars
-                for ($i = 1; $i <= 5; $i++) {
-                    echo '<a href="#" 
-                            onmouseover="fillStars(' . $i . ')" 
-                            onmouseout="resetStars()" 
-                            onclick="saveRating(' . $rows['rs_id'] . ', ' . $i . ')">';
-                    if ($i <= $userRating) {
-                        echo '<i class="fa fa-star"></i>';
-                    } else {
-                        echo '<i class="fa fa-star-o"></i>';
-                    }
-                    echo '</a>';
-                }
-                ?>
-            </div>
-            <p>245 Reviews</p>
-            <a href="dishes.php?res_id=<?php echo $rows['rs_id']; ?>" class="btn theme-btn-dash">View Merchant</a>
-        </div>
-    </div>
-</div>
 
 
 
@@ -189,68 +161,77 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
         <!-- //results show -->
         <section class="restaurants-page">
-            <div class="container">
-                <div class="row">
-                    <?php
-                    include("includes/sellertypes.php");
-                    ?>    
+    <div class="container">
+        <div class="row">
+            <?php
+            include("includes/sellertypes.php");
+            ?>    
 
-                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
-                        <div class="bg-gray restaurant-entry">
-                            <div class="row">
-                            <?php 
-                                if (isset($_GET['c_id']))
-                                {
-                                    $query = "select * from restaurant where c_id = ".$_GET['c_id'];
-                                }
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
+                <div class="bg-gray restaurant-entry">
+                    <div class="row">
+                        <?php 
+                        if (isset($_GET['c_id'])) {
+                            $query = "SELECT * FROM restaurant WHERE c_id = ".$_GET['c_id'];
+                        } else {
+                            $query = "SELECT * FROM restaurant";
+                        }
 
-                                else
-                                {
-                                    $query = "select * from restaurant";
-                                }
+                        $ress = mysqli_query($db, $query);
 
-                                $ress = mysqli_query($db, $query);
-                                
-                                while($rows=mysqli_fetch_array($ress))
-                                {
-                                    echo' <div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
-                                        <div class="entry-logo">
-                                            <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt=Merchant logo"></a>
-                                        </div>
-                                        <!-- end:Logo -->
-                                            <div class="entry-dscr">
-                                                <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
-                                                <span>'.substr($rows['description'], 0, 120);
-    
-                                                if (strlen($rows['description']) > 120) {
-                                                    echo '...';
-                                                }
-
-                                                echo '</span></br></br><span>'.$rows['address'].' <a href="#">...</a></span>
-                                            </div>
-
-
-                                        <!-- end:Entry description -->
+                        while($rows = mysqli_fetch_array($ress)) {
+                            echo '<div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
+                                    <div class="entry-logo">
+                                        <a class="img-fluid" href="dishes.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo"></a>
                                     </div>
-                                    
-                                        <div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
-                                            <div class="right-content bg-white">
-                                                <div class="right-review">
-                                                    <div class="rating-block"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                                    <p> 245 Reviews</p> <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a> </div>
-                                            </div>
-                                            <!-- end:right info -->
-                                        </div>';
-                                }
-                            ?>                 
+                                    <!-- end:Logo -->
+                                    <div class="entry-dscr">
+                                        <h5><a href="dishes.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
+                                        <span>'.substr($rows['description'], 0, 120);
+                                        
+                            if (strlen($rows['description']) > 120) {
+                                echo '...';
+                            }
+
+                            echo '</span></br></br><span>'.$rows['address'].' <a href="#">...</a></span>
+                                    </div>
+                                    <!-- end:Entry description -->
+                                </div>';
+
+                            // Set default rating to 1 if not present
+                            $rating = isset($rows['rating']) ? $rows['rating'] : 1;
+
+                            // Generate the rating block inside the loop
+                            echo '<div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
+                                    <div class="right-content bg-white">
+                                        <div class="right-review">
+                                            <div class="rating-block" data-resid="'.$rows['rs_id'].'">';
+                                            
+                            // Loop through 5 stars and generate each one dynamically
+                            for ($i = 1; $i <= 5; $i++) {
+                                // Check if the star should be active or inactive
+                                $class = ($i <= $rating) ? 'star-active' : 'star-inactive';
+                                echo '<i class="fa fa-star '.$class.'"></i>';
+                            }
+                            
+                            echo '</div>
+                                    <p>245 Reviews</p>
+                                    <a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
+                                </div>
                             </div>
-                            <!--end:row -->
-                        </div>   
-                    </div>
+                        </div>'; // End of rating block
+                    }
+                    ?>     
                 </div>
-            </div>
+                <!--end:row -->
+            </div>   
         </div>
-    </section>
+    </div>
+</div>
+</section>
+
+
+
     <?php
         }
     ?>

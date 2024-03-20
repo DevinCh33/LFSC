@@ -2,33 +2,32 @@
 <!DOCTYPE html>
 <!-- Created by CodingLab |www.youtube.com/CodingLabYT-->
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <!-- Boxiocns CDN Link -->
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
-
-   </head>
+	<head>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<link rel="stylesheet" href="style.css">
+    	<!-- Boxiocns CDN Link -->
+    	<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+	</head>
 	
 <body>
-  <div class="sidebar close">
-    <?php include "sidebar.php"; ?>
-  </div>
-  <section class="home-section">
+  	<div class="sidebar close">
+    	<?php include "sidebar.php"; ?>
+  	</div>
+  	<section class="home-section">
     <div class="home-content">
-      <i class='bx bx-menu' ></i>
-      <span class="text">Dashboard</span>
+      	<i class='bx bx-menu' ></i>
+      	<span class="text">Dashboard</span>
     </div>
 	  
 	  
-<div class="dashboard">
+	<div class="dashboard">
 		<div class="card">
-			<?php if($_SESSION["u_role"] == "SELLER"){ ?>
-			<h3>Items Sales</h3>
+		<?php if($_SESSION["adm_co"] == "SUPP"){ ?>
+			<h3>Monthly Income</h3>
 		<?php
 			// Query to get the total amount of orders for the current month
 			$queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date like '".date("Y-m-")."%'";
@@ -58,38 +57,51 @@
 			
 		?>
         	<p>RM <?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
-		<?php }else if($_SESSION["u_role"] == "ADMIN"){ ?>
-			<h3>Items Sales</h3>
+		<?php }else if($_SESSION["adm_co"] == "SUPA"){ ?>
+			<h3>Total Seller</h3>
 		<?php
-			// Query to get the total amount of orders for the current month
-			$queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date like '".date("Y-m-")."%'";
+			$querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin";
+			$resultSeller = mysqli_query($db, $querySeller);
+			$rowSeller = mysqli_fetch_assoc($resultSeller);
+			$totalSeller = $rowSeller['total_seller'];
+	
+			// Query to get the total number of sellers
+			$queryCurrentMonth = "SELECT COUNT(adm_id) AS total_seller FROM admin WHERE MONTH(date) = MONTH(CURRENT_DATE()) 
+                      				AND YEAR(date) = YEAR(CURRENT_DATE())";
 			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
 			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
-			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+			$totalCurrentMonth = $rowCurrentMonth['total_seller'];
 
-			// Query to get the total amount of orders for the last month
-			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
-			$queryLastMonth = "SELECT SUM(total_amount) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			// Query to get the total number of sellers for the last month
+			$oneMonthAgo = date("Y-m-d", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(adm_id) AS total_last_month FROM admin WHERE date >= LAST_DAY(DATE_SUB('$oneMonthAgo', INTERVAL 1 MONTH)) + INTERVAL 1 DAY AND date < LAST_DAY('$oneMonthAgo') + INTERVAL 1 DAY";
 			$resultLastMonth = mysqli_query($db, $queryLastMonth);
 			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
 			$totalLastMonth = $rowLastMonth['total_last_month'];
-			
-			
-			$percent = 0;
-			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
-			if($totalCurrentMonth < $totalLastMonth){
-				$percent = "-".$percent."%";
+
+			// Calculate the percentage change
+			$percentChange = 0;
+			if ($totalLastMonth != 0) {
+				$percentChange = (($totalCurrentMonth - $totalLastMonth) / $totalLastMonth) * 100;
+			}
+
+			// Determine whether the change is positive or negative
+			if ($totalCurrentMonth < $totalLastMonth) {
+				$percentChange = "-" . abs($percentChange) . "%";
 				$word = "negative";
-			}	
-			else{
-				$percent = "+".$percent."%";
+			} else {
+				$percentChange = "+" . abs($percentChange) . "%";
 				$word = "positive";
-			}?>
+			}
+			?>
+			<p><?php echo $totalSeller; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percentChange; ?></span></p>
 		<?php } ?>
+			
       	</div>
 		
 		<div class="card">
-			<h3>New Orders</h3>
+		<?php if($_SESSION["adm_co"] == "SUPP"){ ?>
+			<h3>Total Order</h3>
 			<?php
 			// Query to get the total amount of orders for the current month
 			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
@@ -119,9 +131,41 @@
 			
 		?>
 			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
-		  </div>
+		<?php }else if($_SESSION["adm_co"] == "SUPA"){ ?>
+			<h3>Product Inspection</h3>
+			<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
 
-		  <div class="card">
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(order_id) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		<?php } ?>
+		</div>
+
+		<div class="card">
 			<h3>Total Products</h3>
 			<?php
 			// Query to get the total amount of orders for the current month
@@ -155,7 +199,7 @@
 		  </div>
 
 		  <div class="card">
-			<h3>New Visitor</h3>
+			<h3>Total Employee</h3>
 			<p>5,186<span class="stat-delta positive">+150%</span></p>
 		  </div>
 	

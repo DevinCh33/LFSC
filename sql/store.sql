@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2024 at 01:28 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.1
+-- Generation Time: Mar 20, 2024 at 02:57 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `admin` (
   `u_role` text NOT NULL,
   `store` int(11) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
@@ -62,7 +62,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `categories`
@@ -93,7 +93,7 @@ CREATE TABLE `orders` (
   `order_status` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
   `order_belong` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
@@ -114,7 +114,7 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL DEFAULT 0,
   `priceID` int(10) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `order_item`
@@ -144,7 +144,7 @@ CREATE TABLE `product` (
   `product_date` text NOT NULL,
   `lowStock` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `product`
@@ -177,7 +177,7 @@ CREATE TABLE `remark` (
   `status` varchar(255) NOT NULL,
   `remark` mediumtext NOT NULL,
   `remarkDate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `remark`
@@ -240,7 +240,7 @@ CREATE TABLE `restaurant` (
   `image` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `restaurant`
@@ -264,7 +264,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `res_category`
@@ -294,7 +294,7 @@ CREATE TABLE `tblemployee` (
   `empjob` int(10) NOT NULL,
   `empstore` int(10) NOT NULL,
   `empstatus` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblemployee`
@@ -330,20 +330,21 @@ CREATE TABLE `tblprice` (
   `priceNo` int(10) NOT NULL,
   `productID` varchar(30) NOT NULL,
   `proWeight` int(20) NOT NULL,
-  `proPrice` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `proPrice` float NOT NULL,
+  `proDisc` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblprice`
 --
 
-INSERT INTO `tblprice` (`priceNo`, `productID`, `proWeight`, `proPrice`) VALUES
-(16, '26', 100, 5),
-(17, '26', 100, 10),
-(18, '26', 100, 15),
-(19, '40', 120, 150),
-(20, '25', 120, 160),
-(22, '42', 200, 20);
+INSERT INTO `tblprice` (`priceNo`, `productID`, `proWeight`, `proPrice`, `proDisc`) VALUES
+(16, '26', 100, 5, 0),
+(17, '26', 100, 10, 30),
+(18, '26', 100, 15, 0),
+(19, '40', 120, 150, 90),
+(20, '25', 120, 160, 0),
+(22, '42', 200, 20, 0);
 
 -- --------------------------------------------------------
 
@@ -363,7 +364,7 @@ CREATE TABLE `users` (
   `address` text NOT NULL,
   `status` int(222) NOT NULL DEFAULT 1,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`

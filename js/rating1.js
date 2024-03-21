@@ -1,36 +1,62 @@
-function fillStars(num) {
-    for (var i = 1; i <= num; i++) {
-        document.getElementById('star_' + i).classList.remove('fa-star-o');
-        document.getElementById('star_' + i).classList.add('fa-star');
-        // Add custom style to fill the star with yellow color
-        document.getElementById('star_' + i).style.color = 'rgba(255, 255, 0, 0.5)';
-    }
-    // Reset the rest of the stars to their default state
-    for (var i = num + 1; i <= 5; i++) {
-        document.getElementById('star_' + i).classList.remove('fa-star');
-        document.getElementById('star_' + i).classList.add('fa-star-o');
-        // Reset the color to default for the rest of the stars
-        document.getElementById('star_' + i).style.color = '';
-    }
-}
+document.addEventListener("DOMContentLoaded", function() {
+    let ratingBlocks = document.querySelectorAll(".rating-block");
 
-function resetStars() {
-    for (var i = 1; i <= 5; i++) {
-        document.getElementById('star_' + i).classList.remove('fa-star');
-        document.getElementById('star_' + i).classList.add('fa-star-o');
-    }
-}
+    ratingBlocks.forEach(function(ratingBlock) {
+        let stars = ratingBlock.querySelectorAll("i");
+        let restaurantId = ratingBlock.dataset.resid;
 
-// Pass the restaurant ID and rating to the function
-function saveRating(resId, rating) {
-    fetch('rate.php?res_id=' + resId + '&rating=' + rating)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            // You can handle the response as needed
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
+        stars.forEach(function(star, index) {
+            // Add mouseover event listener to each star
+            star.addEventListener("mouseover", function() {
+                // Light up the stars up to the current index
+                for (let i = 0; i <= index; i++) {
+                    stars[i].classList.add("star-hover");
+                }
+            });
+
+            // Add mouseleave event listener to each star
+            star.addEventListener("mouseleave", function() {
+                // Remove hover effect from all stars
+                stars.forEach(function(star) {
+                    star.classList.remove("star-hover");
+                });
+            });
+
+            // Add click event listener to each star
+            star.addEventListener("click", function() {
+                // Update the rating value in the database
+                let rating = index + 1; // Rating is 1-based
+
+                // AJAX call to update_rating.php with the selected rating and restaurant ID
+                $.ajax({
+                    url: "update_rating.php",
+                    method: "POST",
+                    data: { rating: rating, res_id: restaurantId },
+                    success: function() {
+                        console.log("Rating updated successfully");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Failed to update rating:", error);
+                    }
+                });
+
+                // Update the data-rating attribute to reflect the selected rating
+                ratingBlock.dataset.rating = rating;
+
+                // Toggle the class to fill or empty stars based on the clicked index
+                for (let i = 0; i < stars.length; i++) {
+                    if (i <= index) {
+                        stars[i].classList.add("star-active");
+                        stars[i].classList.remove("star-inactive");
+                    } else {
+                        stars[i].classList.remove("star-active");
+                        stars[i].classList.add("star-inactive");
+                    }
+                }
+            });
         });
-}
+    });
+
+
+
+});

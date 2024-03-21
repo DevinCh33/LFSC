@@ -40,7 +40,10 @@ if(isset($_POST['submit']))
 			$_SESSION["adm_co"] = $row['code'];
 			$_SESSION["u_role"] = $row['u_role'];
 			$_SESSION['store'] = $row['store'];
-			header("refresh:1;url=dashboard.php");
+			if($_SESSION['adm_co'] != "SUPA" || $_SESSION['adm_co'] != "VSUPA")
+				header("refresh:1;url=dashboard.php");
+			else
+				header("refresh:1;url=admin/dashboard.php");
 		} 
 		else
 		{
@@ -64,8 +67,8 @@ if(isset($_POST['submit']))
 		<span style="color:green;"><?php echo $success; ?></span>
 
 		<form class="login-form" action="index.php" method="post">
-			<input type="text" placeholder="Username" name="username" />
-			<input type="password" placeholder="Password" name="password"/>
+			<input type="text" placeholder="Username" name="username" value="admin" />
+			<input type="password" placeholder="Password" name="password" value="123456"/>
 			<input type="submit" name="submit" value="Login" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
 			or <a href="forgotpassword.php" style="color:#f30;">Forgot password?</a>
@@ -73,6 +76,5 @@ if(isset($_POST['submit']))
 	</div>
 
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-	<script src='js/index.js'></script>
 </body>
 </html>

@@ -153,15 +153,21 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 $productQuery[0] = "SELECT * from product JOIN tblprice
                                     WHERE product.product_id = ".$data['product_id'];
 
+                $message[0] = "Buy again";
+
                 // Recommendation from same category
                 $productQuery[1] = "SELECT * from product JOIN tblprice
                                     WHERE product.categories_id = ".$data['categories_id']." 
                                     ORDER BY RAND() LIMIT 1";
 
+                $message[1] = "Product of the same category as your most recent order";
+
                 // Recommendation from same merchant
                 $productQuery[2] = "SELECT * from product JOIN tblprice
                                     WHERE product.owner = ".$data['owner']." 
                                     ORDER BY RAND() LIMIT 1";
+
+                $message[2] = "Product of the same merchant as your most recent order";
 
                  // Recommendation from similar price range (+- RM 10)
                 $productQuery[3] = "SELECT * from product JOIN tblprice
@@ -169,37 +175,43 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     AND tblprice.proPrice <= ".((float)$data['proPrice']+10)."
                                     ORDER BY RAND() LIMIT 1";
 
+                $message[3] = "Product of a similar price range as your most recent order";
+
                 $recommended[0] = 0;
 
-                for ($i = 0; $i < 4; $i++) {
-                    $a = mysqli_fetch_assoc(mysqli_query($db, $productQuery[$i]));
+                for ($i = 0; $i < 8; $i += 2) {
+                    $a = mysqli_fetch_assoc(mysqli_query($db, $productQuery[$i/2]));
 
                     // Check for duplicates
                     if (!in_array($a, $recommended)) {
                         $recommended[$i] = $a;
+                        $recommended[$i+1] = $message[$i/2];
                     }
 
                     // If duplicate, then suggest random product
                     else {
                         $productQuery[$i] = "SELECT * from product JOIN tblprice
                                              ORDER BY RAND() LIMIT 1";
+                        
+                        $message[$i] = 0;
 
                         continue;
                     }
                 }
 
                 // Loop through each product and display the card
-                foreach($recommended as $product) {
+                for($i = 0; $i < 8; $i += 2) {
                     // Use htmlspecialchars to escape any special characters
-                    $productName = htmlspecialchars($product['product_name']);
-                    $productImage = htmlspecialchars($product['product_image']);
+                    $productName = htmlspecialchars($recommended[$i]['product_name']);
+                    $productImage = htmlspecialchars($recommended[$i]['product_image']);
 
                     // Convert quantity to an integer
-                    $productQuantity = intval($product['quantity']);
+                    $productQuantity = intval($recommended[$i]['quantity']);
 
                     // Format price to ensure it has two decimal places
-                    $productPrice = number_format($product['proPrice'], 2);
-                    $productOwner = number_format($product['owner']);
+                    $productPrice = number_format($recommended[$i]['proPrice'], 2);
+                    $productDiscount = number_format($recommended[$i]['proDisc']/100, 1);
+                    $productOwner = number_format($recommended[$i]['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
                     echo '    <div class="card michealProductCard">';
@@ -207,7 +219,27 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '        <div class="card-body">';
                     echo '            <a href="dishes.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . '</h5></a>';
                     echo '            <p class="card-text">Quantity: ' . $productQuantity . '</p>';
+
+                    if ($productDiscount == 0) {
                     echo '            <p class="card-text">Price: RM ' . $productPrice . '</p>';
+                    }
+                    
+                    else {
+                    echo '            <p class="card-text">
+                                        <span style="text-decoration: line-through; color: red;"> Price: RM ' . $productPrice . '</span>
+                                        <span style="color: orange;">'. $productDiscount*100 .'% off</span>
+                                        <span> Price: RM ' . number_format($productPrice*(1-$productDiscount), 2) . '</span>
+                                      </p>';
+                    }
+
+                    if ($recommended[$i+1] == 0) {
+                    echo '            <br/>';
+                    }
+
+                    else {
+                    echo '            <p class="card-text" style="color: green;">'.$recommended[$i+1].'</p>';
+                    }
+
                     echo '        </div>';
                     echo '    </div>';
                     echo '</div>';
@@ -228,7 +260,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="container">
             <div class="title text-xs-center m-b-30">
                 <h2>Little Farmer's Merchants</h2>
-                <p class="lead">Get to know our trusted seller!</p>
+                <p class="lead">Get to know our trusted sellers!</p>
             </div>
             <div class="row">
                 <?php 
@@ -272,9 +304,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     </section>
     <!-- Popular block ends -->
 
-
-
-  
     <!-- start: FOOTER -->
     <?php
     include("includes/footer.php");

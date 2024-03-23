@@ -154,11 +154,10 @@
           <!-- Data will be populated here -->
         </select>
       </div>
-      
+      <br/>
       <div>Set price: </div>
 
-      <!-- Regex modified from https://stackoverflow.com/questions/354044/what-is-the-best-u-s-currency-regex -->
-      <input id="customPriceInput" type="text" pattern="[0-9]{1,3}(?:,?[0-9]{3})*(\.[0-9]{1,2})?" required/>
+      <input id="customPriceInput" type="text" required/>
       <button onclick="changePrice()">Change</button>
     </div>
     </div>
@@ -374,7 +373,7 @@ function sortTable(columnIndex) {
   }
 }
 	
-function findRec(windowType, name){
+function findRec(windowType, name) {
 	$.ajax({
         url: 'action/fetchUserData.php',
         type: 'GET',
@@ -409,14 +408,14 @@ function findRec(windowType, name){
     });
 }
 	
-function viewRec(num){
+function viewRec(num) {
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
   
 	findRec(3, name);
 }
 
-function setPrice(windowType, name){
+function setPrice(windowType, name) {
   $.ajax({
         url: 'action/fetchProductData.php',
         type: 'GET',
@@ -444,26 +443,57 @@ function setPrice(windowType, name){
     });
 }
 
-function givePrice(num){
+function givePrice(num) {
 	var button = document.getElementById("customPrice"+num);
 	var name = button.getAttribute("name");
   
 	setPrice(2, name);
 }
+
+function changePrice() {
+  var select = document.getElementById('productsList');
+  var selectedOption = select.options[select.selectedIndex];
+  
+  var user = selectedOption.getAttribute('user');
+  var productID = selectedOption.id;
+  var price = document.getElementById('customPriceInput').value;
+
+  // Regex from https://stackoverflow.com/questions/354044/what-is-the-best-u-s-currency-regex
+  var priceRegex = /[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}/;
+
+  if (!priceRegex.test(price)) {
+    alert("Please provide a valid price with two decimal places!");
+
+    return;
+  }
+
+  $.ajax({
+        url: 'action/editCustomPrice.php',
+        type: 'POST',
+        data: {user: user, productID: productID, price: price},
+        dataType: 'json',
+        success: function(response) {
+
+		},
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
 	
 function openPopup(type) {
     document.getElementById("popupWindow").style.display = "block";
-	if(type == 1){
+	if(type == 1) {
     $("#editCustomPrices").hide();
 		$("#showingPurchaseHistory").hide();
 		$("#addCustomer").show();
 	}
-  else if(type == 2){
+  else if(type == 2) {
     $("#editCustomPrices").show();
 		$("#showingPurchaseHistory").hide();
 		$("#addCustomer").hide();
   }
-	else if(type == 3){
+	else if(type == 3) {
     $("#editCustomPrices").hide();
 		$("#showingPurchaseHistory").show();
 		$("#addCustomer").hide();
@@ -495,8 +525,7 @@ document.getElementById('productsList').addEventListener('change', function() {
             }
 
             // Set the newly generated price on the selected option
-            var input = document.getElementById('customPriceInput');
-            input.setAttribute('value', price);
+            $('#customPriceInput').val(price);
 		},
         error: function(xhr, status, error) {
             console.error('Error:', error);

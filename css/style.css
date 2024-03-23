@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Give+You+Glory);
+﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Give+You+Glory);
 
 /*------------------------------------------------------------------
 Theme Name: Foodpicky - Responsive Bootstrap Restaurants Directory template Online food ordering 
@@ -2584,3 +2584,5 @@ a[aria-expanded=false] .fa-angle-down {
     background-color: #17a2b8; /* Bootstrap info color */
     border-color: #17a2b8; /* Bootstrap info border color */
 }
+
+

@@ -112,16 +112,29 @@ CREATE TABLE `orders` (
   `payment_type` int(11) NOT NULL,
   `order_status` int(11) NOT NULL DEFAULT 0,
   `user_id` int(11) NOT NULL,
-  `order_belong` int(15) NOT NULL
+  `order_belong` int(15) NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_seen` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `total_amount`, `paid`, `due`, `payment_type`, `order_status`, `user_id`, `order_belong`) VALUES
-(1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51),
-(2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 3, 2, 51);
+INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `total_amount`, `paid`, `due`, `payment_type`, `order_status`, `user_id`, `order_belong`, `last_updated`, `is_seen`) VALUES
+(1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0),
+(2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0);
+
+--
+-- Triggers `orders`
+--
+
+DELIMITER $$
+CREATE TRIGGER `reset_is_seen_before_order_status_update` BEFORE UPDATE ON `orders` FOR EACH ROW IF OLD.order_status <> NEW.order_status THEN
+    SET NEW.is_seen = 0;
+END IF
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 

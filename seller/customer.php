@@ -53,7 +53,7 @@
 			<th onclick="sortTable(2)">Name <span class="sort-indicator" id="indicator2"></span></th>
 			<th onclick="sortTable(3)">Email <span class="sort-indicator" id="indicator3"></span></th>
 			<th onclick="sortTable(4)">Phone Number <span class="sort-indicator" id="indicator4"></span></th>
-			<th onclick="sortTable(5)">Email <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(5)">Location <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(6)">Action <span class="sort-indicator" id="indicator6"></span></th>
 
 		  </tr>

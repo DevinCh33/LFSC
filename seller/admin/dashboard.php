@@ -194,25 +194,44 @@ let currentDate = new Date();
 document.addEventListener('DOMContentLoaded', function() {
         var ctx = document.getElementById('salesChart').getContext('2d');
         var salesChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    label: 'Sales Amount (RM)',
+                    label: 'Number Seller Join',
                     data: [
-                        <?php echo 1200; ?>,
-                        <?php echo 1800; ?>,
-                        <?php echo $data['March']; ?>,
-                        <?php echo $data['April']; ?>,
-                        <?php echo $data['May']; ?>,
-                        <?php echo $data['June']; ?>,
-                        <?php echo $data['July']; ?>,
-                        <?php echo $data['August']; ?>,
-                        <?php echo $data['September']; ?>,
-                        <?php echo $data['October']; ?>,
-                        <?php echo $data['November']; ?>,
-                        <?php echo $data['December']; ?>
-                    ],
+						<?php
+						$countSeller = "SELECT COUNT(admin.adm_id) AS seller_count 
+										FROM (
+												SELECT 1 AS month
+												UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION 
+												SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
+										) AS month_list
+										LEFT JOIN 
+											admin ON MONTH(admin.date) = month_list.month AND YEAR(admin.date) = YEAR(CURRENT_DATE())
+										GROUP BY month_list.month";
+						$resultS = mysqli_query($db, $countSeller);
+						$dataValues = array(); // Initialize the array to store data values
+						if ($resultS) {
+							while ($rowS = mysqli_fetch_assoc($resultS)) {
+								// Store each seller count in the $dataValues array
+								$dataValues[] = $rowS['seller_count'];
+							}
+						} else {
+							echo "Error: " . mysqli_error($db); // Output an error message if query fails
+						}
+						
+						$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+
+						for ($i = 0; $i < date('m'); $i++) {
+							echo $dataValues[$i]; // Output dataValues array instead of $data array
+							if ($i < count($months) - 1) {
+								echo ",";
+							}
+							echo "\n";
+						}
+						?>
+					],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -245,16 +264,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }]
             },
             options: {
-                plugins: {
-                    datalabels: {
-                        color: '#fff', // Color of data labels
-                        anchor: 'end',
-                        align: 'top',
-                        formatter: function(value, context) {
-                            return value + ' RM';
-                        }
-                    }
-                },
                 scales: {
                     y: {
                         beginAtZero: true

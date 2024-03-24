@@ -39,16 +39,11 @@ if(isset($_POST['submit']))
 			$_SESSION["adm_id"] = $row['adm_id'];
 			$_SESSION["adm_co"] = $row['code'];
 			$_SESSION["u_role"] = $row['u_role'];
-			$_SESSION['store'] = $row['store'];
-<<<<<<< Updated upstream
-			header("refresh:1;url=dashboard.php");
-=======
-	
+			$_SESSION['store'] = $row['store'];	
 			if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
 				header("refresh:1;url=dashboard.php");
 			else
 				header("refresh:1;url=admin/dashboard.php");
->>>>>>> Stashed changes
 		} 
 		else
 		{

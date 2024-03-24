@@ -18,7 +18,6 @@
     	<?php include "sidebar.php"; ?>
   	</div>
   	<section class="home-section">
-		
     <div class="home-content">
       	<i class='bx bx-menu' ></i>
       	<span class="text">Dashboard</span>
@@ -26,8 +25,39 @@
 	  
 	  
 	<div class="dashboard">
-		
 		<div class="card">
+		<?php if($_SESSION["adm_co"] == "SUPP"){ ?>
+			<h3>Monthly Income</h3>
+		<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT SUM(total_amount) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+        	<p>RM <?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		<?php }else if($_SESSION["adm_co"] == "SUPA"){ ?>
 			<h3>Total Seller</h3>
 		<?php
 			$querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin";
@@ -42,32 +72,102 @@
 			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
 			$totalCurrentMonth = $rowCurrentMonth['total_seller'];
 
+			// Query to get the total number of sellers for the last month
+			$oneMonthAgo = date("Y-m-d", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(adm_id) AS total_last_month FROM admin WHERE date >= LAST_DAY(DATE_SUB('$oneMonthAgo', INTERVAL 1 MONTH)) + INTERVAL 1 DAY AND date < LAST_DAY('$oneMonthAgo') + INTERVAL 1 DAY";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+
+			// Calculate the percentage change
+			$percentChange = 0;
+			if ($totalLastMonth != 0) {
+				$percentChange = (($totalCurrentMonth - $totalLastMonth) / $totalLastMonth) * 100;
+			}
+
 			// Determine whether the change is positive or negative
-			$percentChange = "+" . $totalCurrentMonth;
-			$word = "positive";
+			if ($totalCurrentMonth < $totalLastMonth) {
+				$percentChange = "-" . abs($percentChange) . "%";
+				$word = "negative";
+			} else {
+				$percentChange = "+" . abs($percentChange) . "%";
+				$word = "positive";
+			}
 			?>
 			<p><?php echo $totalSeller; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percentChange; ?></span></p>
+		<?php } ?>
 			
       	</div>
 		
 		<div class="card">
-			<h3>Seller Under Inspection</h3>
+		<?php if($_SESSION["adm_co"] == "SUPP"){ ?>
+			<h3>Total Order</h3>
 			<?php
-				$querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin WHERE storeStatus = 0";
-				$resultSeller = mysqli_query($db, $querySeller);
-				$rowSeller = mysqli_fetch_assoc($resultSeller);
-				$totalSeller = $rowSeller['total_seller'];
-			?>
-			<p><?php echo $totalSeller; ?></p>
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(order_id) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		<?php }else if($_SESSION["adm_co"] == "SUPA"){ ?>
+			<h3>Product Inspection</h3>
+			<?php
+			// Query to get the total amount of orders for the current month
+			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
+			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
+			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
+			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+
+			// Query to get the total amount of orders for the last month
+			$oneMonthAgo = date("Y-m-", strtotime("-1 month"));
+			$queryLastMonth = "SELECT COUNT(order_id) AS total_last_month FROM orders WHERE order_date like '".$oneMonthAgo."%'";
+			$resultLastMonth = mysqli_query($db, $queryLastMonth);
+			$rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
+			$totalLastMonth = $rowLastMonth['total_last_month'];
+			
+			
+			$percent = 0;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
+			if($totalCurrentMonth < $totalLastMonth){
+				$percent = "-".$percent."%";
+				$word = "negative";
+			}	
+			else{
+				$percent = "+".$percent."%";
+				$word = "positive";
+			}
+				
+			
+		?>
+			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+		<?php } ?>
 		</div>
-		
+
 		<div class="card">
 			<h3>Total Products</h3>
 			<?php
-			$queryProduct = "SELECT COUNT(product_id) AS total_product FROM product";
-			$resultProduct = mysqli_query($db, $queryProduct);
-			$rowProduct = mysqli_fetch_assoc($resultProduct);
-			$totalProduct = $rowProduct['total_product'];
 			// Query to get the total amount of orders for the current month
 			$queryCurrentMonth = "SELECT COUNT(product_id) AS total_current_month FROM product WHERE product_date like '".date("Y-m-")."%'";
 			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
@@ -83,32 +183,26 @@
 			
 			
 			$percent = 0;
-			$percent = $totalCurrentMonth-$totalLastMonth;
+			$percent = ($totalCurrentMonth-$totalLastMonth) * 100;
 			if($totalCurrentMonth < $totalLastMonth){
-				$percent = "-".$percent;
+				$percent = "-".$percent."%";
 				$word = "negative";
 			}	
 			else{
-				$percent = "+".$percent;
+				$percent = "+".$percent."%";
 				$word = "positive";
 			}
 				
 			
 		?>
-			<p><?php echo $totalProduct; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+			<p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
 		  </div>
-		
-		<div class="card">
-			<h3>Product Under Inspection</h3>
-			<?php
-			// Query to get the total amount of orders for the current month
-			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
-			$resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
-			$rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
-			$totalCurrentMonth = $rowCurrentMonth['total_current_month'];
-		?>
-			<p><?php echo $totalCurrentMonth; ?></p>
-		</div>
+
+		  <div class="card">
+			<h3>Total Employee</h3>
+			<p>5,186<span class="stat-delta positive">+150%</span></p>
+		  </div>
+	
 	
 		  <div class="sales-graph">
 			<canvas id="salesChart"></canvas>
@@ -194,44 +288,25 @@ let currentDate = new Date();
 document.addEventListener('DOMContentLoaded', function() {
         var ctx = document.getElementById('salesChart').getContext('2d');
         var salesChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    label: 'Number Seller Join',
+                    label: 'Sales Amount (RM)',
                     data: [
-						<?php
-						$countSeller = "SELECT COUNT(admin.adm_id) AS seller_count 
-										FROM (
-												SELECT 1 AS month
-												UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION 
-												SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
-										) AS month_list
-										LEFT JOIN 
-											admin ON MONTH(admin.date) = month_list.month AND YEAR(admin.date) = YEAR(CURRENT_DATE())
-										GROUP BY month_list.month";
-						$resultS = mysqli_query($db, $countSeller);
-						$dataValues = array(); // Initialize the array to store data values
-						if ($resultS) {
-							while ($rowS = mysqli_fetch_assoc($resultS)) {
-								// Store each seller count in the $dataValues array
-								$dataValues[] = $rowS['seller_count'];
-							}
-						} else {
-							echo "Error: " . mysqli_error($db); // Output an error message if query fails
-						}
-						
-						$months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-
-						for ($i = 0; $i < date('m'); $i++) {
-							echo $dataValues[$i]; // Output dataValues array instead of $data array
-							if ($i < count($months) - 1) {
-								echo ",";
-							}
-							echo "\n";
-						}
-						?>
-					],
+                        <?php echo 1200; ?>,
+                        <?php echo 1800; ?>,
+                        <?php echo $data['March']; ?>,
+                        <?php echo $data['April']; ?>,
+                        <?php echo $data['May']; ?>,
+                        <?php echo $data['June']; ?>,
+                        <?php echo $data['July']; ?>,
+                        <?php echo $data['August']; ?>,
+                        <?php echo $data['September']; ?>,
+                        <?php echo $data['October']; ?>,
+                        <?php echo $data['November']; ?>,
+                        <?php echo $data['December']; ?>
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -264,6 +339,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }]
             },
             options: {
+                plugins: {
+                    datalabels: {
+                        color: '#fff', // Color of data labels
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: function(value, context) {
+                            return value + ' RM';
+                        }
+                    }
+                },
                 scales: {
                     y: {
                         beginAtZero: true

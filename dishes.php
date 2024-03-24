@@ -186,13 +186,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         <div class="order-row bg-white">
                             <div class="widget-body">   
-                                <form id="commentForm" method="post">
-                                    <div class="form-group">
-                                        <label for="comment">Leave a comment:</label>
-                                        <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn theme-btn btn-lg">Submit</button>
-                                </form>
+                            <form id="commentForm" method="post">
+    <div class="form-group">
+        <label for="comment">Leave a comment:</label>
+        <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
+    </div>
+    <button type="submit" class="btn theme-btn btn-lg">Submit</button>
+</form>
                             </div>
                         </div>
                         <!-- end:Order row -->
@@ -267,6 +267,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating1.js"></script>
-    <script src="js/comments.js"></script>
+    <script src="js/comment.js"></script>
 </body>
 </html>

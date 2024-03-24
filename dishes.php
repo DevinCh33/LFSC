@@ -101,15 +101,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
 
-
-
-
         <div class="container m-t-30">
-
-
-
-
-        
             <div class="row">
                 <!-- Column for POPULAR ORDERS -->
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
@@ -267,6 +259,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating1.js"></script>
-    <script src="js/comment.js"></script>
+    <script src="js/comments.js"></script>
 </body>
 </html>

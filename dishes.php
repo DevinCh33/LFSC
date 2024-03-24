@@ -101,7 +101,15 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
 
+
+
+
         <div class="container m-t-30">
+
+
+
+
+        
             <div class="row">
                 <!-- Column for POPULAR ORDERS -->
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
@@ -165,6 +173,45 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <!-- end:Widget menu -->
                 </div>
 
+
+                     <!-- start:Comments -->
+
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                    <div class="widget widget-cart">
+                        <div class="widget-heading">
+                            <h3 class="widget-title text-dark">
+                                Comments
+                            </h3>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="order-row bg-white">
+                            <div class="widget-body">   
+                                <form id="commentForm" method="post">
+                                    <!-- Inside the comment form -->
+<input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+<input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
+
+                                    <div class="form-group">
+                                        <label for="comment">Leave a comment:</label>
+                                        <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn theme-btn btn-lg">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- end:Order row -->
+                            
+                        <div class="widget-body">
+                            <h4>Recent Comments</h4>
+                            <ul id="recentComments">
+                                <!-- PHP code to display recent comments goes here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+<!-- end:Comments -->
+
                 <!-- Column for Your Shopping Cart -->
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
                     <div class="widget widget-cart">
@@ -223,5 +270,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/rating1.js"></script>
+    <script src="js/comment.js"></script>
 </body>
 </html>

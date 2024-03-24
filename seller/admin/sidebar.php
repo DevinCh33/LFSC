@@ -34,29 +34,33 @@
 	
 		<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
-        <div class="iocn-link">
           <a href="employee.php">
             <i class="fa-solid fa-user-tie"></i>
             <span class="link_name">Employee</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Employee</a></li>
-          <li><a href="#">HTML & CSS</a></li>
-          <li><a href="#">JavaScript</a></li>
-          <li><a href="#">PHP & MySQL</a></li>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="employee.php">Employee</a></li>
         </ul>
       </li>
 		<?php } ?>
 		
 		<li>
-        <a href="customer.php">
-          <i class="fa-solid fa-user"></i>
+        <a href="seller.php">
+          <i class="fa-solid fa-shop"></i>
           <span class="link_name">Seller</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="customer.php">Seller</a></li>
+          <li><a class="link_name" href="seller.php">Seller</a></li>
+        </ul>
+      </li>
+		
+		<li>
+        <a href="users.php">
+          <i class="fa-solid fa-users"></i>
+          <span class="link_name">Users</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="users.php">Users</a></li>
         </ul>
       </li>
 		
@@ -78,16 +82,6 @@
         </ul>
       </li>
 	<?php } ?> 
-		
-      <li>
-        <a href="order.php">
-          <i class="fa-solid fa-clipboard-check"></i>
-          <span class="link_name">Order</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="order.php">Order</a></li>
-        </ul>
-      </li>
       
       <?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>

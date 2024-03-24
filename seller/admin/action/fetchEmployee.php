@@ -3,10 +3,10 @@
 include('../connect.php');
 
 
-$sql = "SELECT empID, empname, empgender, empcontact, empemail, empjob, empstatus, icNo FROM tblemployee";
+$sql = "SELECT empID, empname, empgender, empcontact, empemail, empjob, empstatus, icNo FROM tblemployee WHERE empstore = '".$_SESSION['store']."'";
 
 if($_GET['search'] == ""){
-	$sql .= " WHERE empstatus = 1";
+	$sql .= " AND empstatus > 0";
 }
 
 if($_GET['search'] != ""){

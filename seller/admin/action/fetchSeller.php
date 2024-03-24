@@ -1,8 +1,11 @@
 <?php 	
 require_once 'core.php';
 
-$sql = "SELECT u.username, u.fullName, u.email, u.phone, u.address, u.u_id
-		FROM users u";
+$sql = "SELECT a.store, r.image, r.title, a.email, r.phone, a.storeStatus
+		FROM admin a
+		JOIN restaurant r ON a.store = r.rs_id
+		WHERE u_role != 'SUPA'
+		ORDER BY storeStatus";
 
 $result = $db->query($sql);
 
@@ -13,9 +16,6 @@ if($result->num_rows > 0) {
  $active = ""; 
 
  while($row = $result->fetch_array()) {
-
-	
-
  	$output['data'][] = array(
 		$row[0],
 		$row[1],

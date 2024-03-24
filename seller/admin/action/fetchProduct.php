@@ -15,7 +15,6 @@ $sql = "SELECT
 			product.status, 
 			tblprice.proWeight,
 			tblprice.proPrice,
-            tblprice.proDisc,
 			tblprice.priceNo
 		FROM 
 			product

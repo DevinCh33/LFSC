@@ -12,9 +12,6 @@ $result = $db->query($sql);
 $output = array('data' => array());
 if($result->num_rows > 0) { 
 
- // $row = $result->fetch_array();
- $active = ""; 
-
  while($row = $result->fetch_array()) {
  	$output['data'][] = array(
 		$row[0],

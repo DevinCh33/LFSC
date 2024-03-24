@@ -118,6 +118,7 @@
 			<input type="button" id="addEmployee" class="button" value="Add Customer" onClick="customerInfo('add', this.form)">
     </form>
 		
+
 		</div>
 		<div id="showingPurchaseHistory">
 			<div class="customer-info">

@@ -32,7 +32,7 @@
       </li>
 		
 	
-		<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
+		<?php if($_SESSION['adm_co'] != "VSUPA"){ ?>
       <li>
           <a href="employee.php">
             <i class="fa-solid fa-user-tie"></i>
@@ -45,12 +45,16 @@
 		<?php } ?>
 		
 		<li>
-        <a href="seller.php">
-          <i class="fa-solid fa-shop"></i>
-          <span class="link_name">Seller</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="seller.php">Seller</a></li>
+        <div class="iocn-link">
+          <a href="seller.php">
+            <i class="fa-solid fa-shop"></i>
+            <span class="link_name">Seller</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow' ></i>
+        </div>
+        <ul class="sub-menu">
+          	<li><a class="link_name" href="seller.php">Seller</a></li>
+			<li><a href="#">Inspection</a></li>
         </ul>
       </li>
 		
@@ -65,7 +69,7 @@
       </li>
 		
 		
-	<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
+	<?php if($_SESSION['adm_co'] != "VSUPA"){ ?>
       <li>
         <div class="iocn-link">
           <a href="product.php">
@@ -75,15 +79,13 @@
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="product.php">Products</a></li>
-          <li><a href="#">Web Design</a></li>
-          <li><a href="#">Login Form</a></li>
-          <li><a href="#">Card Design</a></li>
+          	<li><a class="link_name" href="product.php">Products</a></li>
+			<li><a href="#">Inspection</a></li>
         </ul>
       </li>
 	<?php } ?> 
       
-      <?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
+      <?php if($_SESSION['adm_co'] != "VSUPA"){ ?>
       <li>
         <a href="#">
           <i class='bx bxs-report'></i>

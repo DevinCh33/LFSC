@@ -9,8 +9,9 @@
     <!-- Boxiocns CDN Link -->
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  
+   </head>
 	
 <body>
 	<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
@@ -52,7 +53,7 @@
 			<th onclick="sortTable(2)">Name <span class="sort-indicator" id="indicator2"></span></th>
 			<th onclick="sortTable(3)">Email <span class="sort-indicator" id="indicator3"></span></th>
 			<th onclick="sortTable(4)">Phone Number <span class="sort-indicator" id="indicator4"></span></th>
-			<th onclick="sortTable(5)">Address <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(5)">Email <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(6)">Action <span class="sort-indicator" id="indicator6"></span></th>
 
 		  </tr>
@@ -63,6 +64,7 @@
 	  </table>
 	</div>
 
+
     <div class="pagination-summary">
       <span id="tableSummary"></span>
       <div class="pagination">
@@ -70,6 +72,7 @@
       </div>
     </div>
 	  </div>
+	  
 	  
     <div id="popupWindow" class="popup">
     <div class="popup-content">
@@ -111,6 +114,7 @@
 				</div>
 			</div>
 				
+
 			<input type="button" id="addEmployee" class="button" value="Add Customer" onClick="customerInfo('add', this.form)">
     </form>
 		
@@ -123,6 +127,7 @@
 						<p>Customer ID# <span id="customerID"></span></p>
 						<p>Customer Name# <span id="customerName"></span></p>
 						<p>Total Spent# RM <span id="customerSpent"></span></p>
+
 					</div>
 				</form>
 			</div>
@@ -142,32 +147,23 @@
 					<tbody id="purchaseHistoryBody">
 						<!-- Data will be populated here -->
 					</tbody>
+
 				</table>
 			</div>
 		</div>
-
-    <div id="editCustomPrices">
-      <h2>Custom Prices</h2>
-      
-      <div>
-        <select id="productsList">
-          <!-- Data will be populated here -->
-        </select>
-      </div>
-      <br/>
-      <div>Set price: </div>
-
-      <input id="customPriceInput" type="text" required/>
-      <button onclick="changePrice()">Change</button>
-    </div>
     </div>
 </div>
-</section>
+
+	  
+	  
+	  
+  </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <script>
 $(document).ready(function() {
@@ -230,6 +226,7 @@ function customerInfo(action, form) {
     }
 }
 
+	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
@@ -253,8 +250,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             //`<td style="color: ${(rowData[6] === '1') ? 'green' : 'red'};">${(rowData[6] === '1') ? 'Active' : 'Inactive'}</td>`+
-			      '<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[5]+'" onclick="viewRec('+i+')"></i><i class="fa-solid fa-money-bill-1" id="customPrice'+i+'" name="'+rowData[5]+'" onclick="givePrice('+i+')"></i></td>';
-
+			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[5]+'" onclick="viewRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -373,7 +369,8 @@ function sortTable(columnIndex) {
   }
 }
 	
-function findRec(windowType, name) {
+function findRec(windowType, name){
+	
 	$.ajax({
         url: 'action/fetchUserData.php',
         type: 'GET',
@@ -398,8 +395,9 @@ function findRec(windowType, name) {
 				$("#customerID").text(row[6]);
 				$("#customerName").text(row[5]);
 				$("#customerSpent").text(row[7]);
+
 			});
-      
+
 			openPopup(windowType);
 		},
         error: function(xhr, status, error) {
@@ -408,128 +406,24 @@ function findRec(windowType, name) {
     });
 }
 	
-function viewRec(num) {
+function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
-  
-	findRec(3, name);
-}
-
-function setPrice(windowType, name) {
-  $.ajax({
-        url: 'action/fetchProductData.php',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-			var products = document.getElementById("productsList");
-			products.innerHTML = "<option>Select product</option>";
-          
-			response.forEach(function(row) {
-				var option = document.createElement("option");
-        
-				// Assuming row array is [product_id, product_name]
-        option.setAttribute('user', name);
-        option.id = row[0];
-				option.innerHTML = row[1];
-        
-				products.appendChild(option);
-			});
-      
-			openPopup(windowType);
-		},
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
-
-function givePrice(num) {
-	var button = document.getElementById("customPrice"+num);
-	var name = button.getAttribute("name");
-  
-	setPrice(2, name);
-}
-
-function changePrice() {
-  var select = document.getElementById('productsList');
-  var selectedOption = select.options[select.selectedIndex];
-  
-  var user = selectedOption.getAttribute('user');
-  var productID = selectedOption.id;
-  var price = document.getElementById('customPriceInput').value;
-
-  // Regex from https://stackoverflow.com/questions/354044/what-is-the-best-u-s-currency-regex
-  var priceRegex = /[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{2}/;
-
-  if (!priceRegex.test(price)) {
-    alert("Please provide a valid price with two decimal places!");
-
-    return;
-  }
-
-  $.ajax({
-        url: 'action/editCustomPrice.php',
-        type: 'POST',
-        data: {user: user, productID: productID, price: price},
-        dataType: 'json',
-        success: function(response) {
-
-		},
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
+	findRec(2, name);
 }
 	
 function openPopup(type) {
     document.getElementById("popupWindow").style.display = "block";
-	if(type == 1) {
-    $("#editCustomPrices").hide();
+	if(type == 1){
 		$("#showingPurchaseHistory").hide();
 		$("#addCustomer").show();
 	}
-  else if(type == 2) {
-    $("#editCustomPrices").show();
-		$("#showingPurchaseHistory").hide();
-		$("#addCustomer").hide();
-  }
-	else if(type == 3) {
-    $("#editCustomPrices").hide();
+	else{
 		$("#showingPurchaseHistory").show();
 		$("#addCustomer").hide();
 	}
+	
 }
 
-document.getElementById('productsList').addEventListener('change', function() {
-  var select = document.getElementById('productsList');
-  var selectedOption = select.options[select.selectedIndex];
-  
-  // Retrieve the values of user and id attributes
-  var user = selectedOption.getAttribute('user');
-  var id = selectedOption.getAttribute('id');
 
-  $.ajax({
-        url: 'action/fetchCustomPrices.php',
-        type: 'GET',
-        data: {user: user, id: id},
-        dataType: 'json',
-          success: function(response) {
-            if (response.length == 1) {
-              // First index is to obtain the only product_id, user_id, and custom price array
-              // Second index is to obtain the custom price
-              var price = response[0][2];
-            }
-
-            else {
-              var price = "No custom price";
-            }
-
-            // Set the newly generated price on the selected option
-            $('#customPriceInput').val(price);
-		},
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-});
 </script>

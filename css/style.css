@@ -1,4 +1,4 @@
-﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Give+You+Glory);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700|Give+You+Glory);
 
 /*------------------------------------------------------------------
 Theme Name: Foodpicky - Responsive Bootstrap Restaurants Directory template Online food ordering 
@@ -754,6 +754,13 @@ hr {
     font-size: 17px;
 }
 
+/* Add this CSS to style inactive stars as blank */
+.star-inactive {
+    color: transparent; /* Make inactive stars transparent */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+
 .food-item-wrap .rating {
     position: absolute;
     bottom: 30px;
@@ -1011,7 +1018,13 @@ button.close span {
     color: #f30;
 }
 
-.featured-restaurants .ratings .fa-star-o {}
+/***    .featured-restaurants .ratings .fa-star-o {}  ***/
+
+.featured-restaurants .ratings .fa-star-o {
+    color: transparent; /* Make inactive stars transparent */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
 
 .restaurants-filter ul li {
     display: inline-block;
@@ -2584,5 +2597,3 @@ a[aria-expanded=false] .fa-angle-down {
     background-color: #17a2b8; /* Bootstrap info color */
     border-color: #17a2b8; /* Bootstrap info border color */
 }
-
-

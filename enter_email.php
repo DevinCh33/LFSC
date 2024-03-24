@@ -75,18 +75,18 @@
                 $token = bin2hex(random_bytes(32));
 
                 // Store the token and email in a temporary table (e.g., password_reset_tokens)
-                $insert_token_query = "INSERT INTO password_reset_tokens (email, token) VALUES ('$email', '$token')";
-                mysqli_query($db, $insert_token_query);
+                // $insert_token_query = "INSERT INTO password_reset_tokens (email, token) VALUES ('$email', '$token')";
+                // mysqli_query($db, $insert_token_query);
 
                 // Send an email with the password reset link
-                $reset_link = "forgotpassword.php?token=$token";
-                $subject = "Password Reset";
-                $message = "Click on the following link to reset your password: $reset_link";
-                $headers = "From: yiling0177@gmail.com"; // Replace with your email address
+                // $reset_link = "forgotpassword.php?token=$token";
+                // $subject = "Password Reset";
+                // $message = "Click on the following link to reset your password: $reset_link";
+                // $headers = "From: yiling0177@gmail.com"; // Replace with your email address
 
-                mail($email, $subject, $message, $headers);
+                // mail($email, $subject, $message, $headers);
 
-                $success_message = "Password reset link has been sent to your email. Please check your inbox.";
+                // $success_message = "Password reset link has been sent to your email. Please check your inbox.";
 
               
             } else {

@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     $(document).ready(function() {
+        // Fetch and display recent comments
+        fetchComments();
+
         // Submit comment form
         $("#commentForm").submit(function(event) {
             event.preventDefault();
@@ -29,26 +32,26 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     
-        // Fetch and display recent comments
+
+
+                    // Fetch and display recent comments
         function fetchComments() {
             $.ajax({
                 type: "GET",
-                url: "fetch_comments.php", // Assuming a separate PHP file for fetching comments
+                url: "comment.php", // Assuming the PHP script is named comment.php
+                data: { res_id: $("#res_id").val() }, // Send restaurant ID as a parameter
                 success: function(response) {
                     var comments = JSON.parse(response);
                     var commentsList = $("#recentComments");
                     commentsList.empty();
-                    for (var i = 0; i < comments.length; i++) {
-                        commentsList.append("<li>" + comments[i].comment + "</li>");
-                    }
+                    comments.forEach(function(comment) {
+                        commentsList.append("<li>" + comment.comment + "</li>");
+                    });
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);
                 }
             });
         }
-    
-        // Initial fetch of comments on page load
-        fetchComments();
     });
 });

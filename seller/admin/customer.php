@@ -53,7 +53,7 @@
 			<th onclick="sortTable(2)">Name <span class="sort-indicator" id="indicator2"></span></th>
 			<th onclick="sortTable(3)">Email <span class="sort-indicator" id="indicator3"></span></th>
 			<th onclick="sortTable(4)">Phone Number <span class="sort-indicator" id="indicator4"></span></th>
-			<th onclick="sortTable(5)">Location <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(5)">Email <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(6)">Action <span class="sort-indicator" id="indicator6"></span></th>
 
 		  </tr>
@@ -231,12 +231,6 @@ var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
 function updateTableAndPagination(data) {
-	if (data.data.length === 0) {
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="8" style="text-align: center;">NO USERS RECORD</td></tr>';
-        document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
-        document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
-        return; // Exit function since there are no records to display
-    }
     // Calculate the start and end indices based on the current page and records per page
     var startIndex = (currentPage - 1) * recordsPerPage;
     var endIndex = startIndex + recordsPerPage;

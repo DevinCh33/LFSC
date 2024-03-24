@@ -20,7 +20,9 @@ $sql = "SELECT
 		FROM 
 			product
 		JOIN 
-			tblprice ON product.product_id = tblprice.productID";
+			tblprice ON product.product_id = tblprice.productID
+		WHERE 
+			product.owner = '".$_SESSION['store']."' AND status < 3";
 
 if($_GET['name'] != "")
 	$sql .= " AND product_id = '".$_GET['name']."'";

@@ -32,6 +32,37 @@
             <div class="module-inner">
                 <div class="content-panel">
                     <form class="form-horizontal">
+						<fieldset class="fieldset">
+                            <h3 class="fieldset-title">Shop Info <input type="button" class="btnVerify" onclick="openPopup()" value="* Verify Now"></h3>
+                            <div class="form-group">
+                                <label class="label">Shop Title</label>
+                                <div class="textfield">
+                                    <input type="text" class="form-control" id="shopTitle">
+                               
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="label">Email</label>
+                                <div class="textfield">
+                                    <input type="email" class="form-control" id="shopEmail">
+                               
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="label">Phone Number</label>
+                                <div class="textfield">
+                                    <input type="text" class="form-control" id="shopNumber">
+                               
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label class="label">Description</label>
+                                <div class="textfield">
+                                    <textarea class="form-control" rows="5" id="shopDescr"></textarea>
+                               
+                                </div>
+                            </div>
+                        </fieldset>
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">Personal Info</h3> 
 							

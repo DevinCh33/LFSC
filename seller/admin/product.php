@@ -23,6 +23,10 @@
     </div>
 	  
 	<div class="empMainCon">
+		<div class="container">
+			<div class="subCon">Low Stock Alert: <input type="text" style="height: 20px;" id="stockAlert" onKeyUp="lowStockNumber()"></div>
+			<div class="headerButton"><button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Product</button></div>
+		</div>
 		  
 		   	<div class="controls-container">
 		  		<div class="records-per-page">
@@ -345,13 +349,6 @@ var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
 function updateTableAndPagination(data) {
-	
-	if (data.length === 0) {
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="8" style="text-align: center;">NO PRODUCT RECORD</td></tr>';
-        document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
-        document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
-        return; // Exit function since there are no records to display
-    }
     // Calculate the start and end indices based on the current page and records per page
     var startIndex = (currentPage - 1) * recordsPerPage;
     var endIndex = startIndex + recordsPerPage;
@@ -442,6 +439,8 @@ function fetchData() {
         dataType: 'json',
 		data: {search:  search},
         success: function(response) {
+			$("#stockAlert").val(response[0].lowStock);
+			$("#txtStock").val(response[0].lowStock);
             updateTableAndPagination(response);
         },
         error: function(xhr, status, error) {

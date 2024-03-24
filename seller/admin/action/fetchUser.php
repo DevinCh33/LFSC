@@ -2,7 +2,9 @@
 require_once 'core.php';
 
 $sql = "SELECT u.username, u.fullName, u.email, u.phone, u.address, u.u_id
-		FROM users u";
+		FROM users u
+		JOIN orders o ON u.u_id = o.user_id
+		WHERE o.order_belong = '".$_SESSION['store']."'";
 
 $result = $db->query($sql);
 

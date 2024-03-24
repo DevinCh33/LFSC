@@ -64,11 +64,10 @@ error_reporting(0); // hide undefined index errors
 <body class="fix-header fix-sidebar">
 <?php
 
-include("../connection/connect.php"); // connection to database
+include("./../connection/connect.php"); // connection to database
 
 if(isset($_SESSION["adm_co"]))
 {
-	echo "hai";
 ?>
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
@@ -120,9 +119,8 @@ if(isset($_SESSION["adm_co"]))
 													$sql = "SELECT orders.order_id,orders.order_status,orders.order_date,orders.user_id, SUM(order_item.quantity) AS totalQ, orders.total_amount, product.product_name, restaurant.title, users.username, users.address
 														FROM orders
 														JOIN order_item ON orders.order_id = order_item.order_id
-														JOIN tblprice ON order_item.priceID = tblprice.priceNo
 														JOIN users ON orders.user_id = users.u_id
-														JOIN product ON tblprice.productID = product.product_id
+														JOIN product ON order_item.product_id = product.product_id
 														JOIN restaurant ON product.owner = restaurant.rs_id
 														WHERE orders.order_belong = '".$_SESSION['store']."' AND orders.order_status <= 2
 														Group BY orders.order_id

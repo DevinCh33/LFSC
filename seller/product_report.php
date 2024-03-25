@@ -13,7 +13,7 @@
         table {
         width: 100%;
         border-collapse: collapse;
-        margin:  auto;
+        margin-bottom: 50px;
         }
 
         th, td {
@@ -37,8 +37,7 @@
         .chart-container {
             width: 600px;
             height: 600px;
-            margin:  auto;
-            margin-bottom:  30px;
+            margin: 50px auto 50px auto;
         }
     </style>
 </head>
@@ -51,10 +50,9 @@
         <i class='bx bx-menu' ></i>
         <span class="text">Reports</span>
         </div>
-
+        <h1 style = "text-align:center;">Product Report</h1>
         <div class="chart-container">
             <h1>Quantity of Orders Over Time</h1>
-            <h2>Sales Trend Graph:</h2>
             <canvas id="ordersChart" width="400" height="200"></canvas>
 
             <?php

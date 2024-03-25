@@ -1,210 +1,439 @@
-<?php
-// Include necessary PHP code to establish database connection
-include 'connect.php';
-
-// Fetch data from the database
-$query = "SELECT c.categories_name, COALESCE(SUM(oi.quantity), 0) AS total_quantity
-          FROM categories c
-          LEFT JOIN product p ON c.categories_id = p.categories_id
-          LEFT JOIN tblprice tp ON p.product_id = tp.productID
-          LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
-          GROUP BY c.categories_name";
-$result = $db->query($query);
-
-$data = [];
-while ($row = $result->fetch_assoc()) {
-    $data[$row['categories_name']] = $row['total_quantity'];
-}
-$result->free_result();
-$db->close();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Best-Selling Categories Pie Chart</title>
+    <title>Combined Graphs</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 20px auto;
+        width: 100%;
+        border-collapse: collapse;
+        margin:  auto;
         }
+
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            padding: 10px;
+            border: 1px solid #ddd;
             text-align: left;
         }
+
         th {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+        .chart-container {
+            width: 600px;
+            height: 600px;
+            margin:  auto;
+            margin-bottom:  30px;
         }
     </style>
 </head>
 <body>
-<h1>Best-Selling Categories Pie Chart</h1>
-<div class="sidebar close">
+    <div class="sidebar close">
         <?php include "sidebar.php"; ?>
     </div>
-    <section class="home-section" style="margin:auto;padding:30px 300px 30px 200px;width:1000px; ">
+    <section class="home-section">
         <div class="home-content">
         <i class='bx bx-menu' ></i>
         <span class="text">Reports</span>
         </div>
-        <div style="margin:auto; width: 500px; height: 500px;"> <!-- Adjust dimensions as needed -->
-            <canvas id="myPieChart"></canvas>
-        </div>
 
-        <script>
-            // Data for the pie chart
-            var data = <?php echo json_encode($data); ?>;
+        <div class="chart-container">
+            <h1>Quantity of Orders Over Time</h1>
+            <h2>Sales Trend Graph:</h2>
+            <canvas id="ordersChart" width="400" height="200"></canvas>
 
-            // Extract labels and data values
-            var labels = Object.keys(data);
-            var quantities = Object.values(data);
+            <?php
+            // Include necessary PHP code to establish database connection
+            include 'connect.php';
 
-            // Colors for the pie chart slices
-            var colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']; // Add more colors if needed
+            // Perform the SQL query to get the quantity of orders over time
+            $sql = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month, SUM(quantity) AS total_quantity 
+                    FROM order_item oi
+                    JOIN orders o ON oi.order_id = o.order_id
+                    GROUP BY DATE_FORMAT(order_date, '%Y-%m') 
+                    ORDER BY order_date";
 
-            // Create pie chart
-            var ctx = document.getElementById('myPieChart').getContext('2d');
-            var myPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: quantities,
-                        backgroundColor: colors
-                    }]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Best-Selling Categories Pie Chart'
+            $result = mysqli_query($db, $sql);
+
+            // Fetch data into an array
+            $data = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+
+            // Close the database connection
+            mysqli_close($db);
+
+            // Initialize variables to store best seller information
+            $bestSellerMonth = "";
+            $maxQuantity = 0;
+
+            // Loop through the data to find the best seller
+            foreach ($data as $item) {
+                if ($item['total_quantity'] > $maxQuantity) {
+                    $maxQuantity = $item['total_quantity'];
+                    $bestSellerMonth = $item['order_month'];
+                }
+            }
+
+            // Display message about the best seller
+            if ($bestSellerMonth != "") {
+                echo "<p><strong>The graph represents the quantity of orders over time,</strong> indicating the number of orders made each month. After analyzing the data, <strong>we identified the best-selling month as $bestSellerMonth,</strong> with a remarkable total quantity of <strong>$maxQuantity orders.</strong> This peak in sales highlights a period of high demand, demonstrating the popularity of our products during that time.</p>";
+            } else {
+                echo "<p><strong>The graph represents the quantity of orders over time,</strong> indicating the number of orders made each month. Unfortunately, <strong>we couldn't determine the best-selling month</strong> as there is no data available to provide insights into the most successful period. It's essential to continuously monitor and analyze sales trends to identify patterns and optimize our business strategies.</p>";
+            }
+
+            ?>
+
+            <script>
+                var data = <?php echo json_encode($data); ?>;
+                
+                // Extract labels (order months) and quantity data
+                var labels = data.map(item => item.order_month);
+                var quantityData = data.map(item => item.total_quantity);
+
+                var ctx = document.getElementById('ordersChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'line', // Change type to line
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Quantity of Orders',
+                            data: quantityData,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
                         }
                     }
+                });
+            </script>
+        </div>
+
+        <div class="chart-container" style="margin-bottom: 10%;">
+            <h1>Market Share Pie Chart</h1>
+            <canvas id="marketShareChart" width="800" height="400"></canvas>
+
+           <?php
+                // Include necessary PHP code to establish database connection
+                include 'connect.php';
+
+                // Perform the SQL query to calculate total sales amount for each product
+                $sql = "SELECT p.product_name, SUM(oi.quantity * tp.proPrice) AS total_sales
+                        FROM order_item oi
+                        JOIN tblprice tp ON oi.priceID = tp.priceNo
+                        JOIN product p ON tp.productID = p.product_id
+                        GROUP BY p.product_id";
+
+                $result = mysqli_query($db, $sql);
+
+                // Fetch data into an array
+                $data = array();
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $data[] = $row;
                 }
-            });
-        </script>
 
-        <h2>Data Summary</h2>
+                // Calculate total sales across all products
+                $totalSales = array_sum(array_column($data, 'total_sales'));
 
-        <table>
-            <tr>
-                <th>Category</th>
-                <th>Total Quantity</th>
-            </tr>
-            <?php foreach ($data as $category => $quantity) : ?>
-            <tr>
-                <td><?php echo $category; ?></td>
-                <td><?php echo $quantity; ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+                // Calculate market share for each product and generate explanation
+                $graphExplanation = "<p><strong>Market Share Pie Chart Explanation:</strong></p>";
+                $graphExplanation .= "<p>The Market Share Pie Chart illustrates the distribution of sales among different products based on the data obtained.</p>";
+                $graphExplanation .= "<p>Here is the breakdown:</p>";
 
-        <!-- Data Analytics Report Summary -->
-        <h2>Data Analytics Report Summary</h2>
+                foreach ($data as &$product) {
+                    // Calculate market share percentage for each product
+                    $product['market_share'] = ($product['total_sales'] / $totalSales) * 100;
+                    $productName = $product['product_name'];
+                    $totalSalesAmount = $product['total_sales'];
+                    $marketSharePercentage = round($product['market_share'], 2);
 
-        <?php
-            $totalOrders = count($data);
-            $totalAmount = array_sum(array_column($data, 'total_amount'));
-            $averageAmount = $totalOrders > 0 ? $totalAmount / $totalOrders : 0;
-
-            // Additional logic to analyze data and generate dynamic summary
-            $summaryMessage = "No specific summary available.";
-
-            if ($totalOrders > 0) {
-                if ($averageQuantity > 0) {
-                    $summaryMessage = "Based on the available data, the average quantity ordered across all categories is positive, indicating consistent demand for products.";
-                } else {
-                    $summaryMessage = "Although there are orders recorded, the average quantity ordered is either not available or calculated to be zero. Further analysis may be required to understand the trend.";
+                    // Add product-specific information to the explanation
+                    $graphExplanation .= "<p><strong>$productName:</strong> Total Sales: $totalSalesAmount, Market Share: $marketSharePercentage%</p>";
                 }
-            } else {
-                $summaryMessage = "No orders data is available at the moment. This could be due to a lack of transactions during the reporting period.";
-            }
+
+                // Add overall insights
+                $graphExplanation .= "<p>This visualization helps in understanding the relative market share of each product in the sales landscape. Products with higher percentages indicate a larger share of total sales.</p>";
+
+                // Close the database connection
+                mysqli_close($db);
+
+                // Output the graph explanation message
+                echo $graphExplanation;
+            ?>
 
 
-            echo "<p>Total Orders: $totalOrders</p>";
-            echo "<p>Total Amount: $totalAmount</p>";
-            echo "<p>Average Amount: $averageAmount</p>";
-            echo "<p>Summary: $summaryMessage</p>";
-        ?>
-
-        <!-- Trending -->
-        <h2>Trending</h2>
-        <?php
-            // Initialize an array to store trending status for each category
-            $trendingCategories = [];
-
-            // Iterate through each category in the data
-            foreach ($data as $category => $quantity) {
-                // Check if the quantity sold for the category is higher than the average quantity per order
-                if ($quantity > $averageQuantityPerOrder) {
-                    // If the quantity sold is higher, the category is trending positively
-                    $trending = "positively";
-                } else {
-                    // If the quantity sold is lower or equal to the average, the category is trending negatively
-                    $trending = "negatively";
-                }
+            <script>
+                var data = <?php echo json_encode($data); ?>;
                 
-                // Store the trending status for the category in the array
-                $trendingCategories[$category] = $trending;
+                // Extract product names and market share percentages
+                var productNames = data.map(item => item.product_name);
+                var marketShareData = data.map(item => item.market_share);
+
+                var ctx = document.getElementById('marketShareChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'pie', // Use pie chart for market share
+                    data: {
+                        labels: productNames,
+                        datasets: [{
+                            label: 'Market Share (%)',
+                            data: marketShareData,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                                // Add more colors if needed
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                                // Add more colors if needed
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            </script>
+        </div>
+
+        <div class="chart-container" style="margin-top: 30%;">
+            <h1>Product Performance by Region Graph</h1>
+            <canvas id="productPerformanceChart" width="800" height="400"></canvas>
+
+            <?php
+            // Include necessary PHP code to establish database connection
+            include 'connect.php';
+
+            // Perform the SQL query to calculate total sales amount for each region and product
+            $sql = "SELECT p.product_name, c.categories_name, SUM(oi.quantity * tp.proPrice) AS total_sales
+                    FROM order_item oi
+                    JOIN tblprice tp ON oi.priceID = tp.priceNo
+                    JOIN product p ON tp.productID = p.product_id
+                    JOIN categories c ON p.categories_id = c.categories_id
+                    GROUP BY p.product_id, c.categories_id";
+
+            $result = mysqli_query($db, $sql);
+
+            // Fetch data into an array
+            $data = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
             }
 
-            // Generate a detailed explanation of the trending status for each category
-            $trendingExplanation = "Upon analyzing the sales data, we can observe the trending status for 
-            each category based on the comparison with the average quantity per order. Categories with a higher 
-            quantity sold than the average are considered to be trending positively, indicating a surge in demand 
-            for products within those categories. On the other hand, categories with a quantity sold lower than or
-             equal to the average are trending negatively, suggesting a decrease in customer interest or demand.";
+            // Close the database connection
+            mysqli_close($db);
 
-            // Output the trending explanation
-            echo "<p>$trendingExplanation</p>";
-
-            // Display the trending status for each category
-            echo "<h3>Trending Status for Each Category:</h3>";
-            echo "<ul>";
-            foreach ($trendingCategories as $category => $trending) {
-                echo "<li>$category is trending $trending</li>";
-            }
-            echo "</ul>";
-
-        ?>
-
-        <!-- Explanation -->
-        <h2>Explanation</h2>
-        <?php
-            // Determine the best-selling and poor-selling categories
-            $bestSellCategory = array_keys($data, max($data))[0];
-            $poorSellCategory = array_keys($data, min($data))[0];
-
-            // Calculate the total number of categories, total orders, and average quantity per order
-            $totalCategories = count($data);
-            $totalOrders = array_sum($data);
-            $averageQuantityPerOrder = $totalOrders > 0 ? array_sum($data) / $totalOrders : 0;
-
-            // Generate explanation based on the best and poor selling categories
-            if ($bestSellCategory !== $poorSellCategory) {
-                $explanationMessage = "More items from the <strong> '$bestSellCategory'</strong> category were sold, showing strong demand.
-                 However, sales for <strong>'$poorSellCategory'</strong> category items were lower, indicating less interest. This tells us 
-                 that customers have different preferences. We offer a variety of <strong>$totalCategories</strong> categories, and with 
-                 <strong>$totalOrders</strong> orders, it shows customers engage with our products. On average, each order includes
-                 <strong>$averageQuantityPerOrder </strong>items.";
-            } else {
-                $explanationMessage = "Most sales were from the '$bestSellCategory' category, suggesting it's popular. 
-                But, we need more data to understand why. Overall, customers are interested in our products. We had 
-                $totalOrders orders, with an average of $averageQuantityPerOrder items per order.";
+          // Calculate total sales for each category
+            $categorySales = array();
+            foreach ($data as $item) {
+                $category = $item['categories_name'];
+                $sales = $item['total_sales'];
+                if (!isset($categorySales[$category])) {
+                    $categorySales[$category] = 0;
+                }
+                $categorySales[$category] += $sales;
             }
 
-            // Output the explanation message
-            echo "<p>$explanationMessage</p>";
-        ?>
+            // Find the most popular category
+            $mostPopularCategory = '';
+            $maxSales = 0;
+            foreach ($categorySales as $category => $sales) {
+                if ($sales > $maxSales) {
+                    $mostPopularCategory = $category;
+                    $maxSales = $sales;
+                }
+            }
+            echo "<p>The graph illustrates product sales across various categories and regions. Each bar represents the total sales volume of a product category, providing insights into relative performance and identifying popular categories.</p>";
 
+            // Output the message
+            echo "<p>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>$maxSales</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
 
+            ?>
 
-    </section>
-    
+            <script>
+                    var data = <?php echo json_encode($data); ?>;
+                    
+                    // Extract product names, region names, and total sales data
+                    var productNames = [];
+                    var regionNames = [];
+                    var salesData = [];
+
+                    data.forEach(item => {
+                        if (!productNames.includes(item.product_name)) {
+                            productNames.push(item.product_name);
+                        }
+                        if (!regionNames.includes(item.categories_name)) {
+                            regionNames.push(item.categories_name);
+                        }
+                    });
+
+                    // Initialize sales data array
+                    for (var i = 0; i < productNames.length; i++) {
+                        salesData[i] = new Array(regionNames.length).fill(0);
+                    }
+
+                    // Populate sales data array
+                    data.forEach(item => {
+                        var productIndex = productNames.indexOf(item.product_name);
+                        var regionIndex = regionNames.indexOf(item.categories_name);
+                        salesData[productIndex][regionIndex] = item.total_sales;
+                    });
+
+                    var ctx = document.getElementById('productPerformanceChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: productNames,
+                            datasets: regionNames.map((region, index) => {
+                                return {
+                                    label: region,
+                                    data: salesData.map(product => product[index]),
+                                    backgroundColor: 'rgba(' + (Math.random() * 255) + ', ' + (Math.random() * 255) + ', ' + (Math.random() * 255) + ', 0.5)',
+                                    borderColor: 'rgba(' + (Math.random() * 255) + ', ' + (Math.random() * 255) + ', ' + (Math.random() * 255) + ', 1)',
+                                    borderWidth: 1
+                                };
+                            })
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+        </div>
+
+        <div class="chart-container" style="margin-top: 10%;">
+
+            <!-- Data Analytics Report Summary -->
+        <h2>Product Review Table</h2>
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Review Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <?php
+        // Include the connection file
+        include 'connect.php';
+
+        // SQL query to retrieve product report data
+        $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
+                FROM product p
+                JOIN categories c ON p.categories_id = c.categories_id
+                JOIN tblprice tp ON p.product_id = tp.productID
+                LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
+                LEFT JOIN restaurant r ON p.owner = r.rs_id";
+
+        $result = $db->query($sql); // Use $db instead of $conn to execute queries
+
+        // Initialize counter
+        $counter = 1;
+
+        // Check if there are results
+        if ($result->num_rows > 0) {
+            // Output table headers
+            echo "<table>";
+            echo "<tr><th>No.</th><th>Restaurant Title</th><th>Product Name and Weight</th><th>Description</th><th>Category</th><th>Product Date</th><th>Price (RM)</th><th>Ordered Quantity</th></tr>";
+            
+            // Output data of each row
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $counter . "</td>";
+                echo "<td>" . $row["Restaurant Title"] . "</td>";
+                echo "<td>" . $row["Product Name and Weight"] . "</td>";
+                echo "<td>" . $row["Description"] . "</td>";
+                echo "<td>" . $row["Category"] . "</td>";
+                echo "<td>" . $row["Product Date"] . "</td>";
+                echo "<td>" . $row["Price (RM)"] . "</td>";
+                echo "<td>" . $row["Ordered Quantity"] . "</td>";
+                echo "</tr>";
+                
+                // Increment counter
+                $counter++;
+            }
+            echo "</table>"; // Close the table
+        } else {
+            echo "0 results";
+        }
+
+        // Close connection
+        $db->close(); // Use $db instead of $conn to close connection
+    ?>
 </body>
 </html>
+
+
+
+    </div> 
+
+    
+
+    </section>
+</body>
+</html>
+

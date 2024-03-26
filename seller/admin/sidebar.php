@@ -54,7 +54,7 @@
         </div>
         <ul class="sub-menu">
           	<li><a class="link_name" href="seller.php">Seller</a></li>
-			<li><a href="#">Inspection</a></li>
+			<li><a href="sellerInspection.php">Inspection</a></li>
         </ul>
       </li>
 		
@@ -80,7 +80,7 @@
         </div>
         <ul class="sub-menu">
           	<li><a class="link_name" href="product.php">Products</a></li>
-			<li><a href="#">Inspection</a></li>
+			<li><a href="productInspection.php">Inspection</a></li>
         </ul>
       </li>
 	<?php } ?> 

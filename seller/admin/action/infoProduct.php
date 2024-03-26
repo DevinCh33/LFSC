@@ -78,7 +78,7 @@ elseif ($act == "edit") {
 	}
 	
 	$updateSQL = "UPDATE product
-					SET productCode = '$productCode', product_name = '$productName', descr = '$productDescription', categories_id = '$productCategory', quantity = '$productQuantity', status = '$productStatus'
+					SET productCode = '$productCode', product_name = '$productName', descr = '$productDescription', categories_id = '$productCategory', quantity = '$productQuantity', status = '6'
 					WHERE product_id = '$productID'";
 	$db->query($updateSQL);
 	
@@ -107,5 +107,5 @@ else if($act == 'del'){
 }
 
 // Return a JSON response
-echo json_encode($imageTmpName);
+echo json_encode($valid);
 ?>

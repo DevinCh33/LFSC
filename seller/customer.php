@@ -417,7 +417,7 @@ function viewRec(num) {
 
 function setPrice(windowType, name) {
   $.ajax({
-        url: 'action/fetchProductData.php',
+        url: 'action/fetchPriceData.php',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -427,10 +427,10 @@ function setPrice(windowType, name) {
 			response.forEach(function(row) {
 				var option = document.createElement("option");
         
-				// Assuming row array is [product_id, product_name]
+				// Assuming row array is [price_id, product_name]
         option.setAttribute('user', name);
         option.id = row[0];
-				option.innerHTML = row[1];
+				option.innerHTML = row[1] + " (" + row[2] + "g)";
         
 				products.appendChild(option);
 			});
@@ -455,7 +455,7 @@ function changePrice() {
   var selectedOption = select.options[select.selectedIndex];
   
   var user = selectedOption.getAttribute('user');
-  var productID = selectedOption.id;
+  var priceID = selectedOption.id;
   var price = document.getElementById('customPriceInput').value;
 
   // Regex from https://stackoverflow.com/questions/354044/what-is-the-best-u-s-currency-regex
@@ -470,10 +470,10 @@ function changePrice() {
   $.ajax({
         url: 'action/editCustomPrice.php',
         type: 'POST',
-        data: {user: user, productID: productID, price: price},
+        data: {user: user, priceID: priceID, price: price},
         dataType: 'json',
         success: function(response) {
-
+          alert("Custom price set!");
 		},
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -515,7 +515,7 @@ document.getElementById('productsList').addEventListener('change', function() {
         dataType: 'json',
           success: function(response) {
             if (response.length == 1) {
-              // First index is to obtain the only product_id, user_id, and custom price array
+              // First index is to obtain the only price_id, user_id, and custom price array
               // Second index is to obtain the custom price
               var price = response[0][2];
             }

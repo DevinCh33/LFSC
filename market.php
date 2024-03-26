@@ -150,27 +150,31 @@ if (empty($_SESSION["user_id"])) // if not logged in
             if ($result && mysqli_num_rows($result) > 0) {
                 $data = mysqli_fetch_assoc($result);
 
-                $productQuery[0] = "SELECT * from product JOIN tblprice
+                $productQuery[0] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                    LEFT JOIN custom_prices ON tblprice.priceNo = custom_prices.price_id
                                     WHERE product.product_id = ".$data['product_id'];
 
                 $message[0] = "Buy again";
 
                 // Recommendation from same category
-                $productQuery[1] = "SELECT * from product JOIN tblprice
+                $productQuery[1] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                    LEFT JOIN custom_prices ON tblprice.priceNo = custom_prices.price_id
                                     WHERE product.categories_id = ".$data['categories_id']." 
                                     ORDER BY RAND() LIMIT 1";
 
                 $message[1] = "Product of the same category as your most recent order";
 
                 // Recommendation from same merchant
-                $productQuery[2] = "SELECT * from product JOIN tblprice
+                $productQuery[2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                    LEFT JOIN custom_prices ON tblprice.priceNo = custom_prices.price_id
                                     WHERE product.owner = ".$data['owner']." 
                                     ORDER BY RAND() LIMIT 1";
 
                 $message[2] = "Product of the same merchant as your most recent order";
 
                  // Recommendation from similar price range (+- RM 10)
-                $productQuery[3] = "SELECT * from product JOIN tblprice
+                $productQuery[3] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                    LEFT JOIN custom_prices ON tblprice.priceNo = custom_prices.price_id
                                     WHERE tblprice.proPrice >= ".((float)$data['proPrice']-10)." 
                                     AND tblprice.proPrice <= ".((float)$data['proPrice']+10)."
                                     ORDER BY RAND() LIMIT 1";
@@ -190,7 +194,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                     // If duplicate, then suggest random product
                     else {
-                        $productQuery[$i] = "SELECT * from product JOIN tblprice
+                        $productQuery[$i] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                              ORDER BY RAND() LIMIT 1";
                         
                         $message[$i] = 0;
@@ -207,8 +211,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                     // Convert quantity to an integer
                     $productQuantity = intval($recommended[$i]['quantity']);
+                    $productWeight = intval($recommended[$i]['proWeight']);
 
                     // Format price to ensure it has two decimal places
+                    $productCustomPrice = number_format($recommended[$i]['price'], 2);
                     $productPrice = number_format($recommended[$i]['proPrice'], 2);
                     $productDiscount = number_format($recommended[$i]['proDisc']/100, 1);
                     $productOwner = number_format($recommended[$i]['owner']);
@@ -217,10 +223,14 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '    <div class="card michealProductCard">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body">';
-                    echo '            <a href="dishes.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . '</h5></a>';
+                    echo '            <a href="dishes.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
                     echo '            <p class="card-text">Quantity: ' . $productQuantity . '</p>';
 
-                    if ($productDiscount == 0) {
+                    if ($productCustomPrice != 0) {
+                    echo '            <p class="card-text">Price: RM ' . $productCustomPrice . '</p>';
+                    }
+
+                    else if ($productDiscount == 0) {
                     echo '            <p class="card-text">Price: RM ' . $productPrice . '</p>';
                     }
                     

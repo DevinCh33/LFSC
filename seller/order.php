@@ -192,7 +192,11 @@
 </div>
 
 
-	  
+      <form action="updateOrderStatus.php" method="POST">
+          <input type="text" name="order_id" value="1" />
+          <input type="text" name="orderStatus" value="1" />
+          <button type="submit">Update Order Status</button>
+      </form>
 	  
 	  
   </section>

@@ -188,6 +188,8 @@ only screen and (max-width: 760px),
             <div class="container"> </div>
             <!-- end:Container -->
         </div>
+
+
         <div class="result-show">
             <div class="container">
                 <div class="row">
@@ -196,6 +198,7 @@ only screen and (max-width: 760px),
             </div>
         </div>
         <!-- //results show -->
+
         <section class="restaurants-page">
             <div class="container">
                 <div class="row">
@@ -215,7 +218,7 @@ only screen and (max-width: 760px),
                         </tr>
                         </thead>
                         <tbody>
-                        
+
                         <?php 
 // displaying current session user login orders 
 $query_res = mysqli_query($db,"SELECT orders.*, order_item.*, COUNT(order_item_id) as total_product, restaurant.*, tblprice.*, SUM(proPrice) as total
@@ -339,6 +342,7 @@ else
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
+
 </body>
 </html>
 	

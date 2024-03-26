@@ -12,7 +12,7 @@ if (isset($_POST['markRead']) && $_POST['markRead'] == 'true') {
         echo "Error marking notifications as read: " . mysqli_error($db);
     }
 
-    exit; 
+    exit;
 }
 
 $query = "SELECT o.order_id, o.order_status, r.title AS restaurant_title FROM orders o JOIN restaurant r ON o.order_belong = r.rs_id WHERE o.order_status IN (1, 2, 3) AND o.is_seen = 0";
@@ -60,9 +60,9 @@ while ($row = mysqli_fetch_assoc($result)) {
                             <?php if (count($notifications) > 0): ?>
                                 <?php foreach ($notifications as $notification): ?>
                                     <div class="notification-item"><?php echo htmlspecialchars($notification); ?></div>
-                            <?php endforeach; ?>
+                                <?php endforeach; ?>
                             <?php else: ?>
-                            <div class="no-notifications">No new notifications</div>
+                                <div class="no-notifications">No new notifications</div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <a href="myaccount.php">My Account</a>
                         <a href="your_orders.php">Orders</a>
                         <?php if (isset($_SESSION['adm_id'])): ?>
-                        <a href="seller/dashboard.php">Dashboard</a>
+                            <a href="seller/dashboard.php">Dashboard</a>
                         <?php endif; ?>
                         <a href="logout.php">Logout</a>
                     </div>
@@ -92,18 +92,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     </header>
 
     <script>
-        $(document).ready(function() {
-            $('#markAllAsRead').click(function() {
+        $(document).ready(function () {
+            $('#markAllAsRead').click(function () {
                 $.ajax({
                     type: "POST",
                     url: "includes/header.php",
                     data: { markRead: 'true' },
-                    success: function(response) {
-                        console.log(response); 
+                    success: function (response) {
+                        console.log(response);
                         $('.notification-icon').removeClass('has-notifications');
                         $('.notification-dropdown').html('<p>No new notifications</p>');
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error("Error marking notifications as read:", status, error);
                     }
                 });

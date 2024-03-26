@@ -1,38 +1,64 @@
 <?php
-// updateOrderStatus.php
 
-// Assuming you have the connection details in connect.php
 require_once 'connect.php'; 
+require_once '../telegram_notification.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['order_id']) && isset($_POST['orderStatus'])) {
     $order_id = mysqli_real_escape_string($db, $_POST['order_id']);
     $orderStatus = mysqli_real_escape_string($db, $_POST['orderStatus']);
-    
-    // SQL to update the order status
+    echo "Current order status: $orderStatus"; 
+
     $sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
-    
-    // Prepare statement
-    if($stmt = mysqli_prepare($db, $sql)){
-        // Bind variables to the prepared statement as parameters
+
+    if ($stmt = mysqli_prepare($db, $sql)) {
         mysqli_stmt_bind_param($stmt, "ii", $orderStatus, $order_id);
-        
-        // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
+
+        if (mysqli_stmt_execute($stmt)) {
             echo "Order status updated successfully.";
-        } else{
+
+            // After updating the order status, fetch the user_id associated with the order
+            $query = "SELECT user_id FROM orders WHERE order_id = $order_id";
+            $result = mysqli_query($db, $query);
+            if ($row = mysqli_fetch_assoc($result)) {
+                $userId = $row['user_id'];
+
+                // Fetch chat_id using user_id
+                $chatIdQuery = "SELECT chat_id FROM users WHERE u_id = $userId LIMIT 1";
+                $chatIdResult = mysqli_query($db, $chatIdQuery);
+                if ($chatRow = mysqli_fetch_assoc($chatIdResult)) {
+                    $chatId = $chatRow['chat_id'];
+
+                    $message = "";
+                    switch ($orderStatus) {
+                        case 1:
+                            $message = "Seller is preparing your order.";
+                            break;
+                        case 2:
+                            $message = "Seller is delivering your order.";
+                            break;
+                        case 3:
+                            $message = "Order completed.";
+                            break;
+                    }
+
+                    if (!empty($message)) {
+                        sendTelegramNotification($chatId, $message);
+                    }
+                }
+            }
+        } else {
             echo "Error updating record: " . mysqli_error($db);
         }
-        
-        // Close statement
+
         mysqli_stmt_close($stmt);
     } else {
         echo "Error preparing query: " . mysqli_error($db);
     }
-    
-    // Close connection
+
     mysqli_close($db);
 } else {
-    // Not a POST request, or missing order_id/orderStatus
     echo "Error: Invalid request.";
 }
+
 ?>
+

@@ -1,5 +1,5 @@
 <?php
-include('connection\connect.php'); 
+include('connection\connect.php');
 
 if (empty($_SESSION['user_id'])) {
     header('location:login.php');
@@ -10,9 +10,9 @@ $otpMessage = "";
 
 if (isset($_POST['bindTelegram'])) {
     // Generate a unique OTP
-    $otp = bin2hex(random_bytes(4)); 
-    $expiration = new DateTime('+15 minutes'); 
-    $userId = $_SESSION['user_id']; 
+    $otp = bin2hex(random_bytes(4));
+    $expiration = new DateTime('+15 minutes');
+    $userId = $_SESSION['user_id'];
 
     // Insert OTP into the tg_verification table
     $query = "INSERT INTO tg_verification (userId, code, expiration) VALUES (?, ?, ?)";
@@ -41,7 +41,6 @@ if (isset($_POST['bindTelegram'])) {
     <title>My Account</title>
 </head>
 <body>
-
     <?php if ($otpMessage == ""): ?>
         <form method="POST">
             <button type="submit" name="bindTelegram">Bind Telegram</button>

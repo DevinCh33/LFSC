@@ -1,38 +1,49 @@
 <?php
+session_start();
 include("../seller/connect.php");
 
-if (isset($_POST['markRead']) && $_POST['markRead'] == 'true') {
-    $query = "UPDATE orders SET is_seen = 1 WHERE is_seen = 0";
-    $result = mysqli_query($db, $query);
+if (empty($_SESSION["user_id"])) {
+    header("refresh:0;url=login.php");
+    exit();
+}
 
-    if ($result) {
+if (isset($_POST['markRead']) && $_POST['markRead'] == 'true') {
+    $query = "UPDATE orders SET is_seen = 1 WHERE is_seen = 0 AND user_id = ?";
+    if ($stmt = mysqli_prepare($db, $query)) {
+        mysqli_stmt_bind_param($stmt, "i", $_SESSION["user_id"]);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
         echo "Notifications marked as read successfully.";
     } else {
-
         echo "Error marking notifications as read: " . mysqli_error($db);
     }
-
     exit;
 }
 
-$query = "SELECT o.order_id, o.order_status, r.title AS restaurant_title FROM orders o JOIN restaurant r ON o.order_belong = r.rs_id WHERE o.order_status IN (1, 2, 3) AND o.is_seen = 0";
-$result = mysqli_query($db, $query);
+$query = "SELECT o.order_id, o.order_status, r.title AS restaurant_title, o.last_updated
+          FROM orders o
+          JOIN restaurant r ON o.order_belong = r.rs_id
+          WHERE o.order_status IN (1, 2, 3)
+          AND o.is_seen = 0
+          AND o.user_id = ?";
 
-$notifications = [];
-while ($row = mysqli_fetch_assoc($result)) {
-    switch ($row['order_status']) {
-        case 1:
-            $notifications[] = $row['restaurant_title'] . ": Seller is preparing your order (Order ID: " . $row['order_id'] . ")";
-            break;
-        case 2:
-            $notifications[] = $row['restaurant_title'] . ": Seller is delivering your order (Order ID: " . $row['order_id'] . ")";
-            break;
-        case 3:
-            $notifications[] = $row['restaurant_title'] . ": Order (Order ID: " . $row['order_id'] . ") delivered";
-            break;
+if ($stmt = mysqli_prepare($db, $query)) {
+    mysqli_stmt_bind_param($stmt, "i", $_SESSION["user_id"]);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $notifications = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $formattedDate = date("F j, Y, g:i a", strtotime($row['last_updated'])); 
+        $message = htmlspecialchars($row['restaurant_title'] . ": Order (Order ID: " . $row['order_id'] . ")");
+        $notifications[] = [
+            'message' => $message,
+            'time' => "<div class='notification-last-updated'>Last updated: " . $formattedDate . "</div>"
+        ];
+
     }
+    mysqli_stmt_close($stmt);
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,15 +69,17 @@ while ($row = mysqli_fetch_assoc($result)) {
                         </div>
                         <div class="notification-content">
                             <?php if (count($notifications) > 0): ?>
-                                <?php foreach ($notifications as $notification): ?>
-                                    <div class="notification-item"><?php echo htmlspecialchars($notification); ?></div>
-                                <?php endforeach; ?>
+                            <?php foreach ($notifications as $notification): ?>
+                            <div class="notification-item">
+                                <?php echo $notification['message']; ?>
+                                <div class="notification-time"><?php echo $notification['time']; ?></div>
+                            </div>
+                            <?php endforeach; ?>
                             <?php else: ?>
-                                <div class="no-notifications">No new notifications</div>
+                            <div class="no-notifications">No new notifications</div>
                             <?php endif; ?>
                         </div>
                     </div>
-
                 </div>
             </li>
             <li <?php echo ($currentPage == 'home') ? 'class="active"' : ''; ?>><a href="index.php">Home</a></li>
@@ -101,7 +114,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                     success: function (response) {
                         console.log(response);
                         $('.notification-icon').removeClass('has-notifications');
-                        $('.notification-dropdown').html('<p>No new notifications</p>');
+                        $('.notification-content').html('<div class="no-notifications">No new notifications</div>');
                     },
                     error: function (xhr, status, error) {
                         console.error("Error marking notifications as read:", status, error);
@@ -110,9 +123,6 @@ while ($row = mysqli_fetch_assoc($result)) {
             });
         });
     </script>
-
-
-
 
 </body>
 </html>

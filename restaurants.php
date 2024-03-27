@@ -147,18 +147,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
         else
         {
-
-
-
         ?>
         <!-- Search part ends-->
-
-
-
-
-
-
-
         <!-- //results show -->
         <section class="restaurants-page">
     <div class="container">
@@ -240,10 +230,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                         </section>
 
-
-
-
-
     <?php
         }
     ?>
@@ -264,10 +250,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
-
-
     <script src="js/rating1.js"></script>
-
-
 </body>
 </html>

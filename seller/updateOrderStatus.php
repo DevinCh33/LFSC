@@ -1,12 +1,12 @@
 <?php
 
-require_once 'connect.php'; 
+require_once 'connect.php';
 require_once '../telegram_notification.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['order_id']) && isset($_POST['orderStatus'])) {
     $order_id = mysqli_real_escape_string($db, $_POST['order_id']);
     $orderStatus = mysqli_real_escape_string($db, $_POST['orderStatus']);
-    echo "Current order status: $orderStatus"; 
+    echo "Current order status: $orderStatus";
 
     $sql = "UPDATE orders SET order_status = ? WHERE order_id = ?";
 
@@ -22,12 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['order_id']) && isset($
             if ($row = mysqli_fetch_assoc($result)) {
                 $userId = $row['user_id'];
 
-                // Fetch chat_id using user_id
-                $chatIdQuery = "SELECT chat_id FROM users WHERE u_id = $userId LIMIT 1";
+                // Fetch chat_id and notifications_enabled status using user_id
+                $chatIdQuery = "SELECT chat_id, notifications_enabled FROM users WHERE u_id = $userId LIMIT 1";
                 $chatIdResult = mysqli_query($db, $chatIdQuery);
                 if ($chatRow = mysqli_fetch_assoc($chatIdResult)) {
                     $chatId = $chatRow['chat_id'];
+                    $notificationsEnabled = $chatRow['notifications_enabled'];
 
+                    // Construct the message based on order status
                     $message = "";
                     switch ($orderStatus) {
                         case 1:
@@ -41,8 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['order_id']) && isset($
                             break;
                     }
 
-                    if (!empty($message)) {
+                    // Check if notifications are enabled for the user
+                    if ($notificationsEnabled == 1 && !empty($message)) {
                         sendTelegramNotification($chatId, $message);
+                    } else {
+                        // If notifications are disabled, you can perform some other action or simply do nothing
+                        echo "Notifications are disabled for user with chat ID: $chatId.";
                     }
                 }
             }
@@ -61,4 +67,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['order_id']) && isset($
 }
 
 ?>
-

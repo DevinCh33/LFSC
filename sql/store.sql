@@ -50,7 +50,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2024-03-24 14:49:46', 1),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2024-03-24 14:49:46', 1),
 (16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2024-03-26 14:45:05', 1),
-(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2024-03-24 14:49:46', 1);
+(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'michael@gmail.com', 'SUPP', 'SELLER', 51, '2024-03-24 14:49:46', 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ INSERT INTO `categories` (`categories_id`, `categories_name`, `categories_active
 --
 
 CREATE TABLE `custom_prices` (
-  `product_id` int(11) NOT NULL,
+  `price_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -91,9 +91,10 @@ CREATE TABLE `custom_prices` (
 -- Dumping data for table `custom_prices`
 --
 
-INSERT INTO `custom_prices` (`product_id`, `user_id`, `price`) VALUES
-(25, 2, 12.22),
-(27, 2, 9.99);
+INSERT INTO `custom_prices` (`price_id`, `user_id`, `price`) VALUES
+(16, 2, 1.50),
+(17, 2, 7.00),
+(20, 2, 300.00);
 
 -- --------------------------------------------------------
 
@@ -186,15 +187,15 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_image`, `descr`, `categories_id`, `quantity`, `owner`, `product_date`, `lowStock`, `status`) VALUES
 (25, 'C0012', 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of ', 5, 380, '51', '2023-12-15', 30, 1),
 (26, 'C002', 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 6, 200, '51', '2023-12-15', 30, 1),
-(27, '', 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
-(28, '', 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
-(29, '', 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 6, 0, '52', '2023-12-15', 0, 1),
-(30, '', 'Durians (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 8, 0, '52', '2023-12-15', 0, 1),
-(31, '', 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 6, 0, '53', '2023-12-15', 0, 1),
-(32, '', 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 8, 0, '53', '2023-12-15', 0, 1),
-(33, '', 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 8, 0, '54', '2023-12-15', 0, 1),
-(34, '', 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 8, 0, '54', '2023-12-15', 0, 1),
-(35, 'G006', 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 8, 0, '55', '2023-12-15', 0, 3);
+(27, '', 'Green Apple', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
+(28, '', 'Red Apple', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
+(29, '', 'Turnip', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 6, 0, '52', '2023-12-15', 0, 1),
+(30, '', 'Durians', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 8, 0, '52', '2023-12-15', 0, 1),
+(31, '', 'Potato', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 6, 0, '53', '2023-12-15', 0, 1),
+(32, '', 'Red Strawberries', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 8, 0, '53', '2023-12-15', 0, 1),
+(33, '', 'Jongga Kimchi', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 8, 0, '54', '2023-12-15', 0, 1),
+(34, '', 'Sunmaid Raisins', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 8, 0, '54', '2023-12-15', 0, 1),
+(35, 'G006', 'Organic Blue Berries', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 8, 0, '55', '2023-12-15', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -375,20 +376,28 @@ CREATE TABLE `tblprice` (
   `priceNo` int(10) NOT NULL,
   `productID` varchar(30) NOT NULL,
   `proWeight` int(20) NOT NULL,
-  `proPrice` float NOT NULL
+  `proPrice` float NOT NULL,
+  `proDisc` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblprice`
 --
 
-INSERT INTO `tblprice` (`priceNo`, `productID`, `proWeight`, `proPrice`) VALUES
-(16, '26', 100, 5),
-(17, '26', 100, 10),
-(18, '26', 100, 15),
-(19, '40', 120, 150),
-(20, '25', 120, 160),
-(22, '42', 200, 20);
+INSERT INTO `tblprice` (`priceNo`, `productID`, `proWeight`, `proPrice`, `proDisc`) VALUES
+(16, '26', 100, 5, 0),
+(17, '26', 200, 10, 0),
+(18, '26', 300, 15, 10),
+(19, '27', 500, 30, 90),
+(20, '25', 120, 160, 50),
+(21, '28', 500, 30, 0),
+(22, '29', 200, 45, 0),
+(23, '30', 1000, 400, 40),
+(24, '31', 100, 4, 0),
+(25, '32', 100, 90, 0),
+(26, '33', 15, 9, 0),
+(27, '34', 30, 7, 0),
+(28, '35', 500, 1800.99, 70);
 
 -- --------------------------------------------------------
 
@@ -524,7 +533,7 @@ ALTER TABLE `categories`
 -- Indexes for table `custom_prices`
 --
 ALTER TABLE `custom_prices`
-  ADD PRIMARY KEY (`product_id`,`user_id`);
+  ADD PRIMARY KEY (`price_id`,`user_id`);
 
 --
 -- Indexes for table `orders`
@@ -681,7 +690,7 @@ ALTER TABLE `tblemployee`
 -- AUTO_INCREMENT for table `tblprice`
 --
 ALTER TABLE `tblprice`
-  MODIFY `priceNo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `priceNo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tblvalidation`
@@ -705,7 +714,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_comments`
 --
 ALTER TABLE `user_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `user_ratings`

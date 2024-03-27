@@ -101,15 +101,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
 
-
-
-
         <div class="container m-t-30">
-
-
-
-
-        
             <div class="row">
                 <!-- Column for POPULAR ORDERS -->
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
@@ -126,7 +118,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 
                         <div class="collapse in" id="popular2">
                         <?php // display values and item of products
-                            $stmt = $db->prepare("SELECT * FROM product, tblprice WHERE product.owner = ? AND product.status = 1 AND product.product_id = tblprice.productID");
+                            $stmt = $db->prepare("SELECT product_id from product WHERE owner = ? AND status = 1");
                             $stmt->bind_param("i", $_GET['res_id']);
                             $stmt->execute();
                             $products = $stmt->get_result();
@@ -135,25 +127,58 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             {
                                 foreach($products as $product)
                                 {           
-                        ?>
+                                    $stmt = $db->prepare("SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                                          WHERE tblprice.productID = ?");
+                                    $stmt->bind_param("i", $product['product_id']);
+                                    $stmt->execute();
+                                    $item = $stmt->get_result();
+
+                                    if ($item->num_rows == 1)
+                                    {
+                                        $item = $item->fetch_assoc();
+     
+                                        $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                        $stmt->bind_param("ii", $item['priceNo'], $_SESSION['user_id']);
+                                        $stmt->execute();
+                                        $custom = $stmt->get_result();
+                                        
+                                        $item['price'] = $custom->fetch_assoc()['price'];
+                        ?>              
 
                             <div class="food-item">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-8">
                                         <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
+                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         <!-- end:Logo -->
                                 
                                         <!-- end:col -->
-                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
-                                            <h6><?php echo $product['product_name']; ?></h6>
+                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
+                                            <h6><?php echo $item['product_name']." (". $item['proWeight']."g)"; ?></h6>
+                                            <p><?php echo $item['descr'];  ?></p>
+                                            <p style="color: green;">Stock Left: <?php echo (int)$item['quantity']; ?></p>
 
-                                            <p><?php echo $product['descr'];  ?></p>
+                                            <?php
+                                            $customPrice = number_format($item['price'], 2);
+                                            $discount = number_format($item['proDisc']/100, 2);
+                                            $price = number_format($item['proPrice'], 2);
 
-                                            <p style="color: green;">Stock Left: <?php echo (int)$product['quantity']; ?></p>
+                                            if ($customPrice != 0) {
+                                            echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
+                                            }
+                        
+                                            else if ($discount == 0) {
+                                            echo '            <span class="price pull-left">RM '.$price.'</span>';
+                                            }
+                                            
+                                            else {
+                                            echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
+                                                              <div style="color: orange;">'. $discount*100 .'% off</div>
+                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2).'</span>';
+                                            }
+                                            ?>
 
-                                            <span class="price pull-left" >RM <?php echo $product['proPrice']; ?></span>
                                             <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
                                             <button class="btn theme-btn addsToCart">Add to Cart</button>
                                         </div>
@@ -165,7 +190,81 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             
                             <?php
                                     }
+
+                                    else
+                                    {
+                                        $item = $item->fetch_all(MYSQLI_ASSOC);
+                                        $number = count($item);
+
+                                        for ($i = 0; $i < $number; $i++)
+                                        {
+                                            $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                            $stmt->bind_param("ii", $item[$i]['priceNo'], $_SESSION['user_id']);
+                                            $stmt->execute();
+                                            $custom = $stmt->get_result();
+                                        
+                                            $option[$i]['price'] = $custom->fetch_assoc()['price'];
+                                            $option[$i]['proWeight'] = $item[$i]['proWeight'];
+                                            $option[$i]['proPrice'] = $item[$i]['proPrice'];
+                                            $option[$i]['proDisc'] = $item[$i]['proDisc'];
+                                            $option[$i]['priceNo'] = $item[$i]['priceNo'];
+                                        }
+
+                                        $option = json_encode($option);
+                            ?>
+
+                            <div class="food-item">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                                        <div class="rest-logo pull-left">
+                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
+                                        </div>
+                                        <!-- end:Logo -->
+                                
+                                        <!-- end:col -->
+                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
+                                            <h6><?php echo $item[0]['product_name']." (";?><span><?php echo $item[0]['proWeight'];?></span><?php echo "g)";?></h6>
+                                            <button class="shiftOptions">|></button>
+                                            <p><?php echo $item[0]['descr'];?></p>
+
+                                            <p style="color: green;">Stock Left: <?php echo (int)$item[0]['quantity']; ?></p>
+
+                                            <p class="price pull-left discount-cross" style="text-decoration: line-through; color: red;"></p>
+                                            <div class="discount-value" style="color: orange;"></div>
+
+                                            <?php
+                                            $customPrice = number_format($item[0]['price'], 2);
+                                            $discount = number_format($item[0]['proDisc']/100, 2);
+                                            $price = number_format($item[0]['proPrice'], 2);
+
+                                            if ($customPrice != 0) {
+                                            echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
+                                            }
+                        
+                                            else if ($discount == 0) {
+                                            echo '            <span class="price pull-left">RM '.$price.'</span>';
+                                            }
+                                            
+                                            else {
+                                            echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
+                                                              <div style="color: orange;">'. $discount*100 .'% off</div>
+                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2).'</span>';
+                                            }
+                                            ?>
+                                            
+                                            <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
+                                            <button class="btn theme-btn addsToCart">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end:row -->
+                            </div>
+                            <!-- end:Item -->
+
+                            <?php
+                                    }
                                 }
+                            }
                             ?>
                         </div>
                         <!-- end:Collapse -->
@@ -173,9 +272,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <!-- end:Widget menu -->
                 </div>
 
-
-                     <!-- start:Comments -->
-
+                <!-- start:Comments -->
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
                     <div class="widget widget-cart">
                         <div class="widget-heading">
@@ -209,8 +306,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                     </div>
                 </div>
-
-<!-- end:Comments -->
+                <!-- end:Comments -->
 
                 <!-- Column for Your Shopping Cart -->
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
@@ -241,7 +337,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- end:row -->
         </div>

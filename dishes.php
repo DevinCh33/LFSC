@@ -137,31 +137,50 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 {           
                         ?>
 
-                            <div class="food-item">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-8">
-                                        <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?></a>
-                                        </div>
-                                        <!-- end:Logo -->
-                                
-                                        <!-- end:col -->
-                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
-                                            <h6><?php echo $product['product_name']; ?></h6>
+<div class="food-item">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-8">
+            <div class="rest-logo pull-left">
+                <a class="restaurant-logo pull-left" href="#">
+                    <?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?>
+                </a>
 
-                                            <p><?php echo $product['descr'];  ?></p>
+                <ul class="nav nav-inline">
+                    <li class="nav-item ratings">
+                        <a class="nav-link" href="#">
+                            <span class="rating-stars" data-res-id="<?php echo $product['product_id']; ?>">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item average-rating">
+                        Average Rating: <span class="avg-rating">0</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- end:Logo -->
 
-                                            <p style="color: green;">Stock Left: <?php echo (int)$product['quantity']; ?></p>
+            <!-- end:col -->
+            <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
+                <h6><?php echo $product['product_name']; ?></h6>
+                <p><?php echo $product['descr'];  ?></p>
+                <p style="color: green;">Stock Left: <?php echo (int)$product['quantity']; ?></p>
+                <span class="price pull-left">RM <?php echo $product['proPrice']; ?></span>
+                <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
+                <button class="btn theme-btn addsToCart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    <!-- end:row -->
+</div>
+<!-- end:Item -->
 
-                                            <span class="price pull-left" >RM <?php echo $product['proPrice']; ?></span>
-                                            <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
-                                            <button class="btn theme-btn addsToCart">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end:row -->
-                            </div>
-                            <!-- end:Item -->
+
+                            
                             
                             <?php
                                     }
@@ -272,5 +291,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/cart.js"></script>
     <script src="js/rating1.js"></script>
     <script src="js/comment.js"></script>
+    <script src="js/rating_product.js"></script>
+    
 </body>
 </html>

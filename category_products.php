@@ -62,23 +62,41 @@
                 <div class="row">';
  
                 // fetch records from database to display first 12 products searched from the database
-                $query_res = mysqli_query($db,"select * from product WHERE product_name LIKE '%".$_GET['search']."%' LIMIT 12"); 
+                $query_res = mysqli_query($db,"select * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE product_name LIKE '%".$_GET['search']."%' LIMIT 12"); 
                 
                 while($r=mysqli_fetch_array($query_res))
                 {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
                                 <div class="figure-wrap bg-image search-product" data-image-src="'.$r['product_image'].'">
-                                    <div class="distance"><i class="fa fa-pin"></i>1240m</div>
-                                    <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                    <div class="review pull-right"><a href="#">198 reviews</a> </div>
                                 </div>
-                                <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
-                                    <div class="price-btn-block">
-                                        <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].'</h5></a>
-                                        <div>'.$r['descr'].'</div>
-                                        <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>
-                                        <span class="price">RM '.$r['price'].'</span> 
+                                <div class="product content" >
+                                    <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
+                                        <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
+                                        <div>'.$r['descr'].'</div>                       
+                                        <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
+
+                                        $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                        $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);
+                                        $stmt->execute();
+                                        $custom = $stmt->get_result();
+                                        $customPrice = number_format($custom->fetch_assoc()['price'], 2);
+
+                                        if ($customPrice != 0) {
+                                        echo '            <span class="price">RM ' . $customPrice . '</span>';
+                                        }
+                    
+                                        else if ($r['proDisc'] == 0) {
+                                        echo '            <span class="price">RM ' . $r['proPrice'] . '</span>';
+                                        }
+                                        
+                                        else {
+                                        echo '            <a style="text-decoration: line-through; color: red;">RM ' . $r['proPrice'] . '</a>
+                                                          <a style="color: orange;">'. $r['proDisc'] .'% off</a>
+                                                          <span class="price">RM ' . number_format($r['proPrice']*(1-$r['proDisc']/100), 2) . '</span>';
+                                        }
+                                        
+                                        echo '
                                         <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
                                     </div>
                                 </div>
@@ -113,29 +131,47 @@
                 $id = 0;
             }
 
-            // fetch records from database to display popular first 12 products from database
-            $ress = mysqli_query($db, "SELECT * FROM product WHERE categories_id = {$id}");
-
-            while ($r = mysqli_fetch_array($ress)) 
-            {
+            // fetch records from database to display products of chosen category
+            $query_res = mysqli_query($db,"select * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE categories_id = {$id}"); 
+                
+            while($r=mysqli_fetch_array($query_res))
+            {   
                 echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                         <div class="food-item-wrap">
-                            <div class="figure-wrap bg-image search-product" data-image-src="' . $r['product_image'] . '">
-                                <div class="distance"><i class="fa fa-pin"></i>1240m</div>
-                                <div class="rating pull-left"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> </div>
-                                <div class="review pull-right"><a href="#">198 reviews</a> </div>
+                            <div class="figure-wrap bg-image search-product" data-image-src="'.$r['product_image'].'">
                             </div>
-                            <div class="product content" data-product-id="'.$r['product_id'].'" data-product-owner="'.$r['owner'].'">
-                                <div class="price-btn-block">
-                                    <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].'</h5></a>
-                                    <div>'.$r['descr'].'</div>
-                                    <div class="product-name" style="color: green;"> Stock: '.(int) $r['quantity'].'</div>
-                                    <span class="price">RM '.$r['price'].'</span> 
+                            <div class="product content" >
+                                <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
+                                    <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
+                                    <div>'.$r['descr'].'</div>                       
+                                    <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
+
+                                    $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                    $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);
+                                    $stmt->execute();
+                                    $custom = $stmt->get_result();
+                                    $customPrice = number_format($custom->fetch_assoc()['price'], 2);
+
+                                    if ($customPrice != 0) {
+                                    echo '            <span class="price">RM ' . $customPrice . '</span>';
+                                    }
+                
+                                    else if ($r['proDisc'] == 0) {
+                                    echo '            <span class="price">RM ' . $r['proPrice'] . '</span>';
+                                    }
+                                    
+                                    else {
+                                    echo '            <a style="text-decoration: line-through; color: red;">RM ' . $r['proPrice'] . '</a>
+                                                        <a style="color: orange;">'. $r['proDisc'] .'% off</a>
+                                                        <span class="price">RM ' . number_format($r['proPrice']*(1-$r['proDisc']/100), 2) . '</span>';
+                                    }
+                                    
+                                    echo '
                                     <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
                                 </div>
                             </div>
                         </div>
-                    </div>';
+                    </div>';              
             }
             ?>  
         </div>

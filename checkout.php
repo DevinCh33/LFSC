@@ -32,7 +32,7 @@ if($_POST['submit'])
 	foreach ($groupedProducts as $ownerId => $products) 
     {
 		$totalPrice = 0;
-		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, vat, total_amount, discount, grand_total, paid, due, payment_type, payment_status,payment_place, gstn,order_status,user_id, order_belong) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '0', '$item_total', '0', '0', '0', '$item_total', 1, 1, 1, 1, 1, ".$_SESSION['user_id'].", $ownerId)";
+		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, total_amount, paid, due, payment_type, order_status, user_id, order_belong) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '$item_total', '0', '$item_total', 1, 1, ".$_SESSION['user_id'].", $ownerId)";
 			
         $order_id;
         $orderStatus = false;
@@ -45,24 +45,30 @@ if($_POST['submit'])
             $orderStatus = true;
         }
 		
-		foreach ($products as $item) 
+		foreach ($products as $item)
         {
+            $stmt = $db->prepare("SELECT productID FROM tblprice WHERE priceNo = ?");
+            $stmt->bind_param("i", $item['price_id']);
+            $stmt->execute();
+            $productId = $stmt->get_result();
+            $item['product_id'] = $productId->fetch_assoc()['productID'];
+
 			$item_total = 0;
 			$item_total += ($item["price"]*$item["quantity"]);
 			$totalPrice += $item_total;
 			$orderItemStatus = false;
-			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['id']."";
+			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['product_id']."";
 			$updateProductQuantityData = $db->query($updateProductQuantitySql);
 		
 			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) 
             {
 				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];							
                 // update product table
-                $updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = ".$item['id']."";
+                $updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = '".$item['id']."'";
                 $db->query($updateProductTable);
                 // add into order_item
-                $orderItemSql = "INSERT INTO order_item (order_id, product_id, quantity, price, total, order_item_status) 
-                VALUES ('$order_id', '".$item['id']."', '".$item['quantity']."', '".$item['price']."', '".$item_total."', 1)";
+                $orderItemSql = "INSERT INTO order_item (order_id, priceID, quantity) 
+                VALUES ('$order_id', '".$item['price_id']."', '".$item['quantity']."')";
 
                 $db->query($orderItemSql);		
 			} // while

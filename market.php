@@ -171,21 +171,21 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 $productQuery[0] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.product_id = ".$data['product_id'];
 
-                $message[0] = "Buy again";
+                $messageRec[0] = "Buy again";
 
                 // Recommendation from same category
                 $productQuery[1] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.categories_id = ".$data['categories_id']." 
                                     ORDER BY RAND() LIMIT 1";
 
-                $message[1] = "Product of the same category as your most recent order";
+                $messageRec[1] = "Product of the same category as your most recent order";
 
                 // Recommendation from same merchant
                 $productQuery[2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.owner = ".$data['owner']." 
                                     ORDER BY RAND() LIMIT 1";
 
-                $message[2] = "Product of the same merchant as your most recent order";
+                $messageRec[2] = "Product of the same merchant as your most recent order";
 
                  // Recommendation from similar price range (+- RM 10)
                 $productQuery[3] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
@@ -193,7 +193,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     AND tblprice.proPrice <= ".((float)$data['proPrice']+10)."
                                     ORDER BY RAND() LIMIT 1";
 
-                $message[3] = "Product of a similar price range as your most recent order";
+                $messageRec[3] = "Product of a similar price range as your most recent order";
 
                 $recommended[0] = 0;
 
@@ -203,15 +203,17 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     // Check for duplicates
                     if (!in_array($a, $recommended)) {
                         $recommended[$i] = $a;
-                        $recommended[$i+1] = $message[$i/2];
+                        $recommended[$i+1] = $messageRec[$i/2];
                     }
 
                     // If duplicate, then suggest random product
                     else {
-                        $productQuery[$i] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                        $productQuery[$i/2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                              ORDER BY RAND() LIMIT 1";
-                        
-                        $message[$i] = 0;
+
+                        $messageRec[$i/2] = 0;
+
+                        $i -= 2;
 
                         continue;
                     }

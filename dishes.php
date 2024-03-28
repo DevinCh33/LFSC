@@ -145,51 +145,156 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         $item['price'] = $custom->fetch_assoc()['price'];
                         ?>              
 
-<div class="food-item">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-lg-8">
-            <div class="rest-logo pull-left">
-                <a class="restaurant-logo pull-left" href="#">
-                    <?php echo '<img src="'.$product['product_image'].'" alt="Product logo">'; ?>
-                </a>
+                            <div class="food-item">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                                        <div class="rest-logo pull-left">
+                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
+                                        </div>
+                                        <!-- end:Logo -->
+                                
+                                        <ul class="nav nav-inline">
+                                            <li class="nav-item ratings">
+                                                <a class="nav-link" href="#">
+                                                    <span class="rating-stars" data-res-id="<?php echo $item['product_id']; ?>">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item average-rating">
+                                                Average Rating: <span class="avg-rating">0</span>
+                                            </li>
+                                        </ul>
 
-                <ul class="nav nav-inline">
-                    <li class="nav-item ratings">
-                        <a class="nav-link" href="#">
-                            <span class="rating-stars" data-res-id="<?php echo $product['product_id']; ?>">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item average-rating">
-                        Average Rating: <span class="avg-rating">0</span>
-                    </li>
-                </ul>
-            </div>
-            <!-- end:Logo -->
+                                        <!-- end:col -->
+                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
+                                            <h6><?php echo $item['product_name']." (". $item['proWeight']."g)"; ?></h6>
+                                            <p><?php echo $item['descr'];  ?></p>
+                                            <p style="color: green;">Stock Left: <?php echo (int)$item['quantity']; ?></p>
 
-            <!-- end:col -->
-            <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-product-id="<?php echo $product['product_id']; ?>" data-product-owner="<?php echo $product['owner']; ?>"> 
-                <h6><?php echo $product['product_name']; ?></h6>
-                <p><?php echo $product['descr'];  ?></p>
-                <p style="color: green;">Stock Left: <?php echo (int)$product['quantity']; ?></p>
-                <span class="price pull-left">RM <?php echo $product['proPrice']; ?></span>
-                <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
-                <button class="btn theme-btn addsToCart">Add to Cart</button>
-            </div>
-        </div>
-    </div>
-    <!-- end:row -->
-</div>
-<!-- end:Item -->
+                                            <?php
+                                            $customPrice = number_format($item['price'], 2);
+                                            $discount = number_format($item['proDisc']/100, 2);
+                                            $price = number_format($item['proPrice'], 2);
 
+                                            if ($customPrice != 0) {
+                                            echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
+                                            }
+                        
+                                            else if ($discount == 0) {
+                                            echo '            <span class="price pull-left">RM '.$price.'</span>';
+                                            }
+                                            
+                                            else {
+                                            echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
+                                                              <div style="color: orange;">'. $discount*100 .'% off</div>
+                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2).'</span>';
+                                            }
+                                            ?>
 
+                                            <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
+                                            <button class="btn theme-btn addsToCart">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end:row -->
+                            </div>
+                            <!-- end:Item -->
                             
-                            
+                            <?php
+                                    }
+
+                                    else
+                                    {
+                                        $item = $item->fetch_all(MYSQLI_ASSOC);
+                                        $number = count($item);
+
+                                        for ($i = 0; $i < $number; $i++)
+                                        {
+                                            $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                            $stmt->bind_param("ii", $item[$i]['priceNo'], $_SESSION['user_id']);
+                                            $stmt->execute();
+                                            $custom = $stmt->get_result();
+                                        
+                                            $option[$i]['price'] = $custom->fetch_assoc()['price'];
+                                            $option[$i]['proWeight'] = $item[$i]['proWeight'];
+                                            $option[$i]['proPrice'] = $item[$i]['proPrice'];
+                                            $option[$i]['proDisc'] = $item[$i]['proDisc'];
+                                            $option[$i]['priceNo'] = $item[$i]['priceNo'];
+                                        }
+
+                                        $option = json_encode($option);
+                            ?>
+
+                            <div class="food-item">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                                        <div class="rest-logo pull-left">
+                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
+                                        </div>
+                                        <!-- end:Logo -->
+                                
+                                        <ul class="nav nav-inline">
+                                            <li class="nav-item ratings">
+                                                <a class="nav-link" href="#">
+                                                    <span class="rating-stars" data-res-id="<?php echo $item[0]['product_id']; ?>">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item average-rating">
+                                                Average Rating: <span class="avg-rating">0</span>
+                                            </li>
+                                        </ul>
+
+                                        <!-- end:col -->
+                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
+                                            <h6><?php echo $item[0]['product_name']." (";?><span><?php echo $item[0]['proWeight'];?></span><?php echo "g)";?></h6>
+                                            <button class="btn btn-info shiftOptions">More options</button>
+                                            <p><?php echo $item[0]['descr'];?></p>
+
+                                            <p style="color: green;">Stock Left: <?php echo (int)$item[0]['quantity']; ?></p>
+
+                                            <p class="price pull-left discount-cross" style="text-decoration: line-through; color: red;"></p>
+                                            <div class="discount-value" style="color: orange;"></div>
+
+                                            <?php
+                                            $customPrice = number_format($item[0]['price'], 2);
+                                            $discount = number_format($item[0]['proDisc']/100, 2);
+                                            $price = number_format($item[0]['proPrice'], 2);
+
+                                            if ($customPrice != 0) {
+                                            echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
+                                            }
+                        
+                                            else if ($discount == 0) {
+                                            echo '            <span class="price pull-left">RM '.$price.'</span>';
+                                            }
+                                            
+                                            else {
+                                            echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
+                                                              <div style="color: orange;">'. $discount*100 .'% off</div>
+                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2).'</span>';
+                                            }
+                                            ?>
+                                            
+                                            <input type="number" name="quantity" style="margin-left: 1.8rem; margin-bottom: 1rem; max-width: 4rem;" value="1" min="1"/>
+                                            <button class="btn theme-btn addsToCart">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end:row -->
+                            </div>
+                            <!-- end:Item -->
+
                             <?php
                                     }
                                 }
@@ -294,9 +399,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/rating_product.js"></script>
     <script src="js/rating1.js"></script>
     <script src="js/comment.js"></script>
-    <script src="js/rating_product.js"></script>
-    
 </body>
 </html>

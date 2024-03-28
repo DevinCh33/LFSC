@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2024 at 05:03 PM
+-- Generation Time: Mar 27, 2024 at 05:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,7 +50,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2024-03-24 14:49:46', 1),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2024-03-24 14:49:46', 1),
 (16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2024-03-26 14:45:05', 1),
-(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'micheal@gmail.com', 'SUPP', 'SELLER', 51, '2024-03-24 14:49:46', 1);
+(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'michael@gmail.com', 'SUPP', 'SELLER', 51, '2024-03-24 14:49:46', 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ INSERT INTO `categories` (`categories_id`, `categories_name`, `categories_active
 --
 
 CREATE TABLE `custom_prices` (
-  `product_id` int(11) NOT NULL,
+  `price_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -91,9 +91,10 @@ CREATE TABLE `custom_prices` (
 -- Dumping data for table `custom_prices`
 --
 
-INSERT INTO `custom_prices` (`product_id`, `user_id`, `price`) VALUES
-(25, 2, 12.22),
-(27, 2, 9.99);
+INSERT INTO `custom_prices` (`price_id`, `user_id`, `price`) VALUES
+(16, 2, 1.5),
+(17, 2, 7),
+(20, 2, 300);
 
 -- --------------------------------------------------------
 
@@ -123,8 +124,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `total_amount`, `paid`, `due`, `payment_type`, `order_status`, `user_id`, `order_belong`, `last_updated`, `is_seen`) VALUES
-(1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 2, 2, 51, '2024-03-22 16:17:30', 0),
-(2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0);
+(1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0),
+(2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0),
+(3, '2024-03-27', 'cust two', '123123123123123', '30', '30', '30', '0', 1, 1, 3, 51, '2024-03-27 16:20:00', 0);
 
 --
 -- Triggers `orders`
@@ -186,15 +188,15 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_image`, `descr`, `categories_id`, `quantity`, `owner`, `product_date`, `lowStock`, `status`) VALUES
 (25, 'C0012', 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides. Sold in packs of ', 5, 380, '51', '2023-12-15', 30, 1),
 (26, 'C002', 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides. Sold in packs of 10g', 6, 200, '51', '2023-12-15', 30, 1),
-(27, '', 'Green Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
-(28, '', 'Red Apple (5g)', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
-(29, '', 'Turnip (20g)', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 6, 0, '52', '2023-12-15', 0, 1),
-(30, '', 'Durians (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 8, 0, '52', '2023-12-15', 0, 1),
-(31, '', 'Potato (10g)', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 6, 0, '53', '2023-12-15', 0, 1),
-(32, '', 'Red Strawberries (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 8, 0, '53', '2023-12-15', 0, 1),
-(33, '', 'Jongga Kimchi (15g)', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 8, 0, '54', '2023-12-15', 0, 1),
-(34, '', 'Sunmaid Raisins (30g)', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 8, 0, '54', '2023-12-15', 0, 1),
-(35, 'G006', 'Organic Blue Berries (500g)', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 8, 0, '55', '2023-12-15', 0, 3);
+(27, '', 'Green Apple', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
+(28, '', 'Red Apple', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 5g.', 7, 0, '51', '2023-12-15', 30, 1),
+(29, '', 'Turnip', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips. Sold in packs of 20g.', 6, 0, '52', '2023-12-15', 0, 1),
+(30, '', 'Durians', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! (sold in packs of 30g)', 8, 0, '52', '2023-12-15', 0, 1),
+(31, '', 'Potato', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes! Sold in packs of 10g.', 6, 0, '53', '2023-12-15', 0, 1),
+(32, '', 'Red Strawberries', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh Fresh! No Pesticides! Sold in packs of 15g.', 8, 0, '53', '2023-12-15', 0, 1),
+(33, '', 'Jongga Kimchi', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi! 15g per can.', 8, 0, '54', '2023-12-15', 0, 1),
+(34, '', 'Sunmaid Raisins', 'http://localhost/lfsc/inventory/assets/images/stock/14213419816559b6dbbcc8f.jpg', 'Our most popular raisins. 30g per can.', 8, 0, '54', '2023-12-15', 0, 1),
+(35, 'G006', 'Organic Blue Berries', 'http://localhost/lfsc/inventory/assets/images/stock/15243408556559b8327cfb8.jpg', 'Imported Swedish Blue Berries.', 8, 0, '55', '2023-12-15', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -375,20 +377,28 @@ CREATE TABLE `tblprice` (
   `priceNo` int(10) NOT NULL,
   `productID` varchar(30) NOT NULL,
   `proWeight` int(20) NOT NULL,
-  `proPrice` float NOT NULL
+  `proPrice` float NOT NULL,
+  `proDisc` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblprice`
 --
 
-INSERT INTO `tblprice` (`priceNo`, `productID`, `proWeight`, `proPrice`) VALUES
-(16, '26', 100, 5),
-(17, '26', 100, 10),
-(18, '26', 100, 15),
-(19, '40', 120, 150),
-(20, '25', 120, 160),
-(22, '42', 200, 20);
+INSERT INTO `tblprice` (`priceNo`, `productID`, `proWeight`, `proPrice`, `proDisc`) VALUES
+(16, '26', 100, 5, 0),
+(17, '26', 200, 10, 0),
+(18, '26', 300, 15, 10),
+(19, '27', 500, 30, 90),
+(20, '25', 120, 160, 50),
+(21, '28', 500, 30, 0),
+(22, '29', 200, 45, 0),
+(23, '30', 1000, 400, 40),
+(24, '31', 100, 4, 0),
+(25, '32', 100, 90, 0),
+(26, '33', 15, 9, 0),
+(27, '34', 30, 7, 0),
+(28, '35', 500, 1800.99, 70);
 
 -- --------------------------------------------------------
 
@@ -424,7 +434,8 @@ CREATE TABLE `tg_verification` (
 --
 
 INSERT INTO `tg_verification` (`id`, `userId`, `code`, `chatId`, `expiration`) VALUES
-(1, 2, 'b6029bf2', '', '2024-03-27 00:11:37');
+(1, 2, 'b6029bf2', '', '2024-03-27 00:11:37'),
+(2, 2, 'f7c8eb15', '', '2024-03-28 00:30:46');
 
 -- --------------------------------------------------------
 
@@ -453,7 +464,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`, `phone`, `password`, `address`, `status`, `date`, `chat_id`, `notifications_enabled`) VALUES
-(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-03-26 15:57:24', 5834180878, 1),
+(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-03-27 16:16:04', 5834180878, 1),
 (3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54', 0, 1),
 (4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31', 0, 1),
 (5, 'StephenTan95', 'Tan', 'Stephen ', 'Tan Stephen ', 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 lorong 3 rose garden\r\n93250 kuching Sarawak', 1, '2023-11-26 06:05:31', 0, 1),
@@ -524,7 +535,7 @@ ALTER TABLE `categories`
 -- Indexes for table `custom_prices`
 --
 ALTER TABLE `custom_prices`
-  ADD PRIMARY KEY (`product_id`,`user_id`);
+  ADD PRIMARY KEY (`price_id`,`user_id`);
 
 --
 -- Indexes for table `orders`
@@ -633,7 +644,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_item`
@@ -681,7 +692,7 @@ ALTER TABLE `tblemployee`
 -- AUTO_INCREMENT for table `tblprice`
 --
 ALTER TABLE `tblprice`
-  MODIFY `priceNo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `priceNo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tblvalidation`
@@ -693,7 +704,7 @@ ALTER TABLE `tblvalidation`
 -- AUTO_INCREMENT for table `tg_verification`
 --
 ALTER TABLE `tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

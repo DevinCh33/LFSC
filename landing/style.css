@@ -496,6 +496,13 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
     color: #888;
 }
 
+.notification-last-updated {
+    color: #FF6B35;
+    font-size: 0.8em;
+    display: block;
+    width: 100%;
+}
+
 @media (max-width: 600px) {
     .notification-dropdown {
         width: 80%; 

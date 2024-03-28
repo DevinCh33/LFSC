@@ -101,15 +101,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
 
-
-
-
         <div class="container m-t-30">
-
-
-
-
-        
             <div class="row">
                 <!-- Column for POPULAR ORDERS -->
                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
@@ -126,7 +118,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 
                         <div class="collapse in" id="popular2">
                         <?php // display values and item of products
-                            $stmt = $db->prepare("SELECT * FROM product, tblprice WHERE product.owner = ? AND product.status = 1 AND product.product_id = tblprice.productID");
+                            $stmt = $db->prepare("SELECT product_id from product WHERE owner = ? AND status = 1");
                             $stmt->bind_param("i", $_GET['res_id']);
                             $stmt->execute();
                             $products = $stmt->get_result();
@@ -135,7 +127,23 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             {
                                 foreach($products as $product)
                                 {           
-                        ?>
+                                    $stmt = $db->prepare("SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                                          WHERE tblprice.productID = ?");
+                                    $stmt->bind_param("i", $product['product_id']);
+                                    $stmt->execute();
+                                    $item = $stmt->get_result();
+
+                                    if ($item->num_rows == 1)
+                                    {
+                                        $item = $item->fetch_assoc();
+     
+                                        $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                        $stmt->bind_param("ii", $item['priceNo'], $_SESSION['user_id']);
+                                        $stmt->execute();
+                                        $custom = $stmt->get_result();
+                                        
+                                        $item['price'] = $custom->fetch_assoc()['price'];
+                        ?>              
 
 <div class="food-item">
     <div class="row">
@@ -185,6 +193,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <?php
                                     }
                                 }
+                            }
                             ?>
                         </div>
                         <!-- end:Collapse -->
@@ -192,9 +201,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <!-- end:Widget menu -->
                 </div>
 
-
-                     <!-- start:Comments -->
-
+                <!-- start:Comments -->
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
                     <div class="widget widget-cart">
                         <div class="widget-heading">
@@ -228,8 +235,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                     </div>
                 </div>
-
-<!-- end:Comments -->
+                <!-- end:Comments -->
 
                 <!-- Column for Your Shopping Cart -->
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
@@ -260,7 +266,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- end:row -->
         </div>

@@ -7,14 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $valid = True;
 
-        foreach ($_POST['cart'] as $item) 
+        /* foreach ($_POST['cart'] as $item)
         {
-            if ((float)$item['price'] != (float)$_SESSION['prices'][$item['id']])
+            if ((float)$item['price'] != (float)$_SESSION['prices'][$item['price_id']])
             {
                 $valid = False;
                 break;
             }
-        }
+        }*/
 
         if ($valid) // If prices were not altered
         {

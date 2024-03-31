@@ -443,7 +443,7 @@ if (mysqli_num_rows($result) > 0) {
     echo "<input type='submit' value='Search'>";
     echo "</form>";
     echo "<table border='1'>";
-    echo "<tr><th>ITEM NO</th><th>ITEM NAME</th><th>ITEM DESCRIPTION</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th></tr>";
+    echo "<tr><th>ITEM NO</th><th>PRODUCT NAME/WEIGHT</th><th>ITEM DESCRIPTION</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th></tr>";
 
     // Fetch and display each row of the result
     while ($row = mysqli_fetch_assoc($result)) {
@@ -540,7 +540,7 @@ $counter = 1;
 if ($result->num_rows > 0) {
     // Output table headers
     echo "<table>";
-    echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
+    echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME/WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
     
     // Output data of each row
     while($row = $result->fetch_assoc()) {

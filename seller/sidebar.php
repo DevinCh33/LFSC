@@ -93,13 +93,12 @@
       
       <?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
-        <a href="sales_report .php">
+        <a href="product_report.php">
           <i class='bx bxs-report'></i>
           <span class="link_name">Report</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Sales Report</a></li>
-          <li><a href="product_report.php">Product Report</a></li>
+          <li><a class="link_name" href="#">Report</a></li>
         </ul>
       </li>
 		<?php } ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2024 at 05:03 PM
+-- Generation Time: Mar 27, 2024 at 05:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,9 +92,9 @@ CREATE TABLE `custom_prices` (
 --
 
 INSERT INTO `custom_prices` (`price_id`, `user_id`, `price`) VALUES
-(16, 2, 1.50),
-(17, 2, 7.00),
-(20, 2, 300.00);
+(16, 2, 1.5),
+(17, 2, 7),
+(20, 2, 300);
 
 -- --------------------------------------------------------
 
@@ -124,8 +124,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`, `sub_total`, `total_amount`, `paid`, `due`, `payment_type`, `order_status`, `user_id`, `order_belong`, `last_updated`, `is_seen`) VALUES
-(1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 2, 2, 51, '2024-03-22 16:17:30', 0),
-(2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0);
+(1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0),
+(2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0),
+(3, '2024-03-27', 'cust two', '123123123123123', '30', '30', '30', '0', 1, 1, 3, 51, '2024-03-27 16:20:00', 0);
 
 --
 -- Triggers `orders`
@@ -433,7 +434,8 @@ CREATE TABLE `tg_verification` (
 --
 
 INSERT INTO `tg_verification` (`id`, `userId`, `code`, `chatId`, `expiration`) VALUES
-(1, 2, 'b6029bf2', '', '2024-03-27 00:11:37');
+(1, 2, 'b6029bf2', '', '2024-03-27 00:11:37'),
+(2, 2, 'f7c8eb15', '', '2024-03-28 00:30:46');
 
 -- --------------------------------------------------------
 
@@ -462,7 +464,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`, `phone`, `password`, `address`, `status`, `date`, `chat_id`, `notifications_enabled`) VALUES
-(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-03-26 15:57:24', 5834180878, 1),
+(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-03-27 16:16:04', 5834180878, 1),
 (3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54', 0, 1),
 (4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31', 0, 1),
 (5, 'StephenTan95', 'Tan', 'Stephen ', 'Tan Stephen ', 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 lorong 3 rose garden\r\n93250 kuching Sarawak', 1, '2023-11-26 06:05:31', 0, 1),
@@ -642,7 +644,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_item`
@@ -702,7 +704,7 @@ ALTER TABLE `tblvalidation`
 -- AUTO_INCREMENT for table `tg_verification`
 --
 ALTER TABLE `tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -714,7 +716,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_comments`
 --
 ALTER TABLE `user_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_ratings`

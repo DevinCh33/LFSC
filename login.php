@@ -94,7 +94,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 		<form action="" method="post">
 			<input type="text" placeholder="Username" name="username" />
 			<input type="password" placeholder="Password" name="password"/>
-			<input type="submit" id="buttn" name="submit" value="Login"/>
+            <input type="submit" name="submit" value="Login" />
 		</form>
 	</div>
   

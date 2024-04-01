@@ -23,7 +23,7 @@ if (isset($_POST['bindTelegram'])) {
         mysqli_stmt_execute($stmt);
 
         if (mysqli_stmt_affected_rows($stmt) > 0) {
-            $otpMessage = "Please send the following code to our Telegram bot <a href='https://t.me/lfscbot'>@lfscbot</a>: <strong>$otp</strong>";
+            $otpMessage = "Please send the following code to our Telegram bot <a href='https://t.me/lfscbot' target='_blank'>@lfscbot</a>: <strong>$otp</strong>";
         } else {
             $otpMessage = "An error occurred. Please try again or contact support.";
         }

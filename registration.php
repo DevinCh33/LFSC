@@ -1,212 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-   <meta name="description" content="">
-   <meta name="author" content="">
-   <link rel="icon" href="#">
-   <title>Registration</title>
-   <!-- Bootstrap core CSS -->
-   <link href="css/bootstrap.min.css" rel="stylesheet">
-   <link href="css/font-awesome.min.css" rel="stylesheet">
-   <link href="css/animsition.min.css" rel="stylesheet">
-   <link href="css/animate.css" rel="stylesheet">
-   <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
-   <!-- Custom styles for this template -->
-   <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900" />
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/login.css" /><!-- Use the same CSS for styling -->
+    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png" />
+    <?php
+    // Conditional meta tag for redirection
+    if (isset($_POST['register']) && isset($success) && $success === true) {
+        echo '<meta http-equiv="refresh" content="5;url=login.php">';
+    }
+    ?>
 </head>
 
 <body>
-<?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
 
-if(isset($_POST['submit'] )) // if submit button was pressed
-{
-   if(empty($_POST['username']) || // fetching and find if its empty
-      empty($_POST['firstname']) ||  
-      empty($_POST['lastname']) || 
-      empty($_POST['email']) ||  
-      empty($_POST['phone']) ||
-      empty($_POST['password']) ||
-      empty($_POST['cpassword']))
-   {
-      $message = "All fields must are required to be filled!";
-   }
+    <?php
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
 
-	else
-	{
-		//cheching username & email if already present
-      $check_username = mysqli_query($db, "SELECT username FROM users where username = '".$_POST['username']."' ");
-      $check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
-
-      if($_POST['password'] != $_POST['cpassword']) // matching passwords
-      {  
-         $message = "Passwords do not match!";
-      }
-
-      elseif(strlen($_POST['password']) < 6)  // cal password length
-      {
-         $message = "Passwords must be longer than 6 characters!";
-      }
-
-      elseif(strlen($_POST['phone']) < 10)  // cal phone length
-      {
-         $message = "Invalid phone number!";
-      }
-
-      elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) // validate email address
-      {
-         $message = "Invalid email address, please type a valid email!";
-      }
-
-      elseif(mysqli_num_rows($check_username) > 0)  // check username
-      {
-         $message = 'Username already exists!';
-      }
-
-      elseif(mysqli_num_rows($check_email) > 0) // check email
-      {
-         $message = 'Email already exists!';
-      }
-
-      else
-      {
-	      //inserting values into db
-         $mql = "INSERT INTO users(username,f_name,l_name,fullName,email,phone,password,address) VALUES('".$_POST['username']."','".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['firstname']." ".$_POST['lastname']."','".$_POST['email']."','".$_POST['phone']."','".password_hash($_POST['password'], PASSWORD_BCRYPT)."','".$_POST['address']."')";
-         mysqli_query($db, $mql);
-		
-         $success = "Account created successfully! <p>You will be redirected in <span id='counter'>5</span> second(s).</p>
-                     <script type='text/javascript'>
-                        function countdown() {
-                           var i = document.getElementById('counter');
-                           if (parseInt(i.innerHTML)<=0) {
-                              location.href = 'login.php';
-                           }
-                           i.innerHTML = parseInt(i.innerHTML)-1;
-                        }
-                        setInterval(function(){ countdown(); },1000);
-                     </script>";
-
-		   header("refresh:5;url=login.php"); // redirected once account created
-      }
-	}
-}
-?>
-   <!--header starts-->
-   <header>
-      <link rel="stylesheet" type="text/css" href="landing/style.css">
-      <img src="landing/logo.png" alt="logo">
-
-      <ul>
-         <li <?php echo ($currentPage == 'home') ? 'class="active"' : ''; ?>>
-               <a href="index.php">Little Farmer</a>
-         </li>
-         <li <?php echo ($currentPage == 'market') ? 'class="active"' : ''; ?>>
-               <a href="market.php">Market</a>
-         </li>
-         <li <?php echo ($currentPage == 'merchants') ? 'class="active"' : ''; ?>>
-               <a href="restaurants.php">Merchants</a>
-         </li>
-         <li <?php echo ($currentPage == 'products') ? 'class="active"' : ''; ?>>
-               <a href="dishes.php">Products / Cart</a>
-         </li>
-         <li <?php echo ($currentPage == 'orders') ? 'class="active"' : ''; ?>>
-               <a href="your_orders.php">Orders</a>
-         </li>
-      </ul>
-   </header>
-
-   <div class="page-wrapper">
-      <div class="breadcrumb">
-         <div class="container">
-            <ul>
-               <li><a href="#" class="active">
-                  <span style="color:red;"><?php echo $message; ?></span>
-                  <span style="color:green;">
-                     <?php echo $success; ?>
-                  </span>
-               </a></li>
-            </ul>
-         </div>
-      </div>
-      <section class="contact-page inner-page">
-         <div class="container">
-            <div class="row">
-               <!-- REGISTER -->
-               <div class="col-md-12">
-                  <div class="widget">
-                     <div class="widget-body">
-                        <form action="" method="post">
-                           <div class="row">
-                              <div class="form-group col-sm-12">
-                                 <label for="exampleInputEmail1">User-Name</label>
-                                 <input class="form-control" type="text" name="username" value="<?php if(isset($_POST['username'])) { echo htmlentities ($_POST['username']); }?>" id="example-text-input" placeholder="Username"> 
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">First Name</label>
-                                 <input class="form-control" type="text" name="firstname" value="<?php if(isset($_POST['firstname'])) { echo htmlentities ($_POST['firstname']); }?>" id="example-text-input" placeholder="First Name"> 
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Last Name</label>
-                                 <input class="form-control" type="text" name="lastname" value="<?php if(isset($_POST['lastname'])) { echo htmlentities ($_POST['lastname']); }?>" id="example-text-input-2" placeholder="Last Name"> 
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Email Address</label>
-                                 <input type="text" class="form-control" name="email" value="<?php if(isset($_POST['email'])) { echo htmlentities ($_POST['email']); }?>" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputEmail1">Mobile Number</label>
-                                 <input class="form-control" type="text" name="phone" value="<?php if(isset($_POST['phone'])) { echo htmlentities ($_POST['phone']); }?>" id="example-tel-input-3" placeholder="Mobile Number">  
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputPassword1">Password</label>
-                                 <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
-                              </div>
-                              <div class="form-group col-sm-6">
-                                 <label for="exampleInputPassword1">Repeat Password</label>
-                                 <input type="password" class="form-control" name="cpassword" id="exampleInputPassword2" placeholder="Password"> <small class="form-text text-muted">We'll never ask you for your password elsewhere except here.</small>
-                              </div>
-                              <div class="form-group col-sm-12">
-                                 <label for="exampleTextarea">Delivery Address</label>
-                                 <textarea class="form-control" id="exampleTextarea" placeholder="Delivery Address" name="address" value="<?php if(isset($_POST['address'])) { echo htmlentities ($_POST['address']); }?>" rows="3"></textarea>
-                              </div>
-                           </div>
-                           
-                           <div class="row">
-                              <div class="col-sm-4">
-                                 <p> <input type="submit" value="Register" name="submit" class="btn theme-btn"> </p>
-                              </div>
-                           </div>
-                        </form>
-                     </div>
-                     <!-- end: Widget -->
-                  </div>
-                  <!-- /REGISTER -->
-               </div>
-            </div>
-         </div>
-      </section>
-   <!-- start: FOOTER -->
-   <?php
-   include("includes/footer.php");
-   ?>
-   <!-- end:Footer -->
+    include("connection/connect.php"); 
+    require 'vendor/autoload.php'; 
+    require 'send_verification_email.php'; 
     
-   <!-- Bootstrap core JavaScript
-   ================================================== -->
-   <script src="js/jquery.min.js"></script>
-   <script src="js/tether.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
-   <script src="js/animsition.min.js"></script>
-   <script src="js/bootstrap-slider.min.js"></script>
-   <script src="js/jquery.isotope.min.js"></script>
-   <script src="js/headroom.js"></script>
-   <script src="js/foodpicky.min.js"></script>
-   <script src="js/cart.js"></script>
+    $message = ''; 
+    $success = false; 
+
+    if (isset($_POST['register'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $token = bin2hex(random_bytes(50)); 
+
+        $checkUser = "SELECT * FROM users WHERE username='$username' OR email='$email'";
+        $result = mysqli_query($db, $checkUser);
+        if (mysqli_num_rows($result) > 0) {
+            $message = "Username or Email already exists!";
+        } else {
+            $registerQuery = "INSERT INTO users (username, email, password, email_token, email_verified) VALUES ('$username', '$email', '$password', '$token', 0)";
+
+            if (mysqli_query($db, $registerQuery)) {
+                if (sendVerificationEmail($email, $token)) {
+                    $message = "Registration successful! Please check your email to verify.";
+                    $success = true; 
+                } else {
+                    $message = "Registration successful but failed to send verification email.";
+                }
+            } else {
+                $message = "Error: " . mysqli_error($db);
+            }
+        }
+    }
+    ?>
+
+    <div class="pen-title">
+        <h1>Registration Form</h1>
+    </div>
+
+    <div class="module form-module">
+        <div class="form">
+            <h2>Create an account</h2>
+            <span style="color:red;"><?php echo $message; ?></span>
+            <form action="" method="post">
+                <input type="text" placeholder="Username" name="username" required />
+                <input type="email" placeholder="Email" name="email" required />
+                <input type="password" placeholder="Password" name="password" required />
+                <input type="submit" name="register" value="Register" />
+            </form>
+        </div>
+        <div class="cta">
+            Already registered?<a href="login.php" style="color:#f30;"> Login here</a>
+        </div>
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </body>
 </html>

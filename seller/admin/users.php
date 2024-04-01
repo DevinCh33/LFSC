@@ -26,7 +26,7 @@
 	  
 	  <div class="empMainCon">
 		  <div style="text-align: right; margin-bottom: 10px">
-		  	<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Customer</button>
+		  	<button id="popupButton" onclick="openPopup()" class="save-button">+Add Customer</button>
 		  </div>
 		  
 		   	<div class="controls-container">
@@ -119,38 +119,6 @@
     </form>
 		
 		</div>
-		<div id="showingPurchaseHistory">
-			<div class="customer-info">
-				<h2>Customer Information</h2>
-				<form action="action/infoCustomer.php" method="POST" class="myform" name="myForm" id="myForm">
-					<div style="text-align: center;">
-						<p>Customer ID# <span id="customerID"></span></p>
-						<p>Customer Name# <span id="customerName"></span></p>
-						<p>Total Spent# RM <span id="customerSpent"></span></p>
-
-					</div>
-				</form>
-			</div>
-
-			<div class="purchase-history">
-				<h2>Purchase History</h2>
-				<table class="purchase-table">
-					<thead>
-						<tr>
-							<th>Order Date</th>
-							<th>Product Name</th>
-							<th>Quantity</th>
-							<th>Price</th>
-							<th>Total</th>
-						</tr>
-					</thead>
-					<tbody id="purchaseHistoryBody">
-						<!-- Data will be populated here -->
-					</tbody>
-
-				</table>
-			</div>
-		</div>
     </div>
 </div>
 
@@ -210,7 +178,7 @@ function customerInfo(action, form) {
                 }, 2000);
                 if (action == "add") {
                     closePopup();
-                    openPopup(1);
+                    openPopup();
                     document.getElementById('myForm').reset();
                 }
             },
@@ -256,7 +224,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             //`<td style="color: ${(rowData[6] === '1') ? 'green' : 'red'};">${(rowData[6] === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[5]+'" onclick="viewRec('+i+')"></i></td>';
+			'<td><i class="' + (rowData[6] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[6] == 1 ? 'blk' : 'rec') + i + '" name="' + rowData[5] + '" onclick="editRec(\'' + (rowData[6] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[6] == 1 ? 'red' : 'green') + ';"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -374,62 +342,38 @@ function sortTable(columnIndex) {
     document.getElementById("indicator" + currentColumn).classList.add("desc");
   }
 }
+
 	
-function findRec(windowType, name){
-	
-	$.ajax({
-        url: 'action/fetchUserData.php',
-        type: 'GET',
-        dataType: 'json',
-		data: {search:  name},
-        success: function(response) {
-			
-			var purchaseHistoryBody = document.getElementById("purchaseHistoryBody");
-			purchaseHistoryBody.innerHTML = ""; // Clear existing rows
-
-			response.data.forEach(function(row) {
-				var tr = document.createElement("tr");
-
-				// Assuming row array is [userID, productID, quantity, price, total, fullName]
-				tr.innerHTML = "<td>" + row[0] + "</td>" +
-							   "<td>" + row[1] + "</td>" +
-							   "<td>" + row[2] + "</td>" +
-							   "<td>" + row[3] + "</td>" +
-							   "<td>" + row[4] + "</td>";
-
-				purchaseHistoryBody.appendChild(tr);
-				$("#customerID").text(row[6]);
-				$("#customerName").text(row[5]);
-				$("#customerSpent").text(row[7]);
-
-			});
-
-			openPopup(windowType);
-		},
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
-	
-function viewRec(num){
-	var button = document.getElementById("btnView"+num);
-	var name = button.getAttribute("name");
-	findRec(2, name);
-}
-	
-function openPopup(type) {
+function openPopup() {
     document.getElementById("popupWindow").style.display = "block";
-	if(type == 1){
-		$("#showingPurchaseHistory").hide();
-		$("#addCustomer").show();
-	}
-	else{
-		$("#showingPurchaseHistory").show();
-		$("#addCustomer").hide();
-	}
-	
 }
 
+function editRec(act, num){
+	var custID = document.getElementById("btn"+act+num).getAttribute("name");
+	
+	if (act == 'blk') {
+		var confirmationMessage = "Are you sure you want to ban this users?";
+	} else {
+		var confirmationMessage = "Are you sure you want to recover this users?";
+	}
 
+	if (confirm(confirmationMessage)) {
+		$.ajax({
+			url: "action/changeUserStatus.php",
+			type: "GET",
+			data: {
+				act: act,
+				custID: custID
+			},
+			success: function(response) {
+				alert(response);
+				fetchData();
+			},
+			error: function(xhr, status, error) {
+				console.log("Error occurred: Status: " + status + ", Error: " + error);
+			}
+		});
+	}
+
+}
 </script>

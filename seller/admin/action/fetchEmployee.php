@@ -10,7 +10,7 @@ if($_GET['search'] == ""){
 }
 
 if($_GET['search'] != ""){
-	$sql .= " WHERE empID LIKE '%".$_GET['search']."%' OR icNo LIKE '%".$_GET['search']."%' OR empName LIKE '%".$_GET['search']."%' ";
+	$sql .= " AND empID LIKE '%".$_GET['search']."%' OR icNo LIKE '%".$_GET['search']."%' OR empName LIKE '%".$_GET['search']."%' ";
 }
 
 $sql .= " ORDER BY empstatus";

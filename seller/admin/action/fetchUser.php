@@ -1,7 +1,7 @@
 <?php 	
 require_once 'core.php';
 
-$sql = "SELECT u.username, u.fullName, u.email, u.phone, u.address, u.u_id
+$sql = "SELECT u.username, u.fullName, u.email, u.phone, u.address, u.u_id, u.status
 		FROM users u";
 
 $result = $db->query($sql);
@@ -22,7 +22,8 @@ if($result->num_rows > 0) {
 		$row[2],
 		$row[3],
 		$row[4],
-		$row[5]
+		$row[5],
+		$row[6]
  	); 	
  } // /while 
 

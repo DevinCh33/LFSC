@@ -67,6 +67,35 @@
 	  </div>
 	  
   </section>
+	
+	<div id="popupWindow" class="popup">
+    	<div class="popup-content">
+        <div class="xclose">
+            <span class="close" onclick="closePopup()">&times;</span>
+        </div>
+			<form class="myform" name="myForm" id="myForm">
+				<div id="RejectReason">
+
+					<div class="myform-row">
+						<div id="divalert" class="divalert" name="divalert"></div>
+					</div>
+
+					<div class="myform-row">
+						<div class="label">
+							<label for="username" class="myform-label">Reason</label>
+						</div>
+						<div class="input">
+							<input type="text" id="txtReason" name="txtReason" style="width: 80%; height: 30px;">
+						</div>
+					</div>
+
+					<div style="text-align: center;">
+						<input name="btnReason" type="button" class="button" id="btnReason" value="Reject" style="margin-top: 10px;">
+					</div>
+				</div>
+			</form>
+    </div>
+</div>
   
 </body>
 </html>
@@ -80,7 +109,13 @@ $(document).ready(function() {
 });
 	
 function productInfo(action, btnID){
-	 $.ajax({
+	
+	if(action == 'rej'){
+		alert('Product Rejected');
+		openPopup();
+	}
+	else{
+		$.ajax({
             url: "action/updateInspectionProduct.php",
             type: "GET",
 			data: {proID : btnID, act : action},
@@ -93,6 +128,8 @@ function productInfo(action, btnID){
             }
         });
 }
+	}
+	 
 
 
 // Function to fetch and update data
@@ -195,7 +232,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData.descr + '</td>' +
 			'<td>' + rowData.cat + '</td>' +
 			'<td>' + rowData.status + '</td>' +
-			'<td><i class="fas fa-check-square" id="btnApp'+i+'" name="'+rowData.productID+'" onclick="productInfo(\'app\', '+rowData.productID+')"></i><i class="fas fa-check-square" id="btnRej'+i+'" name="'+rowData.productID+'" onclick="productInfo(\'rej\', '+rowData.productID+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" name="'+rowData.productID+'" onclick="productInfo(\'del\', '+rowData.productID+')"></i></td>';
+			'<td><i class="fa-solid fa-check" id="btnApp'+i+'" name="'+rowData.productID+'" onclick="productInfo(\'app\', '+rowData.productID+')" style="margin-left: 10px;"></i><i class="fa-solid fa-x" id="btnRej'+i+'" name="'+rowData.productID+'" onclick="productInfo(\'rej\', '+rowData.productID+')" style="margin-left: 10px;"></i><i class="icon fa fa-trash"id="btnDel'+i+'" name="'+rowData.productID+'" onclick="productInfo(\'del\', '+rowData.productID+')" style="margin-left: 5px;"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -254,6 +291,10 @@ function nextPage(num) {
 function goToPage(page) {
     currentPage = page;
     fetchData();
+}
+	
+function openPopup(type) {
+	document.getElementById("popupWindow").style.display = "block";    
 }
 
 </script>

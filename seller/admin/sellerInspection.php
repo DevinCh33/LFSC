@@ -109,9 +109,17 @@
 			
 			<div style="text-align: center;">
 				<input type="button" id="appReq" class="button" value="Approve" onClick="updateStatus('app')">	
-				<input type="button" id="rejReq" class="button" value="Reject" onClick="updateStatus('rej')">	
+				<input type="button" id="callRej" class="button" value="Reject" onClick="showRejArea()">	
 			</div>
-					
+			<div id="rejReason">
+				<div style="text-align: center;">
+					<label for="txtReason">Reason: </label>
+					<input type="text" id="txtReason" name="txtReason" style="width: 80%;margin-top: 10px;height: 30px;">
+				</div>
+				<div style="text-align: center;">	
+					<input type="button" id="rejReq" class="button" value="Reject" style="margin-top: 10px;">	
+				</div>
+			</div>
     		</form>
 		</div>
     </div>
@@ -131,6 +139,7 @@
 $(document).ready(function() {
 	$('#divalert').hide();	
 	fetchData();
+	$("#rejReason").hide();
 });
 	
 function updateStatus(action){
@@ -326,6 +335,10 @@ function viewRec(num){
 	
 function openPopup(type) {
 	document.getElementById("popupWindow").style.display = "block";    
+}
+	
+function showRejArea(){
+	$("#rejReason").show();
 }
 
 

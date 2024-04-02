@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2024 at 07:44 PM
--- Server version: 10.4.22-MariaDB
+-- Generation Time: Mar 27, 2024 at 05:43 PM
+-- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -37,7 +37,7 @@ CREATE TABLE `admin` (
   `store` int(11) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `storeStatus` int(3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
@@ -63,7 +63,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `categories`
@@ -85,7 +85,7 @@ CREATE TABLE `custom_prices` (
   `price_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `custom_prices`
@@ -117,7 +117,7 @@ CREATE TABLE `orders` (
   `order_belong` int(15) NOT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_seen` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
@@ -149,7 +149,7 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL DEFAULT 0,
   `priceID` int(10) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `order_item`
@@ -179,7 +179,7 @@ CREATE TABLE `product` (
   `product_date` text NOT NULL,
   `lowStock` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `product`
@@ -210,7 +210,7 @@ CREATE TABLE `remark` (
   `status` varchar(255) NOT NULL,
   `remark` mediumtext NOT NULL,
   `remarkDate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `remark`
@@ -276,7 +276,7 @@ CREATE TABLE `restaurant` (
   `rating` int(11) DEFAULT NULL CHECK (`rating` >= 1 and `rating` <= 5),
   `avg_rating` decimal(3,1) DEFAULT 0.0,
   `comment` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `restaurant`
@@ -300,7 +300,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `res_category`
@@ -322,7 +322,7 @@ INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
 CREATE TABLE `stars` (
   `id` int(11) NOT NULL,
   `rateIndex` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -341,7 +341,7 @@ CREATE TABLE `tblemployee` (
   `empjob` int(10) NOT NULL,
   `empstore` int(10) NOT NULL,
   `empstatus` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblemployee`
@@ -379,7 +379,7 @@ CREATE TABLE `tblprice` (
   `proWeight` int(20) NOT NULL,
   `proPrice` float NOT NULL,
   `proDisc` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblprice`
@@ -413,7 +413,7 @@ CREATE TABLE `tblvalidation` (
   `faceImg` varchar(50) NOT NULL,
   `imgStatus` int(10) NOT NULL,
   `sellerID` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -427,7 +427,7 @@ CREATE TABLE `tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tg_verification`
@@ -456,21 +456,19 @@ CREATE TABLE `users` (
   `status` int(222) NOT NULL DEFAULT 1,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `chat_id` bigint(20) NOT NULL,
-  `notifications_enabled` tinyint(1) NOT NULL DEFAULT 1,
-  `email_token` varchar(255) NOT NULL DEFAULT '',
-  `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `notifications_enabled` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`, `phone`, `password`, `address`, `status`, `date`, `chat_id`, `notifications_enabled`, `email_token`, `email_verified`) VALUES
-(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-03-27 16:16:04', 5834180878, 1, '', 0),
-(3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54', 0, 1, '', 0),
-(4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31', 0, 1, '', 0),
-(5, 'StephenTan95', 'Tan', 'Stephen ', 'Tan Stephen ', 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 lorong 3 rose garden\r\n93250 kuching Sarawak', 1, '2023-11-26 06:05:31', 0, 1, '', 0),
-(6, 'John Doe', 'John', 'Doe', 'John Doe', 'jdoe@gmail.com', '0134569780', '$2y$10$hZ3zlibC0LRIEmM62txjWe15HLPzJniYYrTpyc0GH/py4ObjuNtx2', '123 jeline street', 1, '2023-12-01 01:44:03', 0, 1, '', 0);
+INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `email`, `phone`, `password`, `address`, `status`, `date`, `chat_id`, `notifications_enabled`) VALUES
+(2, 'cust1', 'cust', 'one', 'cust one', 'qweq@gmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-03-27 16:16:04', 5834180878, 1),
+(3, 'cust2', 'cust', 'two', 'cust two', 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54', 0, 1),
+(4, 'cust3', 'cust', 'three', 'cust three', 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31', 0, 1),
+(5, 'StephenTan95', 'Tan', 'Stephen ', 'Tan Stephen ', 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 lorong 3 rose garden\r\n93250 kuching Sarawak', 1, '2023-11-26 06:05:31', 0, 1),
+(6, 'John Doe', 'John', 'Doe', 'John Doe', 'jdoe@gmail.com', '0134569780', '$2y$10$hZ3zlibC0LRIEmM62txjWe15HLPzJniYYrTpyc0GH/py4ObjuNtx2', '123 jeline street', 1, '2023-12-01 01:44:03', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -484,7 +482,7 @@ CREATE TABLE `user_comments` (
   `res_id` int(11) DEFAULT NULL,
   `comment` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_comments`
@@ -504,7 +502,7 @@ CREATE TABLE `user_ratings` (
   `user_id` int(11) DEFAULT NULL,
   `res_id` int(11) DEFAULT NULL,
   `rating` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_ratings`
@@ -712,7 +710,7 @@ ALTER TABLE `tg_verification`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_comments`

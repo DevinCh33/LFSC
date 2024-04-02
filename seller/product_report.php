@@ -54,6 +54,7 @@
         <i class='bx bx-menu' ></i>
         <span class="text">Reports</span>
         </div>
+
         <h1 style = "text-align:center;">Product Report</h1>
         <?php
         // Include necessary PHP code to establish database connection
@@ -122,37 +123,64 @@
         mysqli_close($db);
         ?>
 
-        <script>
-            var data = <?php echo json_encode($data_orders); ?>;
-            
-            // Extract labels (order months) and quantity data
-            var labels = data.map(item => item.order_month);
-            var quantityData = data.map(item => item.total_quantity);
+<script>
+    const data = <?php echo json_encode($data_orders); ?>;
+    
+    // Extract labels (order months) and quantity data
+    const labels = data.map(item => item.order_month);
+    const quantityData = data.map(item => item.total_quantity);
 
-            var ctx = document.getElementById('ordersChart').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'line', // Change type to line
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Quantity of Orders',
-                        data: quantityData,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
+    const ctx = document.getElementById('ordersChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'line', // Change type to line
+        data: {
+            labels,
+            datasets: [{
+                label: 'Quantity of Orders',
+                data: quantityData,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+            x: {
+                display: true,
+                title: {
+                display: true,
+                text: 'Month',
+                color: 'black',
+                font: {
+                    family: 'Comic Sans MS',
+                    size: 20,
+                    weight: 'bold',
+                    lineHeight: 1.2,
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
+                padding: {top: 20, left: 0, right: 0, bottom: 0}
                 }
-            });
-        </script>
+            },
+            y: {
+                display: true,
+                title: {
+                display: true,
+                text: 'Quantity',
+                color: 'black',
+                font: {
+                    family: 'Comic Sans MS',
+                    size: 20,
+                    weight: 'bold',
+                    lineHeight: 1.2,
+                },
+                padding: {top: 30, left: 0, right: 0, bottom: 50}
+                }
+            }
+            }
+        }
+    });
+</script>
+
         </div>
 
 

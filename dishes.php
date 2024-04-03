@@ -75,7 +75,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
                                 <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
-                                <ul class="nav nav-inline">
+                              <!--  <ul class="nav nav-inline">
                                     <li class="nav-item ratings">
                                         <a class="nav-link" href="#"> <span>
                                         <i class="fa fa-star"></i>
@@ -86,7 +86,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <p>245 Review</p>
                                         </span> </a>
                                     </li>
-                                </ul>
+                                </ul> -->
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         <!-- end:Logo -->
-                                
+                                <!--
                                         <ul class="nav nav-inline">
                                             <li class="nav-item ratings">
                                                 <a class="nav-link" href="#">
@@ -169,7 +169,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                                 Average Rating: <span class="avg-rating">0</span>
                                             </li>
                                         </ul>
-
+                                    -->
                                         <!-- end:col -->
                                         <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
                                             <h6><?php echo $item['product_name']." (". $item['proWeight']."g)"; ?></h6>
@@ -237,7 +237,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         <!-- end:Logo -->
-                                
+                                <!--
                                         <ul class="nav nav-inline">
                                             <li class="nav-item ratings">
                                                 <a class="nav-link" href="#">
@@ -254,7 +254,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                                 Average Rating: <span class="avg-rating">0</span>
                                             </li>
                                         </ul>
-
+                                    -->        
                                         <!-- end:col -->
                                         <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
                                             <h6><?php echo $item[0]['product_name']." (";?><span><?php echo $item[0]['proWeight'];?></span><?php echo "g)";?></h6>
@@ -316,20 +316,25 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <div class="clearfix"></div>
                         </div>
                         <div class="order-row bg-white">
-                            <div class="widget-body">   
-                                <form id="commentForm" method="post">
-                                    <!-- Inside the comment form -->
-<input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-<input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
+    <div class="widget-body">   
+        <form id="commentForm" method="post">
+            <!-- Inside the comment form -->
+            <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+            <input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
 
-                                    <div class="form-group">
-                                        <label for="comment">Leave a comment:</label>
-                                        <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn theme-btn btn-lg">Submit</button>
-                                </form>
-                            </div>
-                        </div>
+            <div class="form-group">
+                <label for="comment">Leave a comment:</label>
+                <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
+            </div>
+            <button type="submit" class="btn theme-btn btn-lg">Submit</button>
+
+
+            <a class="btn btn-secondary btn-lg" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
+
+        </form>
+    </div>
+</div>
+
                         <!-- end:Order row -->
                             
                         <div class="widget-body">

@@ -43,6 +43,76 @@
             height: 80%;
             margin: 5% auto 30% auto;
         }
+
+        /* The Modal (background) */
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0} 
+        to {top:0; opacity:1}
+        }
+
+        @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+        }
+
+        /* The Close Button */
+        .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+        }
+
+        .modal-body {padding: 30px;}
+
+        .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+        }
     </style>
 </head>
 <body>
@@ -54,9 +124,13 @@
         <i class='bx bx-menu' ></i>
         <span class="text">Reports</span>
         </div>
-
         <h1 style = "text-align:center;">Product Report</h1>
-        <?php
+        <div class="chart-container">
+    <h1>Sales Analysis</h1>
+    <canvas id="ordersChart" width="400" height="200"></canvas>
+    <div>
+
+    <?php
         // Include necessary PHP code to establish database connection
         include 'connect.php';
 
@@ -75,111 +149,123 @@
             $data_orders[] = $row_orders;
         }
 
-        // Perform the SQL query to get the top 5 best-selling products
-        $sql_best_sellers = "SELECT p.product_name, SUM(oi.quantity) AS total_quantity_sold
+        // Perform the SQL query to get the total sales over time
+        $sql_total_sales = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month, SUM(p.proPrice * oi.quantity) AS total_sales
                             FROM order_item oi
-                            INNER JOIN tblprice t ON oi.priceID = t.priceNo
-                            INNER JOIN product p ON t.productID = p.product_id
-                            GROUP BY p.product_name
-                            ORDER BY total_quantity_sold DESC
-                            LIMIT 5";
+                            INNER JOIN tblprice p ON oi.priceID = p.priceNo
+                            INNER JOIN product pr ON p.productID = pr.product_id
+                            INNER JOIN orders o ON oi.order_id = o.order_id
+                            GROUP BY DATE_FORMAT(order_date, '%Y-%m') 
+                            ORDER BY order_date";
 
-        $result_best_sellers = mysqli_query($db, $sql_best_sellers);
+        $result_total_sales = mysqli_query($db, $sql_total_sales);
 
-        // Display the chart container
-        echo '<div class="chart-container">';
-        echo '<h1>Quantity of Orders Over Time</h1>';
-        echo '<canvas id="ordersChart" width="400" height="200"></canvas>';
-        // Initialize variables to store best seller information
-        $bestSellerMonth = "";
-        $maxQuantity = 0;
-
-        // Loop through the data to find the best seller
-        foreach ($data as $item) {
-            if ($item['total_quantity'] > $maxQuantity) {
-                $maxQuantity = $item['total_quantity'];
-                $bestSellerMonth = $item['order_month'];
-            }
+        // Fetch total sales data into an array
+        $data_total_sales = array();
+        while ($row_sales = mysqli_fetch_assoc($result_total_sales)) {
+            $data_total_sales[] = $row_sales;
         }
-
-        // Display message about the best seller
-        if ($bestSellerMonth != "") {
-            echo "<p><strong>The graph represents the quantity of orders over time,</strong> indicating the number of orders made each month. After analyzing the data, <strong>we identified the best-selling month as $bestSellerMonth,</strong> with a remarkable total quantity of <strong>$maxQuantity orders.</strong> This peak in sales highlights a period of high demand, demonstrating the popularity of our products during that time.</p>";
-        } else {
-            echo "<p><strong>The graph represents the quantity of orders over time,</strong> indicating the number of orders made each month. Unfortunately, <strong>we couldn't determine the best-selling month</strong> as there is no data available to provide insights into the most successful period. It's essential to continuously monitor and analyze sales trends to identify patterns and optimize our business strategies.</p>";
-        }
-
-        // Display the top 5 best-selling products
-        echo '<h2>Top 5 Best-Selling Products</h2>';
-        echo '<ol>';
-        while ($row_best_seller = mysqli_fetch_assoc($result_best_sellers)) {
-            $product_name = $row_best_seller['product_name'];
-            $total_quantity_sold = $row_best_seller['total_quantity_sold'];
-            echo "<li>$product_name - Total Quantity Sold: $total_quantity_sold</li>";
-        }
-        echo '</ol>';
 
         // Close the database connection
         mysqli_close($db);
-        ?>
+        // Explanation message to be displayed
+        $explanation_message = "This chart represents the sales analysis over time. It shows the quantity of orders made each month, as well as the total sales generated.";
 
-<script>
-    const data = <?php echo json_encode($data_orders); ?>;
-    
-    // Extract labels (order months) and quantity data
-    const labels = data.map(item => item.order_month);
-    const quantityData = data.map(item => item.total_quantity);
+        // Print the explanation message within a <p> tag
+        echo "<p>$explanation_message</p>";
+    ?>
 
-    const ctx = document.getElementById('ordersChart').getContext('2d');
-    const chart = new Chart(ctx, {
-        type: 'line', // Change type to line
-        data: {
-            labels,
-            datasets: [{
-                label: 'Quantity of Orders',
-                data: quantityData,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-            x: {
-                display: true,
-                title: {
-                display: true,
-                text: 'Month',
-                color: 'black',
-                font: {
-                    family: 'Comic Sans MS',
-                    size: 20,
-                    weight: 'bold',
-                    lineHeight: 1.2,
-                },
-                padding: {top: 20, left: 0, right: 0, bottom: 0}
-                }
+    <script>
+        var dataOrders = <?php echo json_encode($data_orders); ?>;
+        var dataTotalSales = <?php echo json_encode($data_total_sales); ?>;
+
+        // Extract labels (order months), quantity data, and total sales data
+        var labels = dataOrders.map(item => item.order_month);
+        var quantityData = dataOrders.map(item => item.total_quantity);
+        var totalSalesData = dataTotalSales.map(item => item.total_sales);
+
+        var ctx = document.getElementById('ordersChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Quantity of Orders',
+                    data: quantityData,
+                    yAxisID: 'y', // Associate with the 'y' axis (left)
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Total Sales',
+                    data: totalSalesData,
+                    yAxisID: 'y1', // Associate with the 'y1' axis (right)
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
             },
-            y: {
-                display: true,
-                title: {
-                display: true,
-                text: 'Quantity',
-                color: 'black',
-                font: {
-                    family: 'Comic Sans MS',
-                    size: 20,
-                    weight: 'bold',
-                    lineHeight: 1.2,
-                },
-                padding: {top: 30, left: 0, right: 0, bottom: 50}
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Month',
+                            color: 'black',
+                            font: {
+                                family: 'Comic Sans MS',
+                                size: 20,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {top: 20, left: 0, right: 0, bottom: 0}
+                        }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Quantity',
+                            color: 'black',
+                            font: {
+                                family: 'Comic Sans MS',
+                                size: 20,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {top: 30, left: 0, right: 0, bottom: 50}
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Total Sales',
+                            color: 'black',
+                            font: {
+                                family: 'Comic Sans MS',
+                                size: 20,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: {top: 30, left: 0, right: 0, bottom: 50}
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        }
+                    }
                 }
             }
-            }
-        }
-    });
-</script>
+        });
+
+    </script>
+
 
         </div>
 
@@ -213,7 +299,6 @@
                 // Calculate market share for each product and generate explanation
                 $graphExplanation = "<p><strong>Market Share Pie Chart Explanation:</strong></p>";
                 $graphExplanation .= "<p>The Market Share Pie Chart illustrates the distribution of sales among different products based on the data obtained.</p>";
-                $graphExplanation .= "<p>Here is the breakdown:</p>";
 
                 foreach ($data as &$product) {
                     // Calculate market share percentage for each product
@@ -222,13 +307,9 @@
                     $totalSalesAmount = $product['total_sales'];
                     $marketSharePercentage = round($product['market_share'], 2);
 
-                    // Add product-specific information to the explanation
-                    $graphExplanation .= "<p><strong>$productName:</strong> Total Sales: $totalSalesAmount, Market Share: $marketSharePercentage%</p>";
                 }
 
-                // Add overall insights
-                $graphExplanation .= "<p>This visualization helps in understanding the relative market share of each product in the sales landscape. Products with higher percentages indicate a larger share of total sales.</p>";
-
+              
                 // Close the database connection
                 mysqli_close($db);
 
@@ -394,117 +475,144 @@
         <div class="chart-container" style="margin-top: 10%;">
         <h1>Sales Report</h1>
         <?php
+// Start the session
+session_start();
+
 // Include necessary PHP code to establish database connection
 include 'connect.php';
 
-// Default values
-$search_value = "";
-$search_type = "username";
-$username_title = "Sales Report";
+// Default values for date range
+$start_date = "";
+$end_date = "";
+
+// Check if session variables for date range are set
+if(isset($_SESSION["start_date"]) || isset($_SESSION["end_date"])) {
+    // Use session values if available
+    $start_date = $_SESSION["start_date"];
+    $end_date = $_SESSION["end_date"];
+}
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the search value and type from the form
-    $search_value = $_POST["search_value"];
-    $search_type = $_POST["search_type"];
+    // Get the start date and end date from the form
+    $start_date = $_POST["start_date"];
+    $end_date = $_POST["end_date"];
 
-    // Perform the SQL query based on search type
-    if ($search_type == "username") {
-        $sql = "SELECT oi.order_item_id, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
-                    (tp.proPrice * oi.quantity) AS amount
-                FROM order_item oi
-                INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
-                INNER JOIN product p ON tp.productID = p.product_id
-                INNER JOIN orders o ON oi.order_id = o.order_id
-                INNER JOIN users u ON o.user_id = u.u_id
-                WHERE u.username LIKE '%$search_value%'";
-        $username_title = "Sales Report of $search_value";
-    } else {
-        $sql = "SELECT oi.order_item_id, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
-                    (tp.proPrice * oi.quantity) AS amount
-                FROM order_item oi
-                INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
-                INNER JOIN product p ON tp.productID = p.product_id
-                INNER JOIN orders o ON oi.order_id = o.order_id
-                INNER JOIN users u ON o.user_id = u.u_id
-                WHERE u.u_id = '$search_value'";
-        $username_title = "Sales Report of User ID: $search_value";
-    }
-    
-    // Execute the query
-    $result = mysqli_query($db, $sql);
-} else {
-    // If form is not submitted, default to showing sales report for the top user with the highest spending amount
-    $sql = "SELECT oi.order_item_id, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
-                (tp.proPrice * oi.quantity) AS amount
+    // Store the search parameters in session variables
+    $_SESSION["start_date"] = $start_date;
+    $_SESSION["end_date"] = $end_date;
+
+    // Perform the SQL query based on date range
+    if (!empty($start_date) && !empty($end_date)) {
+        // Both start date and end date are selected
+        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
             FROM order_item oi
             INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
             INNER JOIN product p ON tp.productID = p.product_id
             INNER JOIN orders o ON oi.order_id = o.order_id
             INNER JOIN users u ON o.user_id = u.u_id
-            ORDER BY amount DESC
-            LIMIT 1";
+            LEFT JOIN restaurant r ON p.owner = r.rs_id
+            LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+            WHERE o.order_date BETWEEN '$start_date' AND '$end_date'
+            ORDER BY item_no ASC";
+    } elseif (!empty($start_date)) {
+        // Only start date is selected
+        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+            FROM order_item oi
+            INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+            INNER JOIN product p ON tp.productID = p.product_id
+            INNER JOIN orders o ON oi.order_id = o.order_id
+            INNER JOIN users u ON o.user_id = u.u_id
+            LEFT JOIN restaurant r ON p.owner = r.rs_id
+            LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+            WHERE o.order_date >= '$start_date'
+            ORDER BY item_no ASC";
+    } elseif (!empty($end_date)) {
+        // Only end date is selected
+        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+            FROM order_item oi
+            INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+            INNER JOIN product p ON tp.productID = p.product_id
+            INNER JOIN orders o ON oi.order_id = o.order_id
+            INNER JOIN users u ON o.user_id = u.u_id
+            LEFT JOIN restaurant r ON p.owner = r.rs_id
+            LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+            WHERE o.order_date <= '$end_date'
+            ORDER BY item_no ASC";
+    } else {
+        // Neither start date nor end date is selected
+        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+            FROM order_item oi
+            INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+            INNER JOIN product p ON tp.productID = p.product_id
+            INNER JOIN orders o ON oi.order_id = o.order_id
+            INNER JOIN users u ON o.user_id = u.u_id
+            LEFT JOIN restaurant r ON p.owner = r.rs_id
+            LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+            ORDER BY item_no ASC";
+    }
 
     // Execute the query
     $result = mysqli_query($db, $sql);
-
-    // Check if the search value is empty
-    if(empty($_POST['search_value'])) {
-        $search_value = ""; // Set search value to empty
-    }
 }
 
 // Initialize total sales amount
 $total_sales = 0;
 
 // Check if there are any results
-if (mysqli_num_rows($result) > 0) {
+if (isset($result) && mysqli_num_rows($result) > 0) {
     echo "<div class='chart-container' style='margin-top: 10%;'>";
-    echo "<h2>$username_title</h2>";
     echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
-    echo "<label for='search_value'>Search:</label>";
-    echo "<input type='text' name='search_value' id='search_value' value='$search_value'>";
-    echo "<select name='search_type' id='search_type'>";
-    echo "<option value='username' " . ($search_type == 'username' ? 'selected' : '') . ">Username</option>";
-    echo "<option value='u_id' " . ($search_type == 'u_id' ? 'selected' : '') . ">User ID</option>";
-    echo "</select>";
-    echo "<input type='submit' value='Search'>";
+    echo "<label for='start_date'>Start Date:</label>";
+    echo "<input type='date' name='start_date' id='start_date' value='$start_date'>";
+    echo "<label for='end_date'>End Date:</label>";
+    echo "<input type='date' name='end_date' id='end_date' value='$end_date'>";
+    echo "<input type='submit' value='Search' name='search_sales'>";
     echo "</form>";
     echo "<table border='1'>";
-    echo "<tr><th>ITEM NO</th><th>PRODUCT NAME/WEIGHT</th><th>ITEM DESCRIPTION</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th></tr>";
+    echo "<tr><th>ITEM NO</th><th>ITEM NAME</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>DATE</th><th>DETAILS</th></tr>";
+
+    // Initialize item number counter
+    $item_no = 1;
 
     // Fetch and display each row of the result
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
-        echo "<td>" . $row['order_item_id'] . "</td>";
+        echo "<td>" . $item_no . "</td>";
         echo "<td>" . $row['product_name'] . "</td>";
-        echo "<td>" . $row['item_description'] . "</td>";
         echo "<td>" . number_format($row['price'], 2) . "</td>";
         echo "<td>" . $row['quantity'] . "</td>";
         echo "<td>" . number_format($row['amount'], 2) . "</td>";
+        echo "<td>" . $row['order_date'] . "</td>";
+        echo "<td><button onclick='showDetails(\"" . $row['username'] . "\", \"" . $row['product_name'] . "\", \"" . $row['item_description'] . "\", \"" . $row['product_image'] . "\", \"" . $row['order_date'] . "\", \"" . $row['owner'] . "\", \"" . $row['comment'] . "\", " . $row['price'] . ")'>Details</button></td>";
 
         // Add amount to total sales
         $total_sales += $row['amount'];
+
+        // Increment item number
+        $item_no++;
 
         echo "</tr>";
     }
 
     // Add total sales row
-    echo "<tr><td colspan='5' align='right'><strong>Total Sales:</strong></td><td>" . number_format($total_sales, 2) . "</td></tr>";
+    echo "<tr><td colspan='6' align='right'><strong>Total Sales:</strong></td><td colspan='2'>" . number_format($total_sales, 2) . "</td></tr>";
 
     echo "</table>";
     echo "</div>";
 } else {
     echo "<div class='chart-container' style='margin-top: 10%;'>";
-    echo "<h2>$username_title</h2>";
+    echo "<h2>Sales Report</h2>";
     echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
-    echo "<label for='search_value'>Search:</label>";
-    echo "<input type='text' name='search_value' id='search_value' value='$search_value'>";
-    echo "<select name='search_type' id='search_type'>";
-    echo "<option value='username' " . ($search_type == 'username' ? 'selected' : '') . ">Username</option>";
-    echo "<option value='u_id' " . ($search_type == 'u_id' ? 'selected' : '') . ">User ID</option>";
-    echo "</select>";
-    echo "<input type='submit' value='Search'>";
+    echo "<label for='start_date'>Start Date:</label>";
+    echo "<input type='date' name='start_date' id='start_date' value='$start_date'>";
+    echo "<label for='end_date'>End Date:</label>";
+    echo "<input type='date' name='end_date' id='end_date' value='$end_date'>";
+    echo "<input type='submit' value='Search' name='search_sales'>";
     echo "</form>";
     echo "No sales data available.";
     echo "</div>";
@@ -514,92 +622,131 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($db);
 ?>
 
+<script>
+    function showDetails(username, productName, description, image, date, owner, comment, price) {
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the modal content
+        var modalContent = document.getElementById("modal-content");
+
+        // Set the details in the modal
+        modalContent.innerHTML = `
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Details</h2>
+            </div>
+            <div class="modal-body">
+                <p><strong>User Name:</strong> ${username}</p>
+                <p><strong>Product Name:</strong> ${productName}</p>
+                <p><strong>Description:</strong> ${description}</p>
+                <p><strong>Date:</strong> ${date}</p>
+                <p><strong>Owner:</strong> ${owner}</p>
+                <p><strong>Comment:</strong> ${comment}</p>
+                <p><strong>Price:</strong> RM ${price.toFixed(2)}</p>
+                <img src="${image}" alt="Product Image" style="max-width: 200px; max-height: 200px;">
+            </div>
+        `;
+
+        // Display the modal
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Hide the modal
+        modal.style.display = "none";
+    }
+</script>
+
+<!-- The Modal -->
+<div id="myModal" class="modal" >
+    <!-- Modal content -->
+    <div class="modal-content" id="modal-content" ></div>
+</div>
+
 
         <div class="chart-container" style="margin-top: 10%;">
 
             <!-- Data Analytics Report Summary -->
         <h1>Product Review Table</h1>
-        
-<!-- Display form to input rs_id -->
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <label for="rs_id">Restaurant ID:</label>
-    <input type="text" id="rs_id" name="rs_id">
-    <input type="submit" value="Submit">
-</form>
-
+        <!-- Display form to input restaurant name -->
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <label for="restaurant_name">Restaurant Name:</label>
+            <input type="text" id="restaurant_name" name="restaurant_name" value="<?php echo $restaurant_name; ?>">
+            <input type="submit" value="Submit" name="search_products">
+        </form>
+                
         <?php
-// Include the connection file
-include 'connect.php';
+            session_start(); // Start the session
 
-// Check if rs_id is provided in the form submission
-if (isset($_POST['rs_id'])) {
-    // Get the rs_id from the form
-    $rs_id = $_POST['rs_id'];
+            // Include the connection file
+            include 'connect.php';
 
-    
-    
-    // SQL query to retrieve product report data for the provided rs_id
-    $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
-            FROM product p
-            JOIN categories c ON p.categories_id = c.categories_id
-            JOIN tblprice tp ON p.product_id = tp.productID
-            LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
-            LEFT JOIN restaurant r ON p.owner = r.rs_id
-            WHERE r.rs_id = $rs_id";
-} else {
-    // No rs_id provided, retrieve the top restaurant
-    $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
-            FROM product p
-            JOIN categories c ON p.categories_id = c.categories_id
-            JOIN tblprice tp ON p.product_id = tp.productID
-            LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
-            LEFT JOIN restaurant r ON p.owner = r.rs_id
-            ORDER BY r.rs_id ASC
-            LIMIT 1";
-}
+            // Check if the form is submitted for searching products
+            if (isset($_POST['search_products'])) {
+                // Get the restaurant name from the form
+                $restaurant_name = $_POST['restaurant_name'];
+                
+                // Store the search parameter in a session variable
+                $_SESSION['restaurant_name'] = $restaurant_name;
+            } elseif (!isset($_SESSION['restaurant_name'])) {
+                // Set a default restaurant name if session variable is not set
+                $_SESSION['restaurant_name'] = "";
+            }
 
-// Execute the query
-$result = $db->query($sql);
+            // Retrieve the restaurant name from the session
+            $restaurant_name = $_SESSION['restaurant_name'];
 
-// Initialize counter
-$counter = 1;
+            // SQL query to retrieve product report data for the provided restaurant name
+            $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
+                    FROM product p
+                    JOIN categories c ON p.categories_id = c.categories_id
+                    JOIN tblprice tp ON p.product_id = tp.productID
+                    LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
+                    LEFT JOIN restaurant r ON p.owner = r.rs_id
+                    WHERE r.title LIKE '%$restaurant_name%'";
 
-// Check if there are results
-if ($result->num_rows > 0) {
-    // Output table headers
-    echo "<table>";
-    echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME/WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
-    
-    // Output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $counter . "</td>";
-        echo "<td>" . $row["Restaurant Title"] . "</td>";
-        echo "<td>" . $row["Product Name and Weight"] . "</td>";
-        echo "<td>" . $row["Description"] . "</td>";
-        echo "<td>" . $row["Category"] . "</td>";
-        echo "<td>" . $row["Product Date"] . "</td>";
-        echo "<td>" . $row["Price (RM)"] . "</td>";
-        echo "<td>" . $row["Ordered Quantity"] . "</td>";
-        echo "</tr>";
-        
-        // Increment counter
-        $counter++;
-    }
-    echo "</table>"; // Close the table
-} else {
-    // No results found
-    echo "0 results";
-}
+            // Execute the query
+            $result = $db->query($sql);
 
-// Close connection
-$db->close(); // Use $db instead of $conn to close connection
-?>
+            // Initialize counter
+            $counter = 1;
 
+            // Check if there are results
+            if ($result->num_rows > 0) {
+                // Output table headers
+                echo "<table>";
+                echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
+                
+                // Output data of each row
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $counter . "</td>";
+                    echo "<td>" . $row["Restaurant Title"] . "</td>";
+                    echo "<td>" . $row["Product Name and Weight"] . "</td>";
+                    echo "<td>" . $row["Description"] . "</td>";
+                    echo "<td>" . $row["Category"] . "</td>";
+                    echo "<td>" . $row["Product Date"] . "</td>";
+                    echo "<td>" . $row["Price (RM)"] . "</td>";
+                    echo "<td>" . $row["Ordered Quantity"] . "</td>";
+                    echo "</tr>";
+                    
+                    // Increment counter
+                    $counter++;
+                }
+                echo "</table>"; // Close the table
+            } else {
+                // No results found
+                echo "0 results";
+            }
 
-    
+            // Close connection
+            $db->close();
+        ?>
 
     </section>
 </body>
 </html>
-

@@ -121,11 +121,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         }
                     
                                         else if ($r['proDisc'] == 0) {
-                                        echo '            <span class="price">RM ' . $r['proPrice'] . '</span>';
+                                        echo '            <span class="price">RM ' . number_format($r['proPrice'], 2) . '</span>';
                                         }
                                         
                                         else {
-                                        echo '            <a style="text-decoration: line-through; color: red;">RM ' . $r['proPrice'] . '</a>
+                                        echo '            <a style="text-decoration: line-through; color: red;">RM ' . number_format($r['proPrice'], 2) . '</a>
                                                           <a style="color: orange;">'. $r['proDisc'] .'% off</a>
                                                           <span class="price">RM ' . number_format($r['proPrice']*(1-$r['proDisc']/100), 2) . '</span>';
                                         }

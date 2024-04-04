@@ -100,9 +100,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
 
+<!-- Section for viewing comments start -->
+
         <h1>All Comments</h1>
 
-        <?php
+<?php
 // Include the database connection
 include("connection/connect.php");
 
@@ -119,70 +121,80 @@ if (isset($_GET['res_id'])) {
     // Define the number of comments per page
     $commentsPerPage = isset($_GET['per_page']) ? $_GET['per_page'] : 5;
 
+    // Query to fetch comments for the specified seller sorted by date with pagination
+    $query = "SELECT * FROM user_comments WHERE res_id = $res_id ORDER BY created_at $sortOrder";
+    $result = mysqli_query($db, $query);
+
+    // Fetch all comments
+    $allComments = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    // Calculate total comments and pages
+    $totalComments = count($allComments);
+    $totalPages = ceil($totalComments / $commentsPerPage);
+
     // Calculate the offset to fetch comments for the current page
     $offset = ($currentPage - 1) * $commentsPerPage;
 
-    // Query to fetch comments for the specified seller sorted by date with pagination
-    $query = "SELECT * FROM user_comments WHERE res_id = $res_id ORDER BY created_at $sortOrder LIMIT $offset, $commentsPerPage";
-    $result = mysqli_query($db, $query);
+    // Fetch comments for the current page
+    $commentsForPage = array_slice($allComments, $offset, $commentsPerPage);
+/*
+    // Display the dropdown menu for selecting the number of comments per page
+    echo '<label for="sort">Comments per page:</label>';
+    echo '<select id="commentsPerPage" onchange="changeCommentsPerPage()">';
+    echo '<option value="5" ' . ($commentsPerPage == 5 ? 'selected' : '') . '>5 per page</option>';
+    echo '<option value="10" ' . ($commentsPerPage == 10 ? 'selected' : '') . '>10 per page</option>';
+    echo '<option value="15" ' . ($commentsPerPage == 15 ? 'selected' : '') . '>15 per page</option>';
+    echo '<option value="20" ' . ($commentsPerPage == 20 ? 'selected' : '') . '>20 per page</option>';
+    echo '</select>';
+*/
+    // Display the sorting options
+    echo '<div class="sorting-options">';
+    echo '<form action="" method="GET">';
+    echo '<label for="sort">Sort By:</label>';
+    echo '<select id="sort" name="sort" onchange="this.form.submit()">';
+    echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';
+    echo '<option value="asc" ' . ($sortOrder == 'asc' ? 'selected' : '') . '>Oldest First</option>';
+    echo '</select>';
+    echo '</form>';
+    echo '</div>';
 
-    // Count the total number of comments for pagination
-    $totalCommentsQuery = "SELECT COUNT(id) AS total_comments FROM user_comments WHERE res_id = $res_id";
-    $totalCommentsResult = mysqli_query($db, $totalCommentsQuery);
-    $totalCommentsRow = mysqli_fetch_assoc($totalCommentsResult);
-    $totalComments = $totalCommentsRow['total_comments'];
-
-    // Check if there are comments for the seller
-    if (mysqli_num_rows($result) > 0) {
-        // Display the dropdown menu for selecting the number of comments per page
-        echo '<select id="commentsPerPage" onchange="changeCommentsPerPage()">';
-        echo '<option value="5" ' . ($commentsPerPage == 5 ? 'selected' : '') . '>5 per page</option>';
-        echo '<option value="10" ' . ($commentsPerPage == 10 ? 'selected' : '') . '>10 per page</option>';
-        echo '<option value="15" ' . ($commentsPerPage == 15 ? 'selected' : '') . '>15 per page</option>';
-        echo '<option value="20" ' . ($commentsPerPage == 20 ? 'selected' : '') . '>20 per page</option>';
-        echo '</select>';
-
-        // Display comments as a table
-        echo '<div class="table-responsive">';
-        echo '<table class="table table-bordered">';
-        echo '<thead>';
+    // Display comments as a table
+    echo '<div class="table-responsive">';
+    echo '<table class="table table-bordered">';
+    echo '<thead>';
+    echo '<tr>';
+    echo '<th>User ID</th>';
+    echo '<th>Restaurant ID</th>';
+    echo '<th>Posted on</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody>';
+    foreach ($commentsForPage as $row) {
         echo '<tr>';
-        echo '<th>User ID</th>';
-        echo '<th>Restaurant ID</th>';
-        echo '<th>Posted on</th>';
+        echo '<td>' . $row['user_id'] . '</td>';
+        echo '<td>' . $row['res_id'] . '</td>';
+        echo '<td>' . $row['created_at'] . '</td>';
         echo '</tr>';
-        echo '</thead>';
-        echo '<tbody>';
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo '<tr>';
-            echo '<td>' . $row['user_id'] . '</td>';
-            echo '<td>' . $row['res_id'] . '</td>';
-            echo '<td>' . $row['created_at'] . '</td>';
-            echo '</tr>';
-            echo '<tr>';
-            echo '<td colspan="3">' . $row['comment'] . '</td>';
-            echo '</tr>';
-        }
-        echo '</tbody>';
-        echo '</table>';
-        echo '</div>';
-
-        // Display pagination links
-        $totalPages = ceil($totalComments / $commentsPerPage);
-        echo '<div class="pagination">';
-        for ($i = 1; $i <= $totalPages; $i++) {
-            if ($i > 1) {
-                echo ', '; // Add comma between page numbers
-            }
-            echo '<a href="all_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
-        }
-        echo '</div>';
-
-        // Add JavaScript for changing the number of comments per page
-        echo '<script src="js/allcomments.js"></script>';
-    } else {
-        echo '<p>No comments available for this seller.</p>';
+        echo '<tr>';
+        echo '<td colspan="3">' . $row['comment'] . '</td>';
+        echo '</tr>';
     }
+    echo '</tbody>';
+    echo '</table>';
+    echo '</div>';
+
+    // Display pagination links
+    echo '<div class="pagination">';
+    for ($i = 1; $i <= $totalPages; $i++) {
+        if ($i > 1) {
+            echo ', '; // Add comma between page numbers
+        }
+        echo '<a href="all_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
+    }
+    echo '</div>';
+
+    // Add JavaScript for changing the number of comments per page
+    echo '<script src="js/allcomments.js"></script>';
 } else {
     echo '<p>Error: Seller ID not provided.</p>';
 }
@@ -193,6 +205,11 @@ mysqli_close($db);
 
 
 
+
+
+
+
+<!-- Section for viewing comments end -->
 
 
         <!-- end:Container -->

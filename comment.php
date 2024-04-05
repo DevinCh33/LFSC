@@ -10,6 +10,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_id = intval($_POST['user_id']);
         $res_id = intval($_POST['res_id']);
 
+        // Check for swear words in the comment using regex
+        $swearWords = array("fuck", "nigger", "shit", "fucker", "faggot", "babi","cibai"); // Add more swear words as needed
+        $pattern = "/\b(" . implode("|", $swearWords) . ")\b/i"; // Case-insensitive match
+
+        if (preg_match($pattern, $comment)) {
+            // Swear words detected, reject the comment submission
+            http_response_code(400);
+            echo json_encode(array("error" => "Swear words detected in the comment"));
+            exit; // Stop further processing
+        }
+
         // Check if the user has already commented on this restaurant
         $checkQuery = "SELECT * FROM user_comments WHERE user_id = ? AND res_id = ?";
         $stmt = mysqli_prepare($db, $checkQuery);

@@ -11,4 +11,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Call changeCommentsPerPage() when the comments per page selection changes
     document.getElementById("commentsPerPage").addEventListener("change", changeCommentsPerPage);
+
+    // Function to check for swear words in comments
+    function checkSwearWords(comment) {
+        // Define the regex pattern for swear words
+        var swearPattern = /\b(fuck|nigger|shit|fucker|faggot|babi|cibai)\b/i; // Add other swear words as needed
+
+        // Check if the comment contains swear words
+        if (swearPattern.test(comment)) {
+            // Display an alert or message to the user
+            alert("Your comment contains inappropriate language. Please revise your comment.");
+            return false; // Return false to prevent form submission
+        }
+
+        return true; // Return true if no swear words are detected
+    }
+
+    // Call checkSwearWords() when the comment form is submitted
+    document.getElementById("commentForm").addEventListener("submit", function(event) {
+        var commentText = document.getElementById("comment").value;
+        if (!checkSwearWords(commentText)) {
+            event.preventDefault(); // Prevent form submission if swear words are detected
+        }
+    });
 });

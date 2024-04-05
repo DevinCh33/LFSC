@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $res_id = intval($_POST['res_id']);
 
         // Check for swear words in the comment using regex
-        $swearWords = array("fuck", "nigger", "shit", "fucker", "faggot", "babi","cibai"); // Add more swear words as needed
-        $pattern = "/\b(" . implode("|", $swearWords) . ")\b/i"; // Case-insensitive match
+        $swearWords = array("fuck", "nigger", "shit", "fucker", "faggot", "babi","cibai", "FUCK", "FUCKER", "Fuck"); 
+        $pattern = "/\b(" . implode("|", $swearWords) . ")\b/i"; 
 
         if (preg_match($pattern, $comment)) {
             // Swear words detected, reject the comment submission

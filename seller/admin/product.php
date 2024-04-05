@@ -92,7 +92,7 @@
 					<label for="productImage" class="myform-label">Image</label>
 				</div>
 				<div class="input" id="addImageFile">
-        			<input type="file" id="proImage" name="proImage" class="myform-input" onchange="validateImage()">
+        			<span id="shImg" name="shImg"></span>
 				</div>
 			</div>
 				
@@ -115,22 +115,6 @@
 			</div>
 			<div class="myform-row">
 				<div class="label">
-					<label for="productDescr">Quantity:</label>
-				</div>
-				<div class="input">
-					<input type="text" id="proQuan" name="proQuan" class="myform-input" value="0" required>
-				</div>
-			</div>
-			<div class="myform-row">
-				<div class="label">
-					<label for="productDescr">Low Stock Alert:</label>
-				</div>
-				<div class="input">
-					<input type="text" id="txtStock" name="txtStock" class="myform-input" required>
-				</div>
-			</div>
-			<div class="myform-row">
-				<div class="label">
 					<label for="proStatus">Categories:</label>
 				</div>
 				<div class="input">
@@ -149,29 +133,6 @@
 							}
 						?>
 					</select>
-				</div>
-			</div>
-				
-			<!-- Price table -->
-			<div class="myform-row">
-				<div class="label">
-					<label for="productPrices">Prices: </label>
-				</div>
-				<div class="input">
-					<table id="priceTable" style="border: none">
-						<tr style="text-align: center">
-							<th>Weight</th>
-							<th>Price</th>
-							<th>Discount</th>
-							<th>Action</th>
-						</tr>
-						<tr style="border: none">
-							<td><input type="text" name="weight[]" class="myform-input" placeholder="Weight" required></td>
-							<td><input type="text" name="price[]" class="myform-input" placeholder="Price" required></td>
-							<td><input type="text" name="discount[]" class="myform-input" placeholder="Discount"></td>
-							<td><button type="button" onclick="addPriceRow()">Add More</button></td>
-						</tr>
-					</table>
 				</div>
 			</div>
 
@@ -370,7 +331,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData.descr + '</td>' +
             '<td>' + rowData.quantity + '</td>' +
             `<td style="color: ${(rowData.status === '1') ? 'green' : 'red'};">${(rowData.status === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" name="'+rowData.productID+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -502,18 +463,7 @@ function findRec(windowType, name){
             $('#proName').val(response[0].productName).prop('readonly', windowType === 2);
             $('#proDescr').val(response[0].descr).prop('readonly', windowType === 2);
 			$('#proID').val(response[0].productID);
-
-            // Clear existing price rows except the first two (header and initial row)
-            var priceTable = document.getElementById("priceTable");
-            var rowCount = priceTable.rows.length;
-            for (var i = rowCount - 2; i > 0; i--) {
-                priceTable.deleteRow(i);
-            }
-
-            // Populate price table
-            response[0].prices.forEach(function(item) {
-                addPriceRowWithData(item.proWeight, item.proPrice, item.proDisc, item.priceNo);
-            });
+			$('#shImg').html(response[0].productImage);
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -544,13 +494,6 @@ function viewRec(num){
 	findRec(2, name);
 	
 }
-	
-function editRec(num){
-	var button = document.getElementById("btnEdit"+num);
-	var name = button.getAttribute("name");
-	findRec(3, name);
-	
-}
 function delRec(num){
 	var button = document.getElementById("btnDel"+num);
 	var name = button.getAttribute("name");
@@ -564,10 +507,6 @@ function confirmDelete(form) {
         productInfo('del', form);
     }
 }
-	
-function addPriceRow() {
-    addPriceRowWithData("", "", "", true); // Passing true to indicate that action buttons should be added
-}
 
 function openPopup(type) {
     document.getElementById("popupWindow").style.display = "block";
@@ -578,7 +517,6 @@ function openPopup(type) {
 		document.getElementById('delProduct').style.display = "none";
 	}
 	else if(type == 2){
-		document.getElementById('addImageFile').style.display = "none";
 		document.getElementById('addProduct').style.display = "none";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "none";
@@ -595,33 +533,5 @@ function openPopup(type) {
 		document.getElementById('delProduct').style.display = "block";
 	}
 		
-}
-	
-function validateImage() {
-    var fileInput = document.getElementById("proImage");
-    var filePath = fileInput.value;
-    // Get the file extension
-    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-	// Get the file size
-    var fileSize = fileInput.files[0].size;
-	
-    if (!allowedExtensions.exec(filePath)) {
-        fileInput.value = '';
-		$("#imageAlert").text("Please upload file having extensions .jpeg/.jpg/.png/.gif only.");
-        return false;
-		
-    }
-	else{
-		$("#imageAlert").hide();
-		if (fileSize > 10 * 1024 * 1024) {
-			fileInput.value = '';
-			$("#imageAlert").text("File size should not exceed 5MB.");
-			return false;
-		}
-		else{
-			$("#imageAlert").hide();
-			return true;
-		}
-	}
 }
 </script>

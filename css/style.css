@@ -1919,6 +1919,31 @@ a[aria-expanded=false] .fa-angle-down {
     padding: 5px 15px 5px;
 }
 
+.rating-block {
+    display: inline-block;
+    font-size: 24px; /* Adjust the font size as needed */
+}
+
+.rating-block i {
+    color: #ffc107; /* Default color for inactive stars */
+    cursor: pointer;
+    transition: color 0.2s ease-in-out; /* Smooth color transition on hover */
+    margin-right: 3px; /* Add spacing between stars */
+}
+
+.rating-block i:hover,
+.rating-block i.star-active {
+    color: #ff9800; /* Color for active stars and stars on hover */
+}
+
+/* Optional: Add responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .rating-block {
+        font-size: 20px; /* Adjust font size for smaller screens */
+    }
+}
+
+
 @media (min-width: 320px) and (max-width: 991px) {
     .restaurant-entry .entry-logo {
         float: none;
@@ -1936,6 +1961,40 @@ a[aria-expanded=false] .fa-angle-down {
     }
 }
 
+/* CSS styles for the image display container */
+.spay-image-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.spay-image {
+    max-width: 100%;
+    max-height: 80vh;
+    display: block;
+    margin: 0 auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #fff;
+    font-size: 24px;
+}
+
+/* Additional styles to hide radio button and label when image is displayed */
+.spay-radio:checked + .custom-control-indicator,
+.spay-radio:checked + .custom-control-description {
+    display: none;
+}
 
 /*==============================
 * TAGS

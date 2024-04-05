@@ -251,5 +251,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating1.js"></script>
+
 </body>
 </html>

@@ -173,6 +173,20 @@ if($_POST['submit'])
                                                     <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Payment on delivery</span>
                                                     <br> <span>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span> </label>
                                             </li>
+
+<li>
+    <label class="custom-control custom-radio m-b-20">
+        <input name="mod" type="radio" value="" class="custom-control-input spay-radio">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">S-Pay <img src="" alt="" width="90"></span>
+    </label>
+</li>
+<!-- Image display area -->
+<div class="spay-image-container">
+    <img src="images/spay.jpg" alt="S-Pay" class="spay-image">
+    <span class="close-btn">×</span>
+</div>
+
                                             <li>
                                                 <label class="custom-control custom-radio  m-b-10">
                                                     <input name="mod"  type="radio" value="paypal" disabled class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Paypal <img src="images/paypal.jpg" alt="" width="90"></span> </label>
@@ -204,5 +218,6 @@ if($_POST['submit'])
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/spay.js"></script>
 </body>
 </html>

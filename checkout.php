@@ -174,18 +174,23 @@ if($_POST['submit'])
                                                     <br> <span>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span> </label>
                                             </li>
 
-<li>
-    <label class="custom-control custom-radio m-b-20">
-        <input name="mod" type="radio" value="" class="custom-control-input spay-radio">
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">S-Pay <img src="" alt="" width="90"></span>
-    </label>
-</li>
-<!-- Image display area -->
-<div class="spay-image-container">
-    <img src="images/spay.jpg" alt="S-Pay" class="spay-image">
-    <span class="close-btn">×</span>
-</div>
+                                            <li>
+                                                <label class="custom-control custom-radio m-b-20">
+                                                    <input name="mod" type="radio" value="" class="custom-control-input spay-radio">
+                                                    <span class="custom-control-indicator"></span>
+                                                    <span class="custom-control-description">S-Pay <img src="" alt="" width="90"></span>
+                                                </label>
+                                            </li>
+                                            <div class="spay-image-container">
+                                                <!-- Image display area -->
+                                                <div class="spay-image-overlay">
+                                                    <img src="images/spay.png" alt="S-Pay" class="spay-image">
+                                                    <span class="close-btn" style="color: #000; font-size: 32px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #fff; border-radius: 50%; border: 2px solid #000;">&#x2716;</span>
+
+                                                </div>
+                                            </div>
+
+
 
                                             <li>
                                                 <label class="custom-control custom-radio  m-b-10">

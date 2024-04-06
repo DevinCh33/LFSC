@@ -22,37 +22,37 @@ header {
     z-index: 10;
 }
 
-header img {
-    height: 50px;
-    width: auto;
-}
+    header img {
+        height: 50px;
+        width: auto;
+    }
 
-header ul {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-}
+    header ul {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+    }
 
-header li a {
-    text-decoration: none;
-    color: #FFF;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
+    header li a {
+        text-decoration: none;
+        color: #FFF;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
 
-header li a.active,
-header li a:hover {
-    color: #FF6B35 !important;
-    background-color: transparent !important;
-}
+        header li a.active,
+        header li a:hover {
+            color: #FF6B35 !important;
+            background-color: transparent !important;
+        }
 
-header li.active a,
-header li.active a:hover {
-    color: #FF6B35 !important;
-    background-color: transparent !important;
-}
+    header li.active a,
+    header li.active a:hover {
+        color: #FF6B35 !important;
+        background-color: transparent !important;
+    }
 
 /* Slide */
 .slide-container {
@@ -73,12 +73,12 @@ header li.active a:hover {
     z-index: 1;
 }
 
-.slides img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
+    .slides img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
 
 .slide-content {
     position: absolute;
@@ -97,6 +97,7 @@ header li.active a:hover {
         box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff6b35, 0 0 20px #ff6b35, 0 0 25px #ff6b35, 0 0 30px #ff6b35, 0 0 35px #ff6b35;
         opacity: 1;
     }
+
     50% {
         box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #ff6b35, 0 0 8px #ff6b35, 0 0 10px #ff6b35, 0 0 12px #ff6b35, 0 0 14px #ff6b35;
         opacity: 0.7;
@@ -147,7 +148,7 @@ header li.active a:hover {
 
 /* Product Section */
 .showProduct {
-    margin-left: 200px;  
+    margin-left: 200px;
     margin-right: 200px;
     margin-bottom: 30px;
 }
@@ -175,17 +176,17 @@ header li.active a:hover {
     flex: 0 0 calc(50% - 20px);
 }
 
-.mainProduct-card img {
-    max-width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
+    .mainProduct-card img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
 
-.mainProduct-card h2,
-.mainProduct-card p {
-    color: black;
-    text-decoration: none;
-}
+    .mainProduct-card h2,
+    .mainProduct-card p {
+        color: black;
+        text-decoration: none;
+    }
 
 .product-card {
     padding: 20px;
@@ -196,26 +197,26 @@ header li.active a:hover {
     width: 100%;
 }
 
-.product-card:hover {
-    transform: translateY(-10px);
-}
+    .product-card:hover {
+        transform: translateY(-10px);
+    }
 
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
+    .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
 
 
-a .product-card h2, 
+a .product-card h2,
 a .product-card p {
     color: inherit;
     text-decoration: none;
 }
 
-a .product-card:hover h2, 
+a .product-card:hover h2,
 a .product-card:hover p {
     color: #FF6B35;
 }
@@ -227,15 +228,15 @@ a .product-card:hover p {
     justify-content: space-between;
 }
 
-.products-grid a {
-    flex: 0 0 calc(25% - 20px);
-    text-decoration: none;
-    color: inherit;
-}
+    .products-grid a {
+        flex: 0 0 calc(25% - 20px);
+        text-decoration: none;
+        color: inherit;
+    }
 
-.products-grid a:hover .product-card {
-    transform: scale(1.05);
-}
+        .products-grid a:hover .product-card {
+            transform: scale(1.05);
+        }
 
 /* Product Hover */
 a[href]:hover, a[href]:focus, a[href]:active {
@@ -246,7 +247,7 @@ a[href]:hover, a[href]:focus, a[href]:active {
 /* About Little Farmer Section */
 .about-farmer {
     background-color: #f3f4f6;
-    padding: 50px 200px;  
+    padding: 50px 200px;
 }
 
 .about-container {
@@ -265,31 +266,31 @@ a[href]:hover, a[href]:focus, a[href]:active {
     width: 50%;
 }
 
-.about-content h2 {
-    margin-bottom: 20px;
-    color: #005522;
-}
+    .about-content h2 {
+        margin-bottom: 20px;
+        color: #005522;
+    }
 
-.about-content p {
-    line-height: 1.6;
-    font-size: 16px;
-    color: #333;
-}
+    .about-content p {
+        line-height: 1.6;
+        font-size: 16px;
+        color: #333;
+    }
 
 .about-links {
     margin-top: 20px;
 }
 
-.about-links a {
-    margin-right: 20px;
-    color: #005522;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
+    .about-links a {
+        margin-right: 20px;
+        color: #005522;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-.about-links a:hover {
-    color: #FF6B35;
-}
+        .about-links a:hover {
+            color: #FF6B35;
+        }
 
 /* Footer */
 footer {
@@ -320,7 +321,7 @@ footer,
 footer span {
     font-weight: 300;
     color: #9c9da5;
-    font-size:18px;
+    font-size: 18px;
 }
 
 .address h5 a {
@@ -331,9 +332,9 @@ footer span {
     font-weight: 600;
 }
 
-.address h5 a:hover {
-    color: #fff;
-}
+    .address h5 a:hover {
+        color: #fff;
+    }
 
 .popular-locations ul li {
     display: inline-block;
@@ -344,12 +345,12 @@ footer ul li {
     margin-bottom: 6px;
 }
 
-footer ul li a {
-    text-decoration: none;
-    color: #9c9da5;
-    transition: all .3s;
-    font-size:18px;
-}
+    footer ul li a {
+        text-decoration: none;
+        color: #9c9da5;
+        transition: all .3s;
+        font-size: 18px;
+    }
 
 .how-it-works-links {
     margin-bottom: 70px;
@@ -407,11 +408,11 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
     position: absolute;
     right: 0;
     background-color: #f9f9f9;
-    min-width: 300px; 
-    width: 50%; 
-    max-width: 500px; 
-    max-height: 300px; 
-    overflow-y: auto; 
+    min-width: 300px;
+    width: 50%;
+    max-width: 500px;
+    max-height: 300px;
+    overflow-y: auto;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     padding: 12px 16px;
     z-index: 1;
@@ -425,12 +426,12 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
 
 .notification-dropdown p {
     color: #333;
-    margin: 0; 
+    margin: 0;
 }
 
 .notification-icon.has-notifications {
     border: 2px solid #FF6B35;
-    border-radius: 50%; 
+    border-radius: 50%;
 }
 
 .notification-container:hover .notification-dropdown {
@@ -442,17 +443,17 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
     padding: 10px 20px;
     background-color: transparent;
     color: #FF6B35;
-    border: none; 
+    border: none;
     cursor: pointer;
     transition: color 0.3s;
     font-weight: bold;
-    display: block; 
-    text-align: right; 
-    width: 100%; 
+    display: block;
+    text-align: right;
+    width: 100%;
 }
 
     .mark-all-as-read-btn:hover {
-        color: #E6532A; 
+        color: #E6532A;
     }
 
 
@@ -481,8 +482,8 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
 }
 
 .notification-content {
-    max-height: 250px; 
-    overflow-y: auto; 
+    max-height: 250px;
+    overflow-y: auto;
     padding: 5px 10px;
 }
 
@@ -505,8 +506,8 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
 
 @media (max-width: 600px) {
     .notification-dropdown {
-        width: 80%; 
-        min-width: 250px; 
+        width: 80%;
+        min-width: 250px;
     }
 }
 
@@ -551,7 +552,7 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
 
 
     .my_account_dropdown .dropbtn::after {
-        content: '\25BC'; 
+        content: '\25BC';
         font-size: 0.8em;
         margin-left: 5px;
     }
@@ -559,3 +560,105 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
     .my_account_dropdown .dropdown-content {
         right: 0;
     }
+
+/* Profile Management Section */
+.profile-management-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%; 
+    margin: auto; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-management-layout {
+    display: flex;
+    width: 100%; 
+    margin-top: 20px; 
+}
+
+.profile-management-container h1 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.profile-management-container form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.profile-management-container label {
+    color: #666;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.profile-management-container input[type="text"],
+.profile-management-container input[type="email"],
+.profile-management-container input[type="date"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.profile-management-container input[type="file"] {
+    border: none;
+}
+
+.profile-management-container button {
+    background-color: #005522;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+    .profile-management-container button:hover {
+        color: #FF6B35;
+    }
+
+.profile-management-container input[disabled] {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.profile-management-container input[type="radio"] {
+    margin-right: 5px;
+}
+
+.profile-management-container a {
+    color: #FF6B35;
+    text-decoration: none;
+}
+
+    .profile-management-container a:hover {
+        text-decoration: underline;
+    }
+
+.profile-management-container .profile-picture-container input[type='file'] {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.form-fields-container {
+    flex: 1; 
+    padding-left: 20px;
+}
+
+.input-otp {
+    width: 100%;
+    max-width: 400px;
+}

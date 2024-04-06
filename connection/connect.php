@@ -6,7 +6,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 					
 //main connection file for both admin & front end
 $servername = "localhost"; //server
-$username = "root"; //username
+$username = "root"; //username 
 $password = ""; //password
 $dbname = "store";  //database
 $inv_url = "http://localhost/lfsc/seller/";

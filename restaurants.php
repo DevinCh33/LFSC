@@ -215,6 +215,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         
                             echo '<p class="average-rating">Avg Rating: ' . number_format($averageRating, 1) . '</p>';
                             
+                            
                             echo '<a href="dishes.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
                                 </div>
                             </div>

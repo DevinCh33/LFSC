@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to check for swear words in comments
     function checkSwearWords(comment) {
         // Define the regex pattern for swear words
-        var swearPattern = /\b(fuck|nigger|shit|fucker|faggot|babi|cibai)\b/i; // Add other swear words as needed
+        var swearPattern = /\b(fuck|nigger|shit|fucker|faggot|babi|cibai)\b/i; 
 
         // Check if the comment contains swear words
         if (swearPattern.test(comment)) {

@@ -87,12 +87,12 @@
       
       <?php if($_SESSION['adm_co'] != "VSUPA"){ ?>
       <li>
-        <a href="#">
+        <a href="admin_report.php">
           <i class='bx bxs-report'></i>
           <span class="link_name">Report</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Report</a></li>
+          <li><a class="link_name" href="admin_report">Report</a></li>
         </ul>
       </li>
 		<?php } ?>

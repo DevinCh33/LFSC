@@ -714,84 +714,101 @@
 
 
 
-        <div class="chart-container" style="margin-top: 10%;">
+<div class="chart-container" style="margin-top: 10%;">
+    <!-- Data Analytics Report Summary -->
+    <h1>Product Review Table</h1>
+    <!-- Display form to input restaurant name -->
+    <form id="searchForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <label for="restaurant_name">Restaurant Name:</label>
+        <input type="text" id="restaurant_name" name="restaurant_name" value="<?php echo $restaurant_name; ?>">
+        <input type="submit" value="Submit" name="search_products">
+        <button type="button" id="excelBtn" class="export-button">Excel</button>
+    </form>
 
-            <!-- Data Analytics Report Summary -->
-        <h1>Product Review Table</h1>
-        <!-- Display form to input restaurant name -->
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <label for="restaurant_name">Restaurant Name:</label>
-            <input type="text" id="restaurant_name" name="restaurant_name" value="<?php echo $restaurant_name; ?>">
-            <input type="submit" value="Submit" name="search_products">
-        </form>
-                
-        <?php
-            session_start(); // Start the session
+    <?php
+    session_start(); // Start the session
 
-            // Include the connection file
-            include 'connect.php';
+    // Include the connection file
+    include 'connect.php';
 
-            // Check if the form is submitted for searching products
-            if (isset($_POST['search_products'])) {
-                // Get the restaurant name from the form
-                $restaurant_name = $_POST['restaurant_name'];
-                
-                // Store the search parameter in a session variable
-                $_SESSION['restaurant_name'] = $restaurant_name;
-            } elseif (!isset($_SESSION['restaurant_name'])) {
-                // Set a default restaurant name if session variable is not set
-                $_SESSION['restaurant_name'] = "";
-            }
+    // Check if the form is submitted for searching products
+    if (isset($_POST['search_products'])) {
+        // Get the restaurant name from the form
+        $restaurant_name = $_POST['restaurant_name'];
 
-            // Retrieve the restaurant name from the session
-            $restaurant_name = $_SESSION['restaurant_name'];
+        // Store the search parameter in a session variable
+        $_SESSION['restaurant_name'] = $restaurant_name;
+    } elseif (!isset($_SESSION['restaurant_name'])) {
+        // Set a default restaurant name if session variable is not set
+        $_SESSION['restaurant_name'] = "";
+    }
 
-            // SQL query to retrieve product report data for the provided restaurant name
-            $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
-                    FROM product p
-                    JOIN categories c ON p.categories_id = c.categories_id
-                    JOIN tblprice tp ON p.product_id = tp.productID
-                    LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
-                    LEFT JOIN restaurant r ON p.owner = r.rs_id
-                    WHERE r.title LIKE '%$restaurant_name%'";
+    // Retrieve the restaurant name from the session
+    $restaurant_name = $_SESSION['restaurant_name'];
 
-            // Execute the query
-            $result = $db->query($sql);
+    // SQL query to retrieve product report data for the provided restaurant name
+    $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
+            FROM product p
+            JOIN categories c ON p.categories_id = c.categories_id
+            JOIN tblprice tp ON p.product_id = tp.productID
+            LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
+            LEFT JOIN restaurant r ON p.owner = r.rs_id
+            WHERE r.title LIKE '%$restaurant_name%'";
 
-            // Initialize counter
-            $counter = 1;
+    // Execute the query
+    $result = $db->query($sql);
 
-            // Check if there are results
-            if ($result->num_rows > 0) {
-                // Output table headers
-                echo "<table>";
-                echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
-                
-                // Output data of each row
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $counter . "</td>";
-                    echo "<td>" . $row["Restaurant Title"] . "</td>";
-                    echo "<td>" . $row["Product Name and Weight"] . "</td>";
-                    echo "<td>" . $row["Description"] . "</td>";
-                    echo "<td>" . $row["Category"] . "</td>";
-                    echo "<td>" . $row["Product Date"] . "</td>";
-                    echo "<td>" . $row["Price (RM)"] . "</td>";
-                    echo "<td>" . $row["Ordered Quantity"] . "</td>";
-                    echo "</tr>";
-                    
-                    // Increment counter
-                    $counter++;
-                }
-                echo "</table>"; // Close the table
-            } else {
-                // No results found
-                echo "0 results";
-            }
+    // Initialize counter
+    $counter = 1;
 
-            // Close connection
-            $db->close();
-        ?>
+    // Check if there are results
+    if ($result->num_rows > 0) {
+        // Output table headers
+        echo "<table id='dataTable'>";
+        echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
+
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $counter . "</td>";
+            echo "<td>" . $row["Restaurant Title"] . "</td>";
+            echo "<td>" . $row["Product Name and Weight"] . "</td>";
+            echo "<td>" . $row["Description"] . "</td>";
+            echo "<td>" . $row["Category"] . "</td>";
+            echo "<td>" . $row["Product Date"] . "</td>";
+            echo "<td>" . $row["Price (RM)"] . "</td>";
+            echo "<td>" . $row["Ordered Quantity"] . "</td>";
+            echo "</tr>";
+
+            // Increment counter
+            $counter++;
+        }
+        echo "</table>"; // Close the table
+    } else {
+        // No results found
+        echo "0 results";
+    }
+
+    // Close connection
+    $db->close();
+    ?>
+</div>
+
+<script>
+    // Function to convert table to Excel file and download
+    function exportToExcel() {
+        var table = document.getElementById("dataTable");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "product_review.xls";
+        link.click();
+    }
+
+    // Add event listener to Excel button
+    document.getElementById("excelBtn").addEventListener("click", exportToExcel);
+</script>
 
     </section>
 </body>

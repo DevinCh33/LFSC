@@ -411,7 +411,7 @@
             echo "<p>The graph illustrates product sales across various categories and regions. Each bar represents the total sales volume of a product category, providing insights into relative performance and identifying popular categories.</p>";
 
             // Output the message
-            echo "<p>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>$maxSales</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
+            echo "<p>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>RM" . number_format($maxSales, 2) . "</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
 
             ?>
 
@@ -460,14 +460,43 @@
                             })
                         },
                         options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }]
+                        responsive: true,
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Product Names',
+                                    color: 'black',
+                                    font: {
+                                        family: 'Comic Sans MS',
+                                        size: 20,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                    },
+                                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Total Sales',
+                                    color: 'black',
+                                    font: {
+                                        family: 'Comic Sans MS',
+                                        size: 20,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                    },
+                                    padding: {top: 30, left: 0, right: 0, bottom: 50}
+                                }
                             }
                         }
+                    }
+
                     });
                 </script>
         </div>

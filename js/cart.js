@@ -24,7 +24,7 @@ $(document).ready(function() {
         const maxNumber = Number($(this).closest('.product').data('max'));
         const currentNumber = Number($(this).closest('.product').data('current'));
         const currentWeight = $(this).siblings('h6').children('span');
-        const currentPrice = $(this).siblings('span').children('span');
+        const currentPrice = $(this).siblings('span');
         
         let nextNumber = currentNumber + 1; debug? console.log("Next number: " + nextNumber): 1;
         
@@ -37,21 +37,21 @@ $(document).ready(function() {
                 debug? console.log("Custom"): 1;
                 $(this).siblings('.discount-cross').text("");
                 $(this).siblings('.discount-value').text("");
-                currentPrice.text(custom.toFixed(2));
+                currentPrice.text("RM " + custom.toFixed(2));
             }
 
             else if (discount == 0) {
                 debug? console.log("Base"): 1;
                 $(this).siblings('.discount-cross').text("");
                 $(this).siblings('.discount-value').text("");
-                currentPrice.text(base.toFixed(2));
+                currentPrice.text("RM " + base.toFixed(2));
             }
 
             else {
                 debug? console.log("Discount"): 1;
                 $(this).siblings('.discount-cross').text("RM " + base.toFixed(2));
                 $(this).siblings('.discount-value').text(discount + "% off");
-                currentPrice.text((base*(1-discount/100)).toFixed(2));
+                currentPrice.text("RM " + (base*(1-discount/100)).toFixed(2));
             }
 
             currentWeight.text(options[nextNumber]['proWeight']);
@@ -69,21 +69,21 @@ $(document).ready(function() {
                 debug? console.log("Custom"): 1;
                 $(this).siblings('.discount-cross').text("");
                 $(this).siblings('.discount-value').text("");
-                currentPrice.text(custom.toFixed(2));
+                currentPrice.text("RM " + custom.toFixed(2));
             }
 
             else if (discount == 0) {
                 debug? console.log("Base"): 1;
                 $(this).siblings('.discount-cross').text("");
                 $(this).siblings('.discount-value').text("");
-                currentPrice.text(base.toFixed(2));
+                currentPrice.text("RM " + base.toFixed(2));
             }
 
             else {
                 debug? console.log("Discount"): 1;
                 $(this).siblings('.discount-cross').text("RM " + base.toFixed(2));
                 $(this).siblings('.discount-value').text(discount + "% off");
-                currentPrice.text((base*(1-discount/100)).toFixed(2));
+                currentPrice.text("RM " + (base*(1-discount/100)).toFixed(2));
             }
 
             currentWeight.text(options[0]['proWeight']);

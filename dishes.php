@@ -219,8 +219,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             $stmt->bind_param("ii", $item[$i]['priceNo'], $_SESSION['user_id']);
                                             $stmt->execute();
                                             $custom = $stmt->get_result();
-                                        
-                                            $option[$i]['price'] = $custom->fetch_assoc()['price'];
+                                            
+                                            $c = $custom->fetch_assoc()['price'];
+                                            $item[$i]['price'] = $c;
+                                            $option[$i]['price'] = $c;
                                             $option[$i]['proWeight'] = $item[$i]['proWeight'];
                                             $option[$i]['proPrice'] = $item[$i]['proPrice'];
                                             $option[$i]['proDisc'] = $item[$i]['proDisc'];
@@ -401,8 +403,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating_product.js"></script>
     <script src="js/rating1.js"></script>

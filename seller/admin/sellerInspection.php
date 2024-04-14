@@ -46,11 +46,10 @@
 		<thead>
 		  <tr>
 			<th onclick="sortTable(0)">Shop ID# <span class="sort-indicator" id="indicator0"></span></th>
-			<th onclick="sortTable(1)">Image <span class="sort-indicator" id="indicator1"></span></th>
-			<th onclick="sortTable(2)">Title <span class="sort-indicator" id="indicator2"></span></th>
-			<th onclick="sortTable(3)">Email <span class="sort-indicator" id="indicator3"></span></th>
-			<th onclick="sortTable(4)">Phone Number <span class="sort-indicator" id="indicator4"></span></th>
-			<th onclick="sortTable(5)">Action <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(1)">Title <span class="sort-indicator" id="indicator1"></span></th>
+			<th onclick="sortTable(2)">Email <span class="sort-indicator" id="indicator2"></span></th>
+			<th onclick="sortTable(3)">Phone Number <span class="sort-indicator" id="indicator3"></span></th>
+			<th onclick="sortTable(4)">Action <span class="sort-indicator" id="indicator4"></span></th>
 
 		  </tr>
 		</thead>
@@ -85,7 +84,7 @@
 					<label for="username" class="myform-label">Front IC</label>
 				</div>
 				<div class="input">
-					<span></span>
+					<img id="frontIC" src="" alt="Front IC">
 				</div>
 			</div>
 
@@ -94,7 +93,7 @@
 					<label for="password" class="myform-label">Back IC</label>
 				</div>
 				<div class="input">
-					<span></span>
+					<img id="backIC" src="" alt="Back IC">
 				</div>
 			</div>
 
@@ -103,7 +102,7 @@
 					<label for="emoNum">Face with IC</label>
 				</div>
 				<div class="input">
-					<span></span>
+					<img id="faceWithIC" src="" alt="Face with IC">
 				</div>
 			</div>
 			
@@ -150,6 +149,8 @@ function updateStatus(action){
             data: {act: action, sid: sid},
             success: function (response) {
                 alert(response);
+				closePopup();
+				fetchData();
             },
             error: function (xhr, status, error) {
                 $('#divalert').css('background-color', 'red');
@@ -167,7 +168,7 @@ var currentPage = 1;
 
 function updateTableAndPagination(data) {
 	if (data.data.length === 0) {
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="8" style="text-align: center;">NO SELLER UNDER INSPECTION</td></tr>';
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" style="text-align: center;">NO SELLER UNDER INSPECTION</td></tr>';
         document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
         document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
         return; // Exit function since there are no records to display
@@ -186,10 +187,9 @@ function updateTableAndPagination(data) {
 			
         newRow.innerHTML = 
             '<td>' + rowData[0] + '</td>' +
-            '<td><img src="../images/'+rowData[1]+'"></td>' +
+            '<td>' + rowData[1] + '</td>' +
             '<td>' + rowData[2] + '</td>' +
             '<td>' + rowData[3] + '</td>' +
-            '<td>' + rowData[4] + '</td>' +
 			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);
     }
@@ -311,14 +311,17 @@ function sortTable(columnIndex) {
 }
 	
 function findRec(windowType, name){
-	
 	$.ajax({
         url: 'action/fetchSellerImg.php',
         type: 'GET',
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
+			console.log(response[0].frontImg);
 			openPopup(windowType);
+			$('#frontIC').attr('src', response[0].frontImg).css({ width: '400px', height: '200px' });;
+            $('#backIC').attr('src', response[0].backImg).css({ width: '400px', height: '200px' });;
+            $('#faceWithIC').attr('src', response[0].faceImg).css({ width: '400px', height: '200px' });;
 		},
         error: function(xhr, status, error) {
             console.error('Error:', error);

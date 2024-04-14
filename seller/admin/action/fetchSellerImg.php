@@ -3,7 +3,7 @@
 
 	$search = trim($_GET['search']);
 
-	$query = "SELECT * FROM tblvalidation WHERE sellerID = '".$_GET['name']."' AND imgStatus = 1";
+	$query = "SELECT * FROM tblvalidation WHERE storeID = '".$search."' AND imgStatus = 1";
 
 	$result = $db->query($query);
 

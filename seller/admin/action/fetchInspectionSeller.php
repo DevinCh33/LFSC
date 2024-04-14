@@ -1,7 +1,7 @@
 <?php 	
 require_once 'core.php';
 
-$sql = "SELECT a.store, r.image, r.title, a.email, r.phone, a.storeStatus
+$sql = "SELECT a.store, r.title, a.email, r.phone, a.storeStatus
 		FROM admin a
 		JOIN restaurant r ON a.store = r.rs_id
 		WHERE u_role != 'SUPA' AND storeStatus = 0
@@ -18,8 +18,7 @@ if($result->num_rows > 0) {
 		$row[1],
 		$row[2],
 		$row[3],
-		$row[4],
-		$row[5]
+		$row[4]
  	); 	
  } // /while 
 

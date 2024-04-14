@@ -30,7 +30,7 @@ if(isset($_POST['submit']))
 	
 	if(!empty($_POST["submit"])) 
     {
-		$loginquery = "SELECT adm_id, code, password, u_role, store FROM admin WHERE username='$username'";
+		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
 		$row = mysqli_fetch_array($result);
 		
@@ -40,6 +40,7 @@ if(isset($_POST['submit']))
 			$_SESSION["adm_co"] = $row['code'];
 			$_SESSION["u_role"] = $row['u_role'];
 			$_SESSION['store'] = $row['store'];
+			$_SESSION['status'] = $row['storeStatus'];
 			if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
 				header("refresh:1;url=dashboard.php");
 			else

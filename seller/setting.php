@@ -33,7 +33,21 @@
                 <div class="content-panel">
                     <form class="form-horizontal">
 						<fieldset class="fieldset">
-                            <h3 class="fieldset-title">Shop Info <input type="button" class="btnVerify" onclick="openPopup()" value="* Verify Now"></h3>
+                            <h3 class="fieldset-title">Shop Info 
+								<?php
+								
+								if($_SESSION['status'] == 0){
+								?>
+									<input type="button" class="btnVerify" onclick="openPopup()" value="* Verify Now">
+								<?php
+								}
+								else{
+									?>
+									<i class="fa-solid fa-circle-check" onclick="openPopup()" style="margin-left: 10px;"></i>
+								<?php
+								}
+								?>
+							</h3>
                             <div class="form-group">
                                 <label class="label">Shop Title</label>
                                 <div class="textfield">
@@ -139,7 +153,7 @@
 								<span class="close" onclick="closePopup()">&times;</span>
 							</div>
 							<div id="cardVerify">
-								<form action="action/createUser.php"  method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
+								<form action="action/sellerVerify.php"  method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
 									<div class="myform-row">
 										<div id="divalert" class="divalert" name="divalert"></div>
 									</div>
@@ -170,8 +184,28 @@
 											<div id="imageAlert2"></div>
 										</div>
 									</div>
-									<input type="button" id="submitDoc" class="button" value="Submit Document" onClick="updatePass()">
+									<div style="text-align: center;">
+										<input type="button" id="subDoc" class="button" value="Submit Document" onClick="submitDoc()">
+									</div>
+									
 								</form>
+								<div id="validationHistory" style="margin-top: 20px; width: 90%; margin-left: auto; margin-right: auto; text-align: center;">
+									<h1>History Of Validating</h1>
+									<table id="validationTable" style="width: 100%; border-collapse: collapse; border-top: 2px solid black;border-bottom: 2px solid black;">
+										<thead>
+											<tr>
+												<th>No#</th>
+												<th>Status</th>
+												<th>Reason</th>
+											</tr>
+										</thead>
+										<tbody style="border-collapse: collapse; border-bottom: 2px solid black;">
+											<!-- Validation history rows will be displayed here -->
+										</tbody>
+									</table>
+								</div>
+
+
 
 							</div>
     					</div>
@@ -195,6 +229,92 @@
 $(document).ready(function() {
 	fetchData();
 });
+	
+function retrieveRec() {
+    $.ajax({
+        url: "action/retrieveValidate.php",
+        type: "GET",
+        data: { admID: "<?php echo $_SESSION['adm_id']; ?>" },
+        success: function(response) {
+            // Parse the response as JSON
+            var data = JSON.parse(response);
+			
+
+            var tbody = $('#validationTable tbody');
+
+			// Clear existing rows
+			tbody.empty();
+
+			// Populate tbody with data
+			for (var i = 0; i < data.length; i++) {
+				var statusColor;
+				var statusText;
+				if (data[i].imgStatus == 1) {
+					statusText = "Under validation";
+					statusColor = "blue";
+				} else if (data[i].imgStatus == 2) {
+					statusText = "Rejected";
+					statusColor = "red";
+				} else if (data[i].imgStatus == 3) {
+					statusText = "Successfully validated";
+					statusColor = "green";
+				}
+
+				// Append row to tbody with inline styles for background color
+				tbody.append('<tr><td>' + (i + 1) + '</td><td style="color: ' + statusColor + ';">' + statusText + '</td><td>' + data[i].imgComment + '</td></tr>');
+			}
+
+			// Apply inline CSS to remove border from tbody
+			tbody.css('border', 'none');
+
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+	
+function submitDoc() {
+    // Get the input elements for the front ID, back ID, and ID with face images
+    var frontIDInput = document.getElementById('frontID');
+    var backIDInput = document.getElementById('backID');
+    var IDwithFaceInput = document.getElementById('IDwithFace');
+
+    // Create a FormData object to store the files
+    var formData = new FormData();
+
+    // Add the files to the FormData object
+    formData.append('frontID', frontIDInput.files[0]);
+    formData.append('backID', backIDInput.files[0]);
+    formData.append('IDwithFace', IDwithFaceInput.files[0]);
+
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+
+    // Set up the request
+    xhr.open('POST', 'action/sellerVerify.php', true);
+
+    // Set up a function to handle the response
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Request was successful, handle the response here if needed
+            console.log(xhr.responseText);
+        } else {
+            // Request failed
+            console.error('Request failed with status:', xhr.status);
+        }
+    };
+
+    // Set up a function to handle any errors
+    xhr.onerror = function() {
+        console.error('Request failed');
+    };
+
+    // Send the request with the FormData containing the images
+    xhr.send(formData);
+}
+
 	
 function updatePass() {
     var pass = $("#oldPass").val();
@@ -322,7 +442,7 @@ function fetchData() {
 function openPopup() {
     document.getElementById("popupWindow").style.display = "block";
 	$('#cardVerify').show();
-	
+	retrieveRec();
 }
 	
 	  

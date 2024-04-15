@@ -407,7 +407,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating_product.js"></script>
-    <script src="js/rating1.js"></script>
+    <script src="js/rating.js"></script>
     <script src="js/comment.js"></script>
 </body>
 </html>

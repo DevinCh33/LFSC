@@ -2645,7 +2645,7 @@ a[aria-expanded=false] .fa-angle-down {
     background-color: #ffffff; 
     overflow: hidden; 
     display: flex; 
-    flex-direction: column; 
+    flex-direction: column;
 }
 
 .littleFarmer .michealProductCard .card-img-top {
@@ -2656,7 +2656,7 @@ a[aria-expanded=false] .fa-angle-down {
 
 .littleFarmer .michealProductCard .card-body {
     padding: 15px; 
-    flex: 1; 
+    flex: 1;
 }
 
 .littleFarmer .michealProductCard .card-title {

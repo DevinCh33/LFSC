@@ -1,14 +1,58 @@
 <?php
-include 'connection/connect.php'; 
+include 'connection/connect.php';
 
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
-function sendMessage($chatId, $message)
+function sendMessage($chatId, $message, $keyboard = null)
 {
-    $token = "6861142064:AAGW10QBeruSdWOA5ZouHUMYyOp0kvQaUyY"; 
+    $token = "6861142064:AAGW10QBeruSdWOA5ZouHUMYyOp0kvQaUyY";
     $url = "https://api.telegram.org/bot$token/sendMessage?chat_id=$chatId&text=" . urlencode($message);
+    if ($keyboard) {
+        $url .= "&reply_markup=" . urlencode(json_encode($keyboard));
+    }
     file_get_contents($url);
+}
+
+function sendInlineKeyboard($chatId, $message, $keyboard)
+{
+    sendMessage($chatId, $message, $keyboard);
+}
+
+function updateNotificationsStatus($chatId, $status)
+{
+    global $db;
+    $updateQuery = "UPDATE users SET notifications_enabled = ? WHERE chat_id = ?";
+    if ($stmt = $db->prepare($updateQuery)) {
+        $stmt->bind_param("ii", $status, $chatId);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+function getUserDetails($chatId)
+{
+    global $db;
+    $query = "SELECT username, fullName, email, phone FROM users WHERE chat_id = ?";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("i", $chatId);
+    $stmt->execute();
+    $stmt->bind_result($username, $fullName, $email, $phone);
+    $stmt->fetch();
+    $stmt->close();
+
+    return [
+        "Username: " . $username,
+        "Full Name: " . $fullName,
+        "Email: " . $email,
+        "Phone: " . $phone
+    ];
 }
 
 if (isset($update["message"])) {
@@ -16,30 +60,44 @@ if (isset($update["message"])) {
     $receivedMessage = strtolower($update["message"]["text"]);
 
     if ($receivedMessage === "/start") {
-        sendMessage($chatId, "Welcome! Please enter your code:");
-    } elseif ($receivedMessage === "/notifications_on") {
-        $updateQuery = "UPDATE users SET notifications_enabled = 1 WHERE chat_id = ?";
-        if ($stmt = $db->prepare($updateQuery)) {
-            $stmt->bind_param("i", $chatId);
-            $stmt->execute();
-            sendMessage($chatId, "Notifications have been turned ON. You will now receive updates.");
-        } else {
-            sendMessage($chatId, "Error updating your preferences.");
-        }
-    } elseif ($receivedMessage === "/notifications_off") {
-        $updateQuery = "UPDATE users SET notifications_enabled = 0 WHERE chat_id = ?";
-        if ($stmt = $db->prepare($updateQuery)) {
-            $stmt->bind_param("i", $chatId);
-            $stmt->execute();
-            sendMessage($chatId, "Notifications have been turned OFF. You will no longer receive updates.");
-        } else {
-            sendMessage($chatId, "Error updating your preferences.");
-        }
+        // Define the welcome message
+        $welcomeMessage = "Welcome to LFSCBot!\nPlease click below to choose your identity:";
+
+        // Define the inline keyboard options
+        $keyboard = [
+            "inline_keyboard" => [
+                [
+                    ["text" => "Customer", "callback_data" => "customer"]
+                ],
+                [
+                    ["text" => "Seller", "callback_data" => "seller"]
+                ]
+            ]
+        ];
+
+        // Send the message with inline keyboard
+        sendInlineKeyboard($chatId, $welcomeMessage, $keyboard);
     } elseif ($receivedMessage === "/help") {
-        $helpMessage = "Here are some commands you can use:\n";
-        $helpMessage .= "/notifications_on - Turn on order status notifications.\n";
-        $helpMessage .= "/notifications_off - Turn off order status notifications.\n";
-        sendMessage($chatId, $helpMessage);
+        // Define the help message
+        $helpMessage = "Here are some functions you can use:";
+
+        // Define the inline keyboard options for functions
+        $keyboard = [
+            "inline_keyboard" => [
+                [
+                    ["text" => "Details", "callback_data" => "details"]
+                ],
+                [
+                    ["text" => "Orders", "callback_data" => "orders"]
+                ],
+                [
+                    ["text" => "Notifications", "callback_data" => "notifications"]
+                ]
+            ]
+        ];
+
+        // Send the message with inline keyboard for help
+        sendInlineKeyboard($chatId, $helpMessage, $keyboard);
     } else {
         // Check for verification code
         $stmt = $db->prepare("SELECT userId FROM tg_verification WHERE code = ? AND expiration > NOW() LIMIT 1");
@@ -63,6 +121,108 @@ if (isset($update["message"])) {
         } else {
             sendMessage($chatId, "The code is invalid or has expired. Please try again or use /help for more commands.");
         }
+    }
+} elseif (isset($update["callback_query"])) {
+    // Handle callback queries
+    $callbackQuery = $update["callback_query"];
+    $chatId = $callbackQuery["message"]["chat"]["id"];
+    $data = $callbackQuery["data"];
+
+    if ($data === "notifications") {
+        // Define the message for notifications options
+        $notificationsMessage = "Choose an option:";
+
+        // Define the inline keyboard options for notifications
+        $notificationsKeyboard = [
+            "inline_keyboard" => [
+                [
+                    ["text" => "On", "callback_data" => "notifications_on"],
+                    ["text" => "Off", "callback_data" => "notifications_off"]
+                ],
+                [
+                    ["text" => "Back to /help", "callback_data" => "help"]
+                ]
+            ]
+        ];
+
+        // Send the message with inline keyboard for notifications options
+        sendInlineKeyboard($chatId, $notificationsMessage, $notificationsKeyboard);
+    } elseif ($data === "notifications_on") {
+        if (updateNotificationsStatus($chatId, 1)) {
+            $message = "Notifications have been turned ON. You will now receive updates.";
+            $keyboard = [
+                "inline_keyboard" => [
+                    [
+                        ["text" => "Back to /help", "callback_data" => "help"]
+                    ]
+                ]
+            ];
+            sendMessage($chatId, $message, $keyboard);
+        } else {
+            sendMessage($chatId, "Notifications have been set to ON. They will remain ON.");
+        }
+    } elseif ($data === "notifications_off") {
+        if (updateNotificationsStatus($chatId, 0)) {
+            $message = "Notifications have been turned OFF. You will no longer receive updates.";
+            $keyboard = [
+                "inline_keyboard" => [
+                    [
+                        ["text" => "Back to /help", "callback_data" => "help"]
+                    ]
+                ]
+            ];
+            sendMessage($chatId, $message, $keyboard);
+        } else {
+            sendMessage($chatId, "Notifications have been set to OFF. They will remain OFF.");
+        }
+    } elseif ($data === "help") {
+        // Redirect to /help command
+        $helpMessage = "Here are some functions you can use:";
+
+        // Define the inline keyboard options for functions
+        $keyboard = [
+            "inline_keyboard" => [
+                [
+                    ["text" => "Details", "callback_data" => "details"]
+                ],
+                [
+                    ["text" => "Orders", "callback_data" => "orders"]
+                ],
+                [
+                    ["text" => "Notifications", "callback_data" => "notifications"]
+                ]
+            ]
+        ];
+
+        // Send the message with inline keyboard for help
+        sendInlineKeyboard($chatId, $helpMessage, $keyboard);
+    } elseif ($data === "details") {
+        // Get user details
+        $details = getUserDetails($chatId);
+
+        // Prepare details message
+        $detailsMessage = "Your details:\n" . implode("\n", $details);
+
+        // Define the inline keyboard options for going back to /help
+        $keyboard = [
+            "inline_keyboard" => [
+                [
+                    ["text" => "Back to /help", "callback_data" => "help"]
+                ]
+            ]
+        ];
+
+        // Send user details message with inline keyboard for going back to /help
+        sendInlineKeyboard($chatId, $detailsMessage, $keyboard);
+    } elseif ($data === "orders") {
+        // Handle orders action
+        sendMessage($chatId, "Here are your orders.");
+    } elseif ($data === "customer") {
+        // Handle customer action
+        sendMessage($chatId, "You selected Customer. Please enter the verification code.");
+    } elseif ($data === "seller") {
+        // Handle seller action
+        sendMessage($chatId, "You selected Seller. Please enter the verification code.");
     }
 }
 ?>

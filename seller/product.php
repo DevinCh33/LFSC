@@ -51,7 +51,7 @@
 			<th onclick="sortTable(1)">Image <span class="sort-indicator" id="indicator1"></span></th>
 			<th onclick="sortTable(2)">Product Name <span class="sort-indicator" id="indicator2"></span></th>
 			<th onclick="sortTable(3)">Description <span class="sort-indicator" id="indicator3"></span></th>
-			<th onclick="sortTable(5)">Quantity <span class="sort-indicator" id="indicator4"></span></th>
+			<th onclick="sortTable(5)">Quantity Remaining (g)<span class="sort-indicator" id="indicator4"></span></th>
 			<th onclick="sortTable(6)">Status <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(7)">Action <span class="sort-indicator" id="indicator5"></span></th>
 		  </tr>
@@ -119,7 +119,7 @@
 			</div>
 			<div class="myform-row">
 				<div class="label">
-					<label for="productDescr">Quantity:</label>
+					<label for="productDescr">Quantity (g):</label>
 				</div>
 				<div class="input">
 					<input type="text" id="proQuan" name="proQuan" class="myform-input" value="0" required>

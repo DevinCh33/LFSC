@@ -62,9 +62,9 @@ if($_POST['submit'])
 		
 			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) 
             {
-				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];							
+				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity']*$item['weight'];							
                 // update product table
-                $updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = '".$item['id']."'";
+                $updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = '".$item['product_id']."'";
                 $db->query($updateProductTable);
                 // add into order_item
                 $orderItemSql = "INSERT INTO order_item (order_id, priceID, quantity) 
@@ -197,7 +197,7 @@ if($_POST['submit'])
                                                     <input name="mod"  type="radio" value="paypal" disabled class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Paypal <img src="images/paypal.jpg" alt="" width="90"></span> </label>
                                             </li>
                                         </ul>
-                                        <p class="text-xs-center"> <input type="submit" onclick="return confirm('Are you sure?');" name="submit"  class="btn btn-outline-success btn-block" value="Order Now"> </p>
+                                        <p class="text-xs-center"> <input id="confirmOrder" type="submit" onclick="return confirm('Are you sure?');" name="submit"  class="btn btn-outline-success btn-block" value="Order Now"> </p>
                                     </div>
                                 </form>
                             </div>

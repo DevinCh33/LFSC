@@ -98,22 +98,24 @@ $(document).ready(function() {
         const priceId = $(this).parents().data('price-id');
         const productOwner = $(this).parents().data('product-owner');
         const productName = $(this).siblings('a').children('h5').text();
+        const productWeight = productName.split("(")[1].slice(0, -2);
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
         const productImage = $(this).closest('.product').siblings('.search-product').data('image-src');
         
-        addToCart(priceId, productName, productPrice, productOwner, 1, productImage); 
+        addToCart(priceId, productName, productWeight, productPrice, productOwner, 1, productImage); 
         alert("Product added to cart!");
     });
 
     // Event listener for "Order Now" buttons (Recommendations)
     $('.addmToCart').on('click', function() {
         const priceId = $(this).parents().data('price-id');
-        const productName = $(this).siblings('a').children('h5').text();
         const productOwner = $(this).parents().data('product-owner');
+        const productName = $(this).siblings('a').children('h5').text();
+        const productWeight = productName.split("(")[1].slice(0, -2);
         const productPrice = parseFloat($(this).siblings('span').text().replace('Price: RM ', ''));
         const productImage = $(this).parents().siblings('img').attr('src');
         
-        addToCart(priceId, productName, productPrice, productOwner, 1, productImage); 
+        addToCart(priceId, productName, productWeight, productPrice, productOwner, 1, productImage); 
         alert("Product added to cart!");
     });
 
@@ -122,18 +124,20 @@ $(document).ready(function() {
         const priceId = $(this).closest('.product').data('price-id');
         const productOwner = $(this).closest('.product').data('product-owner');
         const productName = $(this).siblings('h6').text();
+        const productWeight = productName.split("(")[1].slice(0, -2);
         const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
         const productAmount = Number($(this).siblings('input').val());
         const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src');
         
-        addToCart(priceId, productName, productPrice, productOwner, productAmount, productImage);
+        addToCart(priceId, productName, productWeight, productPrice, productOwner, productAmount, productImage);
     });
 
     // Function to add a product to the cart
-    function addToCart(price_id, name, price, owner, quantity=1, image='') {
+    function addToCart(price_id, name, weight, price, owner, quantity=1, image='') {
         if (debug) {
             console.log(price_id);
             console.log(name);
+            console.log(weight);
             console.log(price);
             console.log(owner);
             console.log(quantity);
@@ -154,6 +158,7 @@ $(document).ready(function() {
             cart.push({
                 price_id,
                 name,
+                weight,
                 price,
                 quantity,
                 owner,

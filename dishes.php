@@ -373,7 +373,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <p>TOTAL</p>
                                 <h3 id="cartTotal" class="value">RM 0.00</h3>
                                 <p>Free Shipping</p>
-                                <a href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                                <a id="checkout" href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
                             </div>
                         </div>
                     </div>
@@ -403,6 +403,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating_product.js"></script>
     <script src="js/rating1.js"></script>

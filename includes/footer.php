@@ -11,8 +11,8 @@
                 <ul>
                     <li><a href="index.php">Little Farmer</a> </li>
                     <li><a href="market.php">Market</a> </li>
-                    <li><a href="restaurants.php">Merchants</a> </li>
-                    <li><a href="dishes.php">Products / Cart</a> </li>
+                    <li><a href="merchants.php">Merchants</a> </li>
+                    <li><a href="products.php">Products / Cart</a> </li>
                     <li><a href="your_orders.php">Orders</a> </li>
                 </ul>
             </div>

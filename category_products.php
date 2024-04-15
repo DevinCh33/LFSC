@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="product content" >
                                     <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
-                                        <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
+                                        <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
                                         <div>'.$r['descr'].'</div>                       
                                         <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
 
@@ -142,7 +142,7 @@
                             </div>
                             <div class="product content" >
                                 <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
-                                    <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
+                                    <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
                                     <div>'.$r['descr'].'</div>                       
                                     <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
 

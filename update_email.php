@@ -20,7 +20,7 @@ if (isset($_POST['update_email']) && !empty($_POST['new_email'])) {
         // Set success message to display on the current page
         $message = "<span style='color: #FF6B35;'>Email updated successfully. You will be redirected in a few seconds.</span>";
         // Use a meta-refresh to redirect after 3 seconds
-        echo "<meta http-equiv='refresh' content='3;url=myaccount.php'>";
+        echo "<meta http-equiv='refresh' content='3;url=your_account.php'>";
     } else {
         // Set error message to display on the current page
         $message = 'Failed to update email. Please try again.';

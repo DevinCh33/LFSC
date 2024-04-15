@@ -79,7 +79,7 @@
                 mysqli_query($db, $insert_token_query);
 
                 // Send an email with the password reset link
-                $reset_link = "forgotpassword.php?token=$token";
+                $reset_link = "forgot_password.php?token=$token";
                 $subject = "Password Reset";
                 $message = "Click on the following link to reset your password: $reset_link";
                 $headers = "From: yiling0177@gmail.com"; // Replace with your email address

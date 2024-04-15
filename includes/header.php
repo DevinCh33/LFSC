@@ -84,14 +84,14 @@ if ($stmt = mysqli_prepare($db, $query)) {
             </li>
             <li <?php echo ($currentPage == 'home') ? 'class="active"' : ''; ?>><a href="index.php">Home</a></li>
             <li <?php echo ($currentPage == 'market') ? 'class="active"' : ''; ?>><a href="market.php">Market</a></li>
-            <li <?php echo ($currentPage == 'merchants') ? 'class="active"' : ''; ?>><a href="restaurants.php">Merchants</a></li>
-            <li <?php echo ($currentPage == 'products') ? 'class="active"' : ''; ?>><a href="dishes.php">Products / Cart</a></li>
+            <li <?php echo ($currentPage == 'merchants') ? 'class="active"' : ''; ?>><a href="merchants.php">Merchants</a></li>
+            <li <?php echo ($currentPage == 'products') ? 'class="active"' : ''; ?>><a href="products.php">Products / Cart</a></li>
 
             <li>
                 <div class="my_account_dropdown">
                     <button class="dropbtn">My Account</button>
                     <div class="dropdown-content">
-                        <a href="myaccount.php">My Account</a>
+                        <a href="your_account.php">My Account</a>
                         <a href="bindtg.php">Bind Telegram</a>
                         <a href="your_orders.php">Orders</a>
                         <?php if (isset($_SESSION['adm_id'])): ?>

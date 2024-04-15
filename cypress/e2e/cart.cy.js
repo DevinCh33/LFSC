@@ -5,7 +5,7 @@ describe('Cart spec', () => {
       cy.get('input').first().type('cust1')
       cy.get('input').eq(1).type('123456')
       cy.get('input').last().click()
-      cy.visit(data.root + 'dishes.php?res_is=51')
+      cy.visit(data.root + 'products.php?res_is=51')
     })
   })
   it('Successfully loads products', () => {
@@ -81,7 +81,7 @@ describe('Cart spec', () => {
         cy.get('#confirmOrder').click()
 
         cy.fixture('path.json').then((data) => {
-          cy.visit(data.root + 'dishes.php?res_is=51')
+          cy.visit(data.root + 'products.php?res_is=51')
 
           cy.get('.product').first().find('p').eq(1).then((stock) => {
             

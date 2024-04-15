@@ -106,7 +106,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 </div>
                                 <div class="product content" >
                                     <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
-                                        <a href="dishes.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
+                                        <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
                                         <div>'.$r['descr'].'</div>                       
                                         <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
 
@@ -245,7 +245,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '    <div class="card michealProductCard">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
-                    echo '            <a href="dishes.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
+                    echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
                     echo '            <p class="card-text">Quantity: ' . $productQuantity . '</p>';
 
                     if ($productCustomPrice != 0) {
@@ -303,7 +303,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 while ($r = mysqli_fetch_array($query_res)) {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
-                                <a href="dishes.php?res_id=' . $r['rs_id'] . '">
+                                <a href="products.php?res_id=' . $r['rs_id'] . '">
                                     <div class="figure-wrap bg-image" data-image-src="seller/Res_img/' . $r['image'] . '"></div>
                                     <div class="content">
                                         <h4 class="title"><strong>' . $r['title'] . '</strong></h4>

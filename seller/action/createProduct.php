@@ -25,9 +25,6 @@ if($_POST)
 				$url = 'http://localhost/lfsc/inventory/assets/images/stock/'.$tmp;
 				$sql = "INSERT INTO product(product_name, product_image, descr, weight, categories_id, quantity, price, owner, active, status) 
 				VALUES ('$productName', '$url','$productDescr', '$productWeight',  '$categoryName', '$quantity', '$price','$userIdentify', '$productStatus', 1)";
-
-				//$sql2 = "INSERT INTO dishes (rs_id, title, slogan, price, img) 
-				//VALUES (0, '$productName', 'great taste great whatever', '$price', '$url')";
 				
 				if(($db->query($sql) === TRUE)) 
 				{

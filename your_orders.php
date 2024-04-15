@@ -344,7 +344,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
         console.log(rs_id);
         $.ajax({
             type: 'POST',
-            url: 'orderReceipt.php',
+            url: 'order_receipt.php',
             data: { rs_id: rs_id },
             success: function (response) {
                 // Open a new window and inject the receipt content

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2024 at 05:02 PM
+-- Generation Time: Apr 16, 2024 at 09:32 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -274,21 +274,20 @@ CREATE TABLE `restaurant` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `description` text NOT NULL,
   `rating` int(11) DEFAULT NULL CHECK (`rating` >= 1 and `rating` <= 5),
-  `avg_rating` decimal(3,1) DEFAULT 0.0,
-  `comment` varchar(255) DEFAULT NULL
+  `avg_rating` decimal(3,1) DEFAULT 0.0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `restaurant`
 --
 
-INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`, `rating`, `avg_rating`, `comment`) VALUES
-(51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2024-03-20 13:53:52', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.', 5, 0.0, NULL),
-(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2024-03-20 13:40:58', 'The Green Grocer is your one stop shop for all things fresh and healthy!', 1, 0.0, NULL),
-(53, 8, 'Fresh Food Sdn Bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-24 08:14:05', 'Prices you can\'t beat!', NULL, 0.0, NULL),
-(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!', NULL, 0.0, NULL),
-(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!', NULL, 0.0, NULL),
-(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!', NULL, 0.0, NULL);
+INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`, `rating`, `avg_rating`) VALUES
+(51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2024-03-20 13:53:52', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.', 5, 0.0),
+(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2024-03-20 13:40:58', 'The Green Grocer is your one stop shop for all things fresh and healthy!', 1, 0.0),
+(53, 8, 'Fresh Food Sdn Bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-24 08:14:05', 'Prices you can\'t beat!', NULL, 0.0),
+(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!', NULL, 0.0),
+(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!', NULL, 0.0),
+(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!', NULL, 0.0);
 
 -- --------------------------------------------------------
 
@@ -312,17 +311,6 @@ INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
 (7, 'Dried', '2023-11-15 13:11:10'),
 (8, 'Canned', '2023-11-15 13:11:17'),
 (9, 'Other', '2023-11-15 13:11:23');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `stars`
---
-
-CREATE TABLE `stars` (
-  `id` int(11) NOT NULL,
-  `rateIndex` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -589,12 +577,6 @@ ALTER TABLE `res_category`
   ADD PRIMARY KEY (`c_id`);
 
 --
--- Indexes for table `stars`
---
-ALTER TABLE `stars`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tblemployee`
 --
 ALTER TABLE `tblemployee`
@@ -690,12 +672,6 @@ ALTER TABLE `restaurant`
 --
 ALTER TABLE `res_category`
   MODIFY `c_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `stars`
---
-ALTER TABLE `stars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tblemployee`

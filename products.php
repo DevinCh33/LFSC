@@ -330,13 +330,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
             <button type="submit" class="btn theme-btn btn-lg">Submit</button>
 
-
             <a class="btn btn-secondary btn-lg" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
 
         </form>
     </div>
 </div>
-
                         <!-- end:Order row -->
                             
                         <div class="widget-body">
@@ -406,7 +404,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
-    <script src="js/rating_product.js"></script>
     <script src="js/rating.js"></script>
     <script src="js/comment.js"></script>
 </body>

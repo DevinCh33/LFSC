@@ -108,7 +108,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
                                         <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
                                         <div>'.$r['descr'].'</div>                       
-                                        <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
+                                        <div class="product-name" style="color: green;">Stock: '. (int) $r['quantity'].'</div>';
 
                                         $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
                                         $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);
@@ -246,7 +246,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
                     echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
-                    echo '            <p class="card-text">Quantity: ' . $productQuantity . '</p>';
+                    echo '            <p class="card-text">Stock: ' . $productQuantity . '</p>';
 
                     if ($productCustomPrice != 0) {
                     echo '            <span class="card-text">Price: RM ' . $productCustomPrice . '</span>';

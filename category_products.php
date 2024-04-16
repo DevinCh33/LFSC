@@ -74,7 +74,7 @@
                                     <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
                                         <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
                                         <div>'.$r['descr'].'</div>                       
-                                        <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
+                                        <div class="product-name" style="color: green;">Stock: '. (int) $r['quantity'].'</div>';
 
                                         $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
                                         $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);
@@ -144,7 +144,7 @@
                                 <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
                                     <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
                                     <div>'.$r['descr'].'</div>                       
-                                    <div class="product-name" style="color: green;"> Stock: '. (int) $r['quantity'].'</div>';
+                                    <div class="product-name" style="color: green;">Stock: '. (int) $r['quantity'].'</div>';
 
                                     $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
                                     $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);

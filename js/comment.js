@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Submit comment form
         $("#commentForm").submit(function(event) {
             event.preventDefault();
-            var comment = $("#comment").val();
+            var comment = $("#comment").val().trim();
             var user_id = $("#user_id").val(); // Assuming you have a hidden input field for user_id
             var res_id = $("#res_id").val(); // Assuming you have a hidden input field for res_id
     
@@ -19,39 +19,50 @@ document.addEventListener("DOMContentLoaded", function() {
                     res_id: res_id
                 },
                 success: function(response) {
-                    // Parse JSON response
-                    var data = JSON.parse(response);
-                    // Clear comment textarea
-                    $("#comment").val("");
-                    // Append the new comment to the recent comments list
-                    $("#recentComments").append("<li>" + data.comment + "</li>");
+                    try {
+                        // Parse JSON response
+                        var data = JSON.parse(response);
+                        // Clear comment textarea
+                        $("#comment").val("");
+                        // Append the new comment to the recent comments list
+                        appendComment(data.comment);
+                    } catch (error) {
+                        console.error("Error parsing JSON:", error);
+                    }
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error:", error);
+                    console.error("AJAX Error:", error);
                 }
             });
         });
-    
 
-
-                    // Fetch and display recent comments
+        // Fetch and display recent comments
         function fetchComments() {
             $.ajax({
                 type: "GET",
                 url: "comment.php", // Assuming the PHP script is named comment.php
                 data: { res_id: $("#res_id").val() }, // Send restaurant ID as a parameter
                 success: function(response) {
-                    var comments = JSON.parse(response);
-                    var commentsList = $("#recentComments");
-                    commentsList.empty();
-                    comments.forEach(function(comment) {
-                        commentsList.append("<li>" + comment.comment + "</li>");
-                    });
+                    try {
+                        var comments = JSON.parse(response);
+                        comments.forEach(function(comment) {
+                            appendComment(comment.comment);
+                        });
+                    } catch (error) {
+                        console.error("Error parsing JSON:", error);
+                    }
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error:", error);
+                    console.error("AJAX Error:", error);
                 }
             });
+        }
+
+        // Append comment to the recent comments list
+        function appendComment(comment) {
+            var commentsList = $("#recentComments");
+            var truncatedComment = comment.length > 150 ? comment.substring(0, 145) + "....." : comment; // Truncate long comments
+            commentsList.append("<li>" + truncatedComment + "</li>");
         }
     });
 });

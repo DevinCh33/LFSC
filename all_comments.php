@@ -102,7 +102,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
 <!-- Section for viewing comments start -->
 
-        <h1>All Comments</h1>
+        <h2>All Comments</h2>
+        <hr class="mb-1"> <!-- Add a horizontal rule for visual separation -->
+
+
+
+
+        
 
 <?php
 // Include the database connection

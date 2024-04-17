@@ -104,7 +104,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <div class="container m-t-30">
             <div class="row">
                 <!-- Column for POPULAR ORDERS -->
-                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <!-- <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9"> -->
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
                     <div class="menu-widget" id="2">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
@@ -234,7 +235,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                             <div class="food-item">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                                        <div class="col-xs-12 col-sm-12 col-lg-8"> 
+
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
@@ -309,7 +311,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 </div>
 
                 <!-- start:Comments -->
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                <!-- <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"> -->
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
                     <div class="widget widget-cart">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
@@ -318,31 +321,45 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <div class="clearfix"></div>
                         </div>
                         <div class="order-row bg-white">
-    <div class="widget-body">   
-        <form id="commentForm" method="post">
-            <!-- Inside the comment form -->
-            <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-            <input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
+                            <div class="widget-body">   
+                                <form id="commentForm" method="post">
+                                    <!-- Inside the comment form -->
+                                    <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                                    <input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
 
-            <div class="form-group">
-                <label for="comment">Leave a comment:</label>
-                <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
-            </div>
-            <button type="submit" class="btn theme-btn btn-lg">Submit</button>
+                                    <div class="form-group">
+                                        <label for="comment">Leave a comment:</label>
+                                        <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
+                                    </div>
+                                    <!-- <button type="submit" class="btn theme-btn btn-lg">Submit</button>  -->
+                                    <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
+                              
 
-            <a class="btn btn-secondary btn-lg" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
-
-        </form>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- end:Order row -->
+            
+                        <div class="widget-body">
+    <div class="widget-heading">
+        <h3 class="widget-title text-dark">
+            Recent Comments
+        </h3>
+        <div class="clearfix"></div>
+    </div>
+    <div class="comment-section">
+        <ul id="recentComments">
+            <!-- PHP code to display recent comments goes here -->
+        </ul>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-secondary btn-lg" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
     </div>
 </div>
-                        <!-- end:Order row -->
-                            
-                        <div class="widget-body">
-                            <h4>Recent Comments</h4>
-                            <ul id="recentComments">
-                                <!-- PHP code to display recent comments goes here -->
-                            </ul>
-                        </div>
+
+
+                        
+
                     </div>
                 </div>
                 <!-- end:Comments -->

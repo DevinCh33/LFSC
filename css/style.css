@@ -386,6 +386,17 @@ hr {
     color: #fff;
 }
 
+.comment-section {
+    max-height: 150px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds the container height */
+}
+
+.recentComments li {
+    margin-bottom: 10px; /* Add space between each comment */
+}
+
+
+
 /* ==========================
 *   Header and navigation
 ============================*/
@@ -1688,6 +1699,10 @@ a.more-link {
     padding: 20px;
 }
 
+.widget-body-body {
+    padding: 20px;
+}
+
 .panel {
     margin-bottom: 15px;
     border: 1px solid #dcdee3;
@@ -1933,7 +1948,7 @@ a[aria-expanded=false] .fa-angle-down {
 
 .rating-block i:hover,
 .rating-block i.star-active {
-    color: #ff9800; /* Color for active stars and stars on hover */
+    color: #cc00ff; /* Color for active stars and stars on hover */
 }
 
 /* Optional: Add responsive styles for smaller screens */

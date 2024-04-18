@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $receiptContent .= "</table>";
-        $receiptContent .= "<p style='text-align: right; margin-top: 20px; font-weight: bold;'>Total Income: RM " . number_format($totalAmount, 2) . "</p>";
+        $receiptContent .= "<p style='text-align: right; margin-top: 20px; font-weight: bold;'>Total Income: RM " . number_format($totalAmount, 2, '.', '') . "</p>";
         $receiptContent .= "<button onclick='window.location.href=\"report.php\"' style='display: block; margin: 20px auto; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;'>Back</button>";
         $receiptContent .= "</div>";
 

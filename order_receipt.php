@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $totalAmount += $result["proPrice"];
             $totalItems += $result["quantity"];
 
-            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($result["proPrice"], 2)."</td></tr>";
+            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($result["proPrice"], 2, '.', '')."</td></tr>";
 
             ++$no;
         }

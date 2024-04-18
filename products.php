@@ -178,9 +178,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <p style="color: green;">Stock Left: <?php echo (int)$item['quantity']; ?></p>
 
                                             <?php
-                                            $customPrice = number_format($item['price'], 2);
-                                            $discount = number_format($item['proDisc']/100, 2);
-                                            $price = number_format($item['proPrice'], 2);
+                                            $customPrice = number_format($item['price'], 2, '.', '');
+                                            $discount = number_format($item['proDisc']/100, 2, '.', '');
+                                            $price = number_format($item['proPrice'], 2, '.', '');
 
                                             if ($customPrice != 0) {
                                             echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
@@ -193,7 +193,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             else {
                                             echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
                                                               <div style="color: orange;">'. $discount*100 .'% off</div>
-                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2).'</span>';
+                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2, '.', '').'</span>';
                                             }
                                             ?>
 
@@ -271,9 +271,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <div class="discount-value" style="color: orange;"></div>
 
                                             <?php
-                                            $customPrice = number_format($item[0]['price'], 2);
-                                            $discount = number_format($item[0]['proDisc']/100, 2);
-                                            $price = number_format($item[0]['proPrice'], 2);
+                                            $customPrice = number_format($item[0]['price'], 2, '.', '');
+                                            $discount = number_format($item[0]['proDisc']/100, 2, '.', '');
+                                            $price = number_format($item[0]['proPrice'], 2, '.', '');
 
                                             if ($customPrice != 0) {
                                             echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
@@ -286,7 +286,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             else {
                                             echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
                                                               <div style="color: orange;">'. $discount*100 .'% off</div>
-                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2).'</span>';
+                                                              <span class="price pull-left">RM '.number_format($price*(1-$discount), 2, '.', '').'</span>';
                                             }
                                             ?>
                                             

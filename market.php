@@ -114,7 +114,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);
                                         $stmt->execute();
                                         $custom = $stmt->get_result();
-                                        $customPrice = number_format($custom->fetch_assoc()['price'], 2);
+                                        $customPrice = number_format($custom->fetch_assoc()['price'], 2, '.', '');
 
                                         if ($customPrice != 0) {
                                         echo '            <span class="price">RM ' . $customPrice . '</span>';
@@ -125,9 +125,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         }
                                         
                                         else {
-                                        echo '            <a style="text-decoration: line-through; color: red;">RM ' . number_format($r['proPrice'], 2) . '</a>
+                                        echo '            <a style="text-decoration: line-through; color: red;">RM ' . number_format($r['proPrice'], 2, '.', '') . '</a>
                                                           <a style="color: orange;">'. $r['proDisc'] .'% off</a>
-                                                          <span class="price">RM ' . number_format($r['proPrice']*(1-$r['proDisc']/100), 2) . '</span>';
+                                                          <span class="price">RM ' . number_format($r['proPrice']*(1-$r['proDisc']/100), 2, '.', '') . '</span>';
                                         }
                                         
                                         echo '
@@ -237,9 +237,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     $custom = $stmt->get_result();
 
                     // Format price to ensure it has two decimal places
-                    $productCustomPrice = number_format($custom->fetch_assoc()['price'], 2);
-                    $productPrice = number_format($recommended[$i]['proPrice'], 2);
-                    $productDiscount = number_format($recommended[$i]['proDisc']/100, 2);
+                    $productCustomPrice = number_format($custom->fetch_assoc()['price'], 2, '.', '');
+                    $productPrice = number_format($recommended[$i]['proPrice'], 2, '.', '');
+                    $productDiscount = number_format($recommended[$i]['proDisc']/100, 2, '.', '');
                     $productOwner = number_format($recommended[$i]['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
@@ -261,7 +261,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '            
                                       <p style="text-decoration: line-through; color: red;"> Price: RM ' . $productPrice . '</p>
                                       <p style="color: orange;">'. $productDiscount*100 .'% off</p>
-                                      <span>Price: RM ' . number_format($productPrice*(1-$productDiscount), 2) . '</span>';
+                                      <span>Price: RM ' . number_format($productPrice*(1-$productDiscount), 2, '.', '') . '</span>';
                     }
 
                     if ($recommended[$i+1] == 0) {

@@ -25,21 +25,23 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("connection/connect.php"); // connection to database
 
-function obtainPriceDictionary($db) 
+function obtainPWSDictionary($db)
 {
-	$priceDictionary = [];
-	$query = "SELECT product_id, price from product";
+	$PWSDictionary = [];
+	$query = "SELECT tblprice.priceNo, tblprice.proPrice, tblprice.proWeight, product.quantity from product JOIN tblprice ON product.product_id = tblprice.productID";
 	$products = mysqli_query($db, $query); // executing
 	
 	if (!empty($products)) 
 	{
 		foreach($products as $product)
 		{   
-			$priceDictionary[$product['product_id']] = $product['price'];
+			$PWSDictionary['prices'][$product['priceNo']] = $product['proPrice'];
+			$PWSDictionary['weights'][$product['priceNo']] = $product['proWeight'];
+			$PWSDictionary['stock'][$product['priceNo']] = $product['quantity'];
 		}
 	}
 
-	$_SESSION['prices'] = $priceDictionary;
+	$_SESSION['PWS'] = $PWSDictionary;
 }
 
 if (isset($_SESSION["user_id"])) // if already logged in
@@ -63,7 +65,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
 			$_SESSION['loginStatus'] = true;
 
-			//obtainPriceDictionary($db);
+			obtainPWSDictionary($db);
 
 			header("refresh:1;url=market.php"); // redirect to market.php page
 		} 

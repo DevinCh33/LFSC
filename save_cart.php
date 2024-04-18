@@ -7,14 +7,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $valid = True;
 
-        /* foreach ($_POST['cart'] as $item)
+        foreach ($_POST['cart'] as $item)
         {
-            if ((float)$item['price'] != (float)$_SESSION['prices'][$item['price_id']])
+            $priceInDB = (float)$_SESSION['PWS']['prices'][$item['price_id']];
+            $weightInDB = (int)$_SESSION['PWS']['weights'][$item['price_id']];
+            $stockInDB = (int)$_SESSION['PWS']['stock'][$item['price_id']];
+            $itemPrice = (float)$item['price'];
+            $itemWeight = (float)$item['weight'];
+            $itemStock = (int)$item['stock'];
+
+            if ($itemPrice <= $priceInDB/100)
             {
                 $valid = False;
                 break;
             }
-        }*/
+
+            if ($itemWeight <= $weightInDB/1.5)
+            {
+                $valid = False;
+                break;
+            }
+
+            if ($itemStock/1.5 >= $stockInDB)
+            {
+                $valid = False;
+                break;
+            }
+        }
 
         if ($valid) // If prices were not altered
         {

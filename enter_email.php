@@ -30,7 +30,6 @@
     error_reporting(0); // hide undefined index errors
     include("connection/connect.php"); // connection to the database
 
-
     if (isset($_POST['submit'])) // if submit button was pressed
     {
         $email = $_POST['email']; // fetch records from login form
@@ -67,10 +66,8 @@
                             }, 1000);
                         });
                     });
-                </script>
+                </script>\
                 <?php
-            
-            
                 // Generate a unique token for the password reset link
                 $token = bin2hex(random_bytes(32));
 
@@ -88,7 +85,6 @@
 
                 $success_message = "Password reset link has been sent to your email. Please check your inbox.";
 
-              
             } else {
                 $message = "Invalid email!";
             }
@@ -150,7 +146,5 @@
             });
         });
     </script>
-
 </body>
-
 </html>

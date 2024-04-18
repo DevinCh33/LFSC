@@ -1,12 +1,10 @@
 <?php
 include('connection/connect.php'); 
 
-
 $message = '';
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
-
 
     $query = "SELECT * FROM users WHERE email_token='$token' LIMIT 1";
     $result = mysqli_query($db, $query);
@@ -35,8 +33,6 @@ if (isset($_GET['token'])) {
     $message = "No verification token provided. Please check your email for the verification link.";
 }
 
-
 if ($message !== '') {
     echo "<div style='text-align: center; margin-top: 20px;'>$message</div>";
 }
-?>

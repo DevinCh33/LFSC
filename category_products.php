@@ -41,12 +41,9 @@
             ?>
 
             <!-- Category Links -->
-            <div>
-                <a href="category_products.php?categories_id=5" class="btn btn-outline-info <?= $activeCategoryId == 5 ? 'active-link' : '' ?>" role="button">Leafy Green</a>
-                <a href="category_products.php?categories_id=6" class="btn btn-outline-info <?= $activeCategoryId == 6 ? 'active-link' : '' ?>" role="button">Root Vegetables</a>
-                <a href="category_products.php?categories_id=7" class="btn btn-outline-info <?= $activeCategoryId == 7 ? 'active-link' : '' ?>" role="button">Pome Fruits</a>
-                <a href="category_products.php?categories_id=8" class="btn btn-outline-info <?= $activeCategoryId == 8 ? 'active-link' : '' ?>" role="button">Other</a>
-            </div>
+            <?php
+            include("includes/categories_bar.php");
+            ?>
             
             <!-- ... Rest of your existing hero-inner content ... -->
         </div>

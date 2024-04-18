@@ -54,4 +54,3 @@ if (isset($_POST['verify_otp'])) {
     // header('Location: change_email.php');
     // exit;
 }
-?>

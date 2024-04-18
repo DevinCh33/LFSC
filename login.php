@@ -24,25 +24,7 @@
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("connection/connect.php"); // connection to database
-
-function obtainPWSDictionary($db)
-{
-	$PWSDictionary = [];
-	$query = "SELECT tblprice.priceNo, tblprice.proPrice, tblprice.proWeight, product.quantity from product JOIN tblprice ON product.product_id = tblprice.productID";
-	$products = mysqli_query($db, $query); // executing
-	
-	if (!empty($products)) 
-	{
-		foreach($products as $product)
-		{   
-			$PWSDictionary['prices'][$product['priceNo']] = $product['proPrice'];
-			$PWSDictionary['weights'][$product['priceNo']] = $product['proWeight'];
-			$PWSDictionary['stock'][$product['priceNo']] = $product['quantity'];
-		}
-	}
-
-	$_SESSION['PWS'] = $PWSDictionary;
-}
+include("includes/prices_check.php"); // for PWS dictionary
 
 if (isset($_SESSION["user_id"])) // if already logged in
 {

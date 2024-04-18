@@ -194,7 +194,6 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
             <!-- end:Container -->
         </div>
 
-
         <div class="result-show">
             <div class="container">
                 <div class="row"></div>

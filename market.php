@@ -52,23 +52,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <!-- banner part starts -->
     <section class="hero" style = "background-color: #36454f;">
         <div class="hero-inner">
-            <h1>Your One Stop Super Store! </h1></br>
-            <!--<a href="category_products.php?categories_id=4" class="btn btn-info" role="button">Artificial</a>-->
-            <a href="category_products.php?categories_id=5" class="btn btn-outline-info" role="button">Leafy Green</a>
-            <a href="category_products.php?categories_id=6" class="btn btn-outline-info" role="button">Root Vegetables</a>
-            <a href="category_products.php?categories_id=7" class="btn btn-outline-info" role="button">Pome Fruits</a>
-            <a href="category_products.php?categories_id=8" class="btn btn-outline-info" role="button">Other</a>
-            <!--<a href="login.php" class="btn btn-info" role="button">All</a>
-            <a href="login.php" class="btn btn-outline-info" role="button">Salad</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Herbs</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Baby Green</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Microgreen</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Edible Flower</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Retail Pack</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Organic</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Pesticide Free</a>
-            <a href="#link" class="btn btn-outline-info" role="button">End Product</a>
-            <a href="#link" class="btn btn-outline-info" role="button">Services</a> -->
+            <h1>Your One Stop Super Store!</h1></br>
+            <?php
+            include("includes/categories_bar.php");
+            ?>
             <div class="banner-form">
                 <form class="form-inline" method="get">
                     <div class="form-group" style="margin-top:50px;">

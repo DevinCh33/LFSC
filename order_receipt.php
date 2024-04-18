@@ -3,7 +3,6 @@
 include("connection/connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $order = $_POST['rs_id'];
 
     // Your SQL query to fetch data and generate receipt content based on order
@@ -71,4 +70,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
     echo "Error: Invalid request method or missing parameters.";
 }
-?>

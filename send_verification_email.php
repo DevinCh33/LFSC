@@ -62,4 +62,3 @@ EMAILBODY;
         return false;
     }
 }
-?>

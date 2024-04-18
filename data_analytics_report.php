@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
 <?php
 // Replace with your actual database connection code
 include("connection/connect.php"); // connection to database
@@ -155,11 +154,5 @@ if ($totalOrders > 0) {
         document.getElementById('chartType').addEventListener('change', updateChartType);
     });
 </script>
-
-
-
-
-
 </body>
-
 </html>

@@ -225,4 +225,4 @@ if (isset($update["message"])) {
         sendMessage($chatId, "You selected Seller. Please enter the verification code.");
     }
 }
-?>
+

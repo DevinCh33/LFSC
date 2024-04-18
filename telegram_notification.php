@@ -29,4 +29,3 @@ function sendTelegramNotification($chatId, $message)
         echo "Message sent successfully to $chatId.";
     }
 }
-?>

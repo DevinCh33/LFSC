@@ -28,7 +28,7 @@
 	<div class="dashboard">
 		
 		<div class="card">
-			<h3>Total Seller</h3>
+			<h3>Total Sellers</h3>
 		<?php
 			$querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin";
 			$resultSeller = mysqli_query($db, $querySeller);
@@ -51,7 +51,7 @@
       	</div>
 		
 		<div class="card">
-			<h3>Seller Under Inspection</h3>
+			<h3>Sellers Under Inspection</h3>
 			<?php
 				$querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin WHERE storeStatus = 0";
 				$resultSeller = mysqli_query($db, $querySeller);
@@ -99,7 +99,7 @@
 		  </div>
 		
 		<div class="card">
-			<h3>Product Under Inspection</h3>
+			<h3>Products Under Inspection</h3>
 			<?php
 			// Query to get the total amount of orders for the current month
 			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
@@ -129,7 +129,7 @@
 					<p>Order Reminder :</p> 
 				</div>
 				<div class="box">
-					<p>Product Pending:</p> 
+					<p>Products Pending:</p> 
 				</div>
 				
 			</div>

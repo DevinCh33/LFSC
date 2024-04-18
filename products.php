@@ -333,8 +333,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     </div>
                                     <!-- <button type="submit" class="btn theme-btn btn-lg">Submit</button>  -->
                                     <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
-                              
-
                                 </form>
                             </div>
                         </div>
@@ -356,10 +354,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <a class="btn btn-secondary btn-lg" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
     </div>
 </div>
-
-
-                        
-
                     </div>
                 </div>
                 <!-- end:Comments -->

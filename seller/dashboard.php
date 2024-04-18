@@ -101,7 +101,7 @@
 		
 		<div class="card">
 		<?php if($_SESSION["adm_co"] == "SUPP"){ ?>
-			<h3>Total Order</h3>
+			<h3>Total Orders</h3>
 			<?php
 			// Query to get the total amount of orders for the current month
 			$queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '".date("Y-m-")."%'";
@@ -199,7 +199,7 @@
 		  </div>
 
 		  <div class="card">
-			<h3>Total Employee</h3>
+			<h3>Total Employees</h3>
 			<p>5,186<span class="stat-delta positive">+150%</span></p>
 		  </div>
 	

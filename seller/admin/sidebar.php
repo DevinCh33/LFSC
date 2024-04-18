@@ -34,27 +34,27 @@
 	
 		<?php if($_SESSION['adm_co'] != "VSUPA"){ ?>
       <li>
-          <a href="employee.php">
+          <a href="employees.php">
             <i class="fa-solid fa-user-tie"></i>
-            <span class="link_name">Employee</span>
+            <span class="link_name">Employees</span>
           </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="employee.php">Employee</a></li>
+          <li><a class="link_name" href="employees.php">Employees</a></li>
         </ul>
       </li>
 		<?php } ?>
 		
 		<li>
         <div class="iocn-link">
-          <a href="seller.php">
+          <a href="sellers.php">
             <i class="fa-solid fa-shop"></i>
-            <span class="link_name">Seller</span>
+            <span class="link_name">Sellers</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-          	<li><a class="link_name" href="seller.php">Seller</a></li>
-			<li><a href="sellerInspection.php">Inspection</a></li>
+          	<li><a class="link_name" href="sellers.php">Sellers</a></li>
+			<li><a href="seller_inspection.php">Inspection</a></li>
         </ul>
       </li>
 		
@@ -72,15 +72,15 @@
 	<?php if($_SESSION['adm_co'] != "VSUPA"){ ?>
       <li>
         <div class="iocn-link">
-          <a href="product.php">
+          <a href="products.php">
             <i class="fa-solid fa-carrot"></i>
             <span class="link_name">Products</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-          	<li><a class="link_name" href="product.php">Products</a></li>
-			<li><a href="productInspection.php">Inspection</a></li>
+          	<li><a class="link_name" href="products.php">Products</a></li>
+			<li><a href="product_inspection.php">Inspection</a></li>
         </ul>
       </li>
 	<?php } ?> 
@@ -92,7 +92,7 @@
           <span class="link_name">Report</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="admin_report">Report</a></li>
+          <li><a class="link_name" href="admin_report.php">Report</a></li>
         </ul>
       </li>
 		<?php } ?>

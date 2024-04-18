@@ -20,7 +20,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <span class="text">Order</span>
+      <span class="text">Orders</span>
     </div>
 	  
 	  <div class="empMainCon">

@@ -35,14 +35,14 @@
 		<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
         <div class="iocn-link">
-          <a href="employee.php">
+          <a href="employees.php">
             <i class="fa-solid fa-user-tie"></i>
-            <span class="link_name">Employee</span>
+            <span class="link_name">Employees</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="#">Employee</a></li>
+          <li><a class="link_name" href="#">Employees</a></li>
           <li><a href="#">HTML & CSS</a></li>
           <li><a href="#">JavaScript</a></li>
           <li><a href="#">PHP & MySQL</a></li>
@@ -53,14 +53,14 @@
 	<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
         <div class="iocn-link">
-          <a href="product.php">
+          <a href="products.php">
             <i class="fa-solid fa-carrot"></i>
             <span class="link_name">Products</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
-          <li><a class="link_name" href="product.php">Products</a></li>
+          <li><a class="link_name" href="products.php">Products</a></li>
           <li><a href="#">Web Design</a></li>
           <li><a href="#">Login Form</a></li>
           <li><a href="#">Card Design</a></li>
@@ -70,24 +70,24 @@
 		
 	
       <li>
-        <a href="customer.php">
+        <a href="customers.php">
           <i class="fa-solid fa-user"></i>
-          <span class="link_name">Customer</span>
+          <span class="link_name">Customers</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="customer.php">Customer</a></li>
+          <li><a class="link_name" href="customers.php">Customers</a></li>
         </ul>
       </li>
 		
 		
 		
       <li>
-        <a href="order.php">
+        <a href="orders.php">
           <i class="fa-solid fa-clipboard-check"></i>
-          <span class="link_name">Order</span>
+          <span class="link_name">Orders</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="order.php">Order</a></li>
+          <li><a class="link_name" href="orders.php">Orders</a></li>
         </ul>
       </li>
       

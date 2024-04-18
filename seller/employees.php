@@ -21,7 +21,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <span class="text">Employee</span>
+      <span class="text">Employees</span>
     </div>
 	  
 	  <div class="empMainCon">
@@ -266,12 +266,6 @@ var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
 function updateTableAndPagination(data) {
-	if (data.data.length === 0) {
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="8" style="text-align: center;">NO EMPLOYEE RECORD</td></tr>';
-        document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
-        document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
-        return; // Exit function since there are no records to display
-    }
     // Calculate the start and end indices based on the current page and records per page
     var startIndex = (currentPage - 1) * recordsPerPage;
     var endIndex = startIndex + recordsPerPage;

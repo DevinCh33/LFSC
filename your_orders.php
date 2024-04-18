@@ -243,7 +243,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
                                                     <td data-column="ProductID" style="text-decoration: underline;font-weight: bold;"><a onclick="openPopup(<?php echo $row['order_id']; ?>)"><?php echo $row['order_id']; ?></a></td>
                                                     <td data-column="Item"><?php echo $row['title']; ?></td>
                                                     <td data-column="Quantity"><?php echo $row['total_product']; ?></td>
-                                                    <td data-column="Total Price">RM <?php echo $row['total']; ?></td>
+                                                    <td data-column="Total Price">RM <?php echo $row['total_amount']; ?></td>
                                                     <td data-column="status">
                                                         <?php
                                                         $status = $row['order_status'];

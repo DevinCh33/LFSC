@@ -209,6 +209,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     // If duplicate, then suggest random product
                     else {
                         $productQuery[$i/2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                             WHERE tblprice.proDisc > 0
                                              ORDER BY RAND() LIMIT 1";
 
                         $messageRec[$i/2] = 0;
@@ -242,7 +243,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     $productOwner = number_format($recommended[$i]['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
-                    echo '    <div class="card michealProductCard">';
+                    echo '    <div class="card michealProductCard" style="height: 100vh;">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
                     echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';

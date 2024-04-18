@@ -14,17 +14,20 @@
    </head>
 	
 <body>
-	<input type="hidden" id="sellerid" name="sellerid">
+	<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store']; ?>">
   <div class="sidebar close">
     <?php include "sidebar.php"; ?>
   </div>
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <span class="text">Seller</span>
+      <span class="text">Sellers</span>
     </div>
 	  
 	  <div class="empMainCon">
+		  <div style="text-align: right; margin-bottom: 10px">
+		  	<button id="popupButton" onclick="openPopup()" class="save-button">+Add Seller</button>
+		  </div>
 		  
 		   	<div class="controls-container">
 		  		<div class="records-per-page">
@@ -46,10 +49,12 @@
 		<thead>
 		  <tr>
 			<th onclick="sortTable(0)">Shop ID# <span class="sort-indicator" id="indicator0"></span></th>
-			<th onclick="sortTable(1)">Title <span class="sort-indicator" id="indicator1"></span></th>
-			<th onclick="sortTable(2)">Email <span class="sort-indicator" id="indicator2"></span></th>
-			<th onclick="sortTable(3)">Phone Number <span class="sort-indicator" id="indicator3"></span></th>
-			<th onclick="sortTable(4)">Action <span class="sort-indicator" id="indicator4"></span></th>
+			<th onclick="sortTable(1)">Image <span class="sort-indicator" id="indicator1"></span></th>
+			<th onclick="sortTable(2)">Title <span class="sort-indicator" id="indicator2"></span></th>
+			<th onclick="sortTable(3)">Email <span class="sort-indicator" id="indicator3"></span></th>
+			<th onclick="sortTable(4)">Phone Number <span class="sort-indicator" id="indicator4"></span></th>
+			<th onclick="sortTable(5)">Status <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(6)">Action <span class="sort-indicator" id="indicator6"></span></th>
 
 		  </tr>
 		</thead>
@@ -68,61 +73,56 @@
     </div>
 	  </div>
 	  
+	  
     <div id="popupWindow" class="popup">
-    	<div class="popup-content">
+    <div class="popup-content">
         <div class="xclose">
             <span class="close" onclick="closePopup()">&times;</span>
         </div>
-		<div id="addCustomer">
+		<div id="addSeller">
+			
 			<form action="action/createUser.php" method="POST" class="myform" name="myForm" id="myForm">
+			
 			<div class="myform-row">
 				<div id="divalert" class="divalert" name="divalert"></div>
 			</div>
 				
 			<div class="myform-row">
 				<div class="label">
-					<label for="username" class="myform-label">Front IC</label>
+					<label for="username" class="myform-label">Username</label>
 				</div>
 				<div class="input">
-					<img id="frontIC" src="" alt="Front IC">
+					<input type="text" id="username" name="username" class="myform-input" required>
 				</div>
 			</div>
 
 			<div class="myform-row">
 				<div class="label">
-					<label for="password" class="myform-label">Back IC</label>
+					<label for="password" class="myform-label">Password</label>
 				</div>
 				<div class="input">
-					<img id="backIC" src="" alt="Back IC">
+					<input type="text" id="custPass" name="custPass" class="myform-input" required>
 				</div>
 			</div>
 
 			<div class="myform-row">
 				<div class="label">
-					<label for="emoNum">Face with IC</label>
+					<label for="emoNum">Email:</label>
 				</div>
 				<div class="input">
-					<img id="faceWithIC" src="" alt="Face with IC">
+					<input type="tel" id="custEmail" name="custEmail" class="myform-input" required>
 				</div>
 			</div>
-			
-			<div style="text-align: center;">
-				<input type="button" id="appReq" class="button" value="Approve" onClick="updateStatus('app')">	
-				<input type="button" id="callRej" class="button" value="Reject" onClick="showRejArea()">	
-			</div>
-			<div id="rejReason">
-				<div style="text-align: center;">
-					<label for="txtReason">Reason: </label>
-					<input type="text" id="txtReason" name="txtReason" style="width: 80%;margin-top: 10px;height: 30px;">
-				</div>
-				<div style="text-align: center;">	
-					<input type="button" id="rejReq" class="button" value="Reject" style="margin-top: 10px;">	
-				</div>
-			</div>
-    		</form>
+				
+
+			<input type="button" id="addEmployee" class="button" value="Add Customer" onClick="sellerInfo('add', this.form)">
+    </form>
+		
+
 		</div>
     </div>
 </div>
+
 	  
 	  
 	  
@@ -138,37 +138,70 @@
 $(document).ready(function() {
 	$('#divalert').hide();	
 	fetchData();
-	$("#rejReason").hide();
 });
 	
-function updateStatus(action){
-	var sid = $("#sellerid").val();
-	$.ajax({
-            url: "action/updateShopStatus.php", // The script to call to add data
-            type: "GET",
-            data: {act: action, sid: sid},
+function sellerInfo(action, form) {
+    var username = $('#username').val();
+    var custPass = $('#custPass').val();
+    var custEmail = $('#custEmail').val();
+
+    if (username === "" || custPass === "" || custEmail === "") {
+        $('#divalert').css('background-color', 'red');
+        $('#divalert').text('All text fields must not be empty');
+        $('#divalert').show();
+        setTimeout(function () {
+            $('#divalert').hide();
+        }, 3000);
+    } else {
+        // AJAX request
+        $.ajax({
+            url: $(form).attr('action'), // The script to call to add data
+            type: $(form).attr('method'),
+            data: {
+                act: action,
+                username: username,
+                custPass: custPass,
+                custEmail: custEmail,
+            },
             success: function (response) {
-                alert(response);
-				closePopup();
-				fetchData();
+                var resText = "";
+                if (action == "add")
+                    resText = "Seller Added Successfully!";
+                if (action == "edit")
+                    resText = "Information Updated Successfully!";
+                if (action == "del")
+                    resText = "Seller Deactivated Successfully!";
+                $('#divalert').css('background-color', 'green');
+                $('#divalert').text(resText);
+                $('#divalert').show();
+                setTimeout(function () {
+                    $('#divalert').hide();
+                }, 2000);
+                if (action == "add") {
+                    closePopup();
+                    openPopup();
+                    document.getElementById('myForm').reset();
+                }
             },
             error: function (xhr, status, error) {
                 $('#divalert').css('background-color', 'red');
-                $('#divalert').text('Add Customer Failed');
+                $('#divalert').text('Add Seller Failed');
                 $('#divalert').show();
                 setTimeout(function () {
                     $('#divalert').hide();
                 }, 3000);
             }
         });
+    }
 }
+
 	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
 function updateTableAndPagination(data) {
 	if (data.data.length === 0) {
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" style="text-align: center;">NO SELLER UNDER INSPECTION</td></tr>';
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="8" style="text-align: center;">NO SELLERS RECORD</td></tr>';
         document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
         document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
         return; // Exit function since there are no records to display
@@ -187,10 +220,12 @@ function updateTableAndPagination(data) {
 			
         newRow.innerHTML = 
             '<td>' + rowData[0] + '</td>' +
-            '<td>' + rowData[1] + '</td>' +
+            '<td><img style="width: 40vh; height: 40vh;" src="../Res_img/'+rowData[1]+'"></td>' +
             '<td>' + rowData[2] + '</td>' +
             '<td>' + rowData[3] + '</td>' +
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i></td>';
+            '<td>' + rowData[4] + '</td>' +
+            `<td style="color: ${(rowData[5] == 0) ? 'black' : (rowData[5] == 1) ? 'green' : (rowData[5] == 2) ? 'red' : 'ice color'};">${(rowData[5] == 0) ? 'Unverify' : (rowData[5] == 1) ? 'Active' : (rowData[5] == 2) ? 'Inactive' : 'Frozen'}</td>` +
+			'<td><i class="' + (rowData[5] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[5] == 1 ? 'blk' : 'rec') + i + '" name="' + rowData[0] + '" onclick="editRec(\'' + (rowData[5] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[5] == 1 ? 'red' : 'green') + ';"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -257,7 +292,7 @@ function fetchData() {
 	var search = "";
 	search = document.getElementById("searchInput").value;
     $.ajax({
-        url: 'action/fetchInspectionSeller.php',
+        url: 'action/fetchSeller.php',
         type: 'GET',
         dataType: 'json',
 		data: {search:  search},
@@ -286,7 +321,6 @@ function sortTable(columnIndex) {
       document.getElementById("indicator" + currentColumn).classList.remove("asc", "desc");
     }
     currentColumn = columnIndex;
-
     document.getElementById("indicator" + currentColumn).classList.add("asc");
   }
 
@@ -310,39 +344,37 @@ function sortTable(columnIndex) {
   }
 }
 	
-function findRec(windowType, name){
-	$.ajax({
-        url: 'action/fetchSellerImg.php',
-        type: 'GET',
-        dataType: 'json',
-		data: {search:  name},
-        success: function(response) {
-			console.log(response[0].frontImg);
-			openPopup(windowType);
-			$('#frontIC').attr('src', response[0].frontImg).css({ width: '400px', height: '200px' });;
-            $('#backIC').attr('src', response[0].backImg).css({ width: '400px', height: '200px' });;
-            $('#faceWithIC').attr('src', response[0].faceImg).css({ width: '400px', height: '200px' });;
-		},
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
+function openPopup() {
+    document.getElementById("popupWindow").style.display = "block";
+	
 }
 	
-function viewRec(num){
-	var button = document.getElementById("btnView"+num);
-	var name = button.getAttribute("name");
-	$("#sellerid").val(name);
-	findRec(2, name);
-}
+function editRec(act, num){
+	var shopID = document.getElementById("btn"+act+num).getAttribute("name");
 	
-function openPopup(type) {
-	document.getElementById("popupWindow").style.display = "block";    
-}
-	
-function showRejArea(){
-	$("#rejReason").show();
-}
+	if (act == 'blk') {
+		var confirmationMessage = "Are you sure you want to ban this users?";
+	} else {
+		var confirmationMessage = "Are you sure you want to recover this users?";
+	}
 
+	if (confirm(confirmationMessage)) {
+		$.ajax({
+			url: "action/changeShopStatus.php",
+			type: "GET",
+			data: {
+				act: act,
+				shopID: shopID
+			},
+			success: function(response) {
+				alert(response);
+				fetchData();
+			},
+			error: function(xhr, status, error) {
+				console.log("Error occurred: Status: " + status + ", Error: " + error);
+			}
+		});
+	}
 
+}
 </script>

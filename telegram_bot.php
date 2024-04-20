@@ -124,7 +124,7 @@ if (isset($update["message"])) {
 
     if ($receivedMessage === "/start") {
         if (isAccountLinked($chatId)) {
-            sendMessage($chatId, "Account linked. If you wish to link again, please click on /delete and visit our website to obtain a new verification code.");
+            sendMessage($chatId, "Account already linked. If you wish to relink, please use /delete to unlink and then /start again.");
         } else {
             sendMessage($chatId, "Welcome to the LFSC Buyer bot. Please enter your OTP to link your Telegram account:");
         }

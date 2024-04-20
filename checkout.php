@@ -185,7 +185,7 @@ if($_POST['submit'])
                                                 <!-- Image display area -->
                                                 <div class="spay-image-overlay">
                                                     <img src="images/spay.png" alt="S-Pay" class="spay-image">
-                                                    <span class="close-btn" style="color: #000; font-size: 32px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #fff; border-radius: 50%; border: 2px solid #000;">&#x2716;</span>
+                                                    <span class="close-btn" style="color: #000; font-size: 32px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #fff; border-radius: 50%; border: 2px solid #000;"></span>
 
                                                 </div>
                                             </div>

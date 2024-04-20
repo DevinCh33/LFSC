@@ -110,7 +110,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
         
 
-<?php
+        <?php
 // Include the database connection
 include("connection/connect.php");
 
@@ -127,42 +127,38 @@ if (isset($_GET['res_id'])) {
     // Define the number of comments per page
     $commentsPerPage = isset($_GET['per_page']) ? $_GET['per_page'] : 5;
 
-    // Query to fetch comments for the specified seller sorted by date with pagination
-    $query = "SELECT * FROM user_comments WHERE res_id = $res_id ORDER BY created_at $sortOrder";
-    $result = mysqli_query($db, $query);
-
-    // Fetch all comments
-    $allComments = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    // Calculate total comments and pages
-    $totalComments = count($allComments);
-    $totalPages = ceil($totalComments / $commentsPerPage);
-
     // Calculate the offset to fetch comments for the current page
     $offset = ($currentPage - 1) * $commentsPerPage;
 
+    // Query to fetch total count of comments for the specified seller
+    $totalCountQuery = "SELECT COUNT(*) AS total FROM user_comments WHERE res_id = $res_id";
+    $totalCountResult = mysqli_query($db, $totalCountQuery);
+    $totalCountRow = mysqli_fetch_assoc($totalCountResult);
+    $totalComments = $totalCountRow['total'];
+
+    // Calculate total pages
+    $totalPages = ceil($totalComments / $commentsPerPage);
+
+    // Query to fetch comments for the current page with pagination
+    $query = "SELECT * FROM user_comments WHERE res_id = $res_id ORDER BY created_at $sortOrder LIMIT $offset, $commentsPerPage";
+    $result = mysqli_query($db, $query);
+
     // Fetch comments for the current page
-    $commentsForPage = array_slice($allComments, $offset, $commentsPerPage);
-/*
-    // Display the dropdown menu for selecting the number of comments per page
-    echo '<label for="sort">Comments per page:</label>';
-    echo '<select id="commentsPerPage" onchange="changeCommentsPerPage()">';
-    echo '<option value="5" ' . ($commentsPerPage == 5 ? 'selected' : '') . '>5 per page</option>';
-    echo '<option value="10" ' . ($commentsPerPage == 10 ? 'selected' : '') . '>10 per page</option>';
-    echo '<option value="15" ' . ($commentsPerPage == 15 ? 'selected' : '') . '>15 per page</option>';
-    echo '<option value="20" ' . ($commentsPerPage == 20 ? 'selected' : '') . '>20 per page</option>';
-    echo '</select>';
-*/
-    // Display the sorting options
-    echo '<div class="sorting-options">';
-    echo '<form action="" method="GET">';
-    echo '<label for="sort">Sort By:</label>';
-    echo '<select id="sort" name="sort" onchange="this.form.submit()">';
-    echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';
-    echo '<option value="asc" ' . ($sortOrder == 'asc' ? 'selected' : '') . '>Oldest First</option>';
-    echo '</select>';
-    echo '</form>';
-    echo '</div>';
+    $commentsForPage = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    // Display sorting options
+// Display sorting options
+echo '<div class="sorting-options">';
+echo '<form action="" method="GET">';
+echo '<input type="hidden" name="res_id" value="' . $res_id . '">'; // Add hidden input for res_id
+echo '<label for="sort">Sort By:</label>';
+echo '<select id="sort" name="sort" onchange="this.form.submit()">';
+echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';
+echo '<option value="asc" ' . ($sortOrder == 'asc' ? 'selected' : '') . '>Oldest First</option>';
+echo '</select>';
+echo '</form>';
+echo '</div>';
+
 
     // Display comments as a table
     echo '<div class="table-responsive">';

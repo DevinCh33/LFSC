@@ -68,7 +68,7 @@
       </li>
 	<?php } ?> 
 		
-	
+<!--	
       <li>
         <a href="customers.php">
           <i class="fa-solid fa-user"></i>
@@ -78,9 +78,24 @@
           <li><a class="link_name" href="customers.php">Customers</a></li>
         </ul>
       </li>
-		
-		
-		
+  -->		
+
+
+  <li>
+        <a href="customers.php">
+          <i class="fa-solid fa-user"></i>
+          <span class="link_name">Customers</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="customers.php">Customers</a></li>
+        </ul>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="customers.php">Customers</a></li>
+          <li><a href="custComments.php">Customer Comments</a></li>
+        </ul>
+      </li>
+
+
       <li>
         <a href="orders.php">
           <i class="fa-solid fa-clipboard-check"></i>

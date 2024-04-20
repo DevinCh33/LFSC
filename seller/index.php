@@ -72,7 +72,7 @@ if(isset($_POST['submit']))
 			<input type="password" placeholder="Password" name="password" value="123456"/>
 			<input type="submit" name="submit" value="Login" />
 			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
-			or <a href="forgot_password.php" style="color:#f30;">Forgot password?</a>
+			or <a href="../forgot_password.php" style="color:#f30;">Forgot password</a>? Do you wish to <a href="../portal.php" style="color:#f30;">return to the login portal</a>?
 		</form>
 	</div>
 

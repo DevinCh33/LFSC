@@ -6,7 +6,7 @@ $update = json_decode($content, true);
 
 function sendMessage($chatId, $message, $keyboard = null)
 {
-    $token = "6861142064:AAGW10QBeruSdWOA5ZouHUMYyOp0kvQaUyY";
+    $token = "6857843252:AAHa267pqAKyWAimgH52Vi4NYOt1FdsMu0A"; // Replace with your actual bot token
     $url = "https://api.telegram.org/bot$token/sendMessage?chat_id=$chatId&text=" . urlencode($message);
     if ($keyboard) {
         $url .= "&reply_markup=" . urlencode(json_encode($keyboard));
@@ -26,11 +26,7 @@ function updateNotificationsStatus($chatId, $status)
     if ($stmt = $db->prepare($updateQuery)) {
         $stmt->bind_param("ii", $status, $chatId);
         $stmt->execute();
-        if ($stmt->affected_rows > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $stmt->affected_rows > 0;
     } else {
         return false;
     }
@@ -55,33 +51,91 @@ function getUserDetails($chatId)
     ];
 }
 
+function getActiveOrders($chatId)
+{
+    global $db;
+    $query = "SELECT order_id, order_date, order_status FROM orders WHERE user_id = (SELECT u_id FROM users WHERE chat_id = ?) AND order_status IN (1, 2)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("i", $chatId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $orders = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['status_text'] = ($row['order_status'] == 1) ? "Packing" : "Delivering";
+        $orders[] = $row;
+    }
+    return $orders;
+}
+
+function isAccountLinked($chatId)
+{
+    global $db;
+    $query = "SELECT chat_id FROM users WHERE chat_id = ?";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("i", $chatId);
+    $stmt->execute();
+    $stmt->store_result();
+    return $stmt->num_rows > 0;
+}
+
+function unlinkTelegramAccount($chatId)
+{
+    global $db;
+    $query = "UPDATE users SET chat_id = NULL WHERE chat_id = ?";
+    $stmt = $db->prepare($query);
+    if ($stmt) {
+        $stmt->bind_param("i", $chatId);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
+    } else {
+        return false; // Return false if the statement preparation fails
+    }
+}
+
+function bindTelegramAccount($chatId, $code)
+{
+    global $db;
+    $stmt = $db->prepare("SELECT userId FROM tg_verification WHERE code = ? AND expiration > NOW() LIMIT 1");
+    $stmt->bind_param("s", $code);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $userId = $row['userId'];
+        $updateQuery = "UPDATE users SET chat_id = ? WHERE u_id = ?";
+        if ($updateStmt = $db->prepare($updateQuery)) {
+            $updateStmt->bind_param("ii", $chatId, $userId);
+            $updateStmt->execute();
+            if ($updateStmt->affected_rows > 0) {
+                sendMessage($chatId, "Your Telegram account has been successfully linked.\nHit /help to find out more about how to use me to my full potential.");
+            } else {
+                sendMessage($chatId, "There was an error linking your account. Please try again.");
+            }
+        } else {
+            sendMessage($chatId, "Error preparing to link your account.");
+        }
+    } else {
+        sendMessage($chatId, "The code is invalid or has expired. Please try again or use /help for more commands.");
+    }
+}
+
 if (isset($update["message"])) {
     $chatId = $update["message"]["chat"]["id"];
     $receivedMessage = strtolower($update["message"]["text"]);
 
     if ($receivedMessage === "/start") {
-        // Define the welcome message
-        $welcomeMessage = "Welcome to LFSCBot!\nPlease click below to choose your identity:";
-
-        // Define the inline keyboard options
-        $keyboard = [
-            "inline_keyboard" => [
-                [
-                    ["text" => "Customer", "callback_data" => "customer"]
-                ],
-                [
-                    ["text" => "Seller", "callback_data" => "seller"]
-                ]
-            ]
-        ];
-
-        // Send the message with inline keyboard
-        sendInlineKeyboard($chatId, $welcomeMessage, $keyboard);
+        if (isAccountLinked($chatId)) {
+            sendMessage($chatId, "Account linked. If you wish to link again, please click on /delete and visit our website to obtain a new verification code.");
+        } else {
+            sendMessage($chatId, "Please enter the verification code:");
+        }
+    } elseif ($receivedMessage === "/delete") {
+        if (unlinkTelegramAccount($chatId)) {
+            sendMessage($chatId, "Your Telegram account has been successfully unlinked. You can now link a new account using a verification code from our website.");
+        } else {
+            sendMessage($chatId, "There was an error unlinking your account. Please try again.");
+        }
     } elseif ($receivedMessage === "/help") {
-        // Define the help message
         $helpMessage = "Here are some functions you can use:";
-
-        // Define the inline keyboard options for functions
         $keyboard = [
             "inline_keyboard" => [
                 [
@@ -95,134 +149,55 @@ if (isset($update["message"])) {
                 ]
             ]
         ];
-
-        // Send the message with inline keyboard for help
         sendInlineKeyboard($chatId, $helpMessage, $keyboard);
     } else {
-        // Check for verification code
-        $stmt = $db->prepare("SELECT userId FROM tg_verification WHERE code = ? AND expiration > NOW() LIMIT 1");
-        $stmt->bind_param("s", $receivedMessage);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($row = $result->fetch_assoc()) {
-            $userId = $row['userId'];
-            $updateQuery = "UPDATE users SET chat_id = ? WHERE u_id = ?";
-            if ($updateStmt = $db->prepare($updateQuery)) {
-                $updateStmt->bind_param("ii", $chatId, $userId);
-                $updateStmt->execute();
-                if ($updateStmt->affected_rows > 0) {
-                    sendMessage($chatId, "Your Telegram account has been successfully linked.\nHit /help to find out more about how to use me to my full potential.");
-                } else {
-                    sendMessage($chatId, "There was an error linking your account. Please try again.");
-                }
-            } else {
-                sendMessage($chatId, "Error preparing to link your account.");
-            }
-        } else {
-            sendMessage($chatId, "The code is invalid or has expired. Please try again or use /help for more commands.");
-        }
+        bindTelegramAccount($chatId, $receivedMessage); // Handling verification code
     }
 } elseif (isset($update["callback_query"])) {
-    // Handle callback queries
     $callbackQuery = $update["callback_query"];
     $chatId = $callbackQuery["message"]["chat"]["id"];
     $data = $callbackQuery["data"];
 
-    if ($data === "notifications") {
-        // Define the message for notifications options
-        $notificationsMessage = "Choose an option:";
-
-        // Define the inline keyboard options for notifications
+    if ($data === "details") {
+        $details = getUserDetails($chatId);
+        $detailsMessage = "Your details:\n" . implode("\n", $details);
+        sendMessage($chatId, $detailsMessage);
+    } elseif ($data === "orders") {
+        $orders = getActiveOrders($chatId);
+        if (!empty($orders)) {
+            $ordersMessage = "Here are your active orders:\n";
+            foreach ($orders as $order) {
+                $ordersMessage .= "Order ID: " . $order['order_id'] . "\n";
+                $ordersMessage .= "Order Date: " . $order['order_date'] . "\n";
+                $ordersMessage .= "Order Status: " . $order['status_text'] . "\n\n";
+            }
+        } else {
+            $ordersMessage = "You have no active orders.";
+        }
+        sendMessage($chatId, $ordersMessage);
+    } elseif ($data === "notifications") {
+        $message = "Choose an option for notifications:";
         $notificationsKeyboard = [
             "inline_keyboard" => [
                 [
                     ["text" => "On", "callback_data" => "notifications_on"],
                     ["text" => "Off", "callback_data" => "notifications_off"]
-                ],
-                [
-                    ["text" => "Back to /help", "callback_data" => "help"]
                 ]
             ]
         ];
-
-        // Send the message with inline keyboard for notifications options
-        sendInlineKeyboard($chatId, $notificationsMessage, $notificationsKeyboard);
+        sendInlineKeyboard($chatId, $message, $notificationsKeyboard);
     } elseif ($data === "notifications_on") {
         if (updateNotificationsStatus($chatId, 1)) {
-            $message = "Notifications have been turned ON. You will now receive updates.";
-            $keyboard = [
-                "inline_keyboard" => [
-                    [
-                        ["text" => "Back to /help", "callback_data" => "help"]
-                    ]
-                ]
-            ];
-            sendMessage($chatId, $message, $keyboard);
+            sendMessage($chatId, "Notifications have been turned ON. You will now receive updates.");
         } else {
-            sendMessage($chatId, "Notifications have been set to ON. They will remain ON.");
+            sendMessage($chatId, "Notifications were already ON.");
         }
     } elseif ($data === "notifications_off") {
         if (updateNotificationsStatus($chatId, 0)) {
-            $message = "Notifications have been turned OFF. You will no longer receive updates.";
-            $keyboard = [
-                "inline_keyboard" => [
-                    [
-                        ["text" => "Back to /help", "callback_data" => "help"]
-                    ]
-                ]
-            ];
-            sendMessage($chatId, $message, $keyboard);
+            sendMessage($chatId, "Notifications have been turned OFF. You will no longer receive updates.");
         } else {
-            sendMessage($chatId, "Notifications have been set to OFF. They will remain OFF.");
+            sendMessage($chatId, "Notifications were already OFF.");
         }
-    } elseif ($data === "help") {
-        // Redirect to /help command
-        $helpMessage = "Here are some functions you can use:";
-
-        // Define the inline keyboard options for functions
-        $keyboard = [
-            "inline_keyboard" => [
-                [
-                    ["text" => "Details", "callback_data" => "details"]
-                ],
-                [
-                    ["text" => "Orders", "callback_data" => "orders"]
-                ],
-                [
-                    ["text" => "Notifications", "callback_data" => "notifications"]
-                ]
-            ]
-        ];
-
-        // Send the message with inline keyboard for help
-        sendInlineKeyboard($chatId, $helpMessage, $keyboard);
-    } elseif ($data === "details") {
-        // Get user details
-        $details = getUserDetails($chatId);
-
-        // Prepare details message
-        $detailsMessage = "Your details:\n" . implode("\n", $details);
-
-        // Define the inline keyboard options for going back to /help
-        $keyboard = [
-            "inline_keyboard" => [
-                [
-                    ["text" => "Back to /help", "callback_data" => "help"]
-                ]
-            ]
-        ];
-
-        // Send user details message with inline keyboard for going back to /help
-        sendInlineKeyboard($chatId, $detailsMessage, $keyboard);
-    } elseif ($data === "orders") {
-        // Handle orders action
-        sendMessage($chatId, "Here are your orders.");
-    } elseif ($data === "customer") {
-        // Handle customer action
-        sendMessage($chatId, "You selected Customer. Please enter the verification code.");
-    } elseif ($data === "seller") {
-        // Handle seller action
-        sendMessage($chatId, "You selected Seller. Please enter the verification code.");
     }
 }
-
+?>

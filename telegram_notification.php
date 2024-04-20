@@ -1,10 +1,10 @@
 <?php
 
-include 'connection/connect.php'; 
+include 'connection/connect.php';
 
 function sendTelegramNotification($chatId, $message)
 {
-    $token = "6861142064:AAGW10QBeruSdWOA5ZouHUMYyOp0kvQaUyY"; 
+    $token = "6857843252:AAHa267pqAKyWAimgH52Vi4NYOt1FdsMu0A";
     $url = "https://api.telegram.org/bot$token/sendMessage";
 
     $data = array(

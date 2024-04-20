@@ -375,6 +375,190 @@
             </script>
         </div>
 
+        <div class="chart-container"  style='margin-bottom: 50%;'>
+            <h1>Total Number of Orders by Age Group</h1>
+            <canvas id="marketShareChart" width="800" height="400"></canvas>
+
+            <?php
+            // Include necessary PHP code to establish database connection
+            include 'connect.php';
+
+            // Perform the SQL query to retrieve data
+            $sql = "SELECT p.product_name, 
+                        TIMESTAMPDIFF(YEAR, u.dob, CURDATE()) AS customer_age,
+                        COUNT(*) AS order_count
+                    FROM order_item oi
+                    JOIN orders o ON oi.order_id = o.order_id
+                    JOIN users u ON o.user_id = u.u_id
+                    JOIN tblprice tp ON oi.priceID = tp.priceNo
+                    JOIN product p ON tp.productID = p.product_id
+                    GROUP BY p.product_id, customer_age
+                    ORDER BY p.product_id, customer_age";
+
+            $result = mysqli_query($db, $sql);
+
+            // Fetch data into an array
+            $data = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+
+            // Close the database connection
+            mysqli_close($db);
+
+            // Prepare data for the graph
+            $chartData = array();
+            $ageGroups = array(); // Array to hold unique age groups
+            foreach ($data as $row) {
+                $productName = $row['product_name'];
+                $customerAge = $row['customer_age'];
+                $orderCount = $row['order_count'];
+                
+                // Create a separate dataset for each age group
+                if (!isset($chartData[$customerAge])) {
+                    $chartData[$customerAge] = array(
+                        'label' => "Age $customerAge",
+                        'data' => array(),
+                        'backgroundColor' => "rgba(54, 162, 235, 0.2)", // Default color
+                        'borderColor' => "rgba(54, 162, 235, 1)", // Default border color
+                        'borderWidth' => 1
+                    );
+                    $ageGroups[] = $customerAge; // Add age group to the list of unique age groups
+                }
+
+                // Add order count data for the age group in the respective product
+                $chartData[$customerAge]['data'][$productName] = $orderCount;
+            }
+
+            // Define custom colors for each age group
+            $colors = array(
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 206, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(153, 102, 255, 0.2)",
+                "rgba(255, 159, 64, 0.2)"
+            );
+
+            // Assign custom colors to each age group dataset
+            foreach ($chartData as $index => $dataset) {
+                $chartData[$index]['backgroundColor'] = $colors[$index % count($colors)];
+                $chartData[$index]['borderColor'] = str_replace('0.2', '1', $colors[$index % count($colors)]);
+            }
+
+            // Generate the JavaScript code for the graph
+            $jsChartData = array();
+            foreach ($ageGroups as $ageGroup) {
+                $ageGroupData = $chartData[$ageGroup];
+                $productsOrdered = array_keys($ageGroupData['data']);
+                $orderCounts = array_values($ageGroupData['data']);
+                
+                // Add the age group data to the JavaScript array
+                $jsChartData[] = array(
+                    'label' => "Age $ageGroup",
+                    'data' => $orderCounts,
+                    'backgroundColor' => $ageGroupData['backgroundColor'],
+                    'borderColor' => $ageGroupData['borderColor'],
+                    'borderWidth' => $ageGroupData['borderWidth']
+                );
+            }
+
+            // Output the JavaScript code for the graph
+            echo "
+            <canvas id='orderAgeGraph'></canvas>
+            <script>
+                var ctx = document.getElementById('orderAgeGraph').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: " . json_encode($productsOrdered) . ",
+                        datasets: " . json_encode($jsChartData) . "
+                    },
+                    options: {
+                        responsive: true,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                stacked: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Orders',
+                                    color: 'black',
+                                    font: {
+                                        family: 'Comic Sans MS',
+                                        size: 20,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                    },
+                                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                                }
+                            },
+                            y: {
+                                stacked: true,
+                                title: {
+                                    display: true,
+                                    text: 'Product Ordered',
+                                    color: 'black',
+                                    font: {
+                                        family: 'Comic Sans MS',
+                                        size: 20,
+                                        weight: 'bold',
+                                        lineHeight: 1.2,
+                                    },
+                                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>";
+            ?>
+
+
+
+            <script>
+                var data = <?php echo json_encode($data); ?>;
+                
+                // Extract product names and market share percentages
+                var productNames = data.map(item => item.product_name);
+                var marketShareData = data.map(item => item.market_share);
+
+                var ctx = document.getElementById('marketShareChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'pie', // Use pie chart for market share
+                    data: {
+                        labels: productNames,
+                        datasets: [{
+                            label: 'Market Share (%)',
+                            data: marketShareData,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                                // Add more colors if needed
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                                // Add more colors if needed
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            </script>
+        </div>
+
         <div class="chart-container" >
             <h1>Product Performance by Region Graph</h1>
             <canvas id="productPerformanceChart" width="800" height="400"></canvas>

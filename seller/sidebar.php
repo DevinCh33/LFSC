@@ -91,7 +91,7 @@
         </ul>
         <ul class="sub-menu">
           <li><a class="link_name" href="customers.php">Customers</a></li>
-          <li><a href="custComments.php">Customer Comments</a></li>
+          <li><a href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">Customer Comments</a></li>
         </ul>
       </li>
 

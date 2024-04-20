@@ -328,7 +328,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
 
                                     <div class="form-group">
-                                        <label for="comment">Leave a comment:</label>
+                                        <label for="comment">Leave a comment <span id="wordLimitCountdown"></span>:</label>
                                         <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
                                     </div>
                                     <!-- <button type="submit" class="btn theme-btn btn-lg">Submit</button>  -->

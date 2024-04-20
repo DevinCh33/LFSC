@@ -10,6 +10,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_id = intval($_POST['user_id']);
         $res_id = intval($_POST['res_id']);
 
+        // Replace newline characters with spaces
+        $comment = str_replace("\n", " ", $comment);
+
+        // Check if the comment exceeds 300 characters
+        if (strlen($comment) > 300) {
+            // Return error response with HTTP status code 400
+            http_response_code(400);
+            echo json_encode(array("error" => "Comments must be limited to 300 characters."));
+            exit; // Stop further processing
+        }
+
         // Check for swear words in the comment using regex
         $swearWords = array("fuck", "nigger", "shit", "fucker", "faggot", "babi","cibai", "FUCK", "FUCKER", "Fuck"); 
         $pattern = "/\b(" . implode("|", $swearWords) . ")\b/i"; 

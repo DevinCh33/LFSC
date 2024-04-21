@@ -400,7 +400,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         
     <!-- start: FOOTER -->
     <?php
-    include("includes/footer.php");
+    include("includes/footer_seller.php");
     ?>
     <!-- end:Footer -->
 

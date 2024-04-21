@@ -227,7 +227,7 @@ function employeeInfo(action, form){
         $.ajax({
             url: $(form).attr('action'), // The script to call to add data
             type: $(form).attr('method'),
-            data: {act: action, data: $(form).serialize()},
+            data: {act: action, data: $(form).serialize(), store: store},
             success: function(response) {
 				var resText = "";
 					if(action == "add")

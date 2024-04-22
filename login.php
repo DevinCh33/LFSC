@@ -31,7 +31,7 @@ if (isset($_SESSION["user_id"])) // if already logged in
 	header("refresh:0;url=market.php"); // redirect to market.php page
 }
 
-if(isset($_POST['submit'])) // if submit button was preseed
+if(isset($_POST['submit'])) // if submit button was pressed
 {
 	$username = $_POST['username']; // fetch records from login form
 	$password = $_POST['password'];
@@ -55,7 +55,7 @@ if(isset($_POST['submit'])) // if submit button was preseed
 		{
 			$message = "Invalid Username or Password!"; // throw error
 		}
-	 }
+	}
 }
 ?>
   

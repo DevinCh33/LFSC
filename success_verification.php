@@ -25,13 +25,13 @@
 <div class="message">
     <h1>Email Verification Successful!</h1>
     <p>Your email address has been successfully verified. You will be redirected to the login page shortly.</p>
-    <p>If you are not redirected, <a href="login.php">click here to log in</a>.</p>
+    <p>If you are not redirected, <a href="portal.php">click here to log in</a>.</p>
 </div>
 
 <script>
 
     setTimeout(function() {
-        window.location.href = "login.php";
+        window.location.href = "portal.php";
     }, 5000); 
 </script>
 </body>

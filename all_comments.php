@@ -220,7 +220,7 @@ mysqli_close($db);
         
     <!-- start: FOOTER -->
     <?php
-    include("includes/footer.php");
+    include("includes/footer_seller.php");
     ?>
     <!-- end:Footer -->
 

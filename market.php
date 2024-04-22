@@ -8,7 +8,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="#">
     <title>Marketplace</title>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -50,12 +49,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?>
 
     <!-- banner part starts -->
-    <section class="hero" style = "background-color: #36454f;">
+    <section class="hero" style="background-color: #36454f;">
         <div class="hero-inner">
             <h1>Your One Stop Super Store!</h1></br>
-            <?php
-            include("includes/categories_bar.php");
-            ?>
+            
             <div class="banner-form">
                 <form class="form-inline" method="get">
                     <div class="form-group" style="margin-top:50px;">
@@ -131,8 +128,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?>
     <!-- Search part ends-->
 
-    <!-- Featured products-->
-    <section class="littleFarmer">
+    <!-- Recommended products-->
+    <section class="recommendations">
     <div class="container">
         <div class="title text-center mb-30">
             <h2>Recommended for You</h2>
@@ -140,7 +137,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div>
         <div class="row">
             <?php
-            // Four featured products
+            // Four recommended products
             // Most recent order
             $query = "SELECT orders.order_id, orders.user_id, product.product_id, product.categories_id, 
                         product.owner, tblprice.proPrice FROM orders 
@@ -230,7 +227,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     $productOwner = number_format($recommended[$i]['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
-                    echo '    <div class="card michealProductCard" style="height: 100vh;">';
+                    echo '    <div class="card michaelProductCard" style="height: 100vh;">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
                     echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
@@ -274,13 +271,20 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div>
     </div>
     </section>
-    <!-- Featured products ends-->
+    <!-- Recommended products ends-->
 
     <!-- Popular block starts -->
     <section class="popular">
         <div class="container">
             <div class="title text-xs-center m-b-30">
-                <h2>Little Farmer's Merchants</h2>
+                <h2>Categories</h2>
+                <p class="lead">Choose from our list of categories!</p>
+                <?php
+                include("includes/categories_bar.php");
+                ?>
+            </div>
+            <div class="title text-xs-center m-b-30">
+                <h2>Merchants</h2>
                 <p class="lead">Get to know our trusted sellers!</p>
             </div>
             <div class="row">

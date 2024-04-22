@@ -22,20 +22,22 @@ if (isset($_POST['update_profile'])) {
     $phone = $db->real_escape_string($_POST['phone_number']);
     $gender = $db->real_escape_string($_POST['gender']);
     $dob = $db->real_escape_string($_POST['dob']);
+    $address = $db->real_escape_string($_POST['address']);  
 
     // Prepare the UPDATE statement
-    $stmt = $db->prepare("UPDATE users SET fullName=?, phone=?, gender=?, dob=? WHERE u_id=?");
-    $stmt->bind_param("ssssi", $fullName, $phone, $gender, $dob, $u_id);
+    $stmt = $db->prepare("UPDATE users SET fullName=?, phone=?, gender=?, dob=?, address=? WHERE u_id=?");
+    $stmt->bind_param("sssssi", $fullName, $phone, $gender, $dob, $address, $u_id); 
     if ($stmt->execute()) {
         $updateSuccess = true;
     }
     $stmt->close();
 }
 
-$stmt = $db->prepare("SELECT username, fullName, email, phone, gender, dob FROM users WHERE u_id = ?");
+
+$stmt = $db->prepare("SELECT username, fullName, email, phone, gender, dob, address FROM users WHERE u_id = ?");
 $stmt->bind_param("i", $u_id);
 $stmt->execute();
-$stmt->bind_result($username, $fullName, $email, $phone, $gender, $dob);
+$stmt->bind_result($username, $fullName, $email, $phone, $gender, $dob, $address);
 $stmt->fetch();
 $stmt->close();
 ?>
@@ -69,6 +71,9 @@ $stmt->close();
 
                     <label for="phone_number">Phone Number</label>
                     <input type="text" id="phone_number" name="phone_number" value="<?php echo htmlspecialchars($phone); ?>" />
+
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>" />
 
                     <div class="gender-row">
                         <label>Gender</label>

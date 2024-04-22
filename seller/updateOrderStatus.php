@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['order_id']) && isset($
 
                 if ($row = mysqli_fetch_assoc($result)) {
                     $userId = $row['user_id'];
-                    $restaurantTitle = $row['restaurant_title']; // Restaurant title
+                    $restaurantTitle = $row['restaurant_title'];
 
                     // Fetch chat_id and notifications_enabled status using user_id
                     $chatIdQuery = "SELECT chat_id, notifications_enabled FROM users WHERE u_id = ? LIMIT 1";

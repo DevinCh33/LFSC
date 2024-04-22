@@ -94,14 +94,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </section>
 
-        <div class="breadcrumb">
-            <div class="container">
-                
-            </div>
-        </div>
+
 
 <!-- Section for viewing comments start -->
-
+<hr class="mb-1">
         <h2>All Comments</h2>
         <hr class="mb-1"> <!-- Add a horizontal rule for visual separation -->
 
@@ -146,18 +142,18 @@ if (isset($_GET['res_id'])) {
     // Fetch comments for the current page
     $commentsForPage = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+
     // Display sorting options
-// Display sorting options
-echo '<div class="sorting-options">';
-echo '<form action="" method="GET">';
-echo '<input type="hidden" name="res_id" value="' . $res_id . '">'; // Add hidden input for res_id
-echo '<label for="sort">Sort By:</label>';
-echo '<select id="sort" name="sort" onchange="this.form.submit()">';
-echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';
-echo '<option value="asc" ' . ($sortOrder == 'asc' ? 'selected' : '') . '>Oldest First</option>';
-echo '</select>';
-echo '</form>';
-echo '</div>';
+    echo '<div class="sorting-options">';
+    echo '<form action="" method="GET">';
+    echo '<input type="hidden" name="res_id" value="' . $res_id . '">'; 
+    echo '<label for="sort">Sort By:</label>';
+    echo '<select id="sort" name="sort" onchange="this.form.submit()">';
+    echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';
+    echo '<option value="asc" ' . ($sortOrder == 'asc' ? 'selected' : '') . '>Oldest First</option>';
+    echo '</select>';
+    echo '</form>';
+    echo '</div>';
 
 
     // Display comments as a table

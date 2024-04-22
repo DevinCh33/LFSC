@@ -14,20 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
             updateWordLimitCountdown(); // Call the function to update the countdown
         });
 
-        // Add event listener for "Enter" key press
-        $("#comment").on("keydown", function(event) {
-            if (event.keyCode === 13) { // Check if the pressed key is "Enter"
-                event.preventDefault(); // Prevent default behavior (adding newline)
-                var comment = $("#comment").val(); // Get the current value of the textarea
-                var caretPos = $(this).prop("selectionStart"); // Get the caret position
-                var newComment = comment.substring(0, caretPos) + " " + comment.substring(caretPos); // Insert a space at the caret position
-                $(this).val(newComment); // Update the textarea value
-                $(this).prop("selectionStart", caretPos + 1); // Move the caret position after the inserted space
-                $(this).prop("selectionEnd", caretPos + 1); // Move the selection end after the inserted space
-                updateWordLimitCountdown(); // Update the word limit countdown
-            }
-        });
-
         // Submit comment form
         $("#commentForm").submit(function(event) {
             event.preventDefault();
@@ -97,22 +83,24 @@ document.addEventListener("DOMContentLoaded", function() {
             commentsList.append("<hr>"); // Add horizontal rule after each comment
         }
 
-        // Update word limit countdown
-        function updateWordLimitCountdown() {
-            var commentLength = $("#comment").val().length;
-            var remainingChars = commentMaxChars - commentLength;
-            var countdownElement = $("#wordLimitCountdown");
-            
-            // Highlight remaining characters based on threshold
-            if (remainingChars <= 20) {
-                countdownElement.css("color", "red"); // Change color to red when 20 or fewer characters are left
-            } else if (remainingChars <= 150) {
-                countdownElement.css("color", "orange"); // Change color to orange when 150 or fewer characters are left
-            } else {
-                countdownElement.css("color", "black"); // Change color to default when more than 150 characters are left
-            }
-            
-            countdownElement.text("( " + remainingChars + " characters left)");
-        }
+// Update word limit countdown
+function updateWordLimitCountdown() {
+    var commentLength = $("#comment").val().length;
+    var remainingChars = commentMaxChars - commentLength;
+    var countdownElement = $("#wordLimitCountdown");
+    
+    // Highlight remaining characters based on threshold
+    if (remainingChars <= 20) {
+        countdownElement.css("color", "red"); // Change color to red when 20 or fewer characters are left
+    } else if (remainingChars <= 150) {
+        countdownElement.css("color", "orange"); // Change color to orange when 150 or fewer characters are left
+    } else {
+        countdownElement.css("color", "black"); // Change color to default when more than 150 characters are left
+    }
+    
+    countdownElement.text("( " + remainingChars + " characters left)");
+}
+
+
     });
 });

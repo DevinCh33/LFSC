@@ -4,26 +4,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to fetch comments from the server
     function fetchComments() {
-        // Get the restaurant ID from the URL
-        var resId = "<?php echo isset($_GET['res_id']) ? $_GET['res_id'] : 'null'; ?>";
+        // Send an AJAX request to fetch the seller's information
+        $.ajax({
+            type: "GET",
+            url: "fetch_seller_info.php", // Change this to the endpoint that fetches seller info
+            success: function(response) {
+                var sellerInfo = JSON.parse(response); // Parse the response JSON
+                if (sellerInfo && sellerInfo.store) {
+                    // Use the 'store' field value as the res_id
+                    var resId = sellerInfo.store;
 
-        // Check if the restaurant ID is provided
-        if (resId !== 'null') {
-            // Send an AJAX request to fetch comments
-            $.ajax({
-                type: "GET",
-                url: "fetch_sellercomments.php",
-                data: { res_id: resId },
-                success: function(response) {
-                    // Display comments on the page
-                    $("#recentComments").html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching comments:", error);
+                    // Send another AJAX request to fetch comments using the res_id
+                    $.ajax({
+                        type: "GET",
+                        url: "fetch_sellercomments.php",
+                        data: { res_id: resId },
+                        success: function(commentsResponse) {
+                            // Display comments on the page
+                            $("#recentComments").html(commentsResponse);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error fetching comments:", error);
+                        }
+                    });
+                } else {
+                    console.error("Error: 'store' field not found in seller info.");
                 }
-            });
-        } else {
-            console.error("Error: Restaurant ID not provided.");
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching seller info:", error);
+            }
+        });
     }
 });

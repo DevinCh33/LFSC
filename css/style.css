@@ -461,6 +461,7 @@ hr {
 .hero .hero-inner {
     position: relative;
     z-index: 1;
+    height: 70vh;
 }
 .hero .hero-innerer {
     position: relative;

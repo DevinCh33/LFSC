@@ -8,7 +8,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="#">
     <title>Marketplace</title>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -50,12 +49,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?>
 
     <!-- banner part starts -->
-    <section class="hero" style = "background-color: #36454f;">
+    <section class="hero" style="background-color: #36454f;">
         <div class="hero-inner">
             <h1>Your One Stop Super Store!</h1></br>
-            <?php
-            include("includes/categories_bar.php");
-            ?>
+            
             <div class="banner-form">
                 <form class="form-inline" method="get">
                     <div class="form-group" style="margin-top:50px;">
@@ -280,7 +277,14 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="popular">
         <div class="container">
             <div class="title text-xs-center m-b-30">
-                <h2>Little Farmer's Merchants</h2>
+                <h2>Categories</h2>
+                <p class="lead">Choose from our list of categories!</p>
+                <?php
+                include("includes/categories_bar.php");
+                ?>
+            </div>
+            <div class="title text-xs-center m-b-30">
+                <h2>Merchants</h2>
                 <p class="lead">Get to know our trusted sellers!</p>
             </div>
             <div class="row">

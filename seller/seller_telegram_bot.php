@@ -1,12 +1,13 @@
 <?php
 include 'connect.php';
+require_once '../telegram_notification.php';
 
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
 function sendMessage($chatId, $message, $keyboard = null)
 {
-    $token = "6871950229:AAGGsiFvspL7UdThz8DyupfCVcYFUAfIaxw"; // Replace 'YOUR_BOT_TOKEN' with your actual bot token
+    $token = "6871950229:AAGGsiFvspL7UdThz8DyupfCVcYFUAfIaxw";
     $url = "https://api.telegram.org/bot$token/sendMessage?chat_id=$chatId&text=" . urlencode($message);
     if ($keyboard) {
         $url .= "&reply_markup=" . urlencode(json_encode($keyboard));
@@ -88,7 +89,7 @@ function fetchOrderCounts($chatId)
                 $ordersStmt->bind_param("i", $storeId);
                 $ordersStmt->execute();
                 $ordersResult = $ordersStmt->get_result();
-                $counts = [1 => 0, 2 => 0]; // Adjust according to your order_status IDs
+                $counts = [1 => 0, 2 => 0];
                 while ($orderRow = $ordersResult->fetch_assoc()) {
                     if (array_key_exists($orderRow['order_status'], $counts)) {
                         $counts[$orderRow['order_status']] = $orderRow['count'];
@@ -298,11 +299,53 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
     $stmt->execute();
     if ($stmt->affected_rows > 0) {
         sendMessage($chatId, "Order status updated successfully.");
+
+        // Fetch additional details like restaurant title and buyer chatId
+        $query = "SELECT o.user_id, r.title AS restaurant_title FROM orders o JOIN restaurant r ON o.order_belong = r.rs_id WHERE o.order_id = ?";
+        if ($detailStmt = $db->prepare($query)) {
+            $detailStmt->bind_param("i", $orderId);
+            $detailStmt->execute();
+            $result = $detailStmt->get_result();
+            if ($row = $result->fetch_assoc()) {
+                $userId = $row['user_id'];
+                $restaurantTitle = $row['restaurant_title'];
+
+                // Fetch chat_id for the buyer
+                $chatIdQuery = "SELECT chat_id FROM users WHERE u_id = ?";
+                if ($chatIdStmt = $db->prepare($chatIdQuery)) {
+                    $chatIdStmt->bind_param("i", $userId);
+                    $chatIdStmt->execute();
+                    $chatIdResult = $chatIdStmt->get_result();
+                    if ($chatRow = $chatIdResult->fetch_assoc()) {
+                        $buyerChatId = $chatRow['chat_id'];
+                        $message = "";
+                        switch ($newStatus) {
+                            case 1:
+                                $message = $restaurantTitle . ": Seller is preparing your order (Order ID: " . $orderId . ").";
+                                break;
+                            case 2:
+                                $message = $restaurantTitle . ": Seller is delivering your order (Order ID: " . $orderId . ").";
+                                break;
+                            case 3:
+                                $message = $restaurantTitle . ": Order (Order ID: " . $orderId . ") completed.";
+                                break;
+                        }
+
+                        // Send notification if chatId is available
+                        if (!empty($message)) {
+                            sendTelegramNotification($buyerChatId, $message);
+                        }
+                    }
+                }
+            }
+        }
     } else {
         sendMessage($chatId, "Failed to update order status.");
     }
     $stmt->close();
 }
+
+
 
 if (isset($update["message"])) {
     $chatId = $update["message"]["chat"]["id"];

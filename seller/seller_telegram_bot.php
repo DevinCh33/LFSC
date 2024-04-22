@@ -243,6 +243,67 @@ function displayCustomerDetails($chatId, $orderId)
     sendMessage($chatId, $message);
 }
 
+function displayOrderStatusUpdateOptions($chatId, $orderId)
+{
+    global $db;
+    $query = "SELECT order_status FROM orders WHERE order_id = ?";
+    $stmt = $db->prepare($query);
+    if ($stmt) {
+        $stmt->bind_param("i", $orderId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $currentStatus = $row['order_status'];
+
+            // Determine the current status text
+            switch ($currentStatus) {
+                case 1:
+                    $statusText = "Processing";
+                    break;
+                case 2:
+                    $statusText = "Delivering";
+                    break;
+                case 3:
+                    $statusText = "Delivered";
+                    break;
+                default:
+                    $statusText = "Unknown Status"; // Handle unexpected status
+            }
+
+            // Inline keyboard options for order statuses
+            $keyboard = [
+                'inline_keyboard' => [
+                    [['text' => 'Processing', 'callback_data' => 'set_status_' . $orderId . '_1']],
+                    [['text' => 'Delivering', 'callback_data' => 'set_status_' . $orderId . '_2']],
+                    [['text' => 'Delivered', 'callback_data' => 'set_status_' . $orderId . '_3']]
+                ]
+            ];
+            $message = "Current Status: " . $statusText . "\nChoose new status:";
+            sendMessage($chatId, $message, $keyboard);
+        } else {
+            sendMessage($chatId, "Order not found.");
+        }
+        $stmt->close();
+    } else {
+        sendMessage($chatId, "Failed to prepare query for fetching order status.");
+    }
+}
+
+
+function updateOrderStatus($chatId, $orderId, $newStatus)
+{
+    global $db;
+    $stmt = $db->prepare("UPDATE orders SET order_status = ? WHERE order_id = ?");
+    $stmt->bind_param("ii", $newStatus, $orderId);
+    $stmt->execute();
+    if ($stmt->affected_rows > 0) {
+        sendMessage($chatId, "Order status updated successfully.");
+    } else {
+        sendMessage($chatId, "Failed to update order status.");
+    }
+    $stmt->close();
+}
+
 if (isset($update["message"])) {
     $chatId = $update["message"]["chat"]["id"];
     $receivedMessage = trim(strtolower($update["message"]["text"]));
@@ -282,6 +343,12 @@ if (isset($update["callback_query"])) {
     if (strpos($callbackData, "customer_details_") === 0) {
         $orderId = substr($callbackData, strlen("customer_details_"));
         displayCustomerDetails($chatId, $orderId);
+    } elseif (strpos($callbackData, "set_status_") === 0) {
+        if (preg_match('/^set_status_(\d+)_(\d+)$/', $callbackData, $matches)) {
+            $orderId = $matches[1];
+            $newStatus = $matches[2];
+            updateOrderStatus($chatId, $orderId, $newStatus);
+        }
     } elseif (strpos($callbackData, "update_status_") === 0) {
         $orderId = substr($callbackData, strlen("update_status_"));
         displayOrderStatusUpdateOptions($chatId, $orderId);
@@ -293,6 +360,7 @@ if (isset($update["callback_query"])) {
         sendMessage($chatId, "Unknown command.");
     }
 }
+
 
 
 ?>

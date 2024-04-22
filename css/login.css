@@ -1,6 +1,6 @@
 body {
   background: #e9e9e9;
-  color: #666666;
+  color: #666;
   font-family: 'RobotoDraft', 'Roboto', sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
@@ -33,7 +33,7 @@ body {
 /* Form Module */
 .form-module {
   position: relative;
-  background: #ffffff;
+  background: #fff;
   max-width: 320px;
   width: 100%;
   border-top: 5px solid #f30;
@@ -45,11 +45,10 @@ body {
   position: absolute;
   top: -0;
   right: -0;
-  background: #;
   width: 30px;
   height: 30px;
   margin: -5px 0 0;
-  color: #ffffff;
+  color: #fff;
   font-size: 12px;
   line-height: 30px;
   text-align: center;
@@ -97,12 +96,12 @@ body {
   margin: 0 0 20px;
   padding: 10px 15px;
   box-sizing: border-box;
-  font-wieght: 400;
+  font-weight: 400;
   transition: 0.3s ease;
 }
 .form-module input:focus {
   border: 1px solid #f30;
-  color: #333333;
+  color: #333;
 }
 .form-module button {
   cursor: pointer;
@@ -110,7 +109,7 @@ body {
   width: 100%;
   border: 0;
   padding: 10px 15px;
-  color: #ffffff;
+  color: #fff;
   transition: 0.3s ease;
 }
 .form-module button:hover {
@@ -121,16 +120,15 @@ body {
   width: 100%;
   padding: 15px 40px;
   box-sizing: border-box;
-  color: #666666;
+  color: #666;
   font-size: 12px;
   text-align: center;
 }
 .form-module .cta a {
-  color: #333333;
+  color: #333;
   text-decoration: none;
 }
-
-    .form-module input[type="submit"] {
-        color: #fff;
-        background-color: #ff3300;
-    }
+.form-module input[type="submit"] {
+    color: #fff;
+    background-color: #f30;
+}

@@ -131,8 +131,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?>
     <!-- Search part ends-->
 
-    <!-- Featured products-->
-    <section class="littleFarmer">
+    <!-- Recommended products-->
+    <section class="recommendations">
     <div class="container">
         <div class="title text-center mb-30">
             <h2>Recommended for You</h2>
@@ -140,7 +140,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div>
         <div class="row">
             <?php
-            // Four featured products
+            // Four recommended products
             // Most recent order
             $query = "SELECT orders.order_id, orders.user_id, product.product_id, product.categories_id, 
                         product.owner, tblprice.proPrice FROM orders 
@@ -230,7 +230,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     $productOwner = number_format($recommended[$i]['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
-                    echo '    <div class="card michealProductCard" style="height: 100vh;">';
+                    echo '    <div class="card michaelProductCard" style="height: 100vh;">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
                     echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
@@ -274,7 +274,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div>
     </div>
     </section>
-    <!-- Featured products ends-->
+    <!-- Recommended products ends-->
 
     <!-- Popular block starts -->
     <section class="popular">

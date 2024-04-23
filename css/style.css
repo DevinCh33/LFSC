@@ -436,12 +436,6 @@ hr {
     position: relative;
     background-color: #36454f;
 }
-.heroro {
-    padding-top: 12%;
-    padding-bottom: 10%;
-    text-align: center;
-    position: relative;
-}
 .hero h1 {
     font-family: "Give You Glory", cursive;
     color: #fff;
@@ -2180,6 +2174,14 @@ a[aria-expanded=false] .fa-angle-down {
 .recommendations .michaelProductCard .card-text {
     margin-bottom: 0.5rem; 
 }
+.categories {
+    display: flex;
+    gap: 2px;
+}
+.categories .category {
+    flex-grow: 1;
+    flex-wrap: 1;
+}
 .title {
     display: flex;
     flex-direction: column;
@@ -2187,6 +2189,10 @@ a[aria-expanded=false] .fa-angle-down {
     justify-content: center;
     margin-bottom: 30px;
     text-align: center;
+}
+.addmToCart {
+    position: absolute;
+    bottom: 0;
 }
 
 /* your_orders.php table align */

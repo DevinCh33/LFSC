@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>Marketplace</title>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -49,16 +47,16 @@ if (empty($_SESSION["user_id"])) // if not logged in
     ?>
 
     <!-- banner part starts -->
-    <section class="hero" style="background-color: #36454f;">
+    <section class="hero">
         <div class="hero-inner">
             <h1>Your One Stop Super Store!</h1></br>
             
             <div class="banner-form">
-                <form class="form-inline" method="get">
+                <form class="form-inline" action="search.php" method="get">
                     <div class="form-group" style="margin-top:50px;">
-                        <label class="sr-only" for="exampleInputAmount">Search product....</label>
+                        <label class="sr-only" for="searchQuery">Search product...</label>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search product...">
+                            <input type="text" class="form-control form-control-lg" id="searchQuery" name="query" placeholder="Search product...">
                             <input type="submit" class="btn theme-btn btn-lg" value="Search">
                         </div>
                     </div>
@@ -69,64 +67,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
     <!-- Search part starts-->
     </section>
-    <?php
-    if (isset($_GET['search']))
-    {
-    echo '<section class="popular">
-            <div class="container">
-                <div class="title text-xs-center m-b-30">
-                    <h2>Search Results</h2>
-                </div>
-                <div class="row">';
- 
-                // fetch records from database to display first 12 products searched from the database
-                $query_res = mysqli_query($db,"select * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE product_name LIKE '%".$_GET['search']."%' LIMIT 12"); 
-                
-                while($r=mysqli_fetch_array($query_res))
-                {   
-                    echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
-                            <div class="food-item-wrap">
-                                <div class="figure-wrap bg-image search-product" data-image-src="'.$r['product_image'].'">
-                                </div>
-                                <div class="product content" >
-                                    <div class="price-btn-block" data-price-id="'.$r['priceNo'].'" data-product-owner="'.$r['owner'].'">
-                                        <a href="products.php?res_id='.$r['owner'].'"> <h5>'.$r['product_name'].' ('.$r['proWeight'].'g)</h5></a>
-                                        <div>'.$r['descr'].'</div>                       
-                                        <div class="product-name" style="color: green;">Stock: '. (int) $r['quantity'].'</div>';
-
-                                        $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
-                                        $stmt->bind_param("ii", $r['priceNo'], $_SESSION['user_id']);
-                                        $stmt->execute();
-                                        $custom = $stmt->get_result();
-                                        $customPrice = number_format($custom->fetch_assoc()['price'], 2, '.', '');
-
-                                        if ($customPrice != 0) {
-                                        echo '            <span class="price">RM ' . $customPrice . '</span>';
-                                        }
-                    
-                                        else if ($r['proDisc'] == 0) {
-                                        echo '            <span class="price">RM ' . number_format($r['proPrice'], 2) . '</span>';
-                                        }
-                                        
-                                        else {
-                                        echo '            <a style="text-decoration: line-through; color: red;">RM ' . number_format($r['proPrice'], 2, '.', '') . '</a>
-                                                          <a style="color: orange;">'. $r['proDisc'] .'% off</a>
-                                                          <span class="price">RM ' . number_format($r['proPrice']*(1-$r['proDisc']/100), 2, '.', '') . '</span>';
-                                        }
-                                        
-                                        echo '
-                                        <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';              
-                }
-        echo   '</div>
-            </div>
-        </section>';
-    }
-    ?>
-    <!-- Search part ends-->
 
     <!-- Recommended products-->
     <section class="recommendations">

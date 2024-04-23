@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2024 at 08:16 PM
+-- Generation Time: Apr 23, 2024 at 05:35 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,21 +37,23 @@ CREATE TABLE `admin` (
   `store` int(11) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `storeStatus` int(3) NOT NULL,
-  `chat_id` bigint(20) DEFAULT NULL
+  `chat_id` bigint(20) DEFAULT NULL,
+  `email_token` varchar(255) NOT NULL,
+  `email_verified` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`, `storeStatus`, `chat_id`) VALUES
-(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 0, '2024-04-14 05:04:33', 1, NULL),
-(12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2024-04-20 09:54:46', 1, 5964495496),
-(13, 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'qweasd@gmail.com', 'SUPP', 'SELLER', 53, '2024-03-24 14:49:46', 1, NULL),
-(14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2024-03-24 14:49:46', 1, NULL),
-(15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2024-03-24 14:49:46', 1, NULL),
-(16, 'seller5', '$2y$10$i1zV.FtHg2MCr7uD8TDINuVEkgAmcExPH/esJ3oBDRfnMySXo8s9q', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2024-03-26 14:45:05', 1, NULL),
-(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'michael@gmail.com', 'SUPP', 'SELLER', 51, '2024-03-24 14:49:46', 1, NULL);
+INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`, `storeStatus`, `chat_id`, `email_token`, `email_verified`) VALUES
+(11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 0, '2024-04-14 05:04:33', 1, NULL, '', 0),
+(12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2024-04-22 15:03:02', 1, 5964495496, '', 0),
+(13, 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'qweasd@gmail.com', 'SUPP', 'SELLER', 53, '2024-03-24 14:49:46', 1, NULL, '', 0),
+(14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2024-03-24 14:49:46', 1, NULL, '', 0),
+(15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2024-03-24 14:49:46', 1, NULL, '', 0),
+(16, 'seller5', '$2y$10$24yfPOHwly.E1EXRFAc7aeuPrbJGfdTc0yAmFqaWyw5LlHsmVs9Fq', 'safqeg@gmail.com', 'SUPP', 'SELLER', 56, '2024-04-21 07:00:16', 1, NULL, '', 0),
+(17, 'Little Farmer', '$2y$10$SWzNRnTKoT09/gV4LJIVLOOd8q4QjDzfDnUj.cLLm./dwE9QFpD1C', 'michael@gmail.com', 'SUPP', 'SELLER', 51, '2024-04-22 15:02:58', 1, NULL, '', 0);
 
 -- --------------------------------------------------------
 
@@ -128,9 +130,13 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (1, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 1, 2, 51, '2024-03-22 16:17:30', 0),
 (2, '2023-12-28', 'cust one', '1232343456', '25', '25', '0', '25', 1, 2, 2, 51, '2024-03-22 16:17:30', 0),
 (3, '2024-03-27', 'cust two', '123123123123123', '30', '30', '30', '0', 1, 1, 3, 51, '2024-03-27 16:20:00', 0),
-(4, '2024-04-20', 'cust two', '1231231235', '90', '90', '0', '90', 1, 1, 3, 52, '2024-04-20 15:28:45', 0),
+(4, '2024-04-20', 'cust two', '1231231235', '90', '90', '0', '90', 1, 3, 3, 52, '2024-04-20 15:28:45', 0),
 (5, '2024-04-20', 'cust two', '1231231235', '240', '240', '0', '240', 1, 1, 3, 52, '2024-04-20 15:29:23', 0),
-(6, '2024-04-21', 'cust two', '1231231235', '80', '80', '0', '80', 1, 1, 3, 51, '2024-04-20 18:05:43', 0);
+(6, '2024-04-21', 'cust two', '1231231235', '80', '80', '0', '80', 1, 1, 3, 51, '2024-04-20 18:05:43', 0),
+(7, '2024-04-21', ' ', '', '43.5', '43.5', '0', '43.5', 1, 1, 35, 51, '2024-04-21 06:20:13', 0),
+(8, '2024-04-21', ' ', '', '240', '240', '0', '240', 1, 2, 35, 52, '2024-04-21 06:20:13', 0),
+(9, '2024-04-22', ' ', '0128789600', '240', '240', '0', '240', 1, 1, 35, 52, '2024-04-22 10:45:33', 0),
+(10, '2024-04-22', ' ', '0128789600', '76', '76', '0', '76', 1, 2, 35, 51, '2024-04-22 10:48:15', 0);
 
 --
 -- Triggers `orders`
@@ -166,7 +172,14 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `priceID`, `quantity`) VA
 (4, 2, 20, '1'),
 (5, 4, 22, '2'),
 (6, 5, 23, '1'),
-(7, 6, 20, '1');
+(7, 6, 20, '1'),
+(8, 7, 18, '1'),
+(9, 7, 21, '1'),
+(10, 8, 23, '1'),
+(11, 9, 23, '1'),
+(12, 10, 16, '2'),
+(13, 10, 19, '2'),
+(14, 10, 21, '2');
 
 -- --------------------------------------------------------
 
@@ -193,12 +206,12 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_image`, `descr`, `categories_id`, `quantity`, `owner`, `product_date`, `lowStock`, `status`) VALUES
-(25, 'C0012', 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides.', 5, 680, '51', '2023-12-15', 30, 1),
-(26, 'C0022', 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides.', 6, 1400, '51', '2023-12-15', 30, 1),
-(27, 'A0001', 'Green Apple', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 500g.', 7, 9000, '51', '2023-12-15', 30, 1),
-(28, 'A0002', 'Red Apple', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 500g.', 7, 1500, '51', '2023-12-15', 30, 1),
-(29, 'R0001', 'Turnip', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips.', 6, 100, '52', '2023-12-15', 0, 1),
-(30, 'R0002', 'Durians', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! ', 8, 2000, '52', '2023-12-15', 0, 1),
+(25, 'C0012', 'Cabbage', 'http://localhost/lfsc/inventory/assets/images/stock/796992726559adc32b426.jpg', 'Fresh cabbage grown without any pesticides.', 5, 680, '51', '2023-12-15', 30, 6),
+(26, 'C0022', 'Carrot', 'http://localhost/lfsc/inventory/assets/images/stock/11820960376559ae3774fc1.jpg', 'Grown locally without any pesticides.', 6, 900, '51', '2023-12-15', 30, 1),
+(27, 'A0001', 'Green Apple', 'http://localhost/lfsc/inventory/assets/images/stock/7703864506559ae7169855.jpg', 'Freshest apples in Malaysia. Sold in packs of 500g.', 7, 8000, '51', '2023-12-15', 30, 1),
+(28, 'A0002', 'Red Apple', 'http://localhost/lfsc/inventory/assets/images/stock/656955591157b.jpg', 'Freshest apples in Malaysia. Sold in packs of 500g.', 7, 0, '51', '2023-12-15', 30, 1),
+(29, 'R0001', 'Turnip', 'http://localhost/lfsc/inventory/assets/images/stock/5428402576559b19e51b9b.jpg', 'Fresh and pesticide free turnips.', 6, 200, '52', '2023-12-15', 0, 1),
+(30, 'R0002', 'Durians', 'http://localhost/lfsc/inventory/assets/images/stock/6561151846559b1ed89b94.jpg', 'Out of season durians, selling out fast! ', 8, 0, '52', '2023-12-15', 0, 1),
 (31, 'Z0001', 'Potato', 'http://localhost/lfsc/inventory/assets/images/stock/19212838836559b3b045f68.jpg', 'Fresh potatoes!', 6, 400, '53', '2023-12-15', 0, 1),
 (32, 'Z0002', 'Red Strawberries', 'http://localhost/lfsc/inventory/assets/images/stock/6497565306559b43c4bbfb.jpg', 'Fresh! Fresh! Fresh! No Pesticides!', 8, 300, '53', '2023-12-15', 0, 1),
 (33, 'K0001', 'Jongga Kimchi', 'http://localhost/lfsc/inventory/assets/images/stock/19839973516559b66d35dde.jpg', 'Our best selling Kimchi!', 8, 900, '54', '2023-12-15', 0, 1),
@@ -390,7 +403,7 @@ CREATE TABLE `tblemployee` (
 --
 
 INSERT INTO `tblemployee` (`empNo`, `empID`, `icNo`, `empname`, `empgender`, `empcontact`, `empemail`, `empjob`, `empstore`, `empstatus`) VALUES
-(1, '51231221124541', 122, '2', '2', '1', '4', 1, 0, 1),
+(1, '51231221124541', 122, 'Hello', '2', '1', '4', 1, 0, 1),
 (2, '51231221125016', 3, '4', '2', '1', '6', 1, 0, 1),
 (3, '51231221125018', 3, '4', '2', '1', '6', 1, 51, 1),
 (4, '51231221125255', 1, '2', '2', '1', 'ryanwong179@gmail.com', 2, 51, 1),
@@ -404,7 +417,6 @@ INSERT INTO `tblemployee` (`empNo`, `empID`, `icNo`, `empname`, `empgender`, `em
 (12, '51231221125624', 123, '2', '1', '3', '4', 1, 51, 1),
 (13, '51231221125635', 3, '4', '1', '5', '6', 1, 51, 1),
 (14, '51231221130452', 1, '2', '1', '3', '4', 1, 51, 1),
-(15, '51231221130456', 444, '5', '1', '767', '8', 3, 51, 1),
 (16, '51231221130518', 1, '2', '2', '3', '4', 2, 51, 1),
 (17, '51231223223851', 255, 'www ccc', '2', '51288', 'r@b.d', 3, 51, 1),
 (18, '51231223223938', 51385442, 'wong chang shan', '2', '899556', 'l@g.g', 3, 51, 1);
@@ -496,7 +508,9 @@ INSERT INTO `tg_verification` (`id`, `userId`, `code`, `chatId`, `expiration`) V
 (10, 2, 'caccc690', '', '2024-04-20 12:52:29'),
 (11, 2, 'ddb516b9', '', '2024-04-20 13:03:14'),
 (12, 2, '141c2711', '', '2024-04-20 16:56:32'),
-(13, 2, 'bc505ad2', '', '2024-04-20 17:14:35');
+(13, 2, 'bc505ad2', '', '2024-04-20 17:14:35'),
+(14, 35, '36c3363b', '', '2024-04-21 14:43:46'),
+(15, 35, 'df85c302', '', '2024-04-21 14:45:06');
 
 -- --------------------------------------------------------
 
@@ -529,14 +543,16 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `gender`, `dob`, `email`, `phone`, `password`, `address`, `status`, `date`, `chat_id`, `notifications_enabled`, `email_token`, `email_verified`) VALUES
-(2, 'cust1', 'cust', 'one', 'cust one', '', NULL, 'qweqwe123@hotmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-04-20 08:59:47', 5964495496, 1, '', 0),
+(2, 'cust1', 'cust', 'one', 'cust one', '', NULL, 'qweqwe123@hotmail.com', '1232343456', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', 'afqwe123', 1, '2024-04-21 06:48:02', 0, 1, '', 0),
 (3, 'cust2', 'cust', 'two', 'cust two', '', NULL, 'qweqwr@gmail.com', '1231231235', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', 'werb123', 1, '2023-11-19 06:29:54', 0, 1, '', 0),
 (4, 'cust3', 'cust', 'three', 'cust three', '', NULL, 'sdvsd@gmail.com', '1231345234', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'qwe1231', 1, '2023-11-19 06:30:31', 0, 1, '', 0),
 (5, 'StephenTan95', 'Tan', 'Stephen ', 'Tan Stephen ', '', NULL, 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 lorong 3 rose garden\r\n93250 kuching Sarawak', 1, '2023-11-26 06:05:31', 0, 1, '', 0),
 (6, 'John Doe', 'John', 'Doe', 'John Doe', '', NULL, 'jdoe@gmail.com', '0134569780', '$2y$10$hZ3zlibC0LRIEmM62txjWe15HLPzJniYYrTpyc0GH/py4ObjuNtx2', '123 jeline street', 1, '2023-12-01 01:44:03', 0, 1, '', 0),
 (31, 'cust4', '', '', '', '', NULL, 'devinchp@gmail.com', '', '$2y$10$yNAWOf8N1IcDAWT6J2iLrOitTY0SeSStA3HtB0LY./Sm3jR6sDIqy', '', 1, '2024-04-04 04:21:18', 0, 1, '', 1),
 (32, 'cust5', '', '', '', '', NULL, 'allianzwierdchamp@gmail.com', '', '$2y$10$v4AjaNSxSEWcoA1bYhMWhOTW8UH7l7Xc43Vj0o7zxJB57K45sd1t6', '', 1, '2024-04-04 04:22:12', 0, 1, '', 1),
-(33, 'cust6', '', '', '', '', NULL, 'polarsxorion@gmail.com', '', '$2y$10$ZJ9ud7I5od18Waqeet3uXOKYCop7U3V880wBvekUa.qJ47TMozbZy', '', 1, '2024-04-04 04:23:10', 0, 1, '', 1);
+(33, 'cust6', '', '', '', '', NULL, 'polarsxorion@gmail.com', '', '$2y$10$ZJ9ud7I5od18Waqeet3uXOKYCop7U3V880wBvekUa.qJ47TMozbZy', '', 1, '2024-04-04 04:23:10', 0, 1, '', 1),
+(35, 'skyfarm96', '', '', 'MICHAEL CHAI', 'male', '1977-02-13', 'skyangel77@gmail.com', '0128789600', '$2y$10$dQ4qx3F1HUMi605PVdtZv.7J8SKjaBIb9ebDkQC8WPwYP/g6OHemC', 'Eden 2, MeiMei Road', 1, '2024-04-22 16:49:12', 5964495496, 1, '', 1),
+(38, 'emtskw2m', '', '', '', '', NULL, 'ganedison99@hotmail.com', '', '$2y$10$dlaBftm0GZDOC6.psb3XyOmA82hef6XU7OE7sMUFVGzr7DHy.pk5W', '', 1, '2024-04-23 15:04:01', 0, 1, '', 1);
 
 -- --------------------------------------------------------
 
@@ -707,7 +723,7 @@ ALTER TABLE `user_ratings`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -719,13 +735,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -785,13 +801,13 @@ ALTER TABLE `tblvalidation`
 -- AUTO_INCREMENT for table `tg_verification`
 --
 ALTER TABLE `tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `user_comments`

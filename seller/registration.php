@@ -17,45 +17,46 @@
 </head>
 
 <body>
+
     <?php
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
     include("connect.php");
     require '../vendor/autoload.php';
-    require '../send_verification_email.php';
+    require 'send_verification_email.php';
 
     $message = '';
     $success = false;
 
-if (isset($_POST['register'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $code = 'SUPP'; 
-    $u_role = 'SELLER';
-    $token = bin2hex(random_bytes(50)); 
+    if (isset($_POST['register'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $code = 'SUPP';
+        $u_role = 'SELLER';
+        $token = bin2hex(random_bytes(50));
 
-    $checkUser = "SELECT * FROM admin WHERE username='$username' OR email='$email'";
-    $result = mysqli_query($db, $checkUser);
-    if (mysqli_num_rows($result) > 0) {
-        $message = "Username or Email already exists!";
-    } else {
-        $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, store) VALUES ('$username', '$email', '$password', 'SUPP', 'seller', 0)";
-
-        if (mysqli_query($db, $registerQuery)) {
-            if (sendVerificationEmail($email, $token)) {
-                $message = "Registration successful! Please check your email to verify.";
-                $success = true;
-            } else {
-                $message = "Registration successful but failed to send verification email.";
-            }
+        $checkUser = "SELECT * FROM admin WHERE username='$username' OR email='$email'";
+        $result = mysqli_query($db, $checkUser);
+        if (mysqli_num_rows($result) > 0) {
+            $message = "Username or Email already exists!";
         } else {
-            $message = "Error: " . mysqli_error($db);
+            $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'seller', '$token', 0)";
+
+            if (mysqli_query($db, $registerQuery)) {
+                if (sendVerificationEmail($email, $token)) {
+                    $message = "Registration successful! Please check your email to verify.";
+                    $success = true;
+                } else {
+                    $message = "Registration successful but failed to send verification email.";
+                }
+            } else {
+                $message = "Error: " . mysqli_error($db);
+            }
         }
     }
-}
-?>
+    ?>
 
     <div class="pen-title">
         <h1>Registration Form</h1>

@@ -224,7 +224,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             //`<td style="color: ${(rowData[6] === '1') ? 'green' : 'red'};">${(rowData[6] === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="' + (rowData[6] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[6] == 1 ? 'blk' : 'rec') + i + '" name="' + rowData[5] + '" onclick="editRec(\'' + (rowData[6] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[6] == 1 ? 'red' : 'green') + ';"></i></td>';
+			'<td><i class="' + (rowData[6] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[6] == 1 ? 'blk' : 'rec') + i + '" title="Ban the user" name="' + rowData[5] + '" onclick="editRec(\'' + (rowData[6] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[6] == 1 ? 'red' : 'green') + ';"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary

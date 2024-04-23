@@ -225,7 +225,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             `<td style="color: ${(rowData[5] == 0) ? 'black' : (rowData[5] == 1) ? 'green' : (rowData[5] == 2) ? 'red' : 'ice color'};">${(rowData[5] == 0) ? 'Unverify' : (rowData[5] == 1) ? 'Active' : (rowData[5] == 2) ? 'Inactive' : 'Frozen'}</td>` +
-			'<td><i class="' + (rowData[5] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[5] == 1 ? 'blk' : 'rec') + i + '" name="' + rowData[0] + '" onclick="editRec(\'' + (rowData[5] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[5] == 1 ? 'red' : 'green') + ';"></i></td>';
+			'<td><i class="' + (rowData[5] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[5] == 1 ? 'blk' : 'rec') + i + '" title="Ban the seller" name="' + rowData[0] + '" onclick="editRec(\'' + (rowData[5] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[5] == 1 ? 'red' : 'green') + ';"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary

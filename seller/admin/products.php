@@ -150,8 +150,8 @@
 			</div>
 				<input type="hidden" name="proID" id="proID">
 				<input type="button" id="addProduct" class="button" value="Add Product" onClick="productInfo('add', this.form)">
-				<input type="button" id="editProduct" class="button" value="Save Change" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
-				<input type="button" id="delProduct" class="button" value="Delete product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
+				<input type="button" id="editProduct" class="button"  value="Save Change" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
+				<input type="button" id="delProduct" class="button"  value="Delete product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
     </form>
       </div>
     </div>
@@ -331,7 +331,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData.descr + '</td>' +
             '<td>' + rowData.quantity + '</td>' +
             `<td style="color: ${(rowData.status === '1') ? 'green' : 'red'};">${(rowData.status === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary

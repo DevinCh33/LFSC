@@ -113,7 +113,7 @@
           <span class="link_name">Report</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Report</a></li>
+          <li><a class="link_name" href="product_report.php">Report</a></li>
         </ul>
       </li>
 		<?php } ?>

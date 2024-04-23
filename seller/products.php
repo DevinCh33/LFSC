@@ -367,7 +367,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData.descr + '</td>' +
             '<td>' + rowData.quantity + '</td>' +
             `<td style="color: ${(rowData.status === '1') ? 'green' : 'red'};">${(rowData.status === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" name="'+rowData.productID+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData.productID+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary

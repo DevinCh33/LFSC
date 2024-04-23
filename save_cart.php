@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("config/cart.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
@@ -16,19 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             $itemWeight = (float)$item['weight'];
             $itemStock = (int)$item['stock'];
 
-            if ($itemPrice <= $priceInDB/100)
+            if ($itemPrice <= $priceInDB/$divideMinPrice)
             {
                 $valid = False;
                 break;
             }
 
-            if ($itemWeight <= $weightInDB/1.5)
+            if ($itemWeight <= $weightInDB/$divideMinWeight)
             {
                 $valid = False;
                 break;
             }
 
-            if ($itemStock/1.5 >= $stockInDB)
+            if ($itemStock/$divideMaxStock >= $stockInDB)
             {
                 $valid = False;
                 break;

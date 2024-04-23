@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
     <?php
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -42,7 +41,7 @@ if (isset($_POST['register'])) {
     if (mysqli_num_rows($result) > 0) {
         $message = "Username or Email already exists!";
     } else {
-        $registerQuery = "INSERT INTO admin (username, email, password, code, u_role) VALUES ('$username', '$email', '$password', 'SUPP', 'seller')";
+        $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, store) VALUES ('$username', '$email', '$password', 'SUPP', 'seller', 0)";
 
         if (mysqli_query($db, $registerQuery)) {
             if (sendVerificationEmail($email, $token)) {

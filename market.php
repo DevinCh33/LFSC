@@ -176,9 +176,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     
                     else {
                     echo '            
-                                      <p style="text-decoration: line-through; color: red;"> Price: RM ' . $productPrice . '</p>
-                                      <p style="color: orange;">'. $productDiscount*100 .'% off</p>
-                                      <span>Price: RM ' . number_format($productPrice*(1-$productDiscount), 2, '.', '') . '</span>';
+                                      <p class="price-line-through">RM ' . $productPrice . '</p>
+                                      <p class="price-discount">'. $productDiscount*100 .'% off</p>
+                                      <br/><span>Price: RM ' . number_format($productPrice*(1-$productDiscount), 2, '.', '') . '</span>';
                     }
 
                     if ($recommended[$i+1] == 0) {

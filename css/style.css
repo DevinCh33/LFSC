@@ -9,7 +9,7 @@ Contact: info@codenpixel.com
 
 body {
     background: rgba(252, 251, 249, 0.68);
-    font-size: 16px;
+    font-size: 1rem;
     color: #4d4f56;
     font-weight: 400;
     overflow-x: hidden;
@@ -77,16 +77,16 @@ hr {
 }
 
 /*==================================
-* Just simple warppers
+* Just simple wrappers
 *===================================*/
 
 .page-wrapper {
     padding-top: 0px;
-    /* Used for inpper pages if navigation fixed to the top */
+    /* Used for inner pages if navigation fixed to the top */
 }
 .inner-page {
     margin-top: 30px;
-    margin-bottom: 50px
+    margin-bottom: 50px;
 }
 
 /*==================================
@@ -114,7 +114,7 @@ hr {
     box-shadow: 0 0 0 .075rem #fff, 0 0 0 .2rem #f30;
 }
 .custom-radio .custom-control-input:checked~.custom-control-indicator {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http: //www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E")
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http: //www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E");
 }
 .custom-control-input:active~.custom-control-indicator {
     color: #fff;
@@ -457,10 +457,6 @@ hr {
     z-index: 1;
     height: 70vh;
 }
-.hero .hero-innerer {
-    position: relative;
-    z-index: 0;
-}
 
 /* ==========================
 *   Detect location
@@ -493,7 +489,7 @@ hr {
     overflow: hidden;
     margin: 0 30px 180px 30px;
     background: #fafaf8;
-    height: 550px;
+    height: 125vh;
 }
 .food-item-wrap h5 a {
     color: #25282b;
@@ -2147,24 +2143,24 @@ a[aria-expanded=false] .fa-angle-down {
 /* Recommendations Section */
 
 .recommendations {
-    margin-top: 60px; 
-    margin-bottom: 30px;
+    margin-top: 6em;
+    margin-bottom: 3em;
 }
 .recommendations .michaelProductCard {
-    border: 1px solid #eaebeb; 
-    border-radius: 4px; 
+    border: 1px solid #eaebeb;
+    border-radius: 4px;
     background-color: #fff; 
     overflow: hidden; 
     display: flex; 
     flex-direction: column;
 }
 .recommendations .michaelProductCard .card-img-top {
-    width: 100%; 
-    height: 200px;
+    width: 100%;
+    height: 40vh;
     object-fit: cover;
 }
 .recommendations .michaelProductCard .card-body {
-    padding: 15px; 
+    padding: 1.5em;
     flex: 1;
 }
 .recommendations .michaelProductCard .card-title {
@@ -2177,22 +2173,35 @@ a[aria-expanded=false] .fa-angle-down {
 .categories {
     display: flex;
     gap: 2px;
+    flex-wrap: wrap;
 }
 .categories .category {
     flex-grow: 1;
-    flex-wrap: 1;
 }
 .title {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 2em;
     text-align: center;
+}
+.price-line-through {
+    text-decoration: line-through;
+    color: #ce0909;
+    display: inline-block;
+}
+.price-discount {
+    color: #ca870a;
+    display: inline-block;
 }
 .addmToCart {
     position: absolute;
-    bottom: 0;
+    bottom: 1em;
+    right: 1em;
+}
+#checkout {
+    background-color: #30cc22;
 }
 
 /* your_orders.php table align */

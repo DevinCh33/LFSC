@@ -50,6 +50,7 @@
         <?php
         include("includes/categories_bar.php");
         ?>
+        <br/>
     </div>
 
     <?php
@@ -105,7 +106,7 @@
                                         }
                                         
                                         echo '
-                                        <button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
+                                        <br/><button class="btn theme-btn-dash pull-right addToCart">Order Now</button>
                                     </div>
                                 </div>
                             </div>

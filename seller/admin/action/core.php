@@ -1,6 +1,6 @@
 <?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]); // get root directory
-include("$root/lfsc/connection/connect.php"); // connection to database
+include("$root/lfsc/config/connect.php"); // connection to database
 
 session_start();
 error_reporting(0);

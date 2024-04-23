@@ -2,7 +2,7 @@
 
 session_start();
 
-require_once '../connection/connect.php';
+require_once '../config/connect.php';
 
 // echo $_SESSION['userId'];
 

@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file
-include("connection/connect.php");
+include("config/connect.php");
 
 // Check if the rating and restaurant ID are sent via POST
 if(isset($_POST['rating']) && isset($_POST['res_id'])) {

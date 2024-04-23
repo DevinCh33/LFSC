@@ -1,6 +1,6 @@
 <?php
 // Include database connection or any necessary files
-include("./../../connection/connect.php");
+include("./../../config/connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['date']) && isset($_POST['rs_id'])) {
     $selectedDate = $_POST['date'];

@@ -1,6 +1,6 @@
 <?php
 
-include('connection/connect.php');
+include('config/connect.php');
 // Include the script where the sendOtpEmail function is defined
 require 'send_verification_change_email.php';
 

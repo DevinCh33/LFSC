@@ -1,5 +1,5 @@
 <?php 
-require_once '../connection/connect.php'; 
+require_once '../config/connect.php'; 
 require_once 'includes/header.php'; 
 
 if($_GET['o'] == 'add') { 

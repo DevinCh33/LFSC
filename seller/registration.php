@@ -64,7 +64,7 @@ if (isset($_POST['register'])) {
 
     <div class="module form-module">
         <div class="form">
-            <h2>Create an seller account</h2>
+            <h2>Create a seller account</h2>
             <span style="color:red;"><?php echo $message; ?></span>
             <form action="" method="post">
                 <input type="text" placeholder="Username" name="username" required />

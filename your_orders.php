@@ -4,7 +4,7 @@
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
 
 if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to login page
 {
@@ -264,7 +264,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
                                                         <?php
                                                         if ($status == "4") {
                                                             ?>
-                                                            <button type="button" class="btn btn-danger"><i class="fa fa-close"></i>cancelled</button>
+                                                            <button type="button" class="btn btn-danger"><i class="fa fa-close"></i>Cancelled</button>
                                                             <?php
                                                         }
                                                         ?>
@@ -274,7 +274,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
                                                         <?php
                                                         if ($status == 1) {
                                                             ?>
-                                                            <a href="delete_orders.php?order_del=<?php echo $row['o_id']; ?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
+                                                            <a href="delete_orders.php?order_del=<?php echo $row['order_id']; ?>" onclick="return confirm('Are you sure you want to cancel your order?');" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a>
                                                             <?php
                                                         } else if ($status == 2) {
 

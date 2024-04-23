@@ -28,7 +28,7 @@
     <?php
     session_start(); // temp session
     error_reporting(0); // hide undefined index errors
-    include("connection/connect.php"); // connection to the database
+    include("config/connect.php"); // connection to the database
 
     if (isset($_POST['submit'])) // if submit button was pressed
     {

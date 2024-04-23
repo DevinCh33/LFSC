@@ -11,7 +11,7 @@
 <body>
 <?php
 // Replace with your actual database connection code
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
 
 // Fetch data from the orders table
 $query = "SELECT * FROM orders";
@@ -41,7 +41,7 @@ $db->close();
     <h1>Data Analytics Report Summary</h1>
     <?php
 // Include necessary PHP code to fetch and process data for the summary
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
 
 $totalOrders = count($data);
 $totalAmount = array_sum(array_column($data, 'total_amount'));

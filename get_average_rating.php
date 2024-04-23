@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file
-include("connection/connect.php");
+include("config/connect.php");
 
 // Query to calculate average rating for a specific product
 $query = "SELECT AVG(rating) AS avg_rating FROM product_ratings WHERE product_id = ?";

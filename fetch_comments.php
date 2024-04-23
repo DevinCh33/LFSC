@@ -1,5 +1,5 @@
 <?php
-include("connection/connect.php");
+include("config/connect.php");
 
 $res_id = $_GET['res_id']; // Get the restaurant ID from the GET parameter
 

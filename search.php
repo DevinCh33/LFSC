@@ -19,15 +19,13 @@
     <?php
     session_start(); // temp session
     error_reporting(0); // hide undefined index errors
-    include("connection/connect.php"); // connection to database
-
+    include("config/connect.php"); // connection to database
+    include("config/search.php");
+    
     if (empty($_SESSION["user_id"])) // if not logged in
     {
         header("refresh:0;url=login.php"); // redirect to login.php page
     }
-
-    // Search result max limit
-    $max = 12;
 
     // Header starts
     $currentPage = 'market';

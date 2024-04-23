@@ -1,6 +1,6 @@
 <?php
 // Include database connection or any necessary files
-include("connection/connect.php");
+include("config/connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $order = $_POST['rs_id'];

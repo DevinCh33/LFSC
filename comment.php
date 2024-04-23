@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file
-include("connection/connect.php");
+include("config/connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the comment, user ID, and restaurant ID are sent via POST

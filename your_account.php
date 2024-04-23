@@ -1,5 +1,5 @@
 <?php
-include('connection/connect.php');
+include('config/connect.php');
 
 if (empty($_SESSION['user_id'])) {
     header('location:login.php');

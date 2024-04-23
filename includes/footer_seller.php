@@ -1,5 +1,5 @@
 <?php
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
 if (isset($_GET['res_id']))
 {
     $d_id = $_GET['res_id'];

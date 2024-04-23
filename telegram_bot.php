@@ -1,5 +1,5 @@
 <?php
-include 'connection/connect.php';
+include 'config/connect.php';
 
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);

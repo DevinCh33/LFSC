@@ -98,7 +98,7 @@ function updateWordLimitCountdown() {
         countdownElement.css("color", "black"); // Change color to default when more than 150 characters are left
     }
     
-    countdownElement.text("( " + remainingChars + " characters left)");
+    countdownElement.text("(" + remainingChars + " characters left)");
 }
 
 

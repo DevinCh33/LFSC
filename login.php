@@ -23,7 +23,7 @@
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
 include("includes/prices_check.php"); // for PWS dictionary
 
 if (isset($_SESSION["user_id"])) // if already logged in

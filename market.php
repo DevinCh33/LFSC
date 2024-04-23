@@ -33,7 +33,8 @@
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
+include("config/recommend.php");
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -95,29 +96,21 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 $productQuery[0] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.product_id = ".$data['product_id'];
 
-                $messageRec[0] = "Buy again";
-
                 // Recommendation from same category
                 $productQuery[1] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.categories_id = ".$data['categories_id']." 
                                     ORDER BY RAND() LIMIT 1";
-
-                $messageRec[1] = "Product of the same category as your most recent order";
 
                 // Recommendation from same merchant
                 $productQuery[2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.owner = ".$data['owner']." 
                                     ORDER BY RAND() LIMIT 1";
 
-                $messageRec[2] = "Product of the same merchant as your most recent order";
-
                  // Recommendation from similar price range (+- RM 10)
                 $productQuery[3] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE tblprice.proPrice >= ".((float)$data['proPrice']-10)." 
                                     AND tblprice.proPrice <= ".((float)$data['proPrice']+10)."
                                     ORDER BY RAND() LIMIT 1";
-
-                $messageRec[3] = "Product of a similar price range as your most recent order";
 
                 $recommended[0] = 0;
 

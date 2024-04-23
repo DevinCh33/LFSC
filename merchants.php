@@ -24,7 +24,7 @@
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
-include("connection/connect.php"); // connection to database
+include("config/connect.php"); // connection to database
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {

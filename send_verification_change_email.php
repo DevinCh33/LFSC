@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php'; // Load PHPMailer
-require 'connection/connect.php'; // Load your database connection
+require 'config/connect.php'; // Load your database connection
 
 function sendOtpEmail($userEmail, $userId, $db)
 {

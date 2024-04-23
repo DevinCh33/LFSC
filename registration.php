@@ -22,7 +22,7 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    include("connection/connect.php"); 
+    include("config/connect.php"); 
     require 'vendor/autoload.php'; 
     require 'send_verification_email.php'; 
     
@@ -62,7 +62,7 @@
 
     <div class="module form-module">
         <div class="form">
-            <h2>Create an customer account</h2>
+            <h2>Create a customer account</h2>
             <span style="color:red;"><?php echo $message; ?></span>
             <form action="" method="post">
                 <input type="text" placeholder="Username" name="username" required />

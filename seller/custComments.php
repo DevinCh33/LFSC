@@ -61,7 +61,7 @@
       include("fetch_sellercomments.php");
 
       // Fetch the 'store' value associated with the seller from the admin table
-      include("connection/connect.php");
+      include("config/connect.php");
       $seller_id = $_SESSION['user_id']; // Assuming the seller's user_id is stored in session
       $query = "SELECT store FROM admin WHERE id = $seller_id";
       $result = mysqli_query($db, $query);

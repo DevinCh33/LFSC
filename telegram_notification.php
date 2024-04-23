@@ -1,6 +1,6 @@
 <?php
 
-include 'connection/connect.php';
+include 'config/connect.php';
 
 function sendTelegramNotification($chatId, $message)
 {

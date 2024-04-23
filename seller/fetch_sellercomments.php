@@ -1,6 +1,6 @@
 <?php
 // Include your database connection file
-include("connection/connect.php");
+include("config/connect.php");
 
 // Check if the seller ID is available in the session
 if(isset($_SESSION['user_id'])) {

@@ -511,6 +511,7 @@ function fetchData() {
         dataType: 'json',
 		data: {search:  search},
         success: function(response) {
+			console.log(response);
             updateTableAndPagination(response);
         },
         error: function(xhr, status, error) {
@@ -566,37 +567,37 @@ function findRec(windowType, name){
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
-//			openPopup(windowType);
-//			document.getElementById("ordID").textContent = response.data[0][0];
-//			document.getElementById("ord").value = response.data[0][0];
-//			$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
-//			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
-//			$('#ordNum').val(response.data[0][3]).prop('readonly',  windowType === 2);
-//			$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
-//			// Get the select element by its ID
-//			var gender = response.data[0][2];
-//			$('#ordGender' + gender).prop('checked', true);
-//			
-//			// Get the select element by its ID
-//			var selectElement = document.getElementById("ordJob");
-//
-//			// Loop through the options and select the one that matches the data
-//			for (var i = 0; i < selectElement.options.length; i++) {
-//			  if (selectElement.options[i].value === response.data[0][5]) {
-//				selectElement.options[i].selected = true;
-//				break; // Exit the loop once a match is found
-//			  }
-//			}	
-//			// Get the select element by its ID
-//			var selectElement = document.getElementById("ordStatus");
-//
-//			// Loop through the options and select the one that matches the data
-//			for (var i = 0; i < selectElement.options.length; i++) {
-//			  if (selectElement.options[i].value === response.data[0][6]) {
-//				selectElement.options[i].selected = true;
-//				break; // Exit the loop once a match is found
-//			  }
-//			}	
+			openPopup(windowType);
+			document.getElementById("ordID").textContent = response.data[0][0];
+			document.getElementById("ord").value = response.data[0][0];
+			$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
+			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
+			$('#ordNum').val(response.data[0][3]).prop('readonly',  windowType === 2);
+			$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
+			// Get the select element by its ID
+			var gender = response.data[0][2];
+			$('#ordGender' + gender).prop('checked', true);
+			
+			// Get the select element by its ID
+			var selectElement = document.getElementById("ordJob");
+
+			// Loop through the options and select the one that matches the data
+			for (var i = 0; i < selectElement.options.length; i++) {
+			  if (selectElement.options[i].value === response.data[0][5]) {
+				selectElement.options[i].selected = true;
+				break; // Exit the loop once a match is found
+			  }
+			}	
+			// Get the select element by its ID
+			var selectElement = document.getElementById("ordStatus");
+
+			// Loop through the options and select the one that matches the data
+			for (var i = 0; i < selectElement.options.length; i++) {
+			  if (selectElement.options[i].value === response.data[0][6]) {
+				selectElement.options[i].selected = true;
+				break; // Exit the loop once a match is found
+			  }
+			}	
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);

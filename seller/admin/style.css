@@ -416,10 +416,9 @@ html, body {
 .form-control {
   width: 100%;
   padding: 10px 0;
-  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
-	background-color: #fff;
+background-color: #fff;
 }
 
 /* Style for the form messages */
@@ -465,7 +464,7 @@ html, body {
 
 .form-group .textfield{
 	width: 80%;
-	text-align: center;
+	margin-bottom: 15px;
 }
 
 .setting .view-account .pro-label {
@@ -528,7 +527,7 @@ html, body {
 	border-radius: 10px;
 }
 
-.form-group .textfield .passAlert {
+.form-group .textfield .alertCSS {
 	text-align: left;
 	color: red;
 	padding: 0;

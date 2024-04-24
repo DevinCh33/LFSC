@@ -2,15 +2,16 @@
 
 require_once 'core.php';
 
+	$pass = $_GET['newPass'];
 
-	$newPassword = password_hash($_GET['newpass'], PASSWORD_DEFAULT);
-	$userId = $_GET['admID'];
+	$newPassword = password_hash($pass, PASSWORD_DEFAULT);
+	$valid = "";
 	
-	$updateSql = "UPDATE admin SET password = '$newPassword' WHERE adm_id = '".$userId."'";
+	$updateSql = "UPDATE admin SET password = '$newPassword' WHERE adm_id = '".$_SESSION['adm_id']."'";
 	if($db->query($updateSql) === TRUE) {
-		$valid = "true";		
+		$valid = "PASSWORD UPDATED";		
 	} else {
-		$valid = "false";	
+		$valid = "UPDATED FAILED";	
 	}
 
 

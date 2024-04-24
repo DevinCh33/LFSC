@@ -39,31 +39,21 @@
             <i class="fa-solid fa-user-tie"></i>
             <span class="link_name">Employees</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
         </div>
         <ul class="sub-menu">
           <li><a class="link_name" href="#">Employees</a></li>
-          <li><a href="#">HTML & CSS</a></li>
-          <li><a href="#">JavaScript</a></li>
-          <li><a href="#">PHP & MySQL</a></li>
         </ul>
       </li>
 		<?php } ?>
 		
 	<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
-        <div class="iocn-link">
           <a href="products.php">
             <i class="fa-solid fa-carrot"></i>
             <span class="link_name">Products</span>
           </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
         <ul class="sub-menu">
           <li><a class="link_name" href="products.php">Products</a></li>
-          <li><a href="#">Web Design</a></li>
-          <li><a href="#">Login Form</a></li>
-          <li><a href="#">Card Design</a></li>
         </ul>
       </li>
 	<?php } ?> 

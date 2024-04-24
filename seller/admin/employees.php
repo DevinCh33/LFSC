@@ -14,7 +14,6 @@
    </head>
 	
 <body>
-	<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
   <div class="sidebar close">
     <?php include "sidebar.php"; ?>
   </div>
@@ -83,7 +82,7 @@
 		  </div>
         	
 			<form action="action/infoEmployee.php" method="POST" class="myform" name="myForm" id="myForm">
-			
+			<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
 			<div class="myform-row">
 				<div id="divalert" class="divalert" name="divalert"></div>
 			</div>
@@ -229,6 +228,7 @@ function employeeInfo(action, form){
             type: $(form).attr('method'),
             data: {act: action, data: $(form).serialize()},
             success: function(response) {
+				console.log(response);
 				var resText = "";
 					if(action == "add")
 						resText = "Employee Added Successfully!";

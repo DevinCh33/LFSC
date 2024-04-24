@@ -57,19 +57,29 @@ function generatePassword($length = 10) {
 		
 		$loginSQL = "INSERT INTO admin (username, password, email, code, u_role, store, date) 
 			VALUES ('".$tempUsername."', '".$tempPassword."','".$empEmail."', 'VSUPP', 'VSELLER', '".date("Y-m-d H:i:s")."')";
+		
+		if ($db->query($sql) === true && $db->query($loginSQL)) {
+			$valid = true;
+		} else {
+			$valid = false;
+		}
 	}
     else if($_POST['act'] == "edit"){
 		echo $sql = "UPDATE tblemployee SET icNo = '$icno', empname = '$empName', empcontact = '$empNum', empgender = '$empGender', empemail = '$empEmail', empjob = '$empJob', empstatus = '$empStatus' WHERE empID = '$empID'";
+		if ($db->query($sql) === true) {
+			$valid = true;
+		} else {
+			$valid = false;
+		}
 	}
 	else if($_POST['act'] == "del"){
 		$sql = "UPDATE tblemployee SET empstatus = 2 WHERE empID = '$empID'";
+		if ($db->query($sql) === true) {
+			$valid = true;
+		} else {
+			$valid = false;
+		}
 	}
-
-    if ($db->query($sql) === true) {
-        $valid = true;
-    } else {
-        $valid = false;
-    }
 
 // Return a JSON response
 echo json_encode($valid);

@@ -753,7 +753,7 @@
             JOIN tblprice tp ON p.product_id = tp.productID
             LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
             LEFT JOIN restaurant r ON p.owner = r.rs_id
-            WHERE r.title LIKE '%$restaurant_name%'";
+            WHERE r.title LIKE '%$restaurant_name%' AND p.owner = '".$_SESSION['store']."'";
 
     // Execute the query
     $result = $db->query($sql);

@@ -10,14 +10,21 @@ $output = array('data' => array());
 if($result->num_rows > 0) { 
 
 	 while($row = $result->fetch_array()) {
+		 $type="";
+		if($row[4] == "1")
+			$type = "CASH ON DELIVERY";
+		else if($row[4] == "2")
+			$type = "SARAWAK PAY";
+		else if($row[4] == "3")
+			$type = "PayPal";
+		 
 		 $output['data'][] = array(
 			$row[0], 
 			$row[1], 
 			$row[2], 
 			$row[3], 
-			$row[4], 
-			$row[5], 
-			$row[6]
+			$type, 
+			$row[5]
 		); 	
 	 } // /while 
 

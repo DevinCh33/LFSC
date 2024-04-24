@@ -104,6 +104,7 @@
         </a>
         <ul class="sub-menu blank">
           <li><a class="link_name" href="product_report.php">Report</a></li>
+          <li><a class="link_name" href="sales_report.php">Sales Report</a></li>
         </ul>
       </li>
 		<?php } ?>

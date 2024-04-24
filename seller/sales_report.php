@@ -1,41 +1,134 @@
-<?php
-// Include necessary PHP code to fetch and process data for the chart
-include 'connect.php';
-
-// Fetch data from the database
-$query = "SELECT * FROM orders";
-$result = $db->query($query);
-
-$data = [];
-while ($row = $result->fetch_assoc()) {
-    $data[] = $row;
-}
-$result->free_result();
-$db->close();
-
-// Process data for the chart
-$orderDates = [];
-$totalAmounts = [];
-
-foreach ($data as $row) {
-    $orderDates[] = $row['order_date'];
-    $totalAmounts[] = $row['total_amount'];
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Sales Report</title>
     <meta charset="UTF-8">
+    <title>Combined Graphs</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+    <style>
+        h1{
+            text-decoration: underline;
+            font-size: 30px;
+        }
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 50px;
+        }
 
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+        .chart-container {
+            width: 80%;
+            height: 80%;
+            margin: 5% auto 30% auto;
+        }
+
+        .export-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            }
+
+        /* The Modal (background) */
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        -webkit-animation-name: animatetop;
+        -webkit-animation-duration: 0.4s;
+        animation-name: animatetop;
+        animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+        from {top:-300px; opacity:0} 
+        to {top:0; opacity:1}
+        }
+
+        @keyframes animatetop {
+        from {top:-300px; opacity:0}
+        to {top:0; opacity:1}
+        }
+
+        /* The Close Button */
+        .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+        }
+
+        .modal-body {padding: 30px;}
+
+        .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+        }
+    </style>
+</head>
 <body>
     <div class="sidebar close">
         <?php include "sidebar.php"; ?>
@@ -43,132 +136,288 @@ foreach ($data as $row) {
     <section class="home-section">
         <div class="home-content">
         <i class='bx bx-menu' ></i>
-        <span class="text">Reports</span>
+        <span class="text">Sales Report</span>
         </div>
-        <!-- Chart Section -->
-        <div style="width: 800px; height: 400px; margin: 20px auto;">
-            <label for="chartType">Select Chart Type:</label>
-            <select id="chartType" onchange="updateChartType()">
-                <option value="bar">Bar Chart</option>
-                <option value="line">Line Graph</option>
-                <option value="pie">Pie Chart</option>
-            </select>
-            <canvas id="myChart" width="800" height="400"></canvas>
-        </div>
+      
+        <div class="chart-container" style="margin-top: 10%;">
+    <h1>Sales Report</h1>
+    <?php
+    // Start the session
+    session_start();
 
-        <!-- Summary Section -->
-        <div>
-            <h1>Data Analytics Report Summary</h1>
-            <?php
+    // Include necessary PHP code to establish database connection
+    include 'connect.php';
 
-            $totalOrders = count($data);
-            $totalAmount = array_sum(array_column($data, 'total_amount'));
-            $averageAmount = $totalOrders > 0 ? $totalAmount / $totalOrders : 0;
+    // Default values for date range
+    $start_date = "";
+    $end_date = "";
 
-            // Additional logic to analyze data and generate dynamic summary
-            $summaryMessage = "No specific summary available.";
+    // Check if session variables for date range are set
+    if(isset($_SESSION["start_date"]) || isset($_SESSION["end_date"])) {
+        // Use session values if available
+        $start_date = $_SESSION["start_date"];
+        $end_date = $_SESSION["end_date"];
+    }
 
-            if ($totalOrders > 0) {
-                if ($averageAmount > 0) {
-                    $summaryMessage = "The average order amount is positive.";
-                } else {
-                    $summaryMessage = "The average order amount is not available or zero.";
-                }
-            } else {
-                $summaryMessage = "No orders data available.";
-            }
-            ?>
+    // Check if form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Get the start date and end date from the form
+        $start_date = $_POST["start_date"];
+        $end_date = $_POST["end_date"];
 
-        <!-- Summary Section -->
-        <div>
-            <p>Total Orders: <?php echo $totalOrders; ?></p>
-            <p>Total Amount: <?php echo $totalAmount; ?></p>
-            <p>Average Amount: <?php echo $averageAmount; ?></p>
-            <p>Summary: <?php echo $summaryMessage; ?></p>
-        </div>
-        </div>
+        // Store the search parameters in session variables
+        $_SESSION["start_date"] = $start_date;
+        $_SESSION["end_date"] = $end_date;
 
+        // Perform the SQL query based on date range
+        if (!empty($start_date) && !empty($end_date)) {
+            // Both start date and end date are selected
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                        (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+                    FROM order_item oi
+                    INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+                    INNER JOIN product p ON tp.productID = p.product_id
+                    INNER JOIN orders o ON oi.order_id = o.order_id
+                    INNER JOIN users u ON o.user_id = u.u_id
+                    LEFT JOIN restaurant r ON p.owner = r.rs_id
+                    LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+                    WHERE o.order_date BETWEEN '$start_date' AND '$end_date' AND p.owner = '". $_SESSION['store'] . "'
+                    ORDER BY item_no ASC";
+        } elseif (!empty($start_date)) {
+            // Only start date is selected
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                        (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+                    FROM order_item oi
+                    INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+                    INNER JOIN product p ON tp.productID = p.product_id
+                    INNER JOIN orders o ON oi.order_id = o.order_id
+                    INNER JOIN users u ON o.user_id = u.u_id
+                    LEFT JOIN restaurant r ON p.owner = r.rs_id
+                    LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+                    WHERE o.order_date >= '$start_date' AND p.owner = '". $_SESSION['store'] . "'
+                    ORDER BY item_no ASC";
+        } elseif (!empty($end_date)) {
+            // Only end date is selected
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                        (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+                    FROM order_item oi
+                    INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+                    INNER JOIN product p ON tp.productID = p.product_id
+                    INNER JOIN orders o ON oi.order_id = o.order_id
+                    INNER JOIN users u ON o.user_id = u.u_id
+                    LEFT JOIN restaurant r ON p.owner = r.rs_id
+                    LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+                    WHERE o.order_date <= '$end_date' AND p.owner = '". $_SESSION['store'] . "'
+                    ORDER BY item_no ASC";
+        } else {
+            // Neither start date nor end date is selected
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+                        (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
+                    FROM order_item oi
+                    INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
+                    INNER JOIN product p ON tp.productID = p.product_id
+                    INNER JOIN orders o ON oi.order_id = o.order_id
+                    INNER JOIN users u ON o.user_id = u.u_id
+                    LEFT JOIN restaurant r ON p.owner = r.rs_id
+                    LEFT JOIN user_comments uc ON u.u_id = uc.user_id
+                    WHERE p.owner = '". $_SESSION['store'] . "'
+                    ORDER BY item_no ASC";
+        }
+        // Execute the query
+        $result = mysqli_query($db, $sql);
+    }
 
-        <!-- Trending Section -->
-        <div>
-            <h2>Trending</h2>
-            <?php
-            echo "<p>Orders are trending positively this month.</p>";
-            ?>
-        </div>
+    // Initialize total sales amount
+    $total_sales = 0;
 
-        <!-- Explanation Section -->
-        <div>
-            <h2>Explanation</h2>
-            <?php
-            echo "<p>The increase in total amount is due to high-value orders from new clients.</p>";
-            ?>
-        </div>
-    </section>
+    // Check if there are any results
+    if (isset($result) && mysqli_num_rows($result) > 0) {
+        echo "<div class='chart-container' style='margin-top: 10%;'>";
+        echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
+        echo "<label for='start_date'>Start Date:</label>";
+        echo "<input type='date' name='start_date' id='start_date' value='$start_date'>";
+        echo "<label for='end_date'>End Date:</label>";
+        echo "<input type='date' name='end_date' id='end_date' value='$end_date'>";
+        echo "<input type='submit' value='Search' name='search_sales'>";
+        echo "<button type='submit' formaction='export_sales_to_excel.php' class='export-button'>Excel</button>"; // Add Export to Excel button with class
+        echo "</form>";
+        echo "<table border='1'>";
+        echo "<tr><th>ITEM NO</th><th>ITEM NAME</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>DATE</th><th>DETAILS</th></tr>";
 
-    <!-- JavaScript for Chart -->
+        // Initialize item number counter
+        $item_no = 1;
+
+        // Fetch and display each row of the result
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $item_no . "</td>";
+            echo "<td>" . $row['product_name'] . "</td>";
+            echo "<td>" . number_format($row['price'], 2) . "</td>";
+            echo "<td>" . $row['quantity'] . "</td>";
+            echo "<td>" . number_format($row['amount'], 2) . "</td>";
+            echo "<td>" . $row['order_date'] . "</td>";
+            echo "<td><button onclick='showDetails(\"" . $row['username'] . "\", \"" . $row['product_name'] . "\", \"" . $row['item_description'] . "\", \"" . $row['product_image'] . "\", \"" . $row['order_date'] . "\", \"" . $row['owner'] . "\", \"" . $row['comment'] . "\", " . $row['price'] . ")'>Details</button></td>";
+
+            // Add amount to total sales
+            $total_sales += $row['amount'];
+
+            // Increment item number
+            $item_no++;
+
+            echo "</tr>";
+        }
+
+        // Add total sales row
+        echo "<tr><td colspan='6' align='right'><strong>Total Sales:</strong></td><td colspan='2'>" . number_format($total_sales, 2) . "</td></tr>";
+
+        echo "</table>";
+        echo "</div>";
+    } else {
+        echo "<div class='chart-container' style='margin-top: 10%;'>";
+        echo "<h2>Sales Report</h2>";
+        echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
+        echo "<label for='start_date'>Start Date:</label>";
+        echo "<input type='date' name='start_date' id='start_date' value='$start_date'>";
+        echo "<label for='end_date'>End Date:</label>";
+        echo "<input type='date' name='end_date' id='end_date' value='$end_date'>";
+        echo "<input type='submit' value='Search' name='search_sales'>";
+        echo "</form>";
+        echo "No sales data available.";
+        echo "</div>";
+    }
+
+    // Close the database connection
+    mysqli_close($db);
+    ?>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const orderDates = <?php echo json_encode($orderDates); ?>;
-            const totalAmounts = <?php echo json_encode($totalAmounts); ?>;
-            let chartType = 'bar';
-            let chart = null;
+        function showDetails(username, productName, description, image, date, owner, comment, price) {
+            // Get the modal
+            var modal = document.getElementById("myModal");
 
-            function updateChartType() {
-                chartType = document.getElementById('chartType').value;
-                updateChart();
-            }
+            // Get the modal content
+            var modalContent = document.getElementById("modal-content");
 
-            function updateChart() {
-                const ctx = document.getElementById('myChart').getContext('2d');
-                if (chart) {
-                    chart.destroy();
-                }
+            // Set the details in the modal
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2>Details</h2>
+                </div>
+                <div class="modal-body">
+                    <p><strong>User Name:</strong> ${username}</p>
+                    <p><strong>Product Name:</strong> ${productName}</p>
+                    <p><strong>Description:</strong> ${description}</p>
+                    <p><strong>Date:</strong> ${date}</p>
+                    <p><strong>Owner:</strong> ${owner}</p>
+                    <p><strong>Comment:</strong> ${comment}</p>
+                    <p><strong>Price:</strong> RM ${price.toFixed(2)}</p>
+                    <img src="${image}" alt="Product Image" style="max-width: 200px; max-height: 200px;">
+                </div>
+            `;
 
-                chart = new Chart(ctx, {
-                    type: chartType,
-                    data: {
-                        labels: orderDates,
-                        datasets: [{
-                            label: 'Total Amount',
-                            data: totalAmounts,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Sales Report'
-                            }
-                        },
-                        scales: {
-                            x: {
-                                type: 'category',
-                                labels: orderDates,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Order Date'
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Total Amount'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+            // Display the modal
+            modal.style.display = "block";
+        }
 
-            updateChart();
-        });
+        function closeModal() {
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Hide the modal
+            modal.style.display = "none";
+        }
     </script>
 
-</body>
+    <!-- The Modal -->
+    <div id="myModal" class="modal" >
+        <!-- Modal content -->
+        <div class="modal-content" id="modal-content" ></div>
+    </div>
+</div>
 
+
+
+<div class="chart-container" style="margin-top: 10%;">
+    <!-- Data Analytics Report Summary -->
+    <h1>Product Review Table</h1>
+   
+        <button type="button" id="excelBtn" class="export-button">Excel</button>
+
+    <?php
+    session_start(); // Start the session
+
+    // Include the connection file
+    include 'connect.php';
+
+  
+
+    // SQL query to retrieve product report data for the provided restaurant name
+    $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
+            FROM product p
+            JOIN categories c ON p.categories_id = c.categories_id
+            JOIN tblprice tp ON p.product_id = tp.productID
+            LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
+            LEFT JOIN restaurant r ON p.owner = r.rs_id
+            WHERE r.title LIKE '%$restaurant_name%' AND p.owner = '".$_SESSION['store']."'";
+
+    // Execute the query
+    $result = $db->query($sql);
+
+    // Initialize counter
+    $counter = 1;
+
+    // Check if there are results
+    if ($result->num_rows > 0) {
+        // Output table headers
+        echo "<table id='dataTable'>";
+        echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
+
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $counter . "</td>";
+            echo "<td>" . $row["Restaurant Title"] . "</td>";
+            echo "<td>" . $row["Product Name and Weight"] . "</td>";
+            echo "<td>" . $row["Description"] . "</td>";
+            echo "<td>" . $row["Category"] . "</td>";
+            echo "<td>" . $row["Product Date"] . "</td>";
+            echo "<td>" . $row["Price (RM)"] . "</td>";
+            echo "<td>" . $row["Ordered Quantity"] . "</td>";
+            echo "</tr>";
+
+            // Increment counter
+            $counter++;
+        }
+        echo "</table>"; // Close the table
+    } else {
+        // No results found
+        echo "0 results";
+    }
+
+    // Close connection
+    $db->close();
+    ?>
+</div>
+
+<script>
+    // Function to convert table to Excel file and download
+    function exportToExcel() {
+        var table = document.getElementById("dataTable");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "product_review.xls";
+        link.click();
+    }
+
+    // Add event listener to Excel button
+    document.getElementById("excelBtn").addEventListener("click", exportToExcel);
+</script>
+
+    </section>
+</body>
 </html>
+<script src="scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

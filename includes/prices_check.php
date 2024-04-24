@@ -1,20 +1,28 @@
 <?php
 
-function obtainPWSDictionary($db)
-{
-	$PWSDictionary = [];
-	$query = "SELECT tblprice.priceNo, tblprice.proPrice, tblprice.proWeight, product.quantity from product JOIN tblprice ON product.product_id = tblprice.productID";
-	$products = mysqli_query($db, $query); // executing
-	
-	if (!empty($products)) 
+class PricesCheck {
+	private $Database;
+	public $Dictionary;
+
+	function __construct($db)
 	{
-		foreach($products as $product)
-		{   
-			$PWSDictionary['prices'][$product['priceNo']] = $product['proPrice'];
-			$PWSDictionary['weights'][$product['priceNo']] = $product['proWeight'];
-			$PWSDictionary['stock'][$product['priceNo']] = $product['quantity'];
-		}
+		$this->Database = $db;
 	}
 
-	$_SESSION['PWS'] = $PWSDictionary;
+	function Refresh()
+	{
+		$this->Dictionary = [];
+
+		$query = "SELECT tblprice.priceNo, tblprice.proPrice, tblprice.proQuant from product JOIN tblprice ON product.product_id = tblprice.productID";
+		$products = mysqli_query($this->Database, $query); // executing
+		
+		if (!empty($products)) 
+		{
+			foreach($products as $product)
+			{   
+				$this->Dictionary['prices'][$product['priceNo']] = $product['proPrice'];
+				$this->Dictionary['stock'][$product['priceNo']] = $product['proQuant'];
+			}
+		}
+	}
 }

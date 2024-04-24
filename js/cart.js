@@ -25,6 +25,7 @@ $(document).ready(function() {
                 const options = $(this).closest('.product').data('options');
                 const maxNumber = Number($(this).closest('.product').data('max'));
                 const currentNumber = Number($(this).closest('.product').data('current'));
+                const currentStock = $(this).siblings('p').eq(1);
                 const currentWeight = $(this).siblings('h6').children('span');
                 const currentPrice = $(this).siblings('span');
                 
@@ -34,9 +35,11 @@ $(document).ready(function() {
                     nextNumber = 0;
                 }
 
+                let quantity = Number(options[nextNumber]['proQuant']);
                 let base = Number(options[nextNumber]['proPrice']);
                 let custom = Number(options[nextNumber]['price']);
                 let discount = Number(options[nextNumber]['proDisc']);
+                let weight = options[nextNumber]['proWeight'];
                 
                 if (custom != 0) {
                     debug? console.log("Custom"): 1;
@@ -59,7 +62,8 @@ $(document).ready(function() {
                     currentPrice.text("RM " + (base*(1-discount/100)).toFixed(2));
                 }
 
-                currentWeight.text(options[nextNumber]['proWeight']);
+                currentStock.text("Number Left: " + quantity);
+                currentWeight.text(weight);
                 
                 $(this).closest('.product').data('current', nextNumber);
                 $(this).closest('.product').data('price-id', options[nextNumber]['priceNo']);
@@ -70,12 +74,11 @@ $(document).ready(function() {
                 const priceId = $(this).parents().data('price-id');
                 const productOwner = $(this).parents().data('product-owner');
                 const productName = $(this).siblings('a').children('h5').text();
-                const productWeight = productName.split("(")[1].slice(0, -2);
-                const productStock = parseInt($(this).siblings('div').eq(1).text().split(" ")[1]);
+                const productStock = parseInt($(this).siblings('div').eq(1).text().split(" ")[2]);
                 const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
                 const productImage = $(this).closest('.product').siblings('.search-product').data('image-src');
                 
-                addToCart(priceId, productName, productWeight, productStock, productPrice, productOwner, 1, productImage, 1);
+                addToCart(priceId, productName, productStock, productPrice, productOwner, 1, productImage, 1);
             });
 
             // Event listener for "Order Now" buttons (Recommendations)
@@ -83,12 +86,11 @@ $(document).ready(function() {
                 const priceId = $(this).parents().data('price-id');
                 const productOwner = $(this).parents().data('product-owner');
                 const productName = $(this).siblings('a').children('h5').text();
-                const productWeight = productName.split("(")[1].slice(0, -2);
-                const productStock = parseInt($(this).siblings('p').eq(0).text().split(" ")[1]);
+                const productStock = parseInt($(this).siblings('p').eq(0).text().split(" ")[2]);
                 const productPrice = parseFloat($(this).siblings('span').text().replace('Price: RM ', ''));
                 const productImage = $(this).parents().siblings('img').attr('src');
                 
-                addToCart(priceId, productName, productWeight, productStock, productPrice, productOwner, 1, productImage, 1); 
+                addToCart(priceId, productName, productStock, productPrice, productOwner, 1, productImage, 1); 
             });
 
             // Event listener for "Add to Cart" buttons
@@ -96,16 +98,15 @@ $(document).ready(function() {
                 const priceId = $(this).closest('.product').data('price-id');
                 const productOwner = $(this).closest('.product').data('product-owner');
                 const productName = $(this).siblings('h6').text();
-                const productWeight = productName.split("(")[1].slice(0, -2);
                 const productStock = parseInt($(this).siblings('p').eq(1).text().split(" ")[2]);
                 const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
                 const productAmount = Number($(this).siblings('input').val());
                 const productImage = $(this).closest('.food-item').find('.rest-logo img').attr('src');
                 
-                addToCart(priceId, productName, productWeight, productStock, productPrice, productOwner, productAmount, productImage);
+                addToCart(priceId, productName, productStock, productPrice, productOwner, productAmount, productImage);
             });
 
-            function quantityCheck(quantity, weight, stock) {
+            function quantityCheck(quantity, stock) {
                 var msg = null;
 
                 if (quantity <= 0) {
@@ -116,7 +117,7 @@ $(document).ready(function() {
                     var msg = "Please enter a whole number!";
                     debug? console.log(msg): 1;
                 }
-                else if ((quantity*weight) > stock) {
+                else if (quantity > stock) {
                     var msg = "Not enough in stock!";
                     debug? console.log(msg): 1;
                 }
@@ -125,25 +126,24 @@ $(document).ready(function() {
             }
 
             // Function to add a product to the cart
-            function addToCart(price_id, name, weight, stock, price, owner, quantity=1, image='', alertNeeded=0) {
+            function addToCart(price_id, name, stock, price, owner, quantity=1, image='', alertNeeded=0) {
                 if (debug) {
                     console.log(price_id);
                     console.log(name);
-                    console.log(weight);
                     console.log(stock);
                     console.log(price);
                     console.log(owner);
                     console.log(quantity);
                     console.log(image);
                 }
-                quantityCheckError = quantityCheck(quantity, weight, stock);
+                quantityCheckError = quantityCheck(quantity, stock);
                 if ((quantityCheckError != null) && enableQuantityCheck) {
                     alert(quantityCheckError);
                     return;
                 }
                 const existingProduct = cart.find(item => item.price_id === price_id);
                 if (existingProduct) {
-                    quantityCheckError = quantityCheck(existingProduct.quantity + quantity, existingProduct.weight, existingProduct.stock);
+                    quantityCheckError = quantityCheck(existingProduct.quantity + quantity, existingProduct.stock);
                     if ((quantityCheckError != null) && enableQuantityCheck) {
                         alert(quantityCheckError);
                         return;
@@ -154,7 +154,6 @@ $(document).ready(function() {
                     cart.push({
                         price_id,
                         name,
-                        weight,
                         stock,
                         price,
                         quantity,
@@ -181,7 +180,7 @@ $(document).ready(function() {
             function updateCartItemQuantity(priceId, newQuantity) {
                 const productToUpdate = cart.find(item => item.price_id === priceId);
 
-                quantityCheckError = quantityCheck(newQuantity, productToUpdate.weight, productToUpdate.stock);
+                quantityCheckError = quantityCheck(newQuantity, productToUpdate.stock);
                 if ((quantityCheckError != null) && enableQuantityCheck) {
                     alert(quantityCheckError);
                     return;

@@ -46,8 +46,8 @@ if(isset($_POST['submit'])) // if submit button was pressed
 		{
 			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
 			$_SESSION['loginStatus'] = true;
-
-			obtainPWSDictionary($db);
+			$_SESSION['pricesCheck'] = new PricesCheck($db);
+			$_SESSION['pricesCheck']->Refresh();
 
 			header("refresh:1;url=market.php"); // redirect to market.php page
 		} 

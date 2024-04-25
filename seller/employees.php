@@ -16,7 +16,7 @@
 <body>
 	<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
   <div class="sidebar close">
-    <?php include "sidebar.php"; ?>
+    <?php include "sidebar.php"; ?> 
   </div>
   <section class="home-section">
     <div class="home-content">

@@ -51,7 +51,6 @@
 			<th onclick="sortTable(1)">Image <span class="sort-indicator" id="indicator1"></span></th>
 			<th onclick="sortTable(2)">Product Name <span class="sort-indicator" id="indicator2"></span></th>
 			<th onclick="sortTable(3)">Description <span class="sort-indicator" id="indicator3"></span></th>
-			<th onclick="sortTable(5)">Quantity Remaining (g)<span class="sort-indicator" id="indicator4"></span></th>
 			<th onclick="sortTable(6)">Status <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(7)">Action <span class="sort-indicator" id="indicator5"></span></th>
 		  </tr>
@@ -119,14 +118,6 @@
 			</div>
 			<div class="myform-row">
 				<div class="label">
-					<label for="productDescr">Quantity (g):</label>
-				</div>
-				<div class="input">
-					<input type="text" id="proQuan" name="proQuan" class="myform-input" value="0" required>
-				</div>
-			</div>
-			<div class="myform-row">
-				<div class="label">
 					<label for="productDescr">Low Stock Alert:</label>
 				</div>
 				<div class="input">
@@ -164,12 +155,14 @@
 				<div class="input">
 					<table id="priceTable" style="border: none">
 						<tr style="text-align: center">
+							<th>Quantity</th>
 							<th>Weight</th>
 							<th>Price</th>
 							<th>Discount</th>
 							<th>Action</th>
 						</tr>
 						<tr style="border: none">
+							<td><input type="text" name="quantity[]" class="myform-input" placeholder="Quantity" required></td>
 							<td><input type="text" name="weight[]" class="myform-input" placeholder="Weight" required></td>
 							<td><input type="text" name="price[]" class="myform-input" placeholder="Price" required></td>
 							<td><input type="text" name="discount[]" class="myform-input" placeholder="Discount"></td>
@@ -193,13 +186,13 @@
 			</div>
 				<input type="hidden" name="proID" id="proID">
 				<input type="button" id="addProduct" class="button" value="Add Product" onClick="productInfo('add', this.form)">
-				<input type="button" id="editProduct" class="button" value="Save Change" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
-				<input type="button" id="delProduct" class="button" value="Delete product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
-    </form>
+				<input type="button" id="editProduct" class="button" value="Save Changes" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
+				<input type="button" id="delProduct" class="button" value="Delete Product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
+			</div>				
+		</form>
       </div>
     </div>
   </section>
-  
 </body>
 </html>
 <script src="scripts.js"></script>
@@ -232,16 +225,18 @@ function addPriceRow() {
     var priceTable = document.getElementById("priceTable");
     var newRow = priceTable.insertRow(priceTable.rows.length - 1); // Insert before the last row (before the "Add More" row)
 
-    // Create cells for weight, price, and action
-    var weightCell = newRow.insertCell(0);
-    var priceCell = newRow.insertCell(1);
-	var discountCell = newRow.insertCell(2);
-    var actionCell = newRow.insertCell(3);
+    // Create cells for quantity, weight, price, discount, and action
+	var quantityCell = newRow.insertCell(0);
+    var weightCell = newRow.insertCell(1);
+    var priceCell = newRow.insertCell(2);
+	var discountCell = newRow.insertCell(3);
+    var actionCell = newRow.insertCell(4);
 
-    // Add input fields for weight and price
+    // Add input fields for quantity, weight, price and discount
+	quantityCell.innerHTML = '<input type="text" name="quantity[]" class="myform-input" placeholder="Quantity" required>';
     weightCell.innerHTML = '<input type="text" name="weight[]" class="myform-input" placeholder="Weight" required>';
     priceCell.innerHTML = '<input type="text" name="price[]" class="myform-input" placeholder="Price" required>';
-	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" placeholder="Discount" required>';
+	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" placeholder="Discount">';
 
     // Create a button element and set a unique id for it
     var removeButton = document.createElement("button");
@@ -270,24 +265,27 @@ function productInfo(action, form) {
     var productCode = $('#productCode').val();
     var productName = $('#proName').val();
     var productDescription = $('#proDescr').val();
-	var proQuan = $('#proQuan').val();
     var productStatus = $('#proStatus').val();
 	var productID = $("#proID").val();
     var store = $('#storeID').val();
 
-    // Extract weight, price and discount values from the table
+    // Extract quantity, weight, price and discount values from the table
+	var quantityValues = [];
     var weightValues = [];
     var priceValues = [];
 	var discountValues = [];
     $('#priceTable tbody tr').each(function () {
+		var quantityInput = $(this).find('input[name="quantity[]"]'); 
 		var weightInput = $(this).find('input[name="weight[]"]');
 		var priceInput = $(this).find('input[name="price[]"]');
 		var discountInput = $(this).find('input[name="discount[]"]');
+		var quantity = quantityInput.val();
 		var weight = weightInput.val();
 		var price = priceInput.val();
 		var discount = discountInput.val();
 		var priceId = $(this).data('price-id') || 'new'; // 'new' for new entries
-		if (weight && price) {
+		if (quantity && weight && price) {
+			quantityValues.push({quantity: quantity, priceId: priceId});
 			weightValues.push({weight: weight, priceId: priceId});
 			priceValues.push({price: price, priceId: priceId});
 			discountValues.push({discount: discount, priceId: priceId});
@@ -295,9 +293,9 @@ function productInfo(action, form) {
 	});
 	
     // Check if required fields are filled
-    if (productCode === "" || productName === "" || weightValues.length === 0 || priceValues.length === 0 || proQuan === "" && action != "del") {
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('Product Code, Name, Weight, and Price must not be empty');
+    if (productCode === "" || productName === "" || quantityValues.length === 0 || weightValues.length === 0 || priceValues.length === 0 && action != "del") {
+		$('#divalert').css('background-color', 'red');
+        $('#divalert').text('Product Code, Name, Quantity, Weight, and Price must not be empty');
         $('#divalert').show();
         setTimeout(function () {
             $('#divalert').hide();
@@ -316,16 +314,15 @@ function productInfo(action, form) {
 			data: formData,
 			processData: false,
 			contentType: false,
-            //data: {act: action, data: $("#myForm").serialize(), proID: productID, image: imageInput},
             success: function (response) {
 				if(action == "add"){
-					text = "Product Added Successfully!";
+					text = "Product added successfully!";
 					document.getElementById("myForm").reset();
 				}
 				else if(action == "edit")
-					text = "Information Updated Successfully!";
+					text = "Information updated successfully!";
 				else if(action == 'del')
-					text = "Product Deleted Successfully!";
+					text = "Product deleted successfully!";
                 $('#divalert').css('background-color', 'green');
 				$('#divalert').text(text);
 				$('#divalert').show();
@@ -335,8 +332,7 @@ function productInfo(action, form) {
 				if(action == 'del'){
 					closePopup();
 					fetchData();
-				}
-				
+				}	
             },
             error: function (xhr, status, error) {
                 console.error('Error:', error);
@@ -365,7 +361,6 @@ function updateTableAndPagination(data) {
             '<td style="padding: 0px;">' + rowData.productImage + '</td>' +
             '<td>' + rowData.productName + '</td>' +
             '<td>' + rowData.descr + '</td>' +
-            '<td>' + rowData.quantity + '</td>' +
             `<td style="color: ${(rowData.status === '1') ? 'green' : 'red'};">${(rowData.status === '1') ? 'Active' : 'Inactive'}</td>`+
 			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData.productID+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);
@@ -511,7 +506,7 @@ function findRec(windowType, name){
 
             // Populate price table
             response[0].prices.forEach(function(item) {
-                addPriceRowWithData(item.proWeight, item.proPrice, item.proDisc, item.priceNo);
+                addPriceRowWithData(item.proQuant, item.proWeight, item.proPrice, item.proDisc, item.priceNo);
             });
         },
         error: function(xhr, status, error) {
@@ -520,28 +515,28 @@ function findRec(windowType, name){
     });
 }
 
-function addPriceRowWithData(weight, price, discount, priceNo) {
+function addPriceRowWithData(quantity, weight, price, discount, priceNo) {
     var priceTable = document.getElementById("priceTable");
     var newRow = priceTable.insertRow(priceTable.rows.length - 1); // Insert before the last row
 
-    var weightCell = newRow.insertCell(0);
-    var priceCell = newRow.insertCell(1);
-	var discountCell = newRow.insertCell(2);
-    var actionCell = newRow.insertCell(3);
+    var quantityCell = newRow.insertCell(0);
+	var weightCell = newRow.insertCell(1);
+    var priceCell = newRow.insertCell(2);
+	var discountCell = newRow.insertCell(3);
+    var actionCell = newRow.insertCell(4);
 
+	quantityCell.innerHTML = '<input type="text" name="quantity[]" class="myform-input" value="' + quantity + '" placeholder="Quantity" required>';
     weightCell.innerHTML = '<input type="text" name="weight[]" class="myform-input" value="' + weight + '" placeholder="Weight" required>';
     priceCell.innerHTML = '<input type="text" name="price[]" class="myform-input" value="' + price + '" placeholder="Price" required>';
-	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" value="' + discount + '" placeholder="Discount" required>';
+	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" value="' + discount + '" placeholder="Discount">';
 	actionCell.innerHTML = '<input type="hidden" value="'+priceNo+'" name="priceNo[]" id="priNo"><button type="button" onclick="removePriceRow(this)">Remove</button>';
 }
 
-	
 function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	
 	findRec(2, name);
-	
 }
 	
 function editRec(num){
@@ -550,6 +545,7 @@ function editRec(num){
 	findRec(3, name);
 	
 }
+
 function delRec(num){
 	var button = document.getElementById("btnDel"+num);
 	var name = button.getAttribute("name");
@@ -565,7 +561,7 @@ function confirmDelete(form) {
 }
 	
 function addPriceRow() {
-    addPriceRowWithData("", "", "", true); // Passing true to indicate that action buttons should be added
+    addPriceRowWithData("", "", "", "", true); // Passing true to indicate that action buttons should be added
 }
 
 function openPopup(type) {
@@ -592,8 +588,7 @@ function openPopup(type) {
 		document.getElementById('addProduct').style.display = "none";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "block";
-	}
-		
+	}	
 }
 	
 function validateImage() {
@@ -606,7 +601,7 @@ function validateImage() {
 	
     if (!allowedExtensions.exec(filePath)) {
         fileInput.value = '';
-		$("#imageAlert").text("Please upload file having extensions .jpeg/.jpg/.png/.gif only.");
+		$("#imageAlert").text("Please upload files having extensions .jpeg/.jpg/.png/.gif only.");
         return false;
 		
     }

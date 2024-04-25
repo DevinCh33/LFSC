@@ -128,16 +128,14 @@ $(document).ready(function() {
 });
 
 function fetchData() {
-	var userid = <?php echo $_SESSION['adm_id']; ?>;
-	var userrole = '<?php echo $_SESSION['u_role']; ?>';
     $.ajax({
         url: 'action/fetchAdminData.php',
         type: 'GET',
-		data:{userId: userid},
         dataType: 'json',
         success: function(response) {
-			$('#userName').text(response[0]['title']);
-			$('#userRole').text(response[0]['u_role']);
+			$('#userName').text(response.title);
+			$('#userRole').text(response.u_role);
+			console.log('hai');
 		},
 		error: function(xhr, status, error) {
 			console.error('Error:', error); // Log any errors to the console

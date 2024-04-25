@@ -123,13 +123,10 @@
 			
 			<div class="alert">
 				<div class="box">
-					<p>Stock Alert    :</p> 
+					<p>Total Employee    :  <span id="totalEmp"></span></p> 
 				</div>
 				<div class="box">
-					<p>Order Reminder :</p> 
-				</div>
-				<div class="box">
-					<p>Products Pending:</p> 
+					<p>Active Employee :  <span id="activeEmp"></span></p> 
 				</div>
 				
 			</div>
@@ -139,47 +136,27 @@
 	  
 	  
   </section>
-  
+	<script src="scripts.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-  let arrow = document.querySelectorAll(".arrow");
-  for (var i = 0; i < arrow.length; i++) {
-    arrow[i].addEventListener("click", (e)=>{
-   let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-   arrowParent.classList.toggle("showMenu");
-    });
-  }
-  let sidebar = document.querySelector(".sidebar");
-  let sidebarBtn = document.querySelector(".bx-menu");
-	  let logoImage = document.getElementById("logo");
-	  let logoName = document.getElementById("logo_name");
-  	logoName.hidden = true;
-	  let initialSize = { width: 80, height: 80 };
-	  logoImage.width = initialSize.width;
-	  logoImage.height = initialSize.height;
-	  // Hide the logo name initially
-  logoName.style.opacity = 0;
-
-  // Function to show the logo name with a delay
-  function showLogoName() {
-    logoName.style.opacity = 1;
-  }
+$(document).ready(function() {
+	employeeCounter();
+});  
 	  
-  sidebarBtn.addEventListener("click", ()=>{
-    sidebar.classList.toggle("close");
-	  if (sidebar.classList.contains("close")) {
-      // Sidebar is closed
-      logoImage.width = initialSize.width;
-      logoImage.height = initialSize.height;
-      logoName.hidden = true;
-    } else {
-      // Sidebar is open
-      // Adjust the logo size as needed
-      logoImage.width = 120; // Increase the width to 120 when the sidebar is open
-      logoImage.height = 120; // Increase the height to 120 when the sidebar is open
-      logoName.hidden = false;
-		setTimeout(showLogoName, 200);
-    }
-  });
+function employeeCounter(){
+	$.ajax({
+    	url: "action/empCount.php", // The script to call to add data
+        type: "GET",
+        success: function(response) {
+			var data = JSON.parse(response);
+			$("#totalEmp").text(data.totalEmp);
+			$("#activeEmp").text(data.activeEmp);	
+        }
+	});
+}  
+	  
+
+  
 	  
 let currentDate = new Date();
 

@@ -175,7 +175,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
                                             <h6><?php echo $item['product_name']." (". $item['proWeight']."g)"; ?></h6>
                                             <p><?php echo $item['descr'];  ?></p>
-                                            <p style="color: green;">Stock Left: <?php echo (int)$item['quantity']; ?></p>
+                                            <p style="color: green;">Number Left: <?php echo (int)$item['proQuant']; ?></p>
 
                                             <?php
                                             $customPrice = number_format($item['price'], 2, '.', '');
@@ -224,6 +224,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             $c = $custom->fetch_assoc()['price'];
                                             $item[$i]['price'] = $c;
                                             $option[$i]['price'] = $c;
+                                            $option[$i]['proQuant'] = $item[$i]['proQuant'];
                                             $option[$i]['proWeight'] = $item[$i]['proWeight'];
                                             $option[$i]['proPrice'] = $item[$i]['proPrice'];
                                             $option[$i]['proDisc'] = $item[$i]['proDisc'];
@@ -265,7 +266,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             <button class="btn btn-info shiftOptions">More options</button>
                                             <p><?php echo $item[0]['descr'];?></p>
 
-                                            <p style="color: green;">Stock Left: <?php echo (int)$item[0]['quantity']; ?></p>
+                                            <p style="color: green;">Number Left: <?php echo (int)$item[0]['proQuant']; ?></p>
 
                                             <p class="price pull-left discount-cross" style="text-decoration: line-through; color: red;"></p>
                                             <div class="discount-value" style="color: orange;"></div>

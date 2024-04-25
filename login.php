@@ -46,8 +46,8 @@ if(isset($_POST['submit'])) // if submit button was pressed
 		{
 			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
 			$_SESSION['loginStatus'] = true;
-
-			obtainPWSDictionary($db);
+			$_SESSION['pricesCheck'] = new PricesCheck();
+			$_SESSION['pricesCheck']->Refresh($db);
 
 			header("refresh:1;url=market.php"); // redirect to market.php page
 		} 
@@ -74,10 +74,9 @@ if(isset($_POST['submit'])) // if submit button was pressed
 	<div class="form">
 		<h2>Login to your account</h2>
 		<span style="color:red;"><?php echo $message; ?></span>
-		<span style="color:green;"><?php echo $success; ?></span>
 		<form action="" method="post">
 			<input type="text" placeholder="Username" name="username" />
-			<input type="password" placeholder="Password" name="password"/>
+			<input type="password" placeholder="Password" name="password" />
             <input type="submit" name="submit" value="Login" />
 		</form>
 	</div>

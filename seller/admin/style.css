@@ -535,7 +535,13 @@ background-color: #fff;
 	font-style: italic;
 }
 
-
+.myform .input .alertCSS {
+	text-align: left;
+	color: red;
+	padding: 0;
+	font-size: 12px;
+	font-style: italic;
+}
 
 
 
@@ -681,7 +687,7 @@ background-color: #fff;
 .myform {
 	margin-left: 10px;
 	margin-right: 10px;
-    text-align: right; /* Left-align form elements */
+    text-align: center; /* Left-align form elements */
 }
 
 .myform .myform-row {

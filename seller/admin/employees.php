@@ -83,9 +83,6 @@
         	
 			<form action="action/infoEmployee.php" method="POST" class="myform" name="myForm" id="myForm">
 			<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
-			<div class="myform-row">
-				<div id="divalert" class="divalert" name="divalert"></div>
-			</div>
 				
 			<div class="myform-row">
 				<div class="label">
@@ -94,6 +91,7 @@
 				<div class="input">
 					<div id="empID" name="empID"></div>
 					<input type="hidden" id="emp" name="emp">
+					
 				</div>
 			</div>
 			
@@ -103,6 +101,7 @@
 				</div>
 				<div class="input">
 					<input type="text" id="icNo" name="icNo" class="myform-input" required>
+					<span id="alertIC" class="alertCSS"></span>
 				</div>
 			</div>
 
@@ -112,6 +111,7 @@
 				</div>
 				<div class="input">
 					<input type="text" id="empName" name="empName" class="myform-input" required>
+					<span id="alertName" class="alertCSS"></span>
 				</div>
 			</div>
 				
@@ -143,6 +143,7 @@
 				</div>
 				<div class="input">
 					<input type="tel" id="empNum" name="empNum" class="myform-input" required>
+					<span id="alertCon" class="alertCSS"></span>
 				</div>
 			</div>
 				
@@ -152,6 +153,7 @@
 				</div>
 				<div class="input">
 					<input type="email" id="empEmail" name="empEmail" class="myform-input" required>
+					<span id="alertEmail" class="alertCSS"></span>
 				</div>
 			</div>
 				
@@ -213,22 +215,73 @@ function employeeInfo(action, form){
     var empJob = $('#empJob').val();
     var empStatus = $('#empStatus').val();
 	var store = $('#storeid').val();
+	var error = 0;
+	
+	if(icno == ""){
+		$("#alertIC").text("This Field Must Not Be Empty");
+		error += 1;
+	}else if(icno.length < 12 && icno != ""){
+		$("#alertIC").text("IC must be 12 length, ForExample: 012345678901");
+		error +=1;
+	}else{
+		var errorIC = 0;
+		for (var i = 0; i < icno.length; i++) {
+			if (!(/^\d$/.test(icno[i]))) {
+				errorIC += 1;
+			}
+		}
+		if(errorIC != 0){
+			$("#alertIC").text("Only digit is allowed");
+			error += 1;
+		}
+		else 
+			$("#alertIC").text("");
+		
+	}
+	
+	if(empName == ""){
+		$("#alertName").text("This Field Must Not Be Empty");
+		error += 1;
+	}else{
+		if (!/^[a-zA-Z@\s]+$/.test(empName.trim())) {
+			$("#alertName").text("Name must contain only alphabets (a-z) or the special character '@'.");
+			error += 1;
+		}
+		else
+			$("#alertName").text("");
 
-    if (icno === "" || empName === "" || empNum === "" || empEmail === "") {
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('All text fields must not be empty');
-        $('#divalert').show();
-        setTimeout(function() {
-            $('#divalert').hide();
-        }, 3000);
-    } else {
-        // AJAX request
-        $.ajax({
+	}
+	
+	if(empNum == ""){
+		$("#alertCon").text("This Field Must Not Be Empty");
+		error += 1;
+	}else if (!/^(01)\d{8,9}$/.test(empNum.trim()) && empNum != "") {
+		$("#alertCon").text("Employee number must start with '01' and be 10 or 11 digits long.");
+		error += 1;
+	}
+	else{
+		$("#alertCon").text("");
+	}
+	
+	if(empEmail == ""){
+		$("#alertEmail").text("This Field Must Not Be Empty");
+		error += 1;
+	}else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(empEmail.trim())) {
+		$("#alertEmail").text("Please enter a valid email address in Malaysia format.");
+		error += 1;
+	}
+	else{
+		$("#alertEmail").text("");
+	}
+	
+	if(error == 0){
+		
+			console.log($(form).serialize());
+		$.ajax({
             url: $(form).attr('action'), // The script to call to add data
             type: $(form).attr('method'),
             data: {act: action, data: $(form).serialize()},
             success: function(response) {
-				console.log(response);
 				var resText = "";
 					if(action == "add")
 						resText = "Employee Added Successfully!";
@@ -236,30 +289,23 @@ function employeeInfo(action, form){
 						resText = "Information Updated Successfully!";
 					if(action == "del")
 						resText = "Employee Deactive Successfully!";
-                $('#divalert').css('background-color', 'green');
-				$('#divalert').text(resText);
-				$('#divalert').show();
-				setTimeout(function() {
-					$('#divalert').hide();
-				}, 2000);
+				alert(resText);
+				$("#searchInput").val("");
+				closePopup();
+				fetchData();
 				if(action == "add"){
 					closePopup();
-					openPopup(1);
+					fetchData();
 					document.getElementById('myForm').reset();
 				}
 				
 
             },
             error: function(xhr, status, error) {
-                $('#divalert').css('background-color', 'red');
-				$('#divalert').text('Add Employee Failed');
-				$('#divalert').show();
-				setTimeout(function() {
-					$('#divalert').hide();
-				}, 3000);
-				}
-        	});
-		}
+				
+			}
+        });
+	}
 }
 	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);

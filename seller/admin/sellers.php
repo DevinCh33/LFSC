@@ -81,11 +81,7 @@
         </div>
 		<div id="addSeller">
 			
-			<form action="action/createUser.php" method="POST" class="myform" name="myForm" id="myForm">
-			
-			<div class="myform-row">
-				<div id="divalert" class="divalert" name="divalert"></div>
-			</div>
+			<form action="action/createAdmin.php" method="POST" class="myform" name="myForm" id="myForm">
 				
 			<div class="myform-row">
 				<div class="label">
@@ -93,29 +89,24 @@
 				</div>
 				<div class="input">
 					<input type="text" id="username" name="username" class="myform-input" required>
+					<span id="alertUsername" class="alertCSS"></span>
 				</div>
 			</div>
 
 			<div class="myform-row">
 				<div class="label">
-					<label for="password" class="myform-label">Password</label>
+					<label for="emoNum">Email</label>
 				</div>
 				<div class="input">
-					<input type="text" id="custPass" name="custPass" class="myform-input" required>
-				</div>
-			</div>
-
-			<div class="myform-row">
-				<div class="label">
-					<label for="emoNum">Email:</label>
-				</div>
-				<div class="input">
-					<input type="tel" id="custEmail" name="custEmail" class="myform-input" required>
+					<input type="email" id="custEmail" name="custEmail" class="myform-input" required>
+					<span id="alertEmail" class="alertCSS"></span>
 				</div>
 			</div>
 				
-
-			<input type="button" id="addEmployee" class="button" value="Add Customer" onClick="sellerInfo('add', this.form)">
+			<div>
+				<input type="button" id="addEmployee" class="button" value="Add Seller" onClick="sellerInfo('add', this.form)">
+			</div>
+			
     </form>
 		
 
@@ -136,7 +127,6 @@
 
 <script>
 $(document).ready(function() {
-	$('#divalert').hide();	
 	fetchData();
 });
 	
@@ -144,17 +134,36 @@ function sellerInfo(action, form) {
     var username = $('#username').val();
     var custPass = $('#custPass').val();
     var custEmail = $('#custEmail').val();
+	var error = 0;
 
-    if (username === "" || custPass === "" || custEmail === "") {
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('All text fields must not be empty');
-        $('#divalert').show();
-        setTimeout(function () {
-            $('#divalert').hide();
-        }, 3000);
-    } else {
-        // AJAX request
-        $.ajax({
+	if(username == ""){
+		$("#alertUsername").text("This Field Must Not Be Empty");
+		error += 1;
+	}else{
+		$("#alertUsername").text("");
+	}
+	
+	var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$";
+	var randomNum = Math.floor(Math.random() * 5) + 4;
+    var custPass = "";
+	
+    for (var i = 0; i < randomNum; i++) {
+        var randomIndex = Math.floor(Math.random() * charset.length);
+        custPass  += charset[randomIndex];
+    }
+	
+	if(custEmail == ""){
+		$("#alertEmail").text("This Field Must Not Be Empty");
+		error += 1;
+	}else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(custEmail.trim())) {
+		$("#alertEmail").text("Please enter a valid email address in Malaysia format.");
+		error += 1;
+	}else{
+		$("#alertEmail").text("");
+	}
+	
+	if(error == 0){
+		$.ajax({
             url: $(form).attr('action'), // The script to call to add data
             type: $(form).attr('method'),
             data: {
@@ -164,35 +173,18 @@ function sellerInfo(action, form) {
                 custEmail: custEmail,
             },
             success: function (response) {
-                var resText = "";
                 if (action == "add")
-                    resText = "Seller Added Successfully!";
+                    alert(response);
                 if (action == "edit")
-                    resText = "Information Updated Successfully!";
+                    alert("Information Updated Successfully!");
                 if (action == "del")
-                    resText = "Seller Deactivated Successfully!";
-                $('#divalert').css('background-color', 'green');
-                $('#divalert').text(resText);
-                $('#divalert').show();
-                setTimeout(function () {
-                    $('#divalert').hide();
-                }, 2000);
-                if (action == "add") {
-                    closePopup();
-                    openPopup();
-                    document.getElementById('myForm').reset();
-                }
+                    alert("Seller Deactivated Successfully!");
             },
             error: function (xhr, status, error) {
-                $('#divalert').css('background-color', 'red');
-                $('#divalert').text('Add Seller Failed');
-                $('#divalert').show();
-                setTimeout(function () {
-                    $('#divalert').hide();
-                }, 3000);
+                alert("Failed");
             }
         });
-    }
+	}
 }
 
 	

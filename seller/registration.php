@@ -42,7 +42,7 @@
         if (mysqli_num_rows($result) > 0) {
             $message = "Username or Email already exists!";
         } else {
-            $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'seller', '$token', 0)";
+            $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'SELLER', '$token', 0)";
 
             if (mysqli_query($db, $registerQuery)) {
                 if (sendVerificationEmail($email, $token)) {

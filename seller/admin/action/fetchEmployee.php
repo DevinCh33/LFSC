@@ -6,7 +6,7 @@ include('../connect.php');
 $sql = "SELECT empID, empname, empgender, empcontact, empemail, empjob, empstatus, icNo FROM tblemployee WHERE empstore = '".$_SESSION['store']."'";
 
 if($_GET['search'] == ""){
-	$sql .= " AND empstatus > 0";
+	$sql .= " AND empstatus = 1";
 }
 
 if($_GET['search'] != ""){

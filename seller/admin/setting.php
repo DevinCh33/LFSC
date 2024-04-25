@@ -34,7 +34,7 @@
 							
                             <div class="form-group">
                                 <label class="label">User Name</label>
-                                <div class="textfield ">
+                                <div class="textfield">
                                     <input type="text" class="form-control" id="ownerUser" name="ownerUser">
 									<span id="alertUsername" class="alertCSS"></span>
                                 </div>

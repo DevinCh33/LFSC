@@ -133,7 +133,7 @@
 					</tr>
 					<tr>
 						<td colspan="4" style="text-align: center; border: none">
-							<input type="button" id="btnSelect" class="button" onClick="showProductInfoPopup()" value="Select" disabled>
+							<input type="button" id="btnSelect" class="button" onClick="showProductInfoPopup()" value="Select">
 						</td>
 					</tr>
 				</table>

@@ -406,10 +406,10 @@ function updateProductRow(productDetails) {
 }
 
 
-	
+
 function showProductInfoPopup() {
-  var vegetableInfoPopup = document.getElementById("productInfo");
-  vegetableInfoPopup.style.display = "block"; // Show the popup
+    var vegetableInfoPopup = document.getElementById("productInfo");
+    vegetableInfoPopup.style.display = "block"; // Show the popup
 }
 
 // Function to hide the vegetable information popup
@@ -609,6 +609,9 @@ function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	findRec(2, name);
+
+	// Hide the select button
+    document.getElementById('btnSelect').style.display = 'none';
 	
 }
 	
@@ -616,6 +619,9 @@ function editRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	findRec(3, name);
+
+	// Unhide the select button
+    document.getElementById('btnSelect').style.display = 'block';
 }
 	
 function delRec(num){

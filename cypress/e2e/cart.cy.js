@@ -53,7 +53,7 @@ describe('Cart spec', () => {
     })
   })
   it('Prices of products in cart is the same as checkout', () => {
-    cy.get('.addsToCart').first().click()
+    cy.get('.addsToCart').eq(3).click()
     cy.get('.shiftOptions').first().click().click()
     cy.get('.addsToCart').eq(1).click()
     cy.get('#cartTotal').then((total) => {
@@ -69,13 +69,13 @@ describe('Cart spec', () => {
     })
   })
   it('Stock level updates accordingly after checkout', () => {
-    cy.get('.product').first().find('p').eq(1).then((stock) => {
+    cy.get('.product').eq(3).find('p').eq(1).then((stock) => {
       const stockLevel = parseInt(stock.text().split(" ")[2])
       
-      cy.get('.product').first().find('h6').then((name) => {
-        const weight = parseInt(name.text().split("(")[1].slice(0, -2))
+      cy.get('.product').eq(3).find('input').then((input) => {
+        const quantity = parseInt(input.val())
         
-        cy.get('.addsToCart').first().click()
+        cy.get('.addsToCart').eq(3).click()
         cy.get('#checkout').click()
         cy.wait(1000)
         cy.get('#confirmOrder').click()
@@ -83,9 +83,8 @@ describe('Cart spec', () => {
         cy.fixture('path.json').then((data) => {
           cy.visit(data.root + 'products.php?res_is=51')
 
-          cy.get('.product').first().find('p').eq(1).then((stock) => {
-            
-            expect(parseInt(stock.text().split(" ")[2])).to.eq(stockLevel-weight)
+          cy.get('.product').eq(3).find('p').eq(1).then((stock) => {
+            expect(parseInt(stock.text().split(" ")[2])).to.eq(stockLevel-quantity)
           })
         })
       })

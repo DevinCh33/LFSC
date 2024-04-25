@@ -47,24 +47,18 @@ if($_POST['submit'])
 		
 		foreach ($products as $item)
         {
-            $stmt = $db->prepare("SELECT productID FROM tblprice WHERE priceNo = ?");
-            $stmt->bind_param("i", $item['price_id']);
-            $stmt->execute();
-            $productId = $stmt->get_result();
-            $item['product_id'] = $productId->fetch_assoc()['productID'];
-
 			$item_total = 0;
 			$item_total += ($item["price"]*$item["quantity"]);
 			$totalPrice += $item_total;
 			$orderItemStatus = false;
-			$updateProductQuantitySql = "SELECT product.quantity FROM product WHERE product.product_id = ".$item['product_id']."";
+			$updateProductQuantitySql = "SELECT tblprice.proQuant FROM tblprice WHERE tblprice.priceNo = ".$item['price_id']."";
 			$updateProductQuantityData = $db->query($updateProductQuantitySql);
 		
 			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) 
             {
-				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity']*$item['weight'];							
+				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];							
                 // update product table
-                $updateProductTable = "UPDATE product SET quantity = '".$updateQuantity."' WHERE product_id = '".$item['product_id']."'";
+                $updateProductTable = "UPDATE tblprice SET proQuant = '".$updateQuantity."' WHERE priceNo = '".$item['price_id']."'";
                 $db->query($updateProductTable);
                 // add into order_item
                 $orderItemSql = "INSERT INTO order_item (order_id, priceID, quantity) 
@@ -190,8 +184,6 @@ if($_POST['submit'])
                                                 </div>
                                             </div>
 
-
-
                                             <li>
                                                 <label class="custom-control custom-radio  m-b-10">
                                                     <input name="mod"  type="radio" value="paypal" disabled class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Paypal <img src="images/paypal.jpg" alt="" width="90"></span> </label>
@@ -220,8 +212,7 @@ if($_POST['submit'])
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
+
     <script src="js/cart.js"></script>
     <script src="js/spay.js"></script>
 </body>

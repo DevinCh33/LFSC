@@ -263,88 +263,180 @@ function infoOrder(act, form){
 	
 }
 	
-function searchSpecific(){
-	var product = $("#searchProText").val();
-	var form = $("#proForm");
-	
-	if(product == ""){
-		
-	}
-	else{
-		$.ajax({
-            url: $(form).attr('action'), // The script to call to add data
+// Define a global variable to store selected item IDs
+var selectedIds = [];
+
+function searchSpecific() {
+    var product = $("#searchProText").val();
+    var form = $("#proForm");
+
+    if (product == "") {
+
+    } else {
+        $.ajax({
+            url: $(form).attr('action'),
             type: $(form).attr('method'),
-            data: {search: product},
-            success: function(response) {
-			  // Assuming response is the JSON encoded version of $finalProducts array from PHP
-			var products = JSON.parse(response); // Parse the JSON response into a JavaScript object
-			var htmlContent = '<table style="text-align: center; margin: 0 auto; border: none;">'; // Center the outer table
+            data: { search: product },
+            success: function (response) {
+                var products = JSON.parse(response);
+                var htmlContent = '<table style="text-align: center; margin: 0 auto; border: none;">';
 
-			var counter = 0;
-			// Loop through each product
-			products.forEach(function (product, index) {
-				if (counter % 3 == 0) {
-					htmlContent += '<tr>';
-				}
-				htmlContent += '<td style="padding: 10px;">';
-				htmlContent += '<table style="border: none;">'; // Set border to none for the inner table
-				htmlContent += '<tr><td rowspan="2" colspan="2">' + product.productImage + '</td>';
-				htmlContent += '<td>' + product.productCode + '</td></tr>';
-				htmlContent += '<tr><td>' + product.productName + '</td></tr>';
-				product.prices.forEach(function (priceWeight) {
-					htmlContent += '<tr>';
-					htmlContent += '<td><input type="checkbox" id="' + priceWeight.priceNo + '"></td>';
-					htmlContent += '<td>' + priceWeight.proWeight + '</td>';
-					htmlContent += '<td>' + priceWeight.proPrice + '</td>';
-					htmlContent += '</tr>';
-				});
-				htmlContent += '</table>';
-				htmlContent += '</td>';
+                var counter = 0;
+                products.forEach(function (product, index) {
+                    if (counter % 3 == 0) {
+                        htmlContent += '<tr>';
+                    }
+                    htmlContent += '<td style="padding: 10px;">';
+                    htmlContent += '<table style="border: none;">';
+                    htmlContent += '<tr><td rowspan="2" colspan="2">' + product.productImage + '</td>';
+                    htmlContent += '<td>' + product.productCode + '</td></tr>';
+                    htmlContent += '<tr><td>' + product.productName + '</td></tr>';
+                    product.prices.forEach(function (priceWeight) {
+                        htmlContent += '<tr>';
+                        htmlContent += '<td><input type="checkbox" id="' + priceWeight.priceNo + '"';
+                        // Check if the checkbox should be checked based on selectedIds
+                        if (selectedIds.includes(priceWeight.priceNo)) {
+                            htmlContent += ' checked';
+                        }
+                        htmlContent += ' onchange="updateSelectedIds(this)"'; // Add onchange event
+                        htmlContent += '></td>';
+                        htmlContent += '<td>' + priceWeight.proWeight + '</td>';
+                        htmlContent += '<td>' + priceWeight.proPrice + '</td>';
+                        htmlContent += '</tr>';
+                    });
+                    htmlContent += '</table>';
+                    htmlContent += '</td>';
 
-				if ((counter + 1) % 3 == 0) {
-					// End the row for every third product or the last product
-					htmlContent += '</tr>';
-				}
-				++counter;
-				console.log(htmlContent);
-			});
+                    if ((counter + 1) % 3 == 0) {
+                        htmlContent += '</tr>';
+                    }
+                    ++counter;
+                });
 
-			htmlContent += '</table>';
-			htmlContent += '<div style="text-align: center;"><input type="button" id="btnProSelected" class="button" value="Finish selected"></div>';
+                htmlContent += '</table>';
+                htmlContent += '<div style="text-align: center;"><input type="button" id="btnProSelected" class="button" value="Finish selected"></div>';
 
-			$('#showProduct').html(htmlContent);
+                $('#showProduct').html(htmlContent);
 
-
-				// Attach a click event handler to the button
-				$('#btnProSelected').click(function () {
-					// Initialize an empty array to store the selected checkbox IDs
-					var selectedIds = [];
-
-					// Loop through the checkboxes to find the selected ones
-					$('input[type="checkbox"]').each(function () {
-						if (this.checked) {
-							selectedIds.push(this.id);
-						}
-					});
-
-					// Display the selected checkbox IDs in an alert
-					if (selectedIds.length > 0) {
-						fetchProductDetails(selectedIds);
-						document.getElementById('productInfo').style.display = "none";
-					} else {
-						$('#proSelected').html('');
-						document.getElementById('productInfo').style.display = "none";
-						$("#txtTotal").text("0.00");
-					}
-				});
+                // Remove previous click event handler to avoid multiple bindings
+                $('#btnProSelected').off('click').on('click', function () {
+                    if (selectedIds.length > 0) {
+                        fetchProductDetails(selectedIds);
+                        document.getElementById('productInfo').style.display = "none";
+                    } else {
+                        $('#proSelected').html('');
+                        document.getElementById('productInfo').style.display = "none";
+                        $("#txtTotal").text("0.00");
+                    }
+                });
             },
-            error: function(xhr, status, error) {
-             	
-			}
-		})
-	}
-	
+            error: function (xhr, status, error) {
+
+            }
+        });
+    }
 }
+
+// Function to update selectedIds array when checkbox state changes
+function updateSelectedIds(checkbox) {
+    var id = checkbox.id;
+    if (checkbox.checked) {
+        // Add id to selectedIds array if checked
+        if (!selectedIds.includes(id)) {
+            selectedIds.push(id);
+        }
+    } else {
+        // Remove id from selectedIds array if unchecked
+        var index = selectedIds.indexOf(id);
+        if (index !== -1) {
+            selectedIds.splice(index, 1);
+        }
+    }
+}
+
+// var selectedIds = [];
+// function searchSpecific(){
+// 	var product = $("#searchProText").val();
+// 	var form = $("#proForm");
+	
+// 	if(product == ""){
+		
+// 	}
+// 	else{
+// 		$.ajax({
+//             url: $(form).attr('action'), // The script to call to add data
+//             type: $(form).attr('method'),
+//             data: {search: product},
+//             success: function(response) {
+// 			  // Assuming response is the JSON encoded version of $finalProducts array from PHP
+// 			var products = JSON.parse(response); // Parse the JSON response into a JavaScript object
+// 			var htmlContent = '<table style="text-align: center; margin: 0 auto; border: none;">'; // Center the outer table
+
+// 			var counter = 0;
+// 			// Loop through each product
+// 			products.forEach(function (product, index) {
+// 				if (counter % 3 == 0) {
+// 					htmlContent += '<tr>';
+// 				}
+// 				htmlContent += '<td style="padding: 10px;">';
+// 				htmlContent += '<table style="border: none;">'; // Set border to none for the inner table
+// 				htmlContent += '<tr><td rowspan="2" colspan="2">' + product.productImage + '</td>';
+// 				htmlContent += '<td>' + product.productCode + '</td></tr>';
+// 				htmlContent += '<tr><td>' + product.productName + '</td></tr>';
+// 				product.prices.forEach(function (priceWeight) {
+// 					htmlContent += '<tr>';
+// 					htmlContent += '<td><input type="checkbox" id="' + priceWeight.priceNo + '"></td>';
+// 					htmlContent += '<td>' + priceWeight.proWeight + '</td>';
+// 					htmlContent += '<td>' + priceWeight.proPrice + '</td>';
+// 					htmlContent += '</tr>';
+// 				});
+// 				htmlContent += '</table>';
+// 				htmlContent += '</td>';
+
+// 				if ((counter + 1) % 3 == 0) {
+// 					// End the row for every third product or the last product
+// 					htmlContent += '</tr>';
+// 				}
+// 				++counter;
+// 				console.log(htmlContent);
+// 			});
+
+// 			htmlContent += '</table>';
+// 			htmlContent += '<div style="text-align: center;"><input type="button" id="btnProSelected" class="button" value="Finish selected"></div>';
+
+// 			$('#showProduct').html(htmlContent);
+
+
+// 				// Attach a click event handler to the button
+// 				$('#btnProSelected').click(function () {
+// 					// Initialize an empty array to store the selected checkbox IDs
+// 					var selectedIds = [];
+
+// 					// Loop through the checkboxes to find the selected ones
+// 					$('input[type="checkbox"]').each(function () {
+// 						if (this.checked) {
+// 							selectedIds.push(this.id);
+// 						}
+// 					});
+
+// 					// Display the selected checkbox IDs in an alert
+// 					if (selectedIds.length > 0) {
+// 						fetchProductDetails(selectedIds);
+// 						document.getElementById('productInfo').style.display = "none";
+// 					} else {
+// 						$('#proSelected').html('');
+// 						document.getElementById('productInfo').style.display = "none";
+// 						$("#txtTotal").text("0.00");
+// 					}
+// 				});
+//             },
+//             error: function(xhr, status, error) {
+             	
+// 			}
+// 		})
+// 	}
+	
+// }
 	
 // JavaScript function to send data to fetchSpecificProduct.php
 function fetchProductDetails(priceId) {

@@ -143,65 +143,86 @@ function displayOrders($chatId)
 function displayOrderDetails($chatId, $orderId)
 {
     global $db;
-    // Query to get the order date from the orders table
-    $orderQuery = "SELECT order_date FROM orders WHERE order_id = ?";
-    $orderStmt = $db->prepare($orderQuery);
-    if ($orderStmt) {
-        $orderStmt->bind_param("i", $orderId);
-        $orderStmt->execute();
-        $orderResult = $orderStmt->get_result();
-        if ($orderRow = $orderResult->fetch_assoc()) {
-            $orderDate = $orderRow['order_date'];
+    // First, fetch the store ID associated with this chat ID to verify ownership.
+    $storeCheckQuery = "SELECT store FROM admin WHERE chat_id = ?";
+    $storeCheckStmt = $db->prepare($storeCheckQuery);
+    if ($storeCheckStmt) {
+        $storeCheckStmt->bind_param("i", $chatId);
+        $storeCheckStmt->execute();
+        $storeResult = $storeCheckStmt->get_result();
+        if ($storeRow = $storeResult->fetch_assoc()) {
+            $storeId = $storeRow['store'];
 
-            // Query to fetch product details for each product in the order
-            $itemQuery = "SELECT p.product_name, tp.proWeight, oi.quantity FROM order_item oi
-                          JOIN tblprice tp ON oi.priceID = tp.priceNo
-                          JOIN product p ON tp.productID = p.product_id
-                          WHERE oi.order_id = ?";
-            $itemStmt = $db->prepare($itemQuery);
-            if ($itemStmt) {
-                $itemStmt->bind_param("i", $orderId);
-                $itemStmt->execute();
-                $itemResult = $itemStmt->get_result();
+            // Query to get the order date and total amount from the orders table, verifying it belongs to the user's store
+            $orderQuery = "SELECT order_date, total_amount FROM orders WHERE order_id = ? AND order_belong = ?";
+            $orderStmt = $db->prepare($orderQuery);
+            if ($orderStmt) {
+                $orderStmt->bind_param("ii", $orderId, $storeId);
+                $orderStmt->execute();
+                $orderResult = $orderStmt->get_result();
+                if ($orderRow = $orderResult->fetch_assoc()) {
+                    $orderDate = $orderRow['order_date'];
+                    $totalAmount = $orderRow['total_amount'];
 
-                $productsDetails = "";
-                $index = 1;
-                while ($itemRow = $itemResult->fetch_assoc()) {
-                    $productsDetails .= $index . ") " . $itemRow['product_name'] . " (" . $itemRow['proWeight'] . "g) x " . $itemRow['quantity'] . "\n";
-                    $index++;
+                    // Query to fetch product details for each product in the order
+                    $itemQuery = "SELECT p.product_name, tp.proWeight, oi.quantity FROM order_item oi
+                                  JOIN tblprice tp ON oi.priceID = tp.priceNo
+                                  JOIN product p ON tp.productID = p.product_id
+                                  WHERE oi.order_id = ?";
+                    $itemStmt = $db->prepare($itemQuery);
+                    if ($itemStmt) {
+                        $itemStmt->bind_param("i", $orderId);
+                        $itemStmt->execute();
+                        $itemResult = $itemStmt->get_result();
+
+                        $productsDetails = "";
+                        $index = 1;
+                        while ($itemRow = $itemResult->fetch_assoc()) {
+                            $productsDetails .= $index . ") " . $itemRow['product_name'] . " (" . $itemRow['proWeight'] . "g) x " . $itemRow['quantity'] . "\n";
+                            $index++;
+                        }
+                        if ($productsDetails === "") {
+                            $productsDetails = "No products found.";
+                        }
+                        $itemStmt->close();
+
+                        $keyboard = [
+                            "inline_keyboard" => [
+                                [["text" => "Customer Details", "callback_data" => "customer_details_$orderId"]],
+                                [["text" => "Order Status Update", "callback_data" => "update_status_$orderId"]],
+                                [["text" => "Back to Order List", "callback_data" => "view_orders"]]
+                            ]
+                        ];
+
+                        $message = "Order ID $orderId\n" .
+                            "Order Date: " . $orderDate . "\n" .
+                            "Products Bought:\n" . $productsDetails .
+                            "Total Price: RM" . $totalAmount;
+
+                        sendMessage($chatId, $message, $keyboard);
+                    } else {
+                        $message = "Failed to query product details.";
+                        sendMessage($chatId, $message);
+                    }
+                } else {
+                    $message = "Order not found or does not belong to your store.";
+                    sendMessage($chatId, $message);
                 }
-                if ($productsDetails === "") {
-                    $productsDetails = "No products found.";
-                }
-                $itemStmt->close();
-
-                $keyboard = [
-                    "inline_keyboard" => [
-                        [["text" => "Customer Details", "callback_data" => "customer_details_$orderId"]],
-                        [["text" => "Order Status Update", "callback_data" => "update_status_$orderId"]],
-                        [["text" => "Back to Order List", "callback_data" => "view_orders"]]
-                    ]
-                ];
-
-                $message = "Order ID $orderId\n" .
-                    "Order Date: " . $orderDate . "\n" .
-                    "Products Bought:\n" . $productsDetails;
-
-                sendMessage($chatId, $message, $keyboard);
+                $orderStmt->close();
             } else {
-                $message = "Failed to query product details.";
+                $message = "Failed to query order details.";
                 sendMessage($chatId, $message);
             }
         } else {
-            $message = "Order not found.";
-            sendMessage($chatId, $message);
+            sendMessage($chatId, "No store found linked to this account.");
         }
-        $orderStmt->close();
+        $storeCheckStmt->close();
     } else {
-        $message = "Failed to query order details.";
-        sendMessage($chatId, $message);
+        sendMessage($chatId, "Failed to prepare the store query.");
     }
 }
+
+
 
 function displayCustomerDetails($chatId, $orderId)
 {

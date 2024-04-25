@@ -238,7 +238,16 @@ $(document).ready(function() {
                     url: './save_cart.php',
                     data: { cart: cart },
                     success: function(response) {
-                        debug? console.log('Cart saved on the server'): 1;
+                        console.log(response)
+                        if (response != "")
+                        {
+                            debug? console.log('Cart saved on the server'): 1;
+                        }
+
+                        else
+                        {
+                            alert("Something went wrong. Try refreshing the page!");
+                        }
                     },
                     error: function(xhr, status, error) {
                         debug? console.error('Error:', error): 1;

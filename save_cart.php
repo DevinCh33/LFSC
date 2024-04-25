@@ -1,6 +1,7 @@
 <?php
 include("includes/prices_check.php");
 include("config/cart.php");
+include("config/connect.php");
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -13,15 +14,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             if ($refreshBeforeCheck)
             {
-                $_SESSION['pricesCheck']->Refresh();
+                $_SESSION['pricesCheck']->Refresh($db);
             }
 
             $priceInDB = (float)$_SESSION['pricesCheck']->Dictionary['prices'][$item['price_id']];
             $stockInDB = (int)$_SESSION['pricesCheck']->Dictionary['stock'][$item['price_id']];
+            $discountInDB = (float)$_SESSION['pricesCheck']->Dictionary['discount'][$item['price_id']];
             $itemPrice = (float)$item['price'];
             $itemStock = (int)$item['stock'];
 
-            if ($itemPrice <= $priceInDB/$divideMinPrice)
+            if (($exactPriceCheck) && (abs($itemPrice - $priceInDB*(1-$discountInDB/100)) > 0.001))
+            {
+                $valid = False;
+                break;
+            }
+
+            elseif ((!$exactPriceCheck) && ($itemPrice <= $priceInDB/$divideMinPrice))
             {
                 $valid = False;
                 break;
@@ -34,9 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             }
         }
 
-        if ($valid) // If prices were not altered
+        if ($valid) // If everything checks out
         {
             $_SESSION['cart'] = $_POST['cart'];
+        }
+
+        else
+        {
+            echo json_encode("Error: Detected");
         }
     }
 

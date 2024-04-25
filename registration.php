@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
     <?php
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -27,7 +26,7 @@
     require 'send_verification_email.php'; 
     
     $message = ''; 
-    $success = false; 
+    $sucess = '';
 
     if (isset($_POST['register'])) {
         $username = $_POST['username'];
@@ -44,8 +43,7 @@
 
             if (mysqli_query($db, $registerQuery)) {
                 if (sendVerificationEmail($email, $token)) {
-                    $message = "Registration successful! Please check your email to verify.";
-                    $success = true; 
+                    $success = "Registration successful! Please check your email to verify."; 
                 } else {
                     $message = "Registration successful but failed to send verification email.";
                 }
@@ -64,6 +62,7 @@
         <div class="form">
             <h2>Create a customer account</h2>
             <span style="color:red;"><?php echo $message; ?></span>
+            <span style="color:green;"><?php echo $success; ?></span>
             <form action="" method="post">
                 <input type="text" placeholder="Username" name="username" required />
                 <input type="email" placeholder="Email" name="email" required />

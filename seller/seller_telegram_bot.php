@@ -511,6 +511,47 @@ function confirmPayment($chatId, $orderId, $status)
     }
 }
 
+function displayTopCustomers($chatId)
+{
+    global $db;
+    $query = "SELECT user_id, SUM(total_amount) as total_spent FROM orders GROUP BY user_id ORDER BY total_spent DESC LIMIT 3";
+    $stmt = $db->prepare($query);
+    if ($stmt) {
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $message = "Top Customers by Total Amount Spent:\n";
+        $rank = 1;
+        while ($row = $result->fetch_assoc()) {
+            $userId = $row['user_id'];
+            $totalSpent = $row['total_spent'];
+
+            // Retrieve user details
+            $userQuery = "SELECT fullName FROM users WHERE u_id = ?";
+            $userStmt = $db->prepare($userQuery);
+            if ($userStmt) {
+                $userStmt->bind_param("i", $userId);
+                $userStmt->execute();
+                $userResult = $userStmt->get_result();
+                if ($userRow = $userResult->fetch_assoc()) {
+                    $fullName = $userRow['fullName'];
+                    $message .= "$rank. $fullName - RM$totalSpent\n";
+                } else {
+                    $message .= "$rank. User ID $userId - Data not found\n";
+                }
+                $userStmt->close();
+            } else {
+                $message .= "$rank. Error retrieving details for User ID $userId\n";
+            }
+            $rank++;
+        }
+        $stmt->close();
+    } else {
+        $message = "Failed to prepare the top customers query.";
+    }
+    sendMessage($chatId, $message);
+}
+
+
 
 if (isset($update["message"])) {
     $chatId = $update["message"]["chat"]["id"];
@@ -528,10 +569,11 @@ if (isset($update["message"])) {
             sendMessage($chatId, "There was an error unlinking your account. Please try again.");
         }
     } elseif ($receivedMessage === "/help") {
-        $helpMessage = "Click below to view your to-do list:";
+        $helpMessage = "Here are some functions you can use:";
         $keyboard = [
             "inline_keyboard" => [
-                [["text" => "To Do List", "callback_data" => "todo_list"]]
+                [["text" => "To Do List", "callback_data" => "todo_list"]],
+                [["text" => "Top Customers", "callback_data" => "top_customer"]]
             ]
         ];
         sendMessage($chatId, $helpMessage, $keyboard);
@@ -571,6 +613,8 @@ if (isset($update["callback_query"])) {
         displayOrderStatusUpdateOptions($chatId, $orderId);
     } elseif ($callbackData === "view_orders") {
         displayOrders($chatId);
+    } elseif (strpos($callbackData, "top_customer") === 0) {
+        displayTopCustomers($chatId);
     } elseif ($callbackData === "todo_list") {
         fetchOrderCounts($chatId);
     } else {

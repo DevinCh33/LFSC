@@ -124,11 +124,11 @@
 						<div>
 							<label>
 								<input type="radio" name="empGender" id="empGender1" value="1" checked>
-								<span>Women</span>
+								<span>Female</span>
 							</label>
 							<label>
 								<input type="radio" name="empGender" id="empGender2" value="2">
-								<span>Man</span>
+								<span>Male</span>
 							</label>
 
 						</div>
@@ -340,7 +340,7 @@ function updateTableAndPagination(data) {
 		}	
         newRow.innerHTML = '<td>' + rowData[0] + '</td>' +
             '<td>' + rowData[1] + '</td>' +
-            '<td>' + (rowData[2] === '1' ? 'Women' : 'Man') + '</td>' +
+            '<td>' + (rowData[2] === '1' ? 'Female' : 'Male') + '</td>' +
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             '<td>' + jobName + '</td>' +

@@ -265,6 +265,7 @@ function infoOrder(act, form){
 	
 // Define a global variable to store selected item IDs
 var selectedIds = [];
+var quantities = [];
 
 function searchSpecific() {
     var product = $("#searchProText").val();
@@ -352,7 +353,102 @@ function updateSelectedIds(checkbox) {
             selectedIds.splice(index, 1);
         }
     }
+}// Define a global variable to store selected item IDs
+var selectedIds = [];
+var quantities = [];
+
+function searchSpecific() {
+    var product = $("#searchProText").val();
+    var form = $("#proForm");
+
+    if (product == "") {
+        return;
+    } else {
+        $.ajax({
+            url: $(form).attr('action'),
+            type: $(form).attr('method'),
+            data: { search: product },
+            success: function (response) {
+                var products = JSON.parse(response);
+                var htmlContent = '<table style="text-align: center; margin: 0 auto; border: none;">';
+
+                var counter = 0;
+                products.forEach(function (product, index) {
+                    if (counter % 3 == 0) {
+                        htmlContent += '<tr>';
+                    }
+                    htmlContent += '<td style="padding: 10px;">';
+                    htmlContent += '<table style="border: none;">';
+                    htmlContent += '<tr><td rowspan="2" colspan="2">' + product.productImage + '</td>';
+                    htmlContent += '<td>' + product.productCode + '</td></tr>';
+                    htmlContent += '<tr><td>' + product.productName + '</td></tr>';
+                    product.prices.forEach(function (priceWeight) {
+                        htmlContent += '<tr>';
+                        htmlContent += '<td><input type="checkbox" id="' + priceWeight.priceNo + '"';
+                        // Check if the checkbox should be checked based on selectedIds
+                        if (selectedIds.includes(priceWeight.priceNo)) {
+                            htmlContent += ' checked';
+                        }
+                        htmlContent += ' onchange="updateSelectedIds(this)"'; // Add onchange event
+                        htmlContent += '></td>';
+                        htmlContent += '<td>' + priceWeight.proWeight + '</td>';
+                        htmlContent += '<td>' + priceWeight.proPrice + '</td>';
+                        htmlContent += '</tr>';
+                    });
+                    htmlContent += '</table>';
+                    htmlContent += '</td>';
+
+                    if ((counter + 1) % 3 == 0) {
+                        htmlContent += '</tr>';
+                    }
+                    ++counter;
+                });
+
+                htmlContent += '</table>';
+                htmlContent += '<div style="text-align: center;"><input type="button" id="btnProSelected" class="button" value="Finish selected"></div>';
+
+                $('#showProduct').html(htmlContent);
+
+                // Remove previous click event handler to avoid multiple bindings
+                $('#btnProSelected').off('click').on('click', function () {
+                    if (selectedIds.length > 0) {
+                        fetchProductDetails(selectedIds);
+                        document.getElementById('productInfo').style.display = "none";
+                    } else {
+                        $('#proSelected').html('');
+                        document.getElementById('productInfo').style.display = "none";
+                        $("#txtTotal").text("0.00");
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+    }
 }
+
+// Function to update selectedIds array when checkbox state changes
+function updateSelectedIds(checkbox) {
+    var id = checkbox.id;
+    if (checkbox.checked) {
+        // Add id to selectedIds array if checked
+        if (!selectedIds.includes(id)) {
+            selectedIds.push(id);
+        }
+    } else {
+        // Remove id from selectedIds array if unchecked
+        var index = selectedIds.indexOf(id);
+        if (index !== -1) {
+            selectedIds.splice(index, 1);
+        }
+    }
+
+    // Update display
+    displaySelectedIds();
+}
+
+
 // JavaScript function to send data to fetchSpecificProduct.php
 function fetchProductDetails(priceId) {
     // Store current quantity values before fetching new products
@@ -419,10 +515,19 @@ function updateTotalPrice() {
     var total = 0.00;
     $('.quantityInput').each(function () {
         var quantity = parseFloat($(this).val());
+        var productId = $(this).closest('tr').find('.productName input').val();
+        var productPrice = parseFloat($(this).closest('tr').find('.productPrice input').val()); // Get product price from hidden input
         if (quantity < 1) {
-            $(this).closest('tr').remove(); // Remove the row if quantity is less than 1
+            // Remove the item from selectedIds array if quantity is less than 1
+            var index = selectedIds.indexOf(productId);
+            if (index !== -1) {
+                selectedIds.splice(index, 1);
+            }
+            // Uncheck the checkbox
+            $('#' + productId).prop('checked', false);
+            // Remove the row from the table
+            $(this).closest('tr').remove();
         } else {
-            var productPrice = parseFloat($(this).closest('tr').find('.productPrice input').val()); // Get product price from hidden input
             var subtotal = quantity * productPrice;
             $(this).closest('tr').find('.totalPrice').text(subtotal.toFixed(2));
             total += subtotal;
@@ -430,6 +535,25 @@ function updateTotalPrice() {
     });
     $('#txtTotal').text(total.toFixed(2));
 }
+// Attach a change event listener to each quantity input
+$('.quantityInput').on('input', function () {
+    // Update the quantity in the selectedIds array
+    var productId = $(this).closest('tr').find('.productName input').val();
+    var newQuantity = parseFloat($(this).val());
+    var index = selectedIds.indexOf(productId);
+    if (index !== -1) {
+        selectedIds[index] = newQuantity;
+    }
+
+    // Calculate the total price based on the selected quantity
+    var quantity = parseFloat($(this).val());
+    var productPrice = parseFloat($(this).closest('tr').find('.productPrice input').val()); // Get product price from hidden input
+    var total = quantity * productPrice;
+    $(this).closest('tr').find('.totalPrice').text(total.toFixed(2));
+
+    // Update the total price in the corresponding row with 2 decimal places
+    updateTotalPrice();
+});
 
 
 

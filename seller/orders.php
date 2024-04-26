@@ -414,14 +414,23 @@ function fetchProductDetails(priceId) {
     });
 }
 
-// Function to update the total price based on the quantity changes
+// Function to update the total price based on the quantity changes and remove items with quantity less than 1
 function updateTotalPrice() {
     var total = 0.00;
-    $('.totalPrice').each(function () {
-        total += parseFloat($(this).text());
+    $('.quantityInput').each(function () {
+        var quantity = parseFloat($(this).val());
+        if (quantity < 1) {
+            $(this).closest('tr').remove(); // Remove the row if quantity is less than 1
+        } else {
+            var productPrice = parseFloat($(this).closest('tr').find('.productPrice input').val()); // Get product price from hidden input
+            var subtotal = quantity * productPrice;
+            $(this).closest('tr').find('.totalPrice').text(subtotal.toFixed(2));
+            total += subtotal;
+        }
     });
     $('#txtTotal').text(total.toFixed(2));
 }
+
 
 
 // JavaScript function to update the HTML table row with product details

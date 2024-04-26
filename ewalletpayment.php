@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['receipt-upload'])) {
     $allowTypes = array('jpg', 'png', 'jpeg', 'gif');
     if (in_array(strtolower($fileType), $allowTypes)) {
         if (move_uploaded_file($_FILES['receipt-upload']['tmp_name'], $targetFilePath)) {
-            $query = "INSERT INTO payment_receipts (order_id, receipt_path, status) VALUES ('$order_id', '$targetFilePath', 0)";
+            $query = "INSERT INTO payment_receipts (order_id, receipt_path, status) VALUES ('$order_id', '$fileName', 0)";
             if (mysqli_query($db, $query)) {
                 echo "<script>alert('Receipt uploaded successfully.'); window.location.href='market.php';</script>";
                 exit;
@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['receipt-upload'])) {
         echo "<script>alert('Sorry, only JPG, JPEG, PNG, & GIF files are allowed.');</script>";
     }
 }
+
 
 ?>
 

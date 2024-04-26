@@ -171,7 +171,7 @@ function displayOrders($chatId)
 function displayOrderDetails($chatId, $orderId)
 {
     global $db;
-    // First, fetch the store ID associated with this chat ID to verify ownership.
+    // Fetch the store ID related to this chat ID to verify ownership.
     $storeCheckQuery = "SELECT store FROM admin WHERE chat_id = ?";
     $storeCheckStmt = $db->prepare($storeCheckQuery);
     if ($storeCheckStmt) {
@@ -181,7 +181,7 @@ function displayOrderDetails($chatId, $orderId)
         if ($storeRow = $storeResult->fetch_assoc()) {
             $storeId = $storeRow['store'];
 
-            // Query to get the order date and total amount from the orders table, verifying it belongs to the user's store
+            // Query the details of the order including order date and total amount.
             $orderQuery = "SELECT order_date, total_amount FROM orders WHERE order_id = ? AND order_belong = ?";
             $orderStmt = $db->prepare($orderQuery);
             if ($orderStmt) {
@@ -192,7 +192,7 @@ function displayOrderDetails($chatId, $orderId)
                     $orderDate = $orderRow['order_date'];
                     $totalAmount = $orderRow['total_amount'];
 
-                    // Query to fetch product details for each product in the order
+                    // Fetch product details for each product in the order.
                     $itemQuery = "SELECT p.product_name, tp.proWeight, oi.quantity FROM order_item oi
                                   JOIN tblprice tp ON oi.priceID = tp.priceNo
                                   JOIN product p ON tp.productID = p.product_id
@@ -209,18 +209,26 @@ function displayOrderDetails($chatId, $orderId)
                             $productsDetails .= $index . ") " . $itemRow['product_name'] . " (" . $itemRow['proWeight'] . "g) x " . $itemRow['quantity'] . "\n";
                             $index++;
                         }
-                        if ($productsDetails === "") {
-                            $productsDetails = "No products found.";
-                        }
                         $itemStmt->close();
 
-                        $keyboard = [
-                            "inline_keyboard" => [
-                                [["text" => "Customer Details", "callback_data" => "customer_details_$orderId"]],
-                                [["text" => "Order Status Update", "callback_data" => "update_status_$orderId"]],
-                                [["text" => "Back to Order List", "callback_data" => "view_orders"]]
-                            ]
-                        ];
+                        // Fetch payment status from payment_receipts.
+                        $receiptQuery = "SELECT status FROM payment_receipts WHERE order_id = ?";
+                        $receiptStmt = $db->prepare($receiptQuery);
+                        $receiptStmt->bind_param("i", $orderId);
+                        $receiptStmt->execute();
+                        $receiptResult = $receiptStmt->get_result();
+                        $receiptRow = $receiptResult->fetch_assoc();
+
+                        $keyboard = ["inline_keyboard" => []];
+
+                        // Conditional addition of keyboard options based on payment status.
+                        if ($receiptRow && $receiptRow['status'] == 0) {
+                            $keyboard['inline_keyboard'][] = [["text" => "Verify Payment", "callback_data" => "verify_payment_$orderId"]];
+                        } else if ($receiptRow && $receiptRow['status'] == 1) {
+                            $keyboard['inline_keyboard'][] = [["text" => "Customer Details", "callback_data" => "customer_details_$orderId"]];
+                            $keyboard['inline_keyboard'][] = [["text" => "Order Status Update", "callback_data" => "update_status_$orderId"]];
+                        }
+                        $keyboard['inline_keyboard'][] = [["text" => "Back to Order List", "callback_data" => "view_orders"]];
 
                         $message = "Order ID $orderId\n" .
                             "Order Date: " . $orderDate . "\n" .
@@ -249,6 +257,7 @@ function displayOrderDetails($chatId, $orderId)
         sendMessage($chatId, "Failed to prepare the store query.");
     }
 }
+
 
 function displayCustomerDetails($chatId, $orderId)
 {
@@ -392,6 +401,97 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
     $stmt->close();
 }
 
+function verifyPayment($chatId, $orderId)
+{
+    global $db;
+    // Fetch order details
+    $orderQuery = "SELECT order_date, total_amount FROM orders WHERE order_id = ?";
+    $orderStmt = $db->prepare($orderQuery);
+    if ($orderStmt) {
+        $orderStmt->bind_param("i", $orderId);
+        $orderStmt->execute();
+        $orderResult = $orderStmt->get_result();
+        if ($orderRow = $orderResult->fetch_assoc()) {
+            $orderDate = $orderRow['order_date'];
+            $totalAmount = $orderRow['total_amount'];
+
+            // Fetch product details
+            $itemQuery = "SELECT p.product_name, tp.proWeight, oi.quantity FROM order_item oi
+                          JOIN tblprice tp ON oi.priceID = tp.priceNo
+                          JOIN product p ON tp.productID = p.product_id
+                          WHERE oi.order_id = ?";
+            $itemStmt = $db->prepare($itemQuery);
+            $itemStmt->bind_param("i", $orderId);
+            $itemStmt->execute();
+            $itemResult = $itemStmt->get_result();
+
+            $productsDetails = "";
+            $index = 1;
+            while ($itemRow = $itemResult->fetch_assoc()) {
+                $productsDetails .= $index . ") " . $itemRow['product_name'] . " (" . $itemRow['proWeight'] . "g) x " . $itemRow['quantity'] . "\n";
+                $index++;
+            }
+            $itemStmt->close();
+
+            // Fetch the receipt image path
+            $receiptQuery = "SELECT receipt_path FROM payment_receipts WHERE order_id = ?";
+            $receiptStmt = $db->prepare($receiptQuery);
+            $receiptStmt->bind_param("i", $orderId);
+            $receiptStmt->execute();
+            $receiptResult = $receiptStmt->get_result();
+            $receiptRow = $receiptResult->fetch_assoc();
+
+            // Prepare the caption by including the order details
+            $caption = "Order ID $orderId\nOrder Date: $orderDate\nProducts Bought:\n$productsDetails Total Price: RM$totalAmount";
+
+            if ($receiptRow && $receiptRow['receipt_path']) {
+                $photoUrl = "https://2ccc-115-132-25-116.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
+                // Send photo with caption
+                sendPhoto($chatId, $photoUrl, $caption);
+            } else {
+                sendMessage($chatId, $caption . "\nReceipt not found.");
+            }
+        } else {
+            sendMessage($chatId, "Order details not found.");
+        }
+        $orderStmt->close();
+    } else {
+        sendMessage($chatId, "Failed to retrieve order details.");
+    }
+}
+
+function sendPhoto($chatId, $photoUrl, $caption = '')
+{
+    global $db;
+    $token = "6871950229:AAGGsiFvspL7UdThz8DyupfCVcYFUAfIaxw";
+    $url = "https://api.telegram.org/bot$token/sendPhoto";
+
+    $post_fields = array(
+        'chat_id' => $chatId,
+        'photo' => $photoUrl,
+        'caption' => $caption,
+        'parse_mode' => 'HTML'
+    );
+
+    $ch = curl_init();
+    curl_setopt(
+        $ch,
+        CURLOPT_HTTPHEADER,
+        array(
+            "Content-Type:multipart/form-data"
+        )
+    );
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+    $output = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        $error_msg = curl_error($ch);
+        sendMessage($chatId, "Failed to send image: " . $error_msg);
+    }
+    curl_close($ch);
+}
 
 
 if (isset($update["message"])) {
@@ -430,7 +530,10 @@ if (isset($update["callback_query"])) {
     $chatId = $callbackQuery["message"]["chat"]["id"];
     $callbackData = $callbackQuery["data"];
 
-    if (strpos($callbackData, "customer_details_") === 0) {
+    if (preg_match('/^verify_payment_(\d+)$/', $callbackData, $matches)) {
+        $orderId = $matches[1];
+        verifyPayment($chatId, $orderId);
+    } elseif (strpos($callbackData, "customer_details_") === 0) {
         $orderId = substr($callbackData, strlen("customer_details_"));
         displayCustomerDetails($chatId, $orderId);
     } elseif (strpos($callbackData, "set_status_") === 0) {
@@ -450,7 +553,5 @@ if (isset($update["callback_query"])) {
         sendMessage($chatId, "Unknown command.");
     }
 }
-
-
 
 ?>

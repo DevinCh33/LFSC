@@ -34,9 +34,9 @@ if(isset($_POST['submit']))
 		$result = mysqli_query($db, $loginquery);
 		$row = mysqli_fetch_array($result);
 		if($row['storeStatus'] == 10){
-			$message = "Account Unverify, Please Verify Your Account First Or Contact System Admin";
+			$message = "Account unverified, please verify your account first or contact a system admin.";
 		}else{
-			$success = "Account Authenticating....Please Be Patient";
+			$success = "Account authenticating....Please be patient.";
 			if(password_verify($password, $row['password']))
 			{
 				$_SESSION["adm_id"] = $row['adm_id'];

@@ -168,8 +168,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             }
                                             
                                             else {
-                                            echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
-                                                              <div style="color: orange;">'. $discount*100 .'% off</div>
+                                            echo '            <p class="price pull-left discount-cross">RM '.$price.'</p>
+                                                              <div class="discount-value"">'. $discount*100 .'% off</div>
                                                               <span class="price pull-left">RM '.number_format($price*(1-$discount), 2, '.', '').'</span>';
                                             }
                                             ?>
@@ -225,25 +225,26 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                                             <p style="color: green;">Number Left: <?php echo (int)$item[0]['proQuant']; ?></p>
 
-                                            <p class="price pull-left discount-cross" style="text-decoration: line-through; color: red;"></p>
-                                            <div class="discount-value" style="color: orange;"></div>
-
                                             <?php
                                             $customPrice = number_format($item[0]['price'], 2, '.', '');
                                             $discount = number_format($item[0]['proDisc']/100, 2, '.', '');
                                             $price = number_format($item[0]['proPrice'], 2, '.', '');
 
                                             if ($customPrice != 0) {
-                                            echo '            <span class="price pull-left">RM '.$customPrice.'</span>';
+                                            echo '            <p class="price pull-left discount-cross"></p>
+                                                              <div class="discount-value"></div>
+                                                              <span class="price pull-left">RM '.$customPrice.'</span>';
                                             }
                         
                                             else if ($discount == 0) {
-                                            echo '            <span class="price pull-left">RM '.$price.'</span>';
+                                            echo '            <p class="price pull-left discount-cross"></p>
+                                                              <div class="discount-value"></div>  
+                                                              <span class="price pull-left">RM '.$price.'</span>';
                                             }
                                             
                                             else {
-                                            echo '            <p class="price pull-left" style="text-decoration: line-through; color: red;">RM '.$price.'</p>
-                                                              <div style="color: orange;">'. $discount*100 .'% off</div>
+                                            echo '            <p class="price pull-left discount-cross">RM '.$price.'</p>
+                                                              <div class="discount-value">'. $discount*100 .'% off</div>
                                                               <span class="price pull-left">RM '.number_format($price*(1-$discount), 2, '.', '').'</span>';
                                             }
                                             ?>
@@ -269,7 +270,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 </div>
 
                 <!-- Column for Your Shopping Cart -->
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
                     <div class="widget widget-cart">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">

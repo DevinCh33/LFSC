@@ -2201,6 +2201,13 @@ a[aria-expanded=false] .fa-angle-down {
     color: #ca870a;
     display: inline-block;
 }
+.discount-cross {
+    text-decoration: line-through;
+    color: #ce0909 !important; 
+}
+.discount-value {
+    color: #ca870a;
+}
 .shiftOptions {
     display: inline-block;
 }

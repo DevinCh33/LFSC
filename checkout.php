@@ -51,7 +51,6 @@ if (empty($_SESSION['user_id'])) {
                 }
                 $db->query("UPDATE orders SET sub_total = '$totalPrice', due= '$totalPrice', total_amount = '$totalPrice' WHERE order_id = '$order_id'");
 
-                // Redirect to eWallet payment page if eWallet was selected
                 if ($payment_type == 2) {
                     header("Location: ewalletpayment.php?order_id=$order_id");
                     exit;

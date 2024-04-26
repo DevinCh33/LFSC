@@ -84,7 +84,6 @@ function fetchOrderCounts($chatId)
         if ($row = $storeResult->fetch_assoc()) {
             $storeId = $row['store'];
 
-            // Query to fetch counts based on conditions
             $ordersQuery = "SELECT o.order_status, pr.status, COUNT(*) as count FROM orders o
                             LEFT JOIN payment_receipts pr ON o.order_id = pr.order_id
                             WHERE o.order_belong = ? AND ((o.order_status = 1 AND pr.status = 0) OR
@@ -134,10 +133,12 @@ function fetchOrderCounts($chatId)
 function displayOrders($chatId)
 {
     global $db;
-    // Adjusted query to join with payment_receipts to access the status
+    // Query only orders with order_status 1 and 2 and specific status conditions
     $query = "SELECT o.order_id, o.order_status, pr.status FROM orders o
               LEFT JOIN payment_receipts pr ON o.order_id = pr.order_id
-              WHERE o.order_belong = (SELECT store FROM admin WHERE chat_id = ?)";
+              WHERE o.order_belong = (SELECT store FROM admin WHERE chat_id = ?) AND
+                    ((o.order_status = 1 AND (pr.status = 0 OR pr.status = 1)) OR
+                     (o.order_status = 2 AND pr.status = 1))";
     $stmt = $db->prepare($query);
     if ($stmt) {
         $stmt->bind_param("i", $chatId);
@@ -145,16 +146,19 @@ function displayOrders($chatId)
         $result = $stmt->get_result();
         $message = "Here are your orders:\n";
         while ($row = $result->fetch_assoc()) {
-            // Determine the message based on order_status and status
-            if ($row['order_status'] == 1 && $row['status'] == 0) {
-                $message .= "/order_" . $row['order_id'] . " - Pending Payment Verification\n";
-            } else if ($row['order_status'] == 1 && $row['status'] == 1) {
-                $message .= "/order_" . $row['order_id'] . " - To-process packing\n";
-            } else if ($row['order_status'] == 2 && $row['status'] == 1) {
-                $message .= "/order_" . $row['order_id'] . " - Processed Deliver\n";
-            } else {
-                // Default message if no specific conditions are met
-                $message .= "/order_" . $row['order_id'] . " - Status: Unknown\n";
+            switch ($row['order_status']) {
+                case 1:
+                    if ($row['status'] == 0) {
+                        $message .= "/order_" . $row['order_id'] . " - Pending Payment Verification\n";
+                    } elseif ($row['status'] == 1) {
+                        $message .= "/order_" . $row['order_id'] . " - To-process packing\n";
+                    }
+                    break;
+                case 2:
+                    if ($row['status'] == 1) {
+                        $message .= "/order_" . $row['order_id'] . " - Delivering\n";
+                    }
+                    break;
             }
         }
         if ($result->num_rows == 0) {
@@ -168,10 +172,10 @@ function displayOrders($chatId)
 }
 
 
+
 function displayOrderDetails($chatId, $orderId)
 {
     global $db;
-    // Fetch the store ID related to this chat ID to verify ownership.
     $storeCheckQuery = "SELECT store FROM admin WHERE chat_id = ?";
     $storeCheckStmt = $db->prepare($storeCheckQuery);
     if ($storeCheckStmt) {
@@ -181,7 +185,6 @@ function displayOrderDetails($chatId, $orderId)
         if ($storeRow = $storeResult->fetch_assoc()) {
             $storeId = $storeRow['store'];
 
-            // Query the details of the order including order date and total amount.
             $orderQuery = "SELECT order_date, total_amount FROM orders WHERE order_id = ? AND order_belong = ?";
             $orderStmt = $db->prepare($orderQuery);
             if ($orderStmt) {
@@ -192,7 +195,6 @@ function displayOrderDetails($chatId, $orderId)
                     $orderDate = $orderRow['order_date'];
                     $totalAmount = $orderRow['total_amount'];
 
-                    // Fetch product details for each product in the order.
                     $itemQuery = "SELECT p.product_name, tp.proWeight, oi.quantity FROM order_item oi
                                   JOIN tblprice tp ON oi.priceID = tp.priceNo
                                   JOIN product p ON tp.productID = p.product_id
@@ -211,7 +213,6 @@ function displayOrderDetails($chatId, $orderId)
                         }
                         $itemStmt->close();
 
-                        // Fetch payment status from payment_receipts.
                         $receiptQuery = "SELECT status FROM payment_receipts WHERE order_id = ?";
                         $receiptStmt = $db->prepare($receiptQuery);
                         $receiptStmt->bind_param("i", $orderId);
@@ -221,7 +222,6 @@ function displayOrderDetails($chatId, $orderId)
 
                         $keyboard = ["inline_keyboard" => []];
 
-                        // Conditional addition of keyboard options based on payment status.
                         if ($receiptRow && $receiptRow['status'] == 0) {
                             $keyboard['inline_keyboard'][] = [["text" => "Verify Payment", "callback_data" => "verify_payment_$orderId"]];
                         } else if ($receiptRow && $receiptRow['status'] == 1) {
@@ -262,7 +262,6 @@ function displayOrderDetails($chatId, $orderId)
 function displayCustomerDetails($chatId, $orderId)
 {
     global $db;
-    // First, get the user_id from the orders table
     $orderQuery = "SELECT user_id FROM orders WHERE order_id = ?";
     $orderStmt = $db->prepare($orderQuery);
     if ($orderStmt) {
@@ -272,7 +271,6 @@ function displayCustomerDetails($chatId, $orderId)
         if ($orderRow = $orderResult->fetch_assoc()) {
             $userId = $orderRow['user_id'];
 
-            // Now, get the user details from the users table
             $userQuery = "SELECT fullName, phone, address FROM users WHERE u_id = ?";
             $userStmt = $db->prepare($userQuery);
             if ($userStmt) {
@@ -312,7 +310,6 @@ function displayOrderStatusUpdateOptions($chatId, $orderId)
         if ($row = $result->fetch_assoc()) {
             $currentStatus = $row['order_status'];
 
-            // Determine the current status text
             switch ($currentStatus) {
                 case 1:
                     $statusText = "Processing";
@@ -324,10 +321,9 @@ function displayOrderStatusUpdateOptions($chatId, $orderId)
                     $statusText = "Delivered";
                     break;
                 default:
-                    $statusText = "Unknown Status"; // Handle unexpected status
+                    $statusText = "Unknown Status";
             }
 
-            // Inline keyboard options for order statuses
             $keyboard = [
                 'inline_keyboard' => [
                     [['text' => 'Processing', 'callback_data' => 'set_status_' . $orderId . '_1']],
@@ -356,7 +352,6 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
     if ($stmt->affected_rows > 0) {
         sendMessage($chatId, "Order status updated successfully.");
 
-        // Fetch additional details like restaurant title and buyer chatId
         $query = "SELECT o.user_id, r.title AS restaurant_title FROM orders o JOIN restaurant r ON o.order_belong = r.rs_id WHERE o.order_id = ?";
         if ($detailStmt = $db->prepare($query)) {
             $detailStmt->bind_param("i", $orderId);
@@ -366,7 +361,6 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
                 $userId = $row['user_id'];
                 $restaurantTitle = $row['restaurant_title'];
 
-                // Fetch chat_id for the buyer
                 $chatIdQuery = "SELECT chat_id FROM users WHERE u_id = ?";
                 if ($chatIdStmt = $db->prepare($chatIdQuery)) {
                     $chatIdStmt->bind_param("i", $userId);
@@ -387,7 +381,6 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
                                 break;
                         }
 
-                        // Send notification if chatId is available
                         if (!empty($message)) {
                             sendTelegramNotification($buyerChatId, $message);
                         }
@@ -404,7 +397,6 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
 function verifyPayment($chatId, $orderId)
 {
     global $db;
-    // Fetch order details
     $orderQuery = "SELECT order_date, total_amount FROM orders WHERE order_id = ?";
     $orderStmt = $db->prepare($orderQuery);
     if ($orderStmt) {
@@ -415,7 +407,6 @@ function verifyPayment($chatId, $orderId)
             $orderDate = $orderRow['order_date'];
             $totalAmount = $orderRow['total_amount'];
 
-            // Fetch product details
             $itemQuery = "SELECT p.product_name, tp.proWeight, oi.quantity FROM order_item oi
                           JOIN tblprice tp ON oi.priceID = tp.priceNo
                           JOIN product p ON tp.productID = p.product_id
@@ -433,7 +424,6 @@ function verifyPayment($chatId, $orderId)
             }
             $itemStmt->close();
 
-            // Fetch the receipt image path
             $receiptQuery = "SELECT receipt_path FROM payment_receipts WHERE order_id = ?";
             $receiptStmt = $db->prepare($receiptQuery);
             $receiptStmt->bind_param("i", $orderId);
@@ -441,15 +431,22 @@ function verifyPayment($chatId, $orderId)
             $receiptResult = $receiptStmt->get_result();
             $receiptRow = $receiptResult->fetch_assoc();
 
-            // Prepare the caption by including the order details
-            $caption = "Order ID $orderId\nOrder Date: $orderDate\nProducts Bought:\n$productsDetails Total Price: RM$totalAmount";
+            $messageDetails = "Order ID $orderId\nOrder Date: $orderDate\nProducts Bought:\n$productsDetailsTotal Price: RM$totalAmount\nPlease confirm the receipt details are correct before proceeding.";
+
+            $keyboard = [
+                'inline_keyboard' => [
+                    [
+                        ['text' => 'Paid', 'callback_data' => 'confirm_payment_' . $orderId . '_yes'],
+                        ['text' => 'Not paid yet', 'callback_data' => 'confirm_payment_' . $orderId . '_no']
+                    ]
+                ]
+            ];
 
             if ($receiptRow && $receiptRow['receipt_path']) {
                 $photoUrl = "https://2ccc-115-132-25-116.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
-                // Send photo with caption
-                sendPhoto($chatId, $photoUrl, $caption);
+                sendPhoto($chatId, $photoUrl, $messageDetails, $keyboard);
             } else {
-                sendMessage($chatId, $caption . "\nReceipt not found.");
+                sendMessage($chatId, $messageDetails, $keyboard);
             }
         } else {
             sendMessage($chatId, "Order details not found.");
@@ -460,27 +457,28 @@ function verifyPayment($chatId, $orderId)
     }
 }
 
-function sendPhoto($chatId, $photoUrl, $caption = '')
+
+
+
+function sendPhoto($chatId, $photoUrl, $caption, $keyboard = null)
 {
     global $db;
     $token = "6871950229:AAGGsiFvspL7UdThz8DyupfCVcYFUAfIaxw";
     $url = "https://api.telegram.org/bot$token/sendPhoto";
 
-    $post_fields = array(
+    $post_fields = [
         'chat_id' => $chatId,
         'photo' => $photoUrl,
         'caption' => $caption,
-        'parse_mode' => 'HTML'
-    );
+        'parse_mode' => 'Markdown'
+    ];
+
+    if ($keyboard) {
+        $post_fields['reply_markup'] = json_encode($keyboard);
+    }
 
     $ch = curl_init();
-    curl_setopt(
-        $ch,
-        CURLOPT_HTTPHEADER,
-        array(
-            "Content-Type:multipart/form-data"
-        )
-    );
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type:multipart/form-data"]);
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
@@ -491,6 +489,26 @@ function sendPhoto($chatId, $photoUrl, $caption = '')
         sendMessage($chatId, "Failed to send image: " . $error_msg);
     }
     curl_close($ch);
+}
+
+
+function confirmPayment($chatId, $orderId, $status)
+{
+    global $db;
+    $query = "UPDATE payment_receipts SET status = ? WHERE order_id = ?";
+    $stmt = $db->prepare($query);
+    if ($stmt) {
+        $stmt->bind_param("ii", $status, $orderId);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            sendMessage($chatId, "Payment status has been updated successfully.");
+        } else {
+            sendMessage($chatId, "Failed to update payment status.");
+        }
+        $stmt->close();
+    } else {
+        sendMessage($chatId, "Error preparing to update payment status.");
+    }
 }
 
 
@@ -533,6 +551,12 @@ if (isset($update["callback_query"])) {
     if (preg_match('/^verify_payment_(\d+)$/', $callbackData, $matches)) {
         $orderId = $matches[1];
         verifyPayment($chatId, $orderId);
+    } elseif (preg_match('/^confirm_payment_(\d+)_yes$/', $callbackData, $matches)) {
+        $orderId = $matches[1];
+        confirmPayment($chatId, $orderId, 1);
+    } elseif (preg_match('/^confirm_payment_(\d+)_no$/', $callbackData, $matches)) {
+        $orderId = $matches[1];
+        confirmPayment($chatId, $orderId, 0);
     } elseif (strpos($callbackData, "customer_details_") === 0) {
         $orderId = substr($callbackData, strlen("customer_details_"));
         displayCustomerDetails($chatId, $orderId);

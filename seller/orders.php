@@ -353,144 +353,76 @@ function updateSelectedIds(checkbox) {
         }
     }
 }
-
-// var selectedIds = [];
-// function searchSpecific(){
-// 	var product = $("#searchProText").val();
-// 	var form = $("#proForm");
-	
-// 	if(product == ""){
-		
-// 	}
-// 	else{
-// 		$.ajax({
-//             url: $(form).attr('action'), // The script to call to add data
-//             type: $(form).attr('method'),
-//             data: {search: product},
-//             success: function(response) {
-// 			  // Assuming response is the JSON encoded version of $finalProducts array from PHP
-// 			var products = JSON.parse(response); // Parse the JSON response into a JavaScript object
-// 			var htmlContent = '<table style="text-align: center; margin: 0 auto; border: none;">'; // Center the outer table
-
-// 			var counter = 0;
-// 			// Loop through each product
-// 			products.forEach(function (product, index) {
-// 				if (counter % 3 == 0) {
-// 					htmlContent += '<tr>';
-// 				}
-// 				htmlContent += '<td style="padding: 10px;">';
-// 				htmlContent += '<table style="border: none;">'; // Set border to none for the inner table
-// 				htmlContent += '<tr><td rowspan="2" colspan="2">' + product.productImage + '</td>';
-// 				htmlContent += '<td>' + product.productCode + '</td></tr>';
-// 				htmlContent += '<tr><td>' + product.productName + '</td></tr>';
-// 				product.prices.forEach(function (priceWeight) {
-// 					htmlContent += '<tr>';
-// 					htmlContent += '<td><input type="checkbox" id="' + priceWeight.priceNo + '"></td>';
-// 					htmlContent += '<td>' + priceWeight.proWeight + '</td>';
-// 					htmlContent += '<td>' + priceWeight.proPrice + '</td>';
-// 					htmlContent += '</tr>';
-// 				});
-// 				htmlContent += '</table>';
-// 				htmlContent += '</td>';
-
-// 				if ((counter + 1) % 3 == 0) {
-// 					// End the row for every third product or the last product
-// 					htmlContent += '</tr>';
-// 				}
-// 				++counter;
-// 				console.log(htmlContent);
-// 			});
-
-// 			htmlContent += '</table>';
-// 			htmlContent += '<div style="text-align: center;"><input type="button" id="btnProSelected" class="button" value="Finish selected"></div>';
-
-// 			$('#showProduct').html(htmlContent);
-
-
-// 				// Attach a click event handler to the button
-// 				$('#btnProSelected').click(function () {
-// 					// Initialize an empty array to store the selected checkbox IDs
-// 					var selectedIds = [];
-
-// 					// Loop through the checkboxes to find the selected ones
-// 					$('input[type="checkbox"]').each(function () {
-// 						if (this.checked) {
-// 							selectedIds.push(this.id);
-// 						}
-// 					});
-
-// 					// Display the selected checkbox IDs in an alert
-// 					if (selectedIds.length > 0) {
-// 						fetchProductDetails(selectedIds);
-// 						document.getElementById('productInfo').style.display = "none";
-// 					} else {
-// 						$('#proSelected').html('');
-// 						document.getElementById('productInfo').style.display = "none";
-// 						$("#txtTotal").text("0.00");
-// 					}
-// 				});
-//             },
-//             error: function(xhr, status, error) {
-             	
-// 			}
-// 		})
-// 	}
-	
-// }
-	
 // JavaScript function to send data to fetchSpecificProduct.php
 function fetchProductDetails(priceId) {
+    // Store current quantity values before fetching new products
+    var quantities = {};
+    $('.quantityInput').each(function() {
+        var productId = $(this).closest('tr').find('.productName input').val();
+        var quantity = $(this).val();
+        quantities[productId] = quantity;
+    });
+
     $.ajax({
-    url: 'action/fetchSpecificProduct.php', // Replace with the actual URL
-    type: 'POST', // You may use GET or POST based on your server-side code
-    data: { priceId: priceId },
-    success: function (response) {
-		var firstTotal = 0.00;
-        // Parse the JSON string to a JavaScript object
-        var products = JSON.parse(response);
-        $('#proSelected').html('');
+        url: 'action/fetchSpecificProduct.php', // Replace with the actual URL
+        type: 'POST', // You may use GET or POST based on your server-side code
+        data: { priceId: priceId },
+        success: function (response) {
+            var firstTotal = 0.00;
+            // Parse the JSON string to a JavaScript object
+            var products = JSON.parse(response);
+            $('#proSelected').empty();
 
-        // Iterate over each product in the array and add it as a row in the "proSelected" table
-        products.forEach(function (product) {
-            // Extract product details
-            var productName = product.productName;
-            var productPrice = parseFloat(product.productPrice); // Parse the price as a float
-			var totalPrice = 0;
+            // Iterate over each product in the array and add it as a row in the "proSelected" table
+            products.forEach(function (product) {
+                // Extract product details
+                var productId = product.priceID;
+                var productName = product.productName;
+                var productPrice = parseFloat(product.productPrice); // Parse the price as a float
+                var totalPrice = 0;
 
-            // Create a new table row for the product
-            var newRowHtml = '<tr>' +
-                '<td class="productName"><input type="hidden" value="'+product.priceID+'" id="proID" name="proID[]">' + productName + '</td>' +
-                '<td class="productPrice"><input type="hidden" value="'+product.price+'" id="proPrice" name="proPrice[]">' + productPrice.toFixed(2) + '</td>' + // Display price with 2 decimal places
-                '<td><input type="number" class="quantityInput" data-product-price="' + productPrice + '" value="1" id="quan" name="quan[]"></td>' +
-                '<td class="totalPrice">' + productPrice.toFixed(2) + '</td>' + // Initial total price is the same as the product price
-                '</tr>';
+                // Create a new table row for the product
+                var newRowHtml = '<tr>' +
+                    '<td class="productName"><input type="hidden" value="' + productId + '" name="proID[]">' + productName + '</td>' +
+                    '<td class="productPrice"><input type="hidden" value="' + productPrice + '" name="proPrice[]">' + productPrice.toFixed(2) + '</td>' + // Display price with 2 decimal places
+                    '<td><input type="number" class="quantityInput" data-product-price="' + productPrice + '" value="' + (quantities[productId] || 1) + '" name="quan[]"></td>' +
+                    '<td class="totalPrice">' + (productPrice * (quantities[productId] || 1)).toFixed(2) + '</td>' + // Initial total price is the product of price and quantity
+                    '</tr>';
 
-            // Append the new row to the "proSelected" table
-            $("#proSelected").append(newRowHtml);
-			firstTotal += parseFloat(productPrice.toFixed(2));
-        });
-		$('#txtTotal').text(parseFloat(firstTotal).toFixed(2));
-		
-        // Attach a change event listener to each quantity input
-        $('#proSelected').on('change', '.quantityInput', function () {
-            // Calculate the total price based on the selected quantity
-            var quantity = $(this).val();
-            var productPrice = parseFloat($(this).data('product-price'));
-            var total = quantity * productPrice;
-			$("#txtTotal").text(total.toFixed(2));
+                // Append the new row to the "proSelected" table
+                $("#proSelected").append(newRowHtml);
+                firstTotal += parseFloat((productPrice * (quantities[productId] || 1)).toFixed(2));
+            });
+            $('#txtTotal').text(parseFloat(firstTotal).toFixed(2));
 
+            // Attach a change event listener to each quantity input
+            $('.quantityInput').on('input', function () {
+                // Calculate the total price based on the selected quantity
+                var quantity = $(this).val();
+                var productPrice = parseFloat($(this).closest('tr').find('.productPrice input').val()); // Get product price from hidden input
+                var total = quantity * productPrice;
+                $(this).closest('tr').find('.totalPrice').text(total.toFixed(2));
 
-            // Update the total price in the corresponding row with 2 decimal places
-            $(this).closest('tr').find('.totalPrice').text(total.toFixed(2));
-        });
-		
-    },
-    error: function (xhr, status, error) {
-        // Handle errors
-    }
-});
+                // Update the total price in the corresponding row with 2 decimal places
+                updateTotalPrice();
+            });
 
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+        }
+    });
 }
+
+// Function to update the total price based on the quantity changes
+function updateTotalPrice() {
+    var total = 0.00;
+    $('.totalPrice').each(function () {
+        total += parseFloat($(this).text());
+    });
+    $('#txtTotal').text(total.toFixed(2));
+}
+
 
 // JavaScript function to update the HTML table row with product details
 function updateProductRow(productDetails) {

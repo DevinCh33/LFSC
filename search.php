@@ -61,6 +61,8 @@
                 </div>
                 <div class="row">';
  
+                $resultsObtained = false;
+
                 if (isset($_GET['query']))
                 {
                     // fetch records from database to display first 12 products searched from the database
@@ -75,6 +77,8 @@
                 
                 while($product=mysqli_fetch_array($query))
                 {   
+                    $resultsObtained = true;
+
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">
                                 <div class="figure-wrap bg-image search-product" data-image-src="'.$product['product_image'].'">
@@ -112,6 +116,12 @@
                             </div>
                         </div>';              
                 }
+
+                if (!$resultsObtained)
+                {
+                    echo '<p class="no-recommendations">No results found.</p>';
+                }
+                
         echo   '</div>
             </div>
         </section>';

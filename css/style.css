@@ -2170,6 +2170,12 @@ a[aria-expanded=false] .fa-angle-down {
 .recommendations .michaelProductCard .card-text {
     margin-bottom: 0.5rem; 
 }
+.no-recommendations {
+    text-align: center;
+}
+.product {
+    flex-grow: 1;
+}
 .categories {
     display: flex;
     gap: 2px;
@@ -2193,6 +2199,9 @@ a[aria-expanded=false] .fa-angle-down {
 }
 .price-discount {
     color: #ca870a;
+    display: inline-block;
+}
+.shiftOptions {
     display: inline-block;
 }
 .addmToCart {

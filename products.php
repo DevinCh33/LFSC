@@ -6,9 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="#">
     <title>Products</title>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -57,7 +54,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             }
 
             $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
-            $rows = mysqli_fetch_array($ress);                                
+            $rows = mysqli_fetch_array($ress);                             
         ?>
 
         <section class="inner-page-hero bg-image" data-image-src="images/img/dish.jpeg">
@@ -75,7 +72,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
                                 <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
-                              <!--  <ul class="nav nav-inline">
+                                <!--<ul class="nav nav-inline">
                                     <li class="nav-item ratings">
                                         <a class="nav-link" href="#"> <span>
                                         <i class="fa fa-star"></i>
@@ -86,7 +83,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <p>245 Review</p>
                                         </span> </a>
                                     </li>
-                                </ul> -->
+                                </ul>-->
                             </div>
                         </div>
                     </div>
@@ -103,7 +100,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
         <div class="container m-t-30">
             <div class="row">
-                <!-- Column for POPULAR ORDERS -->
                 <!-- <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9"> -->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
                     <div class="menu-widget" id="2">
@@ -129,7 +125,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 foreach($products as $product)
                                 {           
                                     $stmt = $db->prepare("SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
-                                                          WHERE tblprice.productID = ?");
+                                                          WHERE tblprice.productID = ? AND tblprice.proQuant > 0");
                                     $stmt->bind_param("i", $product['product_id']);
                                     $stmt->execute();
                                     $item = $stmt->get_result();
@@ -148,31 +144,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                             <div class="food-item">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-8">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12" style="display: flex;">
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
-                                        <!-- end:Logo -->
-                                <!--
-                                        <ul class="nav nav-inline">
-                                            <li class="nav-item ratings">
-                                                <a class="nav-link" href="#">
-                                                    <span class="rating-stars" data-res-id="<?php echo $item['product_id']; ?>">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item average-rating">
-                                                Average Rating: <span class="avg-rating">0</span>
-                                            </li>
-                                        </ul>
-                                    -->
-                                        <!-- end:col -->
-                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
+                                        
+                                        <div class="col-xs-12 col-sm-12 col-lg-12 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
                                             <h6><?php echo $item['product_name']." (". $item['proWeight']."g)"; ?></h6>
                                             <p><?php echo $item['descr'];  ?></p>
                                             <p style="color: green;">Number Left: <?php echo (int)$item['proQuant']; ?></p>
@@ -209,7 +186,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             <?php
                                     }
 
-                                    else
+                                    elseif ($item->num_rows > 1)
                                     {
                                         $item = $item->fetch_all(MYSQLI_ASSOC);
                                         $number = count($item);
@@ -236,33 +213,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
                             <div class="food-item">
                                 <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-lg-8"> 
-
+                                    <div class="col-xs-12 col-sm-12 col-lg-12" style="display: flex;"> 
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
-                                        <!-- end:Logo -->
-                                <!--
-                                        <ul class="nav nav-inline">
-                                            <li class="nav-item ratings">
-                                                <a class="nav-link" href="#">
-                                                    <span class="rating-stars" data-res-id="<?php echo $item[0]['product_id']; ?>">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                        <i class="fa fa-star-o"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item average-rating">
-                                                Average Rating: <span class="avg-rating">0</span>
-                                            </li>
-                                        </ul>
-                                    -->        
-                                        <!-- end:col -->
-                                        <div class="col-xs-12 col-sm-12 col-lg-4 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
-                                            <h6><?php echo $item[0]['product_name']." (";?><span><?php echo $item[0]['proWeight'];?></span><?php echo "g)";?></h6>
+                                        
+                                        <div class="col-xs-12 col-sm-12 col-lg-12 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
+                                            <h6 style="display: inline-block"><?php echo $item[0]['product_name']." (";?><span><?php echo $item[0]['proWeight'];?></span><?php echo "g)";?></h6>
                                             <button class="btn btn-info shiftOptions">More options</button>
                                             <p><?php echo $item[0]['descr'];?></p>
 
@@ -311,6 +268,35 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <!-- end:Widget menu -->
                 </div>
 
+                <!-- Column for Your Shopping Cart -->
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div class="widget widget-cart">
+                        <div class="widget-heading">
+                            <h3 class="widget-title text-dark">
+                                Your Shopping Cart
+                            </h3>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="order-row bg-white">
+                            <div class="widget-body">	
+                                <div id="cart">
+                                    <ul id="cartItems"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end:Order row -->
+                            
+                        <div class="widget-body">
+                            <div class="price-wrap text-xs-center">
+                                <p>TOTAL</p>
+                                <h3 id="cartTotal" class="value">RM 0.00</h3>
+                                <p>Shipping Included</p>
+                                <a id="checkout" href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- start:Comments -->
                 <!-- <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"> -->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
@@ -333,71 +319,33 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <textarea class="form-control" rows="3" id="comment" name="comment"></textarea>
                                     </div>
                                     <!-- <button type="submit" class="btn theme-btn btn-lg">Submit</button>  -->
-                                    <button type="submit" class="btn btn-secondary btn-lg">Submit</button>
+                                    <button type="submit" class="btn btn-secondary btn-md">Submit</button>
                                 </form>
                             </div>
                         </div>
                         <!-- end:Order row -->
             
                         <div class="widget-body">
-    <div class="widget-heading">
-        <h3 class="widget-title text-dark">
-            Recent Comments
-        </h3>
-        <div class="clearfix"></div>
-    </div>
-    <div class="comment-section">
-        <ul id="recentComments">
-            <!-- PHP code to display recent comments goes here -->
-        </ul>
-    </div>
-    <div class="text-center">
-        <a class="btn btn-secondary btn-lg" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
-    </div>
-</div>
+                            <div class="widget-heading">
+                                <h3 class="widget-title text-dark">
+                                    Recent Comments
+                                </h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="comment-section">
+                                <ul id="recentComments"></ul>
+                            </div>
+                            <div class="text-center">
+                                <a class="btn btn-secondary btn-md" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- end:Comments -->
-
-                <!-- Column for Your Shopping Cart -->
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
-                    <div class="widget widget-cart">
-                        <div class="widget-heading">
-                            <h3 class="widget-title text-dark">
-                                Your Shopping Cart
-                            </h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="order-row bg-white">
-                            <div class="widget-body">	
-                                <div id="cart">
-                                    <p>Cart:</p>
-                                    <ul id="cartItems"></ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end:Order row -->
-                            
-                        <div class="widget-body">
-                            <div class="price-wrap text-xs-center">
-                                <p>TOTAL</p>
-                                <h3 id="cartTotal" class="value">RM 0.00</h3>
-                                <p>Free Shipping</p>
-                                <a id="checkout" href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- end:row -->
         </div>
         <!-- end:Container -->
-
-        <div class="breadcrumb">
-            <div class="container">
-                
-            </div>
-        </div>
         
     <!-- start: FOOTER -->
     <?php

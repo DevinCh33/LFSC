@@ -83,21 +83,35 @@ function fetchOrderCounts($chatId)
         $storeResult = $storeStmt->get_result();
         if ($row = $storeResult->fetch_assoc()) {
             $storeId = $row['store'];
-            $ordersQuery = "SELECT order_status, COUNT(*) as count FROM orders WHERE order_belong = ? GROUP BY order_status";
+
+            // Query to fetch counts based on conditions
+            $ordersQuery = "SELECT o.order_status, pr.status, COUNT(*) as count FROM orders o
+                            LEFT JOIN payment_receipts pr ON o.order_id = pr.order_id
+                            WHERE o.order_belong = ? AND ((o.order_status = 1 AND pr.status = 0) OR
+                                                          (o.order_status = 1 AND pr.status = 1) OR
+                                                          (o.order_status = 2 AND pr.status = 1))
+                            GROUP BY o.order_status, pr.status";
             $ordersStmt = $db->prepare($ordersQuery);
             if ($ordersStmt) {
                 $ordersStmt->bind_param("i", $storeId);
                 $ordersStmt->execute();
                 $ordersResult = $ordersStmt->get_result();
-                $counts = [1 => 0, 2 => 0];
+                $counts = ['Pending Payment Verification' => 0, 'To-process packing' => 0, 'Processed Deliver' => 0];
                 while ($orderRow = $ordersResult->fetch_assoc()) {
-                    if (array_key_exists($orderRow['order_status'], $counts)) {
-                        $counts[$orderRow['order_status']] = $orderRow['count'];
+                    if ($orderRow['order_status'] == 1 && $orderRow['status'] == 0) {
+                        $counts['Pending Payment Verification'] += $orderRow['count'];
+                    }
+                    if ($orderRow['order_status'] == 1 && $orderRow['status'] == 1) {
+                        $counts['To-process packing'] += $orderRow['count'];
+                    }
+                    if ($orderRow['order_status'] == 2 && $orderRow['status'] == 1) {
+                        $counts['Processed Deliver'] += $orderRow['count'];
                     }
                 }
                 $message = "Things you need to deal with:\n" .
-                    "To-process packing: " . $counts[1] . "\n" .
-                    "Processed Deliver: " . $counts[2];
+                    "Pending Payment Verification: " . $counts['Pending Payment Verification'] . "\n" .
+                    "To-process packing: " . $counts['To-process packing'] . "\n" .
+                    "Processed Deliver: " . $counts['Processed Deliver'];
                 $keyboard = [
                     "inline_keyboard" => [
                         [["text" => "View Orders", "callback_data" => "view_orders"]]
@@ -120,7 +134,10 @@ function fetchOrderCounts($chatId)
 function displayOrders($chatId)
 {
     global $db;
-    $query = "SELECT order_id, order_status FROM orders WHERE order_belong = (SELECT store FROM admin WHERE chat_id = ?)";
+    // Adjusted query to join with payment_receipts to access the status
+    $query = "SELECT o.order_id, o.order_status, pr.status FROM orders o
+              LEFT JOIN payment_receipts pr ON o.order_id = pr.order_id
+              WHERE o.order_belong = (SELECT store FROM admin WHERE chat_id = ?)";
     $stmt = $db->prepare($query);
     if ($stmt) {
         $stmt->bind_param("i", $chatId);
@@ -128,7 +145,17 @@ function displayOrders($chatId)
         $result = $stmt->get_result();
         $message = "Here are your orders:\n";
         while ($row = $result->fetch_assoc()) {
-            $message .= "/order_" . $row['order_id'] . " - Status: " . $row['order_status'] . "\n";
+            // Determine the message based on order_status and status
+            if ($row['order_status'] == 1 && $row['status'] == 0) {
+                $message .= "/order_" . $row['order_id'] . " - Pending Payment Verification\n";
+            } else if ($row['order_status'] == 1 && $row['status'] == 1) {
+                $message .= "/order_" . $row['order_id'] . " - To-process packing\n";
+            } else if ($row['order_status'] == 2 && $row['status'] == 1) {
+                $message .= "/order_" . $row['order_id'] . " - Processed Deliver\n";
+            } else {
+                // Default message if no specific conditions are met
+                $message .= "/order_" . $row['order_id'] . " - Status: Unknown\n";
+            }
         }
         if ($result->num_rows == 0) {
             $message = "No orders found.";
@@ -139,6 +166,7 @@ function displayOrders($chatId)
     }
     sendMessage($chatId, $message);
 }
+
 
 function displayOrderDetails($chatId, $orderId)
 {
@@ -221,8 +249,6 @@ function displayOrderDetails($chatId, $orderId)
         sendMessage($chatId, "Failed to prepare the store query.");
     }
 }
-
-
 
 function displayCustomerDetails($chatId, $orderId)
 {

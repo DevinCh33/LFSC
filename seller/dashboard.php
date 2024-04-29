@@ -348,7 +348,7 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                 options: {
                     plugins: {
                         datalabels: {
-                            color: '#fff', // Color of data labels
+                            color: '#fff', 
                             anchor: 'end',
                             align: 'top',
                             formatter: function (value, context) {

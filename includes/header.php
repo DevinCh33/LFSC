@@ -92,7 +92,6 @@ if ($stmt = mysqli_prepare($db, $query)) {
                     <button class="dropbtn">My Account</button>
                     <div class="dropdown-content">
                         <a href="your_account.php">My Account</a>
-                        <a href="bindtg.php">Bind Telegram</a>
                         <a href="your_orders.php">Orders</a>
                         <?php if (isset($_SESSION['adm_id'])): ?>
                             <a href="seller/dashboard.php">Dashboard</a>

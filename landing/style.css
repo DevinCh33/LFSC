@@ -568,8 +568,8 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
-    margin: auto;
+    width: 30%; 
+    margin: auto; 
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -577,8 +577,8 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
 
 .profile-management-layout {
     display: flex;
-    width: 100%;
-    margin-top: 20px;
+    width: 100%; 
+    margin-top: 20px; 
 }
 
 .profile-management-container h1 {
@@ -656,7 +656,7 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
 }
 
 .form-fields-container {
-    flex: 1;
+    flex: 1; 
     padding-left: 20px;
 }
 
@@ -764,29 +764,3 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
             .confirm-payment form input[type="submit"]:hover {
                 background-color: #E6532A;
             }
-
-.otp-message {
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #FF6B35;
-    background-color: #FFF3E6;
-    color: #333;
-    font-size: 16px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-    .otp-message a {
-        color: #FF6B35;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-        .otp-message a:hover {
-            text-decoration: underline;
-        }
-
-    .otp-message strong {
-        color: #E6532A;
-        font-weight: bold;
-    }

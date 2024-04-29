@@ -1,7 +1,7 @@
 <?php
-include('connect.php');
-session_start();
-if (empty($_SESSION['adm_id'])) {
+include('config\connect.php');
+
+if (empty($_SESSION['user_id'])) {
     header('location:login.php');
     exit;
 }
@@ -12,18 +12,18 @@ if (isset($_POST['bindTelegram'])) {
     // Generate a unique OTP
     $otp = bin2hex(random_bytes(4));
     $expiration = new DateTime('+15 minutes');
-    $admId = $_SESSION['adm_id'];
+    $userId = $_SESSION['user_id'];
 
-    // Insert OTP into the seller_tg_verification table
-    $query = "INSERT INTO seller_tg_verification (adm_id, code, expiration) VALUES (?, ?, ?)";
+    // Insert OTP into the tg_verification table
+    $query = "INSERT INTO tg_verification (userId, code, expiration) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($db, $query);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "iss", $admId, $otp, $expiration->format('Y-m-d H:i:s'));
+        mysqli_stmt_bind_param($stmt, "iss", $userId, $otp, $expiration->format('Y-m-d H:i:s'));
         mysqli_stmt_execute($stmt);
 
         if (mysqli_stmt_affected_rows($stmt) > 0) {
-            $otpMessage = "Please send the following code to our Telegram bot <a href='https://t.me/lfsc_seller_bot' target='_blank'>@lfsc_seller_bot</a>: <strong>$otp</strong>";
+            $otpMessage = "Please send the following code to our Telegram bot <a href='https://t.me/lfsc_buyer_bot' target='_blank'>@lfsc_buyer_bot</a>: <strong>$otp</strong>";
         } else {
             $otpMessage = "An error occurred. Please try again or contact support.";
         }
@@ -38,7 +38,7 @@ if (isset($_POST['bindTelegram'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Bind to Telegram</title>
+    <title>My Account</title>
 </head>
 <body>
     <?php if ($otpMessage == ""): ?>

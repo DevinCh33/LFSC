@@ -71,8 +71,8 @@
 		  <div class="xclose">
 		  	<span class="close" onclick="closePopup()">&times;</span>
 		  </div>
-        	
 			<form action="action/infoProduct.php" method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
+	<div id="showProduct">
 			<input type="hidden" value="<?php echo $_SESSION['store']; ?>" id="storeID" name="storeID">
 			<div class="myform-row">
 				<div id="divalert" class="divalert" name="divalert"></div>
@@ -152,7 +152,24 @@
 				<input type="button" id="addProduct" class="button" value="Add Product" onClick="productInfo('add', this.form)">
 				<input type="button" id="editProduct" class="button"  value="Save Change" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
 				<input type="button" id="delProduct" class="button"  value="Delete product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
-    </form>
+		</div>
+		<div id="shDelArea">
+			<div class="myform-row">
+				<div class="label">
+					<label for="delReason" class="myform-label">Reason:</label>
+				</div>
+				<div class="input">
+					<input type="text" id="delReason" name="delReason" class="myform-input">
+					<input type="hidden" id="sellerEmail">
+					<input type="hidden" id="proCode">
+					<input type="hidden" id="proName">
+				</div>
+			</div>
+			  <div>
+			  	<input type="button" id="delbtn" class="button" value="Send Notification" onClick="notifyDelete(this.form)">
+			  </div>	
+		</div>
+    		</form>
       </div>
     </div>
   </section>
@@ -167,128 +184,26 @@ $(document).ready(function() {
 	$('#divalert').hide();	
 	fetchData();
 });
-	
-function lowStockNumber(){
-	var num = $("#stockAlert").val();
-	console.log(num);
-	
-	$.ajax({
-      		url: "action/updateLowStock.php",
-            type: "GET",
-            data: {store: <?php echo $_SESSION['store'] ?>, num : num},
-            success: function (response) {
-				
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-}
-
-function addPriceRow() {
-    var priceTable = document.getElementById("priceTable");
-    var newRow = priceTable.insertRow(priceTable.rows.length - 1); // Insert before the last row (before the "Add More" row)
-
-    // Create cells for weight, price, and action
-    var weightCell = newRow.insertCell(0);
-    var priceCell = newRow.insertCell(1);
-	var discountCell = newRow.insertCell(2);
-    var actionCell = newRow.insertCell(3);
-
-    // Add input fields for weight and price
-    weightCell.innerHTML = '<input type="text" name="weight[]" class="myform-input" placeholder="Weight" required>';
-    priceCell.innerHTML = '<input type="text" name="price[]" class="myform-input" placeholder="Price" required>';
-	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" placeholder="Discount" required>';
-
-    // Create a button element and set a unique id for it
-    var removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.innerHTML = "Remove";
-    removeButton.setAttribute("id", "btnRemove" + removeButtonCounter); // Set the unique id here
-
-    // Add an event handler for the remove button (optional)
-    removeButton.addEventListener("click", function() {
-        removePriceRow(this);
-    });
-
-    // Increment the counter for the next button
-    removeButtonCounter++;
-
-    // Append the button to the actionCell
-    actionCell.appendChild(removeButton);
-}
-
-function removePriceRow(button) {
-    var row = button.parentElement.parentElement;
-    row.remove();
-}
 
 function productInfo(action, form) {
-    var productCode = $('#productCode').val();
-    var productName = $('#proName').val();
-    var productDescription = $('#proDescr').val();
-	var proQuan = $('#proQuan').val();
-    var productStatus = $('#proStatus').val();
-	var productID = $("#proID").val();
-    var store = $('#storeID').val();
-
-    // Extract weight, price and discount values from the table
-    var weightValues = [];
-    var priceValues = [];
-	var discountValues = [];
-    $('#priceTable tbody tr').each(function () {
-		var weightInput = $(this).find('input[name="weight[]"]');
-		var priceInput = $(this).find('input[name="price[]"]');
-		var discountInput = $(this).find('input[name="discount[]"]');
-		var weight = weightInput.val();
-		var price = priceInput.val();
-		var discount = discountInput.val();
-		var priceId = $(this).data('price-id') || 'new'; // 'new' for new entries
-		if (weight && price) {
-			weightValues.push({weight: weight, priceId: priceId});
-			priceValues.push({price: price, priceId: priceId});
-			discountValues.push({discount: discount, priceId: priceId});
-		}
-	});
-	
-    // Check if required fields are filled
-    if (productCode === "" || productName === "" || weightValues.length === 0 || priceValues.length === 0 || proQuan === "" && action != "del") {
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('Product Code, Name, Weight, and Price must not be empty');
-        $('#divalert').show();
-        setTimeout(function () {
-            $('#divalert').hide();
-        }, 3000);
-    } else {
+    	var sellerEmail = $("#sellerEmail").val();
+		var reason = $("#delReason").val();
 		var text = "";
 		var form = document.getElementById('myForm');
 		var formData = new FormData(form);
-		var imageInput = document.getElementById('proImage').files[0];
-		formData.append('image', imageInput);
+	
 		formData.append('act', action);
-		formData.append('proID', productID);
+		formData.append('seller', sellerEmail);
+	console.log(formData);
         $.ajax({
             url: $(form).attr('action'),
             type: $(form).attr('method'),
 			data: formData,
 			processData: false,
 			contentType: false,
-            //data: {act: action, data: $("#myForm").serialize(), proID: productID, image: imageInput},
             success: function (response) {
-				if(action == "add"){
-					text = "Product Added Successfully!";
-					document.getElementById("myForm").reset();
-				}
-				else if(action == "edit")
-					text = "Information Updated Successfully!";
-				else if(action == 'del')
 					text = "Product Deleted Successfully!";
-                $('#divalert').css('background-color', 'green');
-				$('#divalert').text(text);
-				$('#divalert').show();
-				setTimeout(function() {
-					$('#divalert').hide();
-				}, 3000);
+            
 				if(action == 'del'){
 					closePopup();
 					fetchData();
@@ -299,7 +214,7 @@ function productInfo(action, form) {
                 console.error('Error:', error);
             }
         });
-    }
+    
 }
 
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
@@ -457,6 +372,7 @@ function findRec(windowType, name){
         dataType: 'json',
         data: {name: name},
         success: function(response) {
+			
             openPopup(windowType);
             // Set product details
             $('#productCode').val(response[0].productCode).prop('readonly', windowType === 2);
@@ -464,27 +380,16 @@ function findRec(windowType, name){
             $('#proDescr').val(response[0].descr).prop('readonly', windowType === 2);
 			$('#proID').val(response[0].productID);
 			$('#shImg').html(response[0].productImage);
+			$("#proCode").val(response[0].productCode);
+			$("#proName").val(response[0].productName);
+			$("#sellerEmail").val(response[0].email);
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
         }
     });
 }
-
-function addPriceRowWithData(weight, price, discount, priceNo) {
-    var priceTable = document.getElementById("priceTable");
-    var newRow = priceTable.insertRow(priceTable.rows.length - 1); // Insert before the last row
-
-    var weightCell = newRow.insertCell(0);
-    var priceCell = newRow.insertCell(1);
-	var discountCell = newRow.insertCell(2);
-    var actionCell = newRow.insertCell(3);
-
-    weightCell.innerHTML = '<input type="text" name="weight[]" class="myform-input" value="' + weight + '" placeholder="Weight" required>';
-    priceCell.innerHTML = '<input type="text" name="price[]" class="myform-input" value="' + price + '" placeholder="Price" required>';
-	discountCell.innerHTML = '<input type="text" name="discount[]" class="myform-input" value="' + discount + '" placeholder="Discount" required>';
-	actionCell.innerHTML = '<input type="hidden" value="'+priceNo+'" name="priceNo[]" id="priNo"><button type="button" onclick="removePriceRow(this)">Remove</button>';
-}
+	
 
 	
 function viewRec(num){
@@ -503,35 +408,50 @@ function delRec(num){
 function confirmDelete(form) {
     // Ask for the first confirmation
     if (confirm("Are you sure you want to delete this product?")) {
-    	// If the user confirms the second time, proceed with deletion
-        productInfo('del', form);
+//		productInfo('del', form);
+		openPopup(5);
     }
+}
+	
+function notifyDelete(form){
+	productInfo('del', form);
 }
 
 function openPopup(type) {
     document.getElementById("popupWindow").style.display = "block";
 	
 	if(type == 1){
+		document.getElementById('showProduct').style.display = "block";
 		document.getElementById('addProduct').style.display = "block";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "none";
+		document.getElementById('shDelArea').style.display = "none";
 	}
 	else if(type == 2){
+		document.getElementById('showProduct').style.display = "block";
 		document.getElementById('addProduct').style.display = "none";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "none";
+		document.getElementById('shDelArea').style.display = "none";
 	}		
 	else if(type == 3){
+		document.getElementById('showProduct').style.display = "block";
 		document.getElementById('addProduct').style.display = "none";
 		document.getElementById('editProduct').style.display = "block";
 		document.getElementById('delProduct').style.display = "none";
+		document.getElementById('shDelArea').style.display = "none";
 	}
 		
 	else if(type == 4){
+		document.getElementById('showProduct').style.display = "block";
 		document.getElementById('addProduct').style.display = "none";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "block";
+		document.getElementById('shDelArea').style.display = "none";
 	}
-		
+	else if(type == 5){
+		document.getElementById('showProduct').style.display = "none";
+		document.getElementById('shDelArea').style.display = "block";
+	}	
 }
 </script>

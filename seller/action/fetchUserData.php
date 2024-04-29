@@ -3,16 +3,25 @@
 
 	$search = trim($_GET['search']);
 
-	$query = "SELECT
-					o.order_date, p.product_name, oi.quantity, pr.proPrice, o.total_amount, u.fullName, u.u_id, o.order_status
-				FROM
-					orders AS o
-				JOIN order_item AS oi ON o.order_id = oi.order_id
-				JOIN tblprice AS pr ON oi.priceID = pr.priceNo
-				JOIN product AS p ON pr.productID = p.product_id
-				JOIN users AS u ON o.user_id = u.u_id
-				WHERE o.user_id = '".$search."'
-				ORDER BY order_date desc";
+	$query = "SELECT 
+				o.order_date, p.product_name, oi.quantity, pr.proPrice, o.total_amount, u.fullName, u.u_id, o.order_status
+			FROM
+				orders o
+			JOIN 
+				order_item oi ON o.order_id = oi.order_id
+			JOIN 
+				tblprice pr ON oi.priceID = pr.priceNo
+			JOIN 
+				product p ON pr.productID = p.product_id
+			JOIN 
+				users u ON o.user_id = u.u_id
+			WHERE
+				o.order_status = 3";
+
+		if($search != "")
+			$query .= " AND u.username LIKE '%".$_GET['search']."%' OR u.fullName LIKE '%".$_GET['search']."%'";
+
+		$query .= " ORDER BY o.order_date desc";
 
 	$result = $db->query($query);
 	$output = array('data' => array());

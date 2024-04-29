@@ -91,7 +91,6 @@
 				<div class="input">
 					<div id="empID" name="empID"></div>
 					<input type="hidden" id="emp" name="emp">
-					
 				</div>
 			</div>
 			
@@ -207,7 +206,7 @@ $(document).ready(function() {
 });
 	
 function employeeInfo(action, form){
-	
+	var empID = $('#emp').val();
 	var icno = $('#icNo').val();
     var empName = $('#empName').val();
     var empNum = $('#empNum').val();
@@ -275,12 +274,22 @@ function employeeInfo(action, form){
 	}
 	
 	if(error == 0){
-		
-			console.log($(form).serialize());
+		if(action == "add"){
+			var tempname = "";
+			var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$";
+			var randomNum = Math.floor(Math.random() * 5) + 4;
+			var custPass = "";
+
+			for (var i = 0; i < randomNum; i++) {
+				var randomIndex = Math.floor(Math.random() * charset.length);
+				custPass  += charset[randomIndex];
+			}
+			tempname = "emp" + empID;
+		}
 		$.ajax({
             url: $(form).attr('action'), // The script to call to add data
             type: $(form).attr('method'),
-            data: {act: action, data: $(form).serialize()},
+            data: {act: action, data: $(form).serialize(), custpass: custPass, tempname: tempname},
             success: function(response) {
 				var resText = "";
 					if(action == "add")

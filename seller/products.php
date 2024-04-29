@@ -23,9 +23,8 @@
     </div>
 	  
 	<div class="empMainCon">
-		<div class="container">
-			<div class="subCon">Low Stock Alert: <input type="text" style="height: 20px;" id="stockAlert" onKeyUp="lowStockNumber()"></div>
-			<div class="headerButton"><button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Product</button></div>
+		<div style="text-align: right;">
+			<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Product</button>
 		</div>
 		  
 		   	<div class="controls-container">

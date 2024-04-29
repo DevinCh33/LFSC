@@ -1,10 +1,15 @@
 <?php 	
 require_once 'core.php';
 
-$sql = "SELECT u.username, u.fullName, u.email, u.phone, u.address, u.u_id
+$search = trim($_GET['search']);
+
+$sql = "SELECT DISTINCT u.username, u.fullName, u.email, u.phone, u.address, u.u_id
 		FROM users u
 		JOIN orders o ON u.u_id = o.user_id
 		WHERE o.order_belong = '".$_SESSION['store']."'";
+
+	if($search != "")
+			$sql .= " AND u.username LIKE '%".$_GET['search']."%' OR u.fullName LIKE '%".$_GET['search']."%'";
 
 $result = $db->query($sql);
 

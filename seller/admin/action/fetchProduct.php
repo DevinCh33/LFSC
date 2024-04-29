@@ -15,11 +15,14 @@ $sql = "SELECT
 			product.status, 
 			tblprice.proWeight,
 			tblprice.proPrice,
-			tblprice.priceNo
+			tblprice.priceNo,
+			a.email
 		FROM 
 			product
 		JOIN 
-			tblprice ON product.product_id = tblprice.productID";
+			tblprice ON product.product_id = tblprice.productID
+		JOIN 
+			admin a ON product.owner = a.store";
 
 if($_GET['name'] != "")
 	$sql .= " AND product_id = '".$_GET['name']."'";
@@ -48,9 +51,11 @@ if ($result->num_rows > 0) {
                 'productImage' => $img,
                 'descr' => $row[4],
                 'quantity' => $row[5],
+				'email' => $row[11],
 				'lowStock' => $row[6],
                 'status' => $row[7],
                 'prices' => array($productPriceWeight) // Start a new array for prices, weights and discounts
+				
             );
         } else {
             // If the product is already in the temp array, add the new price and weight to it.

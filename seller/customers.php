@@ -380,7 +380,7 @@ function findRec(windowType, name) {
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
-			
+			console.log(response);
 			var purchaseHistoryBody = document.getElementById("purchaseHistoryBody");
 			purchaseHistoryBody.innerHTML = ""; // Clear existing rows
 

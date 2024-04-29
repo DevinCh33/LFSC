@@ -32,31 +32,75 @@ if(isset($_POST['submit']))
     {
 		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
-		$row = mysqli_fetch_array($result);
-		if($row['storeStatus'] == 10){
-			$message = "Account Unverify, Please Verify Your Account First Or Contact System Admin";
-		}else{
-			$success = "Account Authenticating....Please Be Patient";
-			if(password_verify($password, $row['password']))
-			{
-				$_SESSION["adm_id"] = $row['adm_id'];
-				$_SESSION["adm_co"] = $row['code'];
-				$_SESSION["u_role"] = $row['u_role'];
-				$_SESSION['store'] = $row['store'];
-				$_SESSION['status'] = $row['storeStatus'];
+		
+		if(mysqli_num_rows($result) >0){
+			$row = mysqli_fetch_array($result);
+			if($row['storeStatus'] == 10 ){
+				$message = "Store Unverify, Please Verify Your Store First Or Contact System Admin";
+			}else{
+				$success = "Account Authenticating....Please Be Patient";
+				$message = "";
+				if(password_verify($password, $row['password']))
+				{
+					$_SESSION["adm_id"] = $row['adm_id'];
+					$_SESSION["adm_co"] = $row['code'];
+					$_SESSION["u_role"] = $row['u_role'];
+					$_SESSION['store'] = $row['store'];
+					$_SESSION['status'] = $row['storeStatus'];
 
-				if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
-					header("refresh:1;url=dashboard.php");
+					if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
+						header("refresh:1;url=dashboard.php");
+					else
+						header("refresh:1;url=admin/dashboard.php");
+				} 
 				else
-					header("refresh:1;url=admin/dashboard.php");
-			} 
-			else
-			{
-				$success = "";
-				$message = "Invalid Username or Password!";
+				{
+					$success = "";
+					$message = "Admin Invalid Username or Password!";
+				}
 			}
-		}
-	 }
+		}else{
+			$loginquery = "SELECT e.empID, e.code, e.password, e.u_role, e.empstore, e.empstatus, a.storeStatus
+						   FROM tblemployee e 
+						   JOIN admin a ON e.empstore = a.store 
+						   WHERE e.username='$username'";
+
+			$result = mysqli_query($db, $loginquery);
+			if(mysqli_num_rows($result) >0){
+				$row = mysqli_fetch_array($result);
+				if($row['storeStatus'] == 10 ){
+					$message = "Store Unverify, Please Verify Your Store First Or Contact System Admin";
+				}else if ($row['storeStatus'] == 2 ){
+					$message = "Store Banned, Please Contact System Admin";
+				}else if ($row['empstatus'] == 10){
+					$message = "Account Unverify, Please Verify Your Account First Or Contact System Admin";
+				}else if ($row['empstatus'] == 2){
+					$message = "Account Deactive, Please Activate Your Account Again";
+				}else{
+					$success = "Account Authenticating....Please Be Patient";
+					$message = "";
+					
+					if(password_verify($password, $row['password']))
+					{
+						$_SESSION["adm_id"] = $row['empID'];
+						$_SESSION["adm_co"] = $row['code'];
+						$_SESSION["u_role"] = $row['u_role'];
+						$_SESSION['store'] = $row['empstore'];
+						$_SESSION['status'] = $row['storeStatus'];
+
+						if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
+							header("refresh:1;url=dashboard.php");
+						else
+							header("refresh:1;url=admin/dashboard.php");
+					}else
+					{
+						$success = "";
+						$message = "Seller Invalid Username or Password!";
+					}
+				}
+			}
+		 }
+	}
 }
 ?>
 

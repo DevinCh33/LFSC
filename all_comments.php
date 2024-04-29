@@ -161,22 +161,50 @@ if (isset($_GET['res_id'])) {
     echo '<table class="table table-bordered">';
     echo '<thead>';
     echo '<tr>';
-    echo '<th>User ID</th>';
-    echo '<th>Restaurant ID</th>';
+    echo '<th>Customer Name</th>';
+    //echo '<th>Restaurant ID</th>';
     echo '<th>Posted on</th>';
     echo '</tr>';
     echo '</thead>';
     echo '<tbody>';
-    foreach ($commentsForPage as $row) {
-        echo '<tr>';
-        echo '<td>' . $row['user_id'] . '</td>';
-        echo '<td>' . $row['res_id'] . '</td>';
-        echo '<td>' . $row['created_at'] . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td colspan="3">' . $row['comment'] . '</td>';
-        echo '</tr>';
+// Define a function to generate a random name
+function generateRandomName() {
+    // Define the characters allowed in the random name
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // Generate a random length between 5 and 8
+    $length = rand(5, 8);
+    // Initialize an empty name
+    $name = '';
+    // Generate the random name
+    for ($i = 0; $i < $length; $i++) {
+        $name .= $characters[rand(0, strlen($characters) - 1)];
     }
+    // Replace the last 4 characters with "****"
+    $name = substr_replace($name, '****', -4);
+    return $name;
+}
+
+// Initialize an array to store generated names for each unique user_id
+$generatedNames = array();
+
+foreach ($commentsForPage as $row) {
+    // Check if the user_id already has a generated name
+    if (!isset($generatedNames[$row['user_id']])) {
+        // Generate a new random name for this user_id
+        $generatedNames[$row['user_id']] = generateRandomName();
+    }
+
+    echo '<tr>';
+    // Display the generated name instead of the user_id
+    echo '<td>' . $generatedNames[$row['user_id']] . '</td>';
+    //echo '<td>' . $row['res_id'] . '</td>';
+    echo '<td>' . $row['created_at'] . '</td>';
+    echo '</tr>';
+    echo '<tr>';
+    echo '<td colspan="3">' . $row['comment'] . '</td>';
+    echo '</tr>';
+}
+
     echo '</tbody>';
     echo '</table>';
     echo '</div>';

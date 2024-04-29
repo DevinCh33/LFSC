@@ -31,9 +31,11 @@ header {
         display: flex;
         gap: 20px;
         list-style: none;
+        flex-wrap: wrap;
     }
 
     header li a {
+        flex-shrink: 1;
         text-decoration: none;
         color: #FFF;
         font-weight: bold;
@@ -662,3 +664,103 @@ a[href="https://api.whatsapp.com/send?phone=60102170960"] {
     width: 100%;
     max-width: 400px;
 }
+
+/* General styles for the page */
+.payment-confirmation-container {
+    padding: 30px;
+    background-color: #f9f9f9;
+}
+
+.confirmation-message {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.confirmation-tick {
+    width: 50px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.payment-details {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.payment-amount {
+    color: #FF6B35;
+    font-weight: bold;
+}
+
+.payment-information {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+    .payment-methods button {
+        background-color: #005522;
+        color: #FFF;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .payment-methods button:hover {
+            background-color: #FF6B35;
+        }
+
+.qr-codes {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+    .qr-codes img {
+        width: 150px;
+        height: auto;
+        border: 2px solid #333;
+        border-radius: 10px;
+        display: none; /* Default to hidden */
+    }
+
+.confirm-payment {
+    text-align: center;
+}
+
+    .confirm-payment form {
+        display: inline-block;
+        text-align: left;
+    }
+
+        .confirm-payment form label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .confirm-payment form input[type="file"] {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .confirm-payment form input[type="submit"] {
+            background-color: #FF6B35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .confirm-payment form input[type="submit"]:hover {
+                background-color: #E6532A;
+            }

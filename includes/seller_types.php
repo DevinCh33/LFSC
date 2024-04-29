@@ -10,19 +10,19 @@
 
         <div class="widget-body">
             <ul class="tags">
-                <li> <a href="merchants.php?c_id=5" class="tag">
+                <li> <a href="merchants.php?category=5" class="tag">
             Fresh
             </a> </li>
-                <li> <a href="merchants.php?c_id=6" class="tag">
+                <li> <a href="merchants.php?category=6" class="tag">
             Frozen
             </a> </li>
-                <li> <a href="merchants.php?c_id=7" class="tag">
+                <li> <a href="merchants.php?category=7" class="tag">
             Dried
             </a> </li>
-                <li> <a href="merchants.php?c_id=8" class="tag">
+                <li> <a href="merchants.php?category=8" class="tag">
             Canned 
             </a> </li>
-                <li> <a href="merchants.php?c_id=9" class="tag">
+                <li> <a href="merchants.php?category=9" class="tag">
             Other
             </a> </li>
             </ul>

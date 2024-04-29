@@ -6,7 +6,7 @@ $update = json_decode($content, true);
 
 function sendMessage($chatId, $message, $keyboard = null)
 {
-    $token = "6857843252:AAHa267pqAKyWAimgH52Vi4NYOt1FdsMu0A"; // Replace with your actual bot token
+    $token = "6857843252:AAHa267pqAKyWAimgH52Vi4NYOt1FdsMu0A"; // Ensure to replace with your actual bot token
     $url = "https://api.telegram.org/bot$token/sendMessage?chat_id=$chatId&text=" . urlencode($message);
     if ($keyboard) {
         $url .= "&reply_markup=" . urlencode(json_encode($keyboard));
@@ -35,11 +35,11 @@ function updateNotificationsStatus($chatId, $status)
 function getUserDetails($chatId)
 {
     global $db;
-    $query = "SELECT username, fullName, email, phone FROM users WHERE chat_id = ?";
+    $query = "SELECT username, fullName, email, phone, address FROM users WHERE chat_id = ?";
     $stmt = $db->prepare($query);
     $stmt->bind_param("i", $chatId);
     $stmt->execute();
-    $stmt->bind_result($username, $fullName, $email, $phone);
+    $stmt->bind_result($username, $fullName, $email, $phone, $address);
     $stmt->fetch();
     $stmt->close();
 
@@ -47,9 +47,11 @@ function getUserDetails($chatId)
         "Username: " . $username,
         "Full Name: " . $fullName,
         "Email: " . $email,
-        "Phone: " . $phone
+        "Phone: " . $phone,
+        "Address: " . $address
     ];
 }
+
 
 function getActiveOrders($chatId)
 {
@@ -118,6 +120,35 @@ function bindTelegramAccount($chatId, $code)
     }
 }
 
+function getToReceiveOrders($chatId)
+{
+    global $db;
+    $query = "SELECT order_id, last_updated FROM orders WHERE user_id = (SELECT u_id FROM users WHERE chat_id = ?) AND order_status = 3";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("i", $chatId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $orders = [];
+    while ($row = $result->fetch_assoc()) {
+        $orders[] = "/order_" . $row['order_id'] . " - Delivered: " . $row['last_updated'];
+    }
+    $stmt->close();
+    return $orders;
+}
+
+function updateOrderStatus($orderId, $newStatus)
+{
+    global $db;
+    $query = "UPDATE orders SET order_status = ? WHERE order_id = ?";
+    if ($stmt = $db->prepare($query)) {
+        $stmt->bind_param("ii", $newStatus, $orderId);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
+    } else {
+        return false; // Return false if the statement preparation fails
+    }
+}
+
 if (isset($update["message"])) {
     $chatId = $update["message"]["chat"]["id"];
     $receivedMessage = strtolower($update["message"]["text"]);
@@ -134,6 +165,18 @@ if (isset($update["message"])) {
         } else {
             sendMessage($chatId, "There was an error unlinking your account. Please try again.");
         }
+    } elseif (preg_match('/^\/order_(\d+)$/', $receivedMessage, $matches)) {
+        $orderId = $matches[1]; // Capture the numeric part of the order ID
+        $confirmMessage = "Do you confirm that you received the order?";
+        $keyboard = [
+            'inline_keyboard' => [
+                [
+                    ['text' => 'Yes', 'callback_data' => 'confirm_order_' . $orderId . '_yes'],
+                    ['text' => 'No', 'callback_data' => 'confirm_order_' . $orderId . '_no']
+                ]
+            ]
+        ];
+        sendInlineKeyboard($chatId, $confirmMessage, $keyboard);
     } elseif ($receivedMessage === "/help") {
         $helpMessage = "Here are some functions you can use:";
         $keyboard = [
@@ -158,11 +201,33 @@ if (isset($update["message"])) {
     $chatId = $callbackQuery["message"]["chat"]["id"];
     $data = $callbackQuery["data"];
 
-    if ($data === "details") {
+
+    if (preg_match('/^confirm_order_(\d+)_yes$/', $data, $matches)) {
+        $orderId = $matches[1];
+        if (updateOrderStatus($orderId, 4)) {
+            $confirmationMessage = "Thank you for confirming your order. We're pleased to have completed your order successfully.";
+            sendMessage($chatId, $confirmationMessage);
+        } else {
+            $errorMessage = "There was an issue updating the status of order #$orderId. Please contact support for further assistance.";
+            sendMessage($chatId, $errorMessage);
+        }
+    } elseif (preg_match('/^confirm_order_(\d+)_no$/', $data, $matches)) {
+        $notificationMessage = "Please notify us upon its arrival, or reach out if there are any issues with the delivery. We appreciate your patience and are here to assist you.";
+        sendMessage($chatId, $notificationMessage);
+    } elseif ($data === "details") {
         $details = getUserDetails($chatId);
         $detailsMessage = "Your details:\n" . implode("\n", $details);
         sendMessage($chatId, $detailsMessage);
     } elseif ($data === "orders") {
+        $message = "Please select the type of orders you would like to view:";
+        $ordersKeyboard = [
+            "inline_keyboard" => [
+                [["text" => "Active Orders", "callback_data" => "active_orders"]],
+                [["text" => "To-Receive Orders", "callback_data" => "to_receive_orders"]]
+            ]
+        ];
+        sendInlineKeyboard($chatId, $message, $ordersKeyboard);
+    } elseif ($data === "active_orders") {
         $orders = getActiveOrders($chatId);
         if (!empty($orders)) {
             $ordersMessage = "Here are your active orders:\n";
@@ -173,6 +238,14 @@ if (isset($update["message"])) {
             }
         } else {
             $ordersMessage = "You have no active orders.";
+        }
+        sendMessage($chatId, $ordersMessage);
+    } elseif ($data === "to_receive_orders") {
+        $orders = getToReceiveOrders($chatId);
+        if (!empty($orders)) {
+            $ordersMessage = "Below are your orders and their delivery times:\n" . implode("\n", $orders);
+        } else {
+            $ordersMessage = "You have no orders to receive.";
         }
         sendMessage($chatId, $ordersMessage);
     } elseif ($data === "notifications") {

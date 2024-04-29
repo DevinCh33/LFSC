@@ -8,7 +8,7 @@ describe('Recommendations spec', () => {
     })
   })
   it('Can order now', () => {
-    cy.get('.addmToCart').first().click()
+    cy.get('.addmToCart').eq(3).click()
     cy.fixture('path.json').then((data) => {
       cy.visit(data.root + 'products.php')
       cy.get('#cartItems').find('li').first().should('exist')

@@ -380,24 +380,30 @@ function findRec(windowType, name) {
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
-			console.log(response);
+			
+      var spent = 0;
 			var purchaseHistoryBody = document.getElementById("purchaseHistoryBody");
 			purchaseHistoryBody.innerHTML = ""; // Clear existing rows
-
+      
 			response.data.forEach(function(row) {
 				var tr = document.createElement("tr");
+        
+        if (row[7] == 3) {
+          // Assuming row array is [userID, productID, quantity, price, total, fullName]
+          tr.innerHTML = "<td>" + row[0] + "</td>" +
+                  "<td>" + row[1] + "</td>" +
+                  "<td>" + row[2] + "</td>" +
+                  "<td>" + row[3] + "</td>" +
+                  "<td>" + row[4] + "</td>";
 
-				// Assuming row array is [userID, productID, quantity, price, total, fullName]
-				tr.innerHTML = "<td>" + row[0] + "</td>" +
-							   "<td>" + row[1] + "</td>" +
-							   "<td>" + row[2] + "</td>" +
-							   "<td>" + row[3] + "</td>" +
-							   "<td>" + row[4] + "</td>";
-
-				purchaseHistoryBody.appendChild(tr);
+          spent += Number(row[4]);
+          
+          purchaseHistoryBody.appendChild(tr);
+        }
+        
 				$("#customerID").text(row[6]);
 				$("#customerName").text(row[5]);
-				$("#customerSpent").text(row[7]);
+				$("#customerSpent").text(spent);
 			});
       
 			openPopup(windowType);

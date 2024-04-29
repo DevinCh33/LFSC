@@ -455,7 +455,7 @@ hr {
 .hero .hero-inner {
     position: relative;
     z-index: 1;
-    height: 70vh;
+    height: 100vh;
 }
 
 /* ==========================
@@ -487,9 +487,9 @@ hr {
     border: 1px solid #eaebeb;
     border-radius: 2px;
     overflow: hidden;
-    margin: 0 30px 180px 30px;
+    margin: 0 2em 8em 2em;
     background: #fafaf8;
-    height: 125vh;
+    height: 110vh;
 }
 .food-item-wrap h5 a {
     color: #25282b;
@@ -514,7 +514,7 @@ hr {
     margin-bottom: 20px;
 }
 .food-item-wrap .content {
-    padding: 25px 15px 35px;
+    padding: 2em 1em 3em;
 }
 .food-item-wrap .restaurant-block {
     border-top: 1px solid #eaebeb;
@@ -540,7 +540,7 @@ hr {
         padding: 10px;
     }
     .food-item .left img {
-        width: 45px
+        width: 45px;
     }
     .food-item-wrap .right-text {
         font-size: 13px;
@@ -576,12 +576,12 @@ hr {
 }
 .food-item-wrap .figure-wrap {
     position: relative;
-    height: 300px;
+    height: 40vh;
 }
 .food-item-wrap .food-item-wrap figure {
     position: relative;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin-bottom: 1.25em;
 }
 .food-item-wrap .food-item-wrap figure img {
     width: 100%;
@@ -602,7 +602,7 @@ hr {
 .food-item-wrap .figure-text {
     position: absolute;
     top: 0;
-    padding: 13px 28px 18px 18px;
+    padding: 1.2em 2.5em 1.4em 1.4em;
     width: 100%;
     height: 100%;
 }
@@ -2143,8 +2143,8 @@ a[aria-expanded=false] .fa-angle-down {
 /* Recommendations Section */
 
 .recommendations {
-    margin-top: 6em;
-    margin-bottom: 3em;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 .recommendations .michaelProductCard {
     border: 1px solid #eaebeb;
@@ -2153,6 +2153,9 @@ a[aria-expanded=false] .fa-angle-down {
     overflow: hidden; 
     display: flex; 
     flex-direction: column;
+}
+.recommendations .michaelProductCard {
+    height: 105vh;
 }
 .recommendations .michaelProductCard .card-img-top {
     width: 100%;
@@ -2169,6 +2172,18 @@ a[aria-expanded=false] .fa-angle-down {
 }
 .recommendations .michaelProductCard .card-text {
     margin-bottom: 0.5rem; 
+}
+.text-description {
+    font-size: 1rem;
+}
+.text-description-bigger {
+    font-size: 1.5rem;
+}
+.no-recommendations {
+    text-align: center;
+}
+.product {
+    flex-grow: 1;
 }
 .categories {
     display: flex;
@@ -2195,6 +2210,16 @@ a[aria-expanded=false] .fa-angle-down {
     color: #ca870a;
     display: inline-block;
 }
+.discount-cross {
+    text-decoration: line-through;
+    color: #ce0909 !important; 
+}
+.discount-value {
+    color: #ca870a;
+}
+.shiftOptions {
+    display: inline-block;
+}
 .addmToCart {
     position: absolute;
     bottom: 1em;
@@ -2202,6 +2227,141 @@ a[aria-expanded=false] .fa-angle-down {
 }
 #checkout {
     background-color: #30cc22;
+}
+
+@media only screen and (max-device-width: 667px) and (max-device-height: 375px) {
+    .recommendations .michaelProductCard {
+        height: 105vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 135vh;
+        width: 30vw;
+    }
+}
+@media only screen and (max-device-width: 375px) and (max-device-height: 667px) {
+    .recommendations .michaelProductCard {
+        height: 60vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 90vh;
+        width: 80vw;
+    }
+}
+@media only screen and 
+(min-device-width: 376px) and (min-device-height: 668px) and
+(max-device-width: 430px) and (max-device-height: 932px) {
+    .recommendations .michaelProductCard {
+        height: 50vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 80vh;
+        width: 80vw;
+    }
+}
+@media only screen and 
+(min-device-width: 668px) and (min-device-height: 376px) and
+(max-device-width: 932px) and (max-device-height: 430px) {
+    .recommendations .michaelProductCard {
+        height: 85vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 125vh;
+        width: 30vw;
+    }
+}
+
+@media only screen and 
+(min-device-width: 431px) and (min-device-height: 933px) and
+(max-device-width: 820px) and (max-device-height: 1180px) {
+    .recommendations .michaelProductCard {
+        height: 50vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 70vh;
+        width: 30vw;
+    }
+}
+/* @media only screen and 
+(min-device-width: 933px) and (min-device-height: 431px) and 
+(max-device-width: 1180px) and (max-device-height: 820px) {
+    .recommendations .michaelProductCard {
+        height: 60vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 75vh;
+        width: 30vw;
+    }
+} */
+
+@media only screen and 
+(min-device-width: 821px) and (min-device-height: 1181px) and 
+(max-device-width: 1024px) and (max-device-height: 1366px) {
+    .recommendations .michaelProductCard {
+        height: 50vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 70vh;
+        width: 30vw;
+    }
+}
+@media only screen and 
+(min-device-width: 1181px) and (min-device-height: 821px) and
+(max-device-width: 1366px) and (max-device-height: 1024px) {
+    .recommendations .michaelProductCard {
+        height: 60vh;
+    }
+    .recommendations .michaelProductCard .card-img-top {
+        height: 20vh;
+        object-fit: scale-down;
+    }
+    .food-item-wrap {
+        margin-left: 1em;
+        margin-right: 1em;
+        height: 75vh;
+        width: 30vw;
+    }
 }
 
 /* your_orders.php table align */

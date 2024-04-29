@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2024 at 02:02 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Apr 27, 2024 at 07:31 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
   `chat_id` bigint(20) DEFAULT NULL,
   `email_token` varchar(255) NOT NULL,
   `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
@@ -48,7 +48,7 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `u_role`, `store`, `date`, `storeStatus`, `chat_id`, `email_token`, `email_verified`) VALUES
 (11, 'admin', '$2y$10$1DDpFR6LxgwRafFmzgcyxOLbcCk2NH0yEJ4683y/LbQ0c31haoWGe', 'super@admin.com', 'SUPA', 'ADMIN', 0, '2024-04-14 05:04:33', 1, NULL, '', 0),
-(12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2024-04-22 15:03:02', 1, 5964495496, '', 0),
+(12, 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'qwe@gmail.com', 'SUPP', 'SELLER', 52, '2024-04-26 16:19:11', 1, 5964495496, '', 0),
 (13, 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'qweasd@gmail.com', 'SUPP', 'SELLER', 53, '2024-03-24 14:49:46', 1, NULL, '', 0),
 (14, 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'asdzxc@gmail.com', 'SUPP', 'SELLER', 54, '2024-03-24 14:49:46', 1, NULL, '', 0),
 (15, 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'dfgadsg@gmail.com', 'SUPP', 'SELLER', 55, '2024-03-24 14:49:46', 1, NULL, '', 0),
@@ -66,7 +66,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `categories`
@@ -88,7 +88,7 @@ CREATE TABLE `custom_prices` (
   `price_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `custom_prices`
@@ -120,7 +120,7 @@ CREATE TABLE `orders` (
   `order_belong` int(15) NOT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_seen` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
@@ -136,7 +136,16 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (7, '2024-04-21', ' ', '', '43.5', '43.5', '0', '43.5', 1, 1, 35, 51, '2024-04-21 06:20:13', 0),
 (8, '2024-04-21', ' ', '', '240', '240', '0', '240', 1, 2, 35, 52, '2024-04-21 06:20:13', 0),
 (9, '2024-04-22', ' ', '0128789600', '240', '240', '0', '240', 1, 1, 35, 52, '2024-04-22 10:45:33', 0),
-(10, '2024-04-22', ' ', '0128789600', '76', '76', '0', '76', 1, 2, 35, 51, '2024-04-22 10:48:15', 0);
+(10, '2024-04-22', ' ', '0128789600', '76', '76', '0', '76', 1, 2, 35, 51, '2024-04-22 10:48:15', 0),
+(11, '2024-04-27', 'cust one', '1232343456', '188', '188', '0', '188', 2, 1, 2, 53, '2024-04-26 16:08:30', 0),
+(12, '2024-04-27', 'cust one', '1232343456', '188', '188', '0', '188', 2, 1, 2, 53, '2024-04-26 16:11:47', 0),
+(13, '2024-04-27', 'cust one', '1232343456', '188', '188', '0', '188', 2, 1, 2, 53, '2024-04-26 16:15:22', 0),
+(14, '2024-04-27', 'cust one', '1232343456', '240', '240', '0', '240', 2, 1, 2, 52, '2024-04-26 16:24:31', 0),
+(15, '2024-04-27', 'cust one', '1232343456', '1200', '1200', '0', '1200', 2, 1, 2, 52, '2024-04-26 16:24:48', 0),
+(16, '2024-04-27', 'cust one', '1232343456', '2640', '2640', '0', '2640', 2, 1, 2, 52, '2024-04-26 16:30:29', 0),
+(17, '2024-04-27', 'cust one', '1232343456', '135', '135', '0', '135', 2, 1, 2, 52, '2024-04-26 17:59:58', 0),
+(18, '2024-04-27', 'cust one', '1232343456', '45', '45', '0', '45', 2, 1, 2, 52, '2024-04-26 18:13:52', 0),
+(19, '2024-04-27', 'cust one', '1232343456', '45', '45', '0', '45', 2, 2, 2, 52, '2024-04-26 18:18:22', 0);
 
 --
 -- Triggers `orders`
@@ -159,7 +168,7 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL DEFAULT 0,
   `priceID` int(10) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_item`
@@ -179,7 +188,48 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `priceID`, `quantity`) VA
 (11, 9, 23, '1'),
 (12, 10, 16, '2'),
 (13, 10, 19, '2'),
-(14, 10, 21, '2');
+(14, 10, 21, '2'),
+(15, 11, 24, '2'),
+(16, 11, 25, '2'),
+(17, 12, 24, '2'),
+(18, 12, 25, '2'),
+(19, 13, 24, '2'),
+(20, 13, 25, '2'),
+(21, 14, 23, '1'),
+(22, 15, 23, '5'),
+(23, 16, 23, '11'),
+(24, 17, 22, '3'),
+(25, 18, 22, '1'),
+(26, 19, 22, '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_receipts`
+--
+
+CREATE TABLE `payment_receipts` (
+  `receipt_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `receipt_path` varchar(255) NOT NULL,
+  `upload_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(4) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payment_receipts`
+--
+
+INSERT INTO `payment_receipts` (`receipt_id`, `order_id`, `receipt_path`, `upload_date`, `status`) VALUES
+(1, 5, 'receipts/Screenshot (415).png', '2024-04-26 16:09:09', 1),
+(2, 4, 'receipts/Screenshot (328).png', '2024-04-26 16:12:55', 1),
+(3, 8, 'receipts/Screenshot (328).png', '2024-04-26 16:13:04', 1),
+(4, 13, 'receipts/Screenshot (333).png', '2024-04-26 16:15:26', 1),
+(5, 15, 'Screenshot (327).png', '2024-04-26 16:24:53', 0),
+(6, 16, 'receipts/Screenshot (354).png', '2024-04-26 16:30:33', 0),
+(7, 17, 'receipts/payment.png', '2024-04-26 18:00:10', 0),
+(8, 18, 'payment.png', '2024-04-26 18:14:04', 0),
+(9, 19, 'Screenshot (333).png', '2024-04-26 18:18:28', 1);
 
 -- --------------------------------------------------------
 
@@ -199,7 +249,7 @@ CREATE TABLE `product` (
   `product_date` text NOT NULL,
   `lowStock` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
@@ -230,7 +280,7 @@ CREATE TABLE `remark` (
   `status` varchar(255) NOT NULL,
   `remark` mediumtext NOT NULL,
   `remarkDate` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `remark`
@@ -295,7 +345,7 @@ CREATE TABLE `restaurant` (
   `description` text NOT NULL,
   `rating` int(11) DEFAULT NULL CHECK (`rating` >= 1 and `rating` <= 5),
   `avg_rating` decimal(3,1) DEFAULT 0.0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `restaurant`
@@ -319,7 +369,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `res_category`
@@ -344,7 +394,7 @@ CREATE TABLE `seller_tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `seller_tg_verification`
@@ -365,7 +415,8 @@ INSERT INTO `seller_tg_verification` (`id`, `adm_id`, `code`, `chatId`, `expirat
 (12, 12, 'c94680e8', '', '2024-04-20 17:49:02'),
 (13, 12, '5246513e', '', '2024-04-20 17:59:46'),
 (14, 12, '177bea0f', '', '2024-04-20 18:04:56'),
-(15, 12, 'dafe9329', '', '2024-04-20 18:07:00');
+(15, 12, 'dafe9329', '', '2024-04-20 18:07:00'),
+(16, 12, '511c28e8', '', '2024-04-27 00:33:54');
 
 -- --------------------------------------------------------
 
@@ -384,7 +435,7 @@ CREATE TABLE `tblemployee` (
   `empjob` int(10) NOT NULL,
   `empstore` int(10) NOT NULL,
   `empstatus` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblemployee`
@@ -422,7 +473,7 @@ CREATE TABLE `tblprice` (
   `proWeight` int(20) NOT NULL,
   `proPrice` float NOT NULL,
   `proDisc` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblprice`
@@ -435,10 +486,10 @@ INSERT INTO `tblprice` (`priceNo`, `productID`, `proQuant`, `proWeight`, `proPri
 (19, '27', 7, 500, 30, 90),
 (20, '25', 14, 120, 160, 50),
 (21, '28', 12, 500, 30, 0),
-(22, '29', 10, 200, 45, 0),
-(23, '30', 11, 1000, 400, 40),
-(24, '31', 7, 100, 4, 0),
-(25, '32', 16, 100, 90, 0),
+(22, '29', 5, 200, 45, 0),
+(23, '30', -6, 1000, 400, 40),
+(24, '31', 1, 100, 4, 0),
+(25, '32', 10, 100, 90, 0),
 (26, '33', 12, 15, 9, 0),
 (27, '34', 9, 30, 7, 0),
 (28, '35', 11, 500, 1800.99, 70);
@@ -457,7 +508,7 @@ CREATE TABLE `tblvalidation` (
   `imgStatus` int(10) NOT NULL,
   `comment` varchar(10000) NOT NULL,
   `storeID` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblvalidation`
@@ -478,7 +529,7 @@ CREATE TABLE `tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tg_verification`
@@ -525,7 +576,7 @@ CREATE TABLE `users` (
   `notifications_enabled` tinyint(1) NOT NULL DEFAULT 1,
   `email_token` varchar(255) NOT NULL DEFAULT '',
   `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -555,7 +606,7 @@ CREATE TABLE `user_comments` (
   `res_id` int(11) DEFAULT NULL,
   `comment` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_comments`
@@ -575,7 +626,7 @@ CREATE TABLE `user_ratings` (
   `user_id` int(11) DEFAULT NULL,
   `res_id` int(11) DEFAULT NULL,
   `rating` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_ratings`
@@ -621,6 +672,13 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_item`
   ADD PRIMARY KEY (`order_item_id`);
+
+--
+-- Indexes for table `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  ADD PRIMARY KEY (`receipt_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `product`
@@ -718,13 +776,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -754,7 +818,7 @@ ALTER TABLE `res_category`
 -- AUTO_INCREMENT for table `seller_tg_verification`
 --
 ALTER TABLE `seller_tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tblemployee`
@@ -801,6 +865,12 @@ ALTER TABLE `user_ratings`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  ADD CONSTRAINT `payment_receipts_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
 -- Constraints for table `user_ratings`

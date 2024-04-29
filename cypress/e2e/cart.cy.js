@@ -12,7 +12,10 @@ describe('Cart spec', () => {
     cy.get('div.food-item').should('exist')
   })
   it('Adds product to cart', () => {
-    cy.get('.addsToCart').first().click()
+    cy.get('.addsToCart').first().click() 
+    cy.fixture('path.json').then((data) => {
+      cy.visit(data.root + 'products.php?res_is=51')
+    })
     cy.get('#cartItems').find('li').first().should('exist')
   })
   it('Discount is correct', () => {

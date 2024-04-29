@@ -2,92 +2,66 @@
 <html lang="en">
 
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-include("config/connect.php"); // connection to database
+session_start();
+error_reporting(0);
+include("config/connect.php");
 
-if(empty($_SESSION['user_id']))  // if user is not logged in, redirect back to login page
-{
-	header('location:login.php');
-}
+if (empty($_SESSION['user_id'])) {
+    header('location:login.php');
+} else {
+    if ($_POST['submit']) {
+        $today = date("Y/m/d");
+        $groupedProducts = [];
+        $user = "SELECT * FROM users WHERE u_id = '" . $_SESSION['user_id'] . "'";
+        $user1 = $db->query($user);
+        $user2 = $user1->fetch_array();
 
-else
-{
-if($_POST['submit'])
-{
-    $times = 0;
-	$today = date("Y/m/d");
-	// Rearrange the array based on owner ID
-	$groupedProducts = [];
-	$user = "SELECT * FROM users WHERE u_id = '".$_SESSION['user_id']."'";
-	$user1 = $db->query($user);
-	$user2 = $user1->fetch_array();
-	
-	foreach ($_SESSION["cart"] as $product) 
-    {
-		$ownerId = $product['owner'];
-		$groupedProducts[$ownerId][] = $product;
-	}
-	
-	foreach ($groupedProducts as $ownerId => $products) 
-    {
-		$totalPrice = 0;
-		$sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, total_amount, paid, due, payment_type, order_status, user_id, order_belong) VALUES ('$today', '".$user2['f_name'].' '.$user2['l_name']."', '".$user2['phone']."', '$item_total', '$item_total', '0', '$item_total', 1, 1, ".$_SESSION['user_id'].", $ownerId)";
-			
-        $order_id;
-        $orderStatus = false;
-
-        if($db->query($sql) === true) 
-        {
-            $order_id = $db->insert_id;
-            $valid['order_id'] = $order_id;	
-
-            $orderStatus = true;
+        foreach ($_SESSION["cart"] as $product) {
+            $ownerId = $product['owner'];
+            $groupedProducts[$ownerId][] = $product;
         }
-		
-		foreach ($products as $item)
-        {
-			$item_total = 0;
-			$item_total += ($item["price"]*$item["quantity"]);
-			$totalPrice += $item_total;
-			$orderItemStatus = false;
-			$updateProductQuantitySql = "SELECT tblprice.proQuant FROM tblprice WHERE tblprice.priceNo = ".$item['price_id']."";
-			$updateProductQuantityData = $db->query($updateProductQuantitySql);
-		
-			while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) 
-            {
-				$updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];							
-                // update product table
-                $updateProductTable = "UPDATE tblprice SET proQuant = '".$updateQuantity."' WHERE priceNo = '".$item['price_id']."'";
-                $db->query($updateProductTable);
-                // add into order_item
-                $orderItemSql = "INSERT INTO order_item (order_id, priceID, quantity) 
-                VALUES ('$order_id', '".$item['price_id']."', '".$item['quantity']."')";
 
-                $db->query($orderItemSql);		
-			} // while
-			++$times;
-		}
+        $times = 0;
+        foreach ($groupedProducts as $ownerId => $products) {
+            $totalPrice = 0;
+            $payment_type = 1; 
+            if ($_POST['mod'] == 'ewallet') {
+                $payment_type = 2;
+            } else if ($_POST['mod'] == 'paypal') {
+                $payment_type = 3;
+            }
 
-		$updateOrderTotalSql = "UPDATE orders SET sub_total = '$totalPrice', due= '$totalPrice', total_amount = '$totalPrice' WHERE order_id = '$order_id'";
-    	$db->query($updateOrderTotalSql);
-	}
+            $sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, total_amount, paid, due, payment_type, order_status, user_id, order_belong) 
+                    VALUES ('$today', '" . $user2['f_name'] . ' ' . $user2['l_name'] . "', '" . $user2['phone'] . "', 0, 0, 0, 0, $payment_type, 1, " . $_SESSION['user_id'] . ", $ownerId)";
 
-	if($times == count($_SESSION["cart"]))
-    {
-		$success = "Thank you! Your order has been placed successfully!";
-		// Unset the entire cart_item array
-		unset($_SESSION["cart"]);
-?>
-<script>
-    // Redirect to another page after the countdown
-    setTimeout(function () {
-        window.location.href = 'http://localhost/lfsc/market.php';
-    }, 1 * 1000); // Convert seconds to milliseconds
-</script>
-<?php
-	}
-}
+            if ($db->query($sql) === true) {
+                $order_id = $db->insert_id;
+                $orderStatus = true;
+                foreach ($products as $item) {
+                    $item_total = ($item["price"] * $item["quantity"]);
+                    $totalPrice += $item_total;
+                    $updateProductQuantitySql = "SELECT tblprice.proQuant FROM tblprice WHERE tblprice.priceNo = " . $item['price_id'];
+                    $updateProductQuantityData = $db->query($updateProductQuantitySql);
+                    while ($updateProductQuantityResult = $updateProductQuantityData->fetch_row()) {
+                        $updateQuantity = $updateProductQuantityResult[0] - $item['quantity'];
+                        $db->query("UPDATE tblprice SET proQuant = '" . $updateQuantity . "' WHERE priceNo = '" . $item['price_id'] . "'");
+                        $db->query("INSERT INTO order_item (order_id, priceID, quantity) VALUES ('$order_id', '" . $item['price_id'] . "', '" . $item['quantity'] . "')");
+                    }
+                    $times++;
+                }
+                $db->query("UPDATE orders SET sub_total = '$totalPrice', due= '$totalPrice', total_amount = '$totalPrice' WHERE order_id = '$order_id'");
+
+                if ($payment_type == 2) {
+                    header("Location: ewalletpayment.php?order_id=$order_id");
+                    exit;
+                }
+            }
+        }
+        if ($times == count($_SESSION["cart"])) {
+            echo "<script>alert('Thank you! Your order has been placed successfully!'); window.location.href='market.php';</script>";
+            unset($_SESSION["cart"]);
+        }
+    }
 }
 ?>
 
@@ -149,11 +123,11 @@ if($_POST['submit'])
 											<tbody>
                                                 <tr>
                                                     <td>Cart Subtotal</td>
-                                                    <td class="text-color" id="cartTotal">Total Price: RM 0.00</td>
+                                                    <td class="text-color" id="cartTotal">RM 0.00</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Shipping &amp; Handling</td>
-                                                    <td>Free Shipping</td>
+                                                    <td>Shipping Included</td>
                                                 </tr>
                                             </tbody>
                                             </table>
@@ -164,26 +138,14 @@ if($_POST['submit'])
                                         <ul class=" list-unstyled">
                                             <li>
                                                 <label class="custom-control custom-radio  m-b-20">
-                                                    <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Payment on delivery</span>
-                                                    <br> <span>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span> </label>
-                                            </li>
-
-                                            <li>
-                                                <label class="custom-control custom-radio m-b-20">
-                                                    <input name="mod" type="radio" value="" class="custom-control-input spay-radio">
-                                                    <span class="custom-control-indicator"></span>
-                                                    <span class="custom-control-description">S-Pay <img src="" alt="" width="90"></span>
+                                                    <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Cash on Delivery</span>
                                                 </label>
                                             </li>
-                                            <div class="spay-image-container">
-                                                <!-- Image display area -->
-                                                <div class="spay-image-overlay">
-                                                    <img src="images/spay.png" alt="S-Pay" class="spay-image">
-                                                    <span class="close-btn" style="color: #000; font-size: 32px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #fff; border-radius: 50%; border: 2px solid #000;"></span>
-
-                                                </div>
-                                            </div>
-
+                                            <li>
+                                                <label class="custom-control custom-radio  m-b-20">
+                                                    <input name="mod" id="radioStacked1" value="ewallet" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">E-wallet</span>
+                                                </label>
+                                            </li>
                                             <li>
                                                 <label class="custom-control custom-radio  m-b-10">
                                                     <input name="mod"  type="radio" value="paypal" disabled class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Paypal <img src="images/paypal.jpg" alt="" width="90"></span> </label>
@@ -212,7 +174,8 @@ if($_POST['submit'])
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/spay.js"></script>
 </body>

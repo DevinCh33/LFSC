@@ -76,6 +76,32 @@
                                
                                 </div>
                             </div>
+                            <div class="form-group">
+    
+
+<div class="form-group">
+    <label class="label">Category</label>
+    <div class="dropdown">
+
+        <select class="form-control" id="shopCategorySelect" onchange="updateBoxes()">
+            <option value=""></option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+        <div id="selectedOptions" class="selected-options">
+            <div id="optionContainer" class="option-container"></div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
                         </fieldset>
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">Personal Info</h3> 
@@ -110,7 +136,7 @@
 						
                         <div class="form-group">
                             <div class="updateButtonBox">
-                                <input class="updateButton" type="button" value="Update Profile" onClick="updatePass()">
+                                <input class="updateButton" type="button" value="Update Profile" onClick="updateshopinfo()">
                             </div>
                         </div>
 						<hr>
@@ -445,6 +471,75 @@ function openPopup() {
 	retrieveRec();
 }
 	
-	  
+
+//experimental hentai code below
+
+
+function updateshopinfo() {
+    // Get the values from the input fields
+    var shopTitle = document.getElementById('shopTitle').value;
+    var shopEmail = document.getElementById('shopEmail').value;
+    var shopNumber = document.getElementById('shopNumber').value;
+    var shopDescr = document.getElementById('shopDescr').value;
+
+    // Create a data object to send via AJAX
+    var data = {
+        shopTitle: shopTitle,
+        shopEmail: shopEmail,
+        shopNumber: shopNumber,
+        shopDescr: shopDescr
+    };
+
+    // Send an AJAX POST request to the PHP script
+    $.ajax({
+        url: 'updateshopinfo.php', // Adjust the URL to your PHP script
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+            // Handle the response from the server
+            if (response === 'true') {
+                // Show success message or perform any other action
+                alert('Profile updated successfully!');
+            } else {
+                // Show error message or handle the error
+                alert('Failed to update profile!');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            // Optionally, you can handle AJAX errors here
+        }
+    });
+}
+
+
+// JavaScript
+function updateBoxes() {
+    var select = document.getElementById("shopCategorySelect");
+    var selectedOptions = document.getElementById("optionContainer");
+    selectedOptions.innerHTML = '';
+
+    var options = select.options;
+    for (var i = 0; i < options.length; i++) {
+        var option = options[i];
+        if (option.selected) {
+            var optionDiv = document.createElement("div");
+            optionDiv.classList.add("option");
+            optionDiv.textContent = option.value;
+            optionDiv.setAttribute("data-value", option.value);
+            optionDiv.onclick = function() {
+                this.parentNode.removeChild(this);
+                select.querySelector('option[value="' + this.getAttribute("data-value") + '"]').removeAttribute('disabled');
+            };
+            selectedOptions.appendChild(optionDiv);
+            option.disabled = true;
+        }
+    }
+}
+
+
+
+
  
   </script>

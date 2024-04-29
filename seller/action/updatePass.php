@@ -1,3 +1,4 @@
+
 <?php 
 
 require_once 'core.php';
@@ -15,7 +16,4 @@ require_once 'core.php';
 
 
 	echo json_encode($valid);
-
-
-
 ?>

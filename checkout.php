@@ -65,8 +65,6 @@ if (empty($_SESSION['user_id'])) {
 }
 ?>
 
-
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -125,11 +123,11 @@ if (empty($_SESSION['user_id'])) {
 											<tbody>
                                                 <tr>
                                                     <td>Cart Subtotal</td>
-                                                    <td class="text-color" id="cartTotal">Total Price: RM 0.00</td>
+                                                    <td class="text-color" id="cartTotal">RM 0.00</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Shipping &amp; Handling</td>
-                                                    <td>Free Shipping</td>
+                                                    <td>Shipping Included</td>
                                                 </tr>
                                             </tbody>
                                             </table>
@@ -140,7 +138,7 @@ if (empty($_SESSION['user_id'])) {
                                         <ul class=" list-unstyled">
                                             <li>
                                                 <label class="custom-control custom-radio  m-b-20">
-                                                    <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Payment on delivery</span>
+                                                    <input name="mod" id="radioStacked1" checked value="COD" type="radio" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description">Cash on Delivery</span>
                                                 </label>
                                             </li>
                                             <li>

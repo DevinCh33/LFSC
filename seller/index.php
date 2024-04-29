@@ -36,7 +36,7 @@ if(isset($_POST['submit']))
 		if($row['storeStatus'] == 10){
 			$message = "Account unverified, please verify your account first or contact a system admin.";
 		}else{
-			$success = "Account authenticating....Please be patient.";
+			$success = "Account authenticating... Please be patient.";
 			if(password_verify($password, $row['password']))
 			{
 				$_SESSION["adm_id"] = $row['adm_id'];

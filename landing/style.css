@@ -31,9 +31,11 @@ header {
         display: flex;
         gap: 20px;
         list-style: none;
+        flex-wrap: wrap;
     }
 
     header li a {
+        flex-shrink: 1;
         text-decoration: none;
         color: #FFF;
         font-weight: bold;

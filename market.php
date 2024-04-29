@@ -164,7 +164,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     $productOwner = number_format($recommended[$i]['owner']);
 
                     echo '<div class="col-lg-3 col-md-4 col-sm-6 mb-4">';
-                    echo '    <div class="card michaelProductCard" style="height: 100vh;">';
+                    echo '    <div class="card michaelProductCard">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
                     echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
@@ -194,7 +194,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     }
                     
                     echo '            <button class="btn theme-btn-dash pull-right addmToCart">Order Now</button>';
-
                     echo '        </div>';
                     echo '    </div>';
                     echo '</div>';
@@ -235,10 +234,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <a href="products.php?res_id=' . $r['rs_id'] . '">
                                     <div class="figure-wrap bg-image" data-image-src="seller/Res_img/' . $r['image'] . '"></div>
                                     <div class="content">
-                                        <h4 class="title"><strong>' . $r['title'] . '</strong></h4>
+                                        <h4 class="title text-description-bigger"><strong>' . $r['title'] . '</strong></h4>
                                         <div class="seller-info text-xs-center">
-                                            <div class="email" style="color: black;">' . $r['email'] . '</div></br>
-                                            <div class="description" style="color: black;"><i>';
+                                            <div class="email text-description" style="color: black;">' . $r['email'] . '</div></br>
+                                            <div class="description text-description" style="color: black;"><i>';
 
                                             $descriptionText = $r['description'];
                                             $words = explode(" ", $descriptionText);

@@ -31,7 +31,7 @@
         <section class="module">
             <div class="module-inner">
                 <div class="content-panel">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="action/updateAdminProfile.php" method="POST">
 						<fieldset class="fieldset">
                             <h3 class="fieldset-title">Shop Info 
 								<?php
@@ -51,56 +51,53 @@
                             <div class="form-group">
                                 <label class="label">Shop Title</label>
                                 <div class="textfield">
-                                    <input type="text" class="form-control" id="shopTitle">
-                               
+                                    <input type="text" class="form-control" id="shopTitle" name="shopTitle">
+                               		<span id="alertTitle" class="alertCSS"></span>
                                 </div>
                             </div>
 							<div class="form-group">
                                 <label class="label">Email</label>
                                 <div class="textfield">
-                                    <input type="email" class="form-control" id="shopEmail">
-                               
+                                    <input type="email" class="form-control" id="shopEmail" name="shopEmail">
+                               		<span id="alertSEmail" class="alertCSS"></span>
                                 </div>
                             </div>
 							<div class="form-group">
                                 <label class="label">Phone Number</label>
                                 <div class="textfield">
-                                    <input type="text" class="form-control" id="shopNumber">
-                               
+                                    <input type="text" class="form-control" id="shopNumber" name="shopNumber">
+                               		<span id="alertSNum" class="alertCSS"></span>
                                 </div>
                             </div>
 							<div class="form-group">
                                 <label class="label">Description</label>
                                 <div class="textfield">
-                                    <textarea class="form-control" rows="5" id="shopDescr"></textarea>
-                               
+                                    <textarea class="form-control" rows="5" id="shopDescr" name="shopDescr"></textarea>
+                               		<span id="alertSDescr" class="alertCSS"></span>
                                 </div>
                             </div>
                             <div class="form-group">
     
 
-<div class="form-group">
-    <label class="label">Category</label>
-    <div class="dropdown">
+<!--
+						<div class="form-group">
+							<label class="label">Category</label>
+							<div class="dropdown">
 
-        <select class="form-control" id="shopCategorySelect" onchange="updateBoxes()">
-            <option value=""></option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-        </select>
-        <div id="selectedOptions" class="selected-options">
-            <div id="optionContainer" class="option-container"></div>
-        </div>
+								<select class="form-control" id="shopCategorySelect" onchange="updateBoxes()">
+									<option value=""></option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+								</select>
+								<div id="selectedOptions" class="selected-options">
+									<div id="optionContainer" class="option-container"></div>
+								</div>
 
-    </div>
-</div>
-
-
-
-
-
+							</div>
+						</div>
+-->
 
                         </fieldset>
                         <fieldset class="fieldset">
@@ -109,42 +106,42 @@
                             <div class="form-group">
                                 <label class="label">User Name</label>
                                 <div class="textfield">
-                                    <input type="text" class="form-control" id="ownerUser">
+                                    <input type="text" class="form-control" id="ownerUser" name="ownerUser">
+									<span id="alertUsername" class="alertCSS"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="label">Name</label>
                                 <div class="textfield">
-                                    <input type="text" class="form-control" id="ownerName">
+                                    <input type="text" class="form-control" id="ownerName" name="ownerName">
+									<span id="alertname" class="alertCSS"></span>
                                 </div>
                             </div>
 							<div class="form-group">
                                 <label class="label">Email</label>
                                 <div class="textfield">
-                                    <input type="email" class="form-control" id="ownerEmail">
-                               
+                                    <input type="email" class="form-control" id="ownerEmail" name="ownerEmail">
+                               		<span id="alertEmail" class="alertCSS"></span>  
                                 </div>
                             </div>
 							<div class="form-group">
                                 <label class="label">Phone Number</label>
                                 <div class="textfield">
-                                    <input type="text" class="form-control" id="ownerNumber">
-                               
+                                    <input type="text" class="form-control" id="ownerNumber" name="ownerNumber">
+                               		<span id="alertNumber" class="alertCSS"></span>
                                 </div>
                             </div>
                         </fieldset>
 						
                         <div class="form-group">
                             <div class="updateButtonBox">
-<<<<<<< Updated upstream
-                                <input class="updateButton" type="button" value="Update Profile" onClick="updateshopinfo()">
-=======
                                 <input class="updateButton" type="button" value="Update Profile" onClick="updateProfile(this)">
->>>>>>> Stashed changes
                             </div>
                         </div>
-						<hr>
-						
+					</form>
+					<hr>
+					
+					<form class="form-horizontal" action="action/updatePass.php" method="GET">
 						<fieldset class="fieldset">
                             <h3 class="fieldset-title">Security</h3>
                             <div class="form-group">
@@ -259,6 +256,21 @@
 $(document).ready(function() {
 	fetchData();
 });
+function checkOldPass(pass, callback) {
+    $.ajax({
+        url: "action/checkOldPass.php",
+        type: "GET",
+        data: { pass: pass },
+        success: function(response) {
+            callback(response); // Pass the response to the callback function
+        },
+        error: function(xhr, status, error) {
+            console.error("Error checking old password:", error);
+            callback(null); // Pass null to indicate error to the callback function
+        }
+    });
+}
+	
 function updatePass(button) {
     var pass0 = $("#oldPass").val();
     var pass1 = $("#newPass").val();
@@ -520,7 +532,6 @@ function fetchData() {
 			$('#shopNumber').val(response.r_phone);
 			$('#shopDescr').text(response.r_desc);
 			$('#ownerUser').val(response.username);
-			$('#ownerUser').val(response.username);
 			$('#ownerName').val(response.adm_name);
 			$('#ownerNumber').val(response.phone);
 			$('#ownerEmail').val(response.email);
@@ -537,46 +548,124 @@ function openPopup() {
 	retrieveRec();
 }
 	
-
-//experimental hentai code below
-
-
-function updateshopinfo() {
-    // Get the values from the input fields
-    var shopTitle = document.getElementById('shopTitle').value;
-    var shopEmail = document.getElementById('shopEmail').value;
-    var shopNumber = document.getElementById('shopNumber').value;
-    var shopDescr = document.getElementById('shopDescr').value;
-
-    // Create a data object to send via AJAX
-    var data = {
-        shopTitle: shopTitle,
-        shopEmail: shopEmail,
-        shopNumber: shopNumber,
-        shopDescr: shopDescr
-    };
-
-    // Send an AJAX POST request to the PHP script
-    $.ajax({
-        url: 'updateshopinfo.php', // Adjust the URL to your PHP script
-        type: 'POST',
-        data: data,
-        dataType: 'json',
+function updateProfile(button){
+	var shopTitle = $('#shopTitle').val();
+	var shopEmail = $('#shopEmail').val();
+	var shopNumber = $('#shopNumber').val();
+	var shopDescr = $('#shopDescr').val();
+	var username = $('#ownerUser').val();
+	var admname = $('#ownerName').val();
+	var email = $('#ownerEmail').val();
+	var contact = $('#ownerNumber').val();
+	var form = $(button).closest('form');
+	
+	var error = 0;
+	
+	if(shopTitle == ""){
+		$('#alertTitle').text("Text field must not be empty")
+		error += 1;
+	}
+	else
+		$('#alertTitle').text("");
+	
+	if(shopDescr == "" ){
+		$('#alertSDescr').text("Text field must not be empty")
+		error += 1;
+	}
+	else
+		$('#alertSDescr').text("");
+	
+	if(shopEmail == ""){
+		$('#alertSEmail').text("Text field must not be empty")
+		error += 1;
+	}
+	else{
+		var malaysiaEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+		if(!malaysiaEmailRegex.test(shopEmail)) {
+			$('#alertSEmail').text("Email format error. Example: example123@example.com");
+			error += 1;
+		} else {
+			$('#alertSEmail').text(""); // Clear error message
+		}
+	}
+		
+	
+	if(shopNumber == ""){
+		$('#alertSNum').text("Text field must not be empty")
+		error += 1;
+	}else {
+		var malaysiaNumberRegex = /^0\d{9,10}$/;
+    
+		if (!malaysiaNumberRegex.test(shopNumber)) {
+			$('#alertSNum').text("Contact number must start with 0 and have 10 or 11 digits");
+			error += 1;
+		} else {
+			$('#alertSNum').text(""); // Clear error message
+		}
+	}
+	
+	if(username == ""){
+		$('#alertUsername').text("Text field must not be empty")
+		error += 1;
+	}
+	else if(username.length < 5 && username != ""){
+		$('#alertUsername').text("Username must at least 5 characters")
+		error += 1;
+	}
+	else
+		$('#alertUsername').text("");
+	
+	if(admname == "" ){
+		$('#alertname').text("Text field must not be empty")
+		error += 1;
+	}
+	else
+		$('#alertname').text("");
+	if(email == ""){
+		$('#alertEmail').text("Text field must not be empty")
+		error += 1;
+	}
+	else{
+		var malaysiaEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+		if(!malaysiaEmailRegex.test(email)) {
+			$('#alertEmail').text("Email format error. Example: example123@example.com");
+			error += 1;
+		} else {
+			$('#alertEmail').text(""); // Clear error message
+		}
+	}
+		
+	
+	if(contact == ""){
+		$('#alertNumber').text("Text field must not be empty")
+		error += 1;
+	}else {
+		var malaysiaNumberRegex = /^0\d{9,10}$/;
+    
+		if (!malaysiaNumberRegex.test(contact)) {
+			$('#alertNumber').text("Contact number must start with 0 and have 10 or 11 digits");
+			error += 1;
+		} else {
+			$('#alertNumber').text(""); // Clear error message
+		}
+	}
+	console.log(error);
+	if(error == 0){
+		console.log(form.serialize());
+		$.ajax({
+        url: form.attr("action"), // The script to call to add data
+        type: form.attr("method"),
+        data: form.serialize(),
         success: function(response) {
-            // Handle the response from the server
-            if (response === 'true') {
-                // Show success message or perform any other action
-                alert('Profile updated successfully!');
-            } else {
-                // Show error message or handle the error
-                alert('Failed to update profile!');
-            }
+            alert(response);
         },
         error: function(xhr, status, error) {
-            console.error('Error:', error);
-            // Optionally, you can handle AJAX errors here
+            
         }
     });
+	}
 }
 
 

@@ -166,6 +166,15 @@
 					<input type="text" id="ordDep" name="ordDep" class="myform-input" value="0">
 				</div>
 			</div>
+            <div class="myform-row">
+                <div class="label">
+					<label for="ordDate" class="myform-label">Status : </label>
+				</div>
+                <div class="input">
+                    <span name="orderStatus" class="myform-text"></span>
+                </div>
+			</div>
+           
 				<div style="text-align: center;">
 					<input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
 					<input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)">
@@ -191,13 +200,6 @@
   </div>
 </div>
 
-
-      <form action="updateOrderStatus.php" method="POST">
-          <input type="text" name="order_id" value="1" />
-          <input type="text" name="orderStatus" value="1" />
-          <button type="submit">Update Order Status</button>
-      </form>
-	  
 	  
   </section>
   
@@ -657,25 +659,47 @@ function goToPage(page) {
     fetchData();
 }
 
+
 // Function to fetch and update data
 function fetchData() {
     // Perform an AJAX request to fetch your data
-	var search = "";
-	search = document.getElementById("searchInput").value;
+    var search = "";
+    search = document.getElementById("searchInput").value;
     $.ajax({
         url: 'action/fetchOrder.php',
         type: 'GET',
         dataType: 'json',
-		data: {search:  search},
+        data: { search: search },
         success: function(response) {
-			console.log(response);
+            console.log(response);
             updateTableAndPagination(response);
+            updateStatusText(response.data);
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
         }
     });
 }
+
+// Function to update status text
+function updateStatusText(data) {
+    var statusSpan = document.getElementsByName("orderStatus")[0];
+
+    // Assuming status is always at the last index
+    var statusValue = parseInt(data[data.length - 1][5]);
+
+    // Map status numbers to status text
+    var statusText = {
+        1: "Preparing",
+        2: "Packing",
+        3: "Delivering",
+        4: "Reject"
+    };
+
+    // Set the text content of the status span to the corresponding status text
+    statusSpan.textContent = statusText[statusValue];
+}
+
 	
 let currentColumn = -1;
 let isAscending = true;

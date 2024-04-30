@@ -1,38 +1,28 @@
 <?php 	
 require_once 'core.php';
 
-$adm_id = $_GET['userId'];
 
-$sql = "SELECT r.title, r.email, r.phone, r.description, a.username, a.u_role
+$sql = "SELECT r.title as r_title, r.email as r_email, r.phone as r_phone, r. description as r_desc, a.username, a.adm_Name, a.email, a.contact_num
 		FROM admin a
 		JOIN restaurant r ON a.store = r.rs_id
-		WHERE a.adm_id = '".$adm_id."'";
+		WHERE a.store = '".$_SESSION['store']."'";
 
 $result = $db->query($sql);
 
 
 if ($result->num_rows > 0) { 
-    while ($row = $result->fetch_assoc()) {
-        // Store each row in the output array
-        $output[] = array(
-            'title' => $row['title'],
-            'u_role' => $row['u_role'],
-            'email' => $row['email'],
-            'phone' => $row['phone'],
-            'description' => $row['description'],
-            'username' => $row['username']
-        ); 	
-    }
-} else{
-    $output[] = array(
-        'title' => "SYSTEM ADMIN",
-        'u_role' => "ADMIN",
-        'email' => "", // Provide default value for email
-        'phone' => "", // Provide default value for phone
-        'description' => "", // Provide default value for description
-        'username' => "" // Provide default value for username
+	$row = $result->fetch_assoc();
+	$output = array(
+		'r_title' => $row['r_title'],
+		'r_email' => $row['r_email'],
+		'r_phone' => $row['r_phone'],
+		'r_desc' => $row['r_desc'],
+        'email' => $row['email'], // Provide default value for email
+        'phone' => $row['contact_num'], // Provide default value for phone
+        'adm_name' => $row['adm_Name'], // Provide default value for description
+        'username' => $row['username'] // Provide default value for username
     );
-    
+
 }
 
 echo json_encode($output);

@@ -136,7 +136,11 @@
 						
                         <div class="form-group">
                             <div class="updateButtonBox">
+<<<<<<< Updated upstream
                                 <input class="updateButton" type="button" value="Update Profile" onClick="updateshopinfo()">
+=======
+                                <input class="updateButton" type="button" value="Update Profile" onClick="updateProfile(this)">
+>>>>>>> Stashed changes
                             </div>
                         </div>
 						<hr>
@@ -255,6 +259,66 @@
 $(document).ready(function() {
 	fetchData();
 });
+function updatePass(button) {
+    var pass0 = $("#oldPass").val();
+    var pass1 = $("#newPass").val();
+    var pass2 = $("#conPass").val();
+    var error = 0;
+    var form = $(button).closest('form');
+	var validate = "";
+	
+	if (pass0 == "") {
+		$("#passAlert0").text("Password field must not be empty");
+		error += 1;
+	}  else {
+		$("#passAlert0").text("");
+		checkOldPass(pass0, function(result) {
+			if (result !== null) {
+				if (result == 1) {
+					if (error == 0) {
+						$.ajax({
+							url: form.attr("action"), // The script to call to add data
+							type: form.attr("method"),
+							data: form.serialize(),
+							success: function(response) {
+								alert(response);
+								form[0].reset();
+							},
+							error: function(xhr, status, error) {
+								// Handle any errors that occur during the AJAX request
+							}
+						});
+					}
+				} else {
+					$("#passAlert0").text("Old Password Not Match");
+					error += 1;
+				}
+			} else {
+				console.log("Error occurred while checking old password.");
+			}
+		});  
+	}
+	
+    if (pass1 == "") {
+		$("#passAlert1").text("Password field must not be empty");
+		error += 1;
+	} else if (pass1.length < 6) {
+		$("#passAlert1").text("Password must be at least 6 characters long");
+		error += 1;
+	} else {
+		$("#passAlert1").text("");
+	}
+	
+	if (pass2 == "") {
+		$("#passAlert2").text("Password field must not be empty");
+		error += 1;
+	} else if (pass2.length < 6) {
+		$("#passAlert2").text("Password must be at least 6 characters long");
+		error += 1;
+	} else {
+		$("#passAlert2").text("");
+	}
+}
 	
 function retrieveRec() {
     $.ajax({
@@ -450,14 +514,16 @@ function fetchData() {
 		data:{userId: userid},
         dataType: 'json',
         success: function(response) {
-			$('#shopTitle').val(response[0][0]);
-			$('#shopEmail').val(response[0][1]);
-			$('#shopNumber').val(response[0][2]);
-			$('#shopDescr').text(response[0][3]);
-			$('#ownerUser').val(response[0][4]);
-			//$('#ownerName').text(response[0][5]);
-			//$('#ownerEmail').text(response[0][0]);
-			//$('#ownerNumber').text(response[0][5]);
+			console.log(response);
+			$('#shopTitle').val(response.r_title);
+			$('#shopEmail').val(response.r_email);
+			$('#shopNumber').val(response.r_phone);
+			$('#shopDescr').text(response.r_desc);
+			$('#ownerUser').val(response.username);
+			$('#ownerUser').val(response.username);
+			$('#ownerName').val(response.adm_name);
+			$('#ownerNumber').val(response.phone);
+			$('#ownerEmail').val(response.email);
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);

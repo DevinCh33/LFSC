@@ -304,7 +304,6 @@ function fetchData() {
 function openPopup() {
     document.getElementById("popupWindow").style.display = "block";
 	$('#cardVerify').show();
-	
 }
 	
 

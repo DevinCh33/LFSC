@@ -55,6 +55,7 @@
         <ul class="sub-menu">
           	<li><a class="link_name" href="sellers.php">Sellers</a></li>
 			<li><a href="seller_inspection.php">Inspection</a></li>
+      
         </ul>
       </li>
 		
@@ -81,6 +82,7 @@
         <ul class="sub-menu">
           	<li><a class="link_name" href="products.php">Products</a></li>
 			<li><a href="product_inspection.php">Inspection</a></li>
+      <li><a href="category_inspection.php">Category Inspection</a></li>
         </ul>
       </li>
 	<?php } ?> 

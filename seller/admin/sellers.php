@@ -369,4 +369,58 @@ function editRec(act, num){
 	}
 
 }
+
+function renameCategory() {
+    var categoryId = document.getElementById('categoryDropdown').value;
+    var newCategoryName = document.getElementById('newCategoryName').value;
+
+    // Send AJAX request to update category name in the database
+    $.ajax({
+        url: 'rename_category.php', // PHP script to handle category renaming
+        type: 'POST',
+        dataType: 'json',
+        data: { categoryId: categoryId, newCategoryName: newCategoryName },
+        success: function(response) {
+            if (response.success) {
+                // Category renamed successfully
+                // You can update the category name in the dropdown if needed
+                alert('Category renamed successfully!');
+            } else {
+                // Error renaming category
+                alert('Failed to rename category!');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error renaming category:', error);
+        }
+    });
+}
+
+function deleteCategory() {
+    var categoryId = document.getElementById('categoryDropdown').value;
+
+    // Send AJAX request to delete category from the database
+    $.ajax({
+        url: 'delete_category.php', // PHP script to handle category deletion
+        type: 'POST',
+        dataType: 'json',
+        data: { categoryId: categoryId },
+        success: function(response) {
+            if (response.success) {
+                // Category deleted successfully
+                // You can remove the category from the dropdown if needed
+                alert('Category deleted successfully!');
+            } else {
+                // Error deleting category
+                alert('Failed to delete category!');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error deleting category:', error);
+        }
+    });
+}
+
+
+
 </script>

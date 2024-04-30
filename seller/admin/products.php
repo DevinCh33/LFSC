@@ -23,7 +23,9 @@
     </div>
 	  
 	<div class="empMainCon">
-		  
+	<div style="text-align: right; margin-bottom: 10px">
+						<button id="popupButton" onclick="openPopup2()" class="save-button">+Add Categories</button>
+					</div>
 		   	<div class="controls-container">
 		  		<div class="records-per-page">
 					<span>Records per page:</span>
@@ -33,11 +35,13 @@
 					  <option value="50">50</option>
 					</select>
 				  </div>
-		  	<div class="search-bar">
+
+				  <div class="search-bar">
 				<span>Search:</span>
 				<input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Search for names..">
 		  	</div>
 		  </div>
+
 
     <div class="table-container">
 	  <table id="myTable">
@@ -173,7 +177,15 @@
       </div>
     </div>
   </section>
+
+
   
+
+<!-- test code -->
+
+
+
+
 </body>
 </html>
 <script src="scripts.js"></script>
@@ -454,4 +466,7 @@ function openPopup(type) {
 		document.getElementById('shDelArea').style.display = "block";
 	}	
 }
+
+
+
 </script>

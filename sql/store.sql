@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2024 at 03:27 PM
+-- Generation Time: Apr 30, 2024 at 10:08 AM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.1
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -138,7 +138,8 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (7, '2024-04-21', ' ', '', '43.5', '43.5', '0', '43.5', 1, 1, 35, 51, '2024-04-21 06:20:13', 0),
 (8, '2024-04-21', ' ', '', '240', '240', '0', '240', 1, 2, 35, 52, '2024-04-21 06:20:13', 0),
 (9, '2024-04-22', ' ', '0128789600', '240', '240', '0', '240', 1, 1, 35, 52, '2024-04-22 10:45:33', 0),
-(10, '2024-04-22', ' ', '0128789600', '76', '76', '0', '76', 1, 2, 35, 51, '2024-04-22 10:48:15', 0);
+(10, '2024-04-22', ' ', '0128789600', '76', '76', '0', '76', 1, 2, 35, 51, '2024-04-22 10:48:15', 0),
+(11, '2024-04-30', 'cust one', '1232343456', '270', '270', '0', '270', 2, 1, 2, 52, '2024-04-30 07:59:40', 0);
 
 --
 -- Triggers `orders`
@@ -181,7 +182,38 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `priceID`, `quantity`) VA
 (11, 9, 23, '1'),
 (12, 10, 16, '2'),
 (13, 10, 19, '2'),
-(14, 10, 21, '2');
+(14, 10, 21, '2'),
+(15, 11, 22, '6');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_receipts`
+--
+
+CREATE TABLE `payment_receipts` (
+  `receipt_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `receipt_path` varchar(255) NOT NULL,
+  `upload_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(4) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payment_receipts`
+--
+
+INSERT INTO `payment_receipts` (`receipt_id`, `order_id`, `receipt_path`, `upload_date`, `status`) VALUES
+(1, 5, 'receipts/Screenshot (415).png', '2024-04-26 16:09:09', 1),
+(2, 4, 'receipts/Screenshot (328).png', '2024-04-26 16:12:55', 1),
+(3, 8, 'receipts/Screenshot (328).png', '2024-04-26 16:13:04', 1),
+(4, 13, 'receipts/Screenshot (333).png', '2024-04-26 16:15:26', 1),
+(5, 15, 'Screenshot (327).png', '2024-04-26 16:24:53', 0),
+(6, 16, 'receipts/Screenshot (354).png', '2024-04-26 16:30:33', 0),
+(7, 17, 'receipts/payment.png', '2024-04-26 18:00:10', 0),
+(8, 18, 'payment.png', '2024-04-26 18:14:04', 0),
+(9, 19, 'Screenshot (333).png', '2024-04-26 18:18:28', 1),
+(10, 11, 'Screenshot (380).png', '2024-04-30 07:59:50', 0);
 
 -- --------------------------------------------------------
 
@@ -305,12 +337,12 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`, `rating`, `avg_rating`, `comment`) VALUES
-(51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2024-03-20 13:53:52', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.', 5, '0.0', NULL),
-(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2024-03-20 13:40:58', 'The Green Grocer is your one stop shop for all things fresh and healthy!', 1, '0.0', NULL),
-(53, 8, 'Fresh Food Sdn Bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-24 08:14:05', 'Prices you can\'t beat!', NULL, '0.0', NULL),
-(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!', NULL, '0.0', NULL),
-(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!', NULL, '0.0', NULL),
-(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!', NULL, '0.0', NULL);
+(51, 5, 'Little Farmer', 'littlefarmer@gmail.com', '010-217 0960', 'dbsd.com', '6am', '6pm', '24hr-x7', ' AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak ', '655ae7ad8ca9c.png', '2024-03-20 13:53:52', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.', 5, 0.0, NULL),
+(52, 5, 'The Green Grocer', 'greengrocer@gmail.com', '082-419 100\n', 'gg.com', '8am', '8pm', 'mon-wed', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2024-03-20 13:40:58', 'The Green Grocer is your one stop shop for all things fresh and healthy!', 1, 0.0, NULL),
+(53, 8, 'Fresh Food Sdn Bhd', 'FF@gmail.com', '010-509 3311', 'ff.com', '6am', '6pm', 'mon-thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2023-11-24 08:14:05', 'Prices you can\'t beat!', NULL, 0.0, NULL),
+(54, 8, 'Always Fresh Canned Goods', 'AF@gmail.com', '014-714 2029', 'af.com', '6am', '6pm', 'mon-wed', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang 3,[], 93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2023-11-20 04:48:12', 'Produced and canned locally! Freshness guaranteed or your money back!', NULL, 0.0, NULL),
+(55, 6, 'Prime Euro Import Market', 'PEIM@gmail.com', '014-800 7125', 'peim.com', '7am', '5pm', 'mon-thu', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2023-11-20 04:48:27', 'We import euro plant based goods at a cheap price!', NULL, 0.0, NULL),
+(56, 7, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '019-828 8790', 'svm.com', '8am', '5pm', 'mon-wed', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2023-11-20 04:48:39', 'Award winning global vegan franchise!', NULL, 0.0, NULL);
 
 -- --------------------------------------------------------
 
@@ -368,7 +400,8 @@ INSERT INTO `seller_tg_verification` (`id`, `adm_id`, `code`, `chatId`, `expirat
 (12, 12, 'c94680e8', '', '2024-04-20 17:49:02'),
 (13, 12, '5246513e', '', '2024-04-20 17:59:46'),
 (14, 12, '177bea0f', '', '2024-04-20 18:04:56'),
-(15, 12, 'dafe9329', '', '2024-04-20 18:07:00');
+(15, 12, 'dafe9329', '', '2024-04-20 18:07:00'),
+(16, 12, '235d1303', '', '2024-04-30 16:08:34');
 
 -- --------------------------------------------------------
 
@@ -455,7 +488,7 @@ INSERT INTO `tblprice` (`priceNo`, `productID`, `proQuant`, `proWeight`, `proPri
 (19, '27', 15, 500, 30, 90),
 (20, '25', 15, 120, 160, 50),
 (21, '28', 15, 500, 30, 0),
-(22, '29', 15, 200, 45, 0),
+(22, '29', 9, 200, 45, 0),
 (23, '30', 15, 1000, 400, 40),
 (24, '31', 15, 100, 4, 0),
 (25, '32', 15, 100, 90, 0),
@@ -519,7 +552,8 @@ INSERT INTO `tg_verification` (`id`, `userId`, `code`, `chatId`, `expiration`) V
 (12, 2, '141c2711', '', '2024-04-20 16:56:32'),
 (13, 2, 'bc505ad2', '', '2024-04-20 17:14:35'),
 (14, 35, '36c3363b', '', '2024-04-21 14:43:46'),
-(15, 35, 'df85c302', '', '2024-04-21 14:45:06');
+(15, 35, 'df85c302', '', '2024-04-21 14:45:06'),
+(16, 2, '7aa21c00', '', '2024-04-30 16:08:17');
 
 -- --------------------------------------------------------
 
@@ -651,6 +685,13 @@ ALTER TABLE `order_item`
   ADD PRIMARY KEY (`order_item_id`);
 
 --
+-- Indexes for table `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  ADD PRIMARY KEY (`receipt_id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -752,13 +793,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  MODIFY `receipt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -788,7 +835,7 @@ ALTER TABLE `res_category`
 -- AUTO_INCREMENT for table `seller_tg_verification`
 --
 ALTER TABLE `seller_tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `stars`
@@ -818,7 +865,7 @@ ALTER TABLE `tblvalidation`
 -- AUTO_INCREMENT for table `tg_verification`
 --
 ALTER TABLE `tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['receipt-upload'])) {
             $query = "INSERT INTO payment_receipts (order_id, receipt_path, status) VALUES ('$order_id', '$fileName', 0)";
             if (mysqli_query($db, $query)) {
                 echo "<script>alert('Receipt uploaded successfully.'); window.location.href='market.php';</script>";
+                unset($_SESSION["cart"]); 
                 exit;
             } else {
                 echo "<script>alert('Receipt upload failed, please try again.');</script>";

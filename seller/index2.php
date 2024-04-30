@@ -1,13 +1,19 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title>Untitled Document</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrapLogin.css">
+	<meta charset="UTF-8">
+	<title>Seller Login</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+	<link rel="stylesheet prefetch" href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900'>
+	<link rel="stylesheet prefetch" href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
+	<link rel="stylesheet prefetch" href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+	<link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png">
+	<link rel="stylesheet" href="css/login.css">
 	
 </head>
+
 <?php
 session_start(); // temp session
 error_reporting(0); // hide undefined index errors
@@ -23,16 +29,12 @@ if(isset($_POST['submit']))
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	
-	
 	if(!empty($_POST["submit"])) 
     {
-		
 		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
-		$escapedLoginQuery = addslashes($loginquery);
-		echo "<script>alert('".$escapedLoginQuery."');</script>";
+		
 		if(mysqli_num_rows($result) >0){
-			
 			$row = mysqli_fetch_array($result);
 			if($row['storeStatus'] == 10 ){
 				$message = "Store Unverify, Please Verify Your Store First Or Contact System Admin";
@@ -102,45 +104,29 @@ if(isset($_POST['submit']))
 	}
 }
 ?>
-<body style="width: 100%; height: 100%">
-	<section>
-  <div class="container-fluid">
-    <div class="row d-flex justify-content-center align-items-center">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="img/logo.png" class="img-fluid" alt="Sample image" style="width: 100%; height: 100%">
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form class="login-form" action="index.php" method="POST">
 
-          <!-- Email input -->
-          <div data-mdb-input-init class="form-outline mb-4">
-			  <label class="form-label" for="form3Example3">Username</label>
-            <input type="text" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid username" />
-            
-          </div>
+<body>
+	<div class="container">
+		<div class="info">
+			<h1>Merchant </h1><span> Login Account</span>
+		</div>
+	</div>
 
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-3">
-			  <label class="form-label" for="form3Example4">Password</label>
-            <input type="password" id="form3Example4" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
-            
-          </div>
+	<div class="form">
+		<div class="thumbnail"><img src="images/manager.png"/></div>
 
-          <div class="d-flex justify-content-between align-items-center">
-            <!-- Checkbox -->
-            <a href="../forgot_password.php" class="text-body">Forgot password?</a>
-          </div>
+		<span style="color:red;"><?php echo $message; ?></span>
+		<span style="color:green;"><?php echo $success; ?></span>
 
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <input type="submit" value="Login" name="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!" class="link-danger">Register</a></p>
-          </div>
+		<form class="login-form" action="index.php" method="post">
+			<input type="text" placeholder="Username" name="username" value="admin" />
+			<input type="password" placeholder="Password" name="password" value="123456"/>
+			<input type="submit" name="submit" value="Login" />
+			Not registered?<a href="registration.php" style="color:#f30;"> Create an account</a>
+			or <a href="../forgot_password.php" style="color:#f30;">Forgot password</a>? Do you wish to <a href="/LFSC/portal.php" style="color:#f30;">return to the login portal</a>?
+		</form>
+	</div>
 
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 </body>
 </html>

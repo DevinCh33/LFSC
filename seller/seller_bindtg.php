@@ -39,15 +39,19 @@ if (isset($_POST['bindTelegram'])) {
 <head>
     <meta charset="UTF-8" />
     <title>Bind to Telegram</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <?php if ($otpMessage == ""): ?>
-        <form method="POST">
-            <button type="submit" name="bindTelegram">Bind Telegram</button>
-        </form>
-    <?php else: ?>
-        <p><?php echo $otpMessage; ?></p>
-    <?php endif; ?>
-
+    <div class="form-container">
+        <?php if ($otpMessage == ""): ?>
+            <form method="POST">
+                <button type="submit" name="bindTelegram">Bind Telegram</button>
+            </form>
+        <?php else: ?>
+            <div class="otp-message">
+                <?php echo $otpMessage; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

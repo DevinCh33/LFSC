@@ -34,7 +34,7 @@ if ($stmt = mysqli_prepare($db, $query)) {
 
     $notifications = [];
     while ($row = mysqli_fetch_assoc($result)) {
-        $formattedDate = date("F j, Y, g:i a", strtotime($row['last_updated'])); 
+        $formattedDate = date("F j, Y, g:i a", strtotime($row['last_updated']));
         $message = htmlspecialchars($row['restaurant_title'] . ": Order (Order ID: " . $row['order_id'] . ")");
         $notifications[] = [
             'message' => $message,
@@ -69,14 +69,14 @@ if ($stmt = mysqli_prepare($db, $query)) {
                         </div>
                         <div class="notification-content">
                             <?php if (count($notifications) > 0): ?>
-                            <?php foreach ($notifications as $notification): ?>
-                            <div class="notification-item">
-                                <?php echo $notification['message']; ?>
-                                <div class="notification-time"><?php echo $notification['time']; ?></div>
-                            </div>
-                            <?php endforeach; ?>
+                                <?php foreach ($notifications as $notification): ?>
+                                    <div class="notification-item">
+                                        <?php echo $notification['message']; ?>
+                                        <div class="notification-time"><?php echo $notification['time']; ?></div>
+                                    </div>
+                                <?php endforeach; ?>
                             <?php else: ?>
-                            <div class="no-notifications">No new notifications</div>
+                                <div class="no-notifications">No new notifications</div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -92,7 +92,6 @@ if ($stmt = mysqli_prepare($db, $query)) {
                     <button class="dropbtn">My Account</button>
                     <div class="dropdown-content">
                         <a href="your_account.php">My Account</a>
-                        <a href="bindtg.php">Bind Telegram</a>
                         <a href="your_orders.php">Orders</a>
                         <?php if (isset($_SESSION['adm_id'])): ?>
                             <a href="seller/dashboard.php">Dashboard</a>

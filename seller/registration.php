@@ -42,7 +42,11 @@
         if (mysqli_num_rows($result) > 0) {
             $message = "Username or Email already exists!";
         } else {
-            $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'SELLER', '$token', 0)";
+			$shopQuery = "INSERT INTO restaurant () VALUES ()";
+			$result = mysqli_query($db, $shopQuery);
+			$rs_id = mysqli_insert_id($db);
+			
+            $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token,store, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'SELLER', '$token','$rs_id', 0)";
 
             if (mysqli_query($db, $registerQuery)) {
                 if (sendVerificationEmail($email, $token)) {

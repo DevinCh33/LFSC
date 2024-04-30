@@ -20,8 +20,8 @@ if (isset($_SESSION["adm_id"])) // if already logged in
 
 if(isset($_POST['submit']))
 {
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+	$username = $_POST['name'];
+	$password = $_POST['txtPass'];
 	
 	
 	if(!empty($_POST["submit"])) 
@@ -114,16 +114,15 @@ if(isset($_POST['submit']))
 
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
-			  <label class="form-label" for="form3Example3">Username</label>
-            <input type="text" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid username" />
+			  <label class="form-label" for="name">Username</label>
+            <input type="text" id="name" name="name" class="form-control form-control-lg" placeholder="Enter a valid username" />
             
           </div>
 
           <!-- Password input -->
           <div data-mdb-input-init class="form-outline mb-3">
-			  <label class="form-label" for="form3Example4">Password</label>
-            <input type="password" id="form3Example4" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
+			  <label class="form-label" for="txtPass">Password</label>
+            <input type="password" id="txtPass" name="txtPass" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
             
           </div>
 

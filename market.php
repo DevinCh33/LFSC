@@ -127,7 +127,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     }
 
                     // If duplicate, then suggest random product
-                    else {
+                    /* else {
                         $productQuery[$i/2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                              WHERE tblprice.proDisc > 0 
                                              AND tblprice.proQuant > 0 AND product.status = 1
@@ -138,7 +138,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         $i -= 2;
 
                         continue;
-                    }
+                    } */
                 }
 
                 // Loop through each product and display the card

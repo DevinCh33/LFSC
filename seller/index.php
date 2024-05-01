@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 			
 			$row = mysqli_fetch_array($result);
 			if ($row['storeStatus'] == 10) {
-				$message = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
+				$text = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
 			} else {
 				// Check password
 				if (password_verify($password, $row['password'])) // Password verification
@@ -52,16 +52,16 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 				} 
 				else
 				{
-					$message = "Admin Invalid Username or Password!";
+					$text = "Admin Invalid Username or Password!";
 				}
 			}
 		} 
 		else // If admin account not found, check employee account
 		{
 			$loginquery = "SELECT e.empID, e.code, e.password, e.u_role, e.empstore, e.empstatus, a.storeStatus
-						   FROM tblemployee e 
-						   JOIN admin a ON e.empstore = a.store 
-						   WHERE e.username='$username'";
+               FROM tblemployee e 
+               JOIN admin a ON e.empstore = a.store 
+               WHERE e.username='$username'";
 
 			$result = mysqli_query($db, $loginquery);
 
@@ -69,13 +69,14 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 			{
 				$row = mysqli_fetch_array($result);
 				if ($row['storeStatus'] == 10) {
-					$message = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
+					$text = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
 				} else if ($row['storeStatus'] == 2) {
-					$message = "Store Banned, Please Contact System Admin";
+					$text = "Store Banned, Please Contact System Admin";
 				} else if ($row['empstatus'] == 10) {
-					$message = "Account Unverified, Please Verify Your Account First Or Contact System Admin";
+					$text = "Account Unverified, Please Verify Your Account First Or Contact System Admin";
 				} else if ($row['empstatus'] != 1) { // Check if account is inactive
-					$message = "Cannot login. Your account is inactive.";
+					$text = "Cannot login. Your account is inactive.";
+					// Redirect or do not proceed further
 				} else {
 					// Check password
 					if (password_verify($password, $row['password'])) // Password verification
@@ -93,12 +94,13 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 					}
 					else
 					{
-						$message = "Seller Invalid Username or Password!";
+						$text = "Seller Invalid Username or Password!";
 					}
 				}
+
 			}
 			else {
-				$message = "Seller account not found.";
+				$text = "Seller account not found.";
 			}
 		}
 	}
@@ -113,11 +115,12 @@ if (isset($_POST['submit'])) // Check if login form is submitted
         <img src="img/logo.png" class="img-fluid" alt="Sample image" style="width: 100%; height: 100%">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form class="login-form" action="index.php" method="POST">
-			<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+        <form class="login-form" action="" method="POST">
+		<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             	<h1 class="fw-normal mb-0 me-3">Login Form</h1>
 			</div>
 			<hr>
+		<div class="alertCSS"><?php echo $text ?></div>
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
 			  <label class="form-label" for="name">Username</label>

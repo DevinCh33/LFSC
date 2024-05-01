@@ -28,9 +28,10 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 		// Query to fetch admin account details
 		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
-
-		if (mysqli_num_rows($result) > 0) // If admin account found
-		{
+		$escapedLoginQuery = addslashes($loginquery);
+		
+		if(mysqli_num_rows($result) >0){
+			
 			$row = mysqli_fetch_array($result);
 			if ($row['storeStatus'] == 10) {
 				$message = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
@@ -135,7 +136,7 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 
           <div class="text-center text-lg-start mt-4 pt-2">
             <input type="submit" value="Login" name="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!" class="link-danger">Register</a></p>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="registration.php" class="link-danger">Register</a></p>
           </div>
 
         </form>

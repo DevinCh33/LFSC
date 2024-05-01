@@ -219,3 +219,494 @@
         }
     });
 });
+
+
+Food:
+
+Fruits
+
+Apples
+Bananas
+Oranges
+Grapes
+Berries
+Strawberries
+Blueberries
+Raspberries
+Melons
+Watermelon
+Cantaloupe
+Honeydew
+Citrus Fruits
+Lemons
+Limes
+Grapefruits
+
+
+Vegetables
+
+Leafy Greens
+Lettuce
+Spinach
+Kale
+Cruciferous Vegetables
+Broccoli
+Cauliflower
+Brussels Sprouts
+Root Vegetables
+Carrots
+Potatoes
+Onions
+Beets
+Tomatoes
+Cucumbers
+Bell Peppers
+Avocados
+Herbs
+Basil
+Parsley
+Cilantro
+Mushrooms
+Asparagus
+Zucchini
+Squash
+
+
+Meat
+
+Beef
+Pork
+Lamb
+Poultry
+Chicken
+Turkey
+Duck
+
+
+Seafood
+
+Fish
+Shrimp
+Lobster
+Crab
+Oysters
+Mussels
+Clams
+
+
+Dairy
+
+Milk
+Cheese
+Yogurt
+Butter
+Eggs
+Cream
+Sour Cream
+Cottage Cheese
+
+
+Grains
+
+Rice
+Wheat
+Oats
+Barley
+Quinoa
+Corn
+Rye
+Farro
+
+
+Pasta
+
+Spaghetti
+Penne
+Fusilli
+Linguine
+Lasagna
+Macaroni
+
+
+Bread
+
+White Bread
+Whole Wheat Bread
+Baguettes
+Sourdough
+Rye Bread
+Multigrain Bread
+Ciabatta
+
+
+Bakery Items
+
+Cakes
+Pastries
+Cookies
+Croissants
+Muffins
+Donuts
+Bagels
+
+
+Canned Goods
+
+Beans
+Soups
+Vegetables
+Tomatoes
+Tuna
+Corned Beef
+Sardines
+
+
+Frozen Foods
+
+Frozen Vegetables
+Frozen Meals
+Frozen Pizzas
+Ice Cream
+Frozen Desserts
+Frozen Fruits
+Snacks
+Chips
+Pretzels
+Popcorn
+Crackers
+Nuts
+Trail Mix
+Granola Bars
+
+
+Condiments
+
+Ketchup
+Mustard
+Mayonnaise
+BBQ Sauce
+Hot Sauce
+Salad Dressings
+Relish
+Spices and Seasonings
+Salt
+Pepper
+Garlic Powder
+Onion Powder
+Paprika
+Cinnamon
+Chili Powder
+Cumin
+
+
+Cooking Oils
+
+Olive Oil
+Vegetable Oil
+Coconut Oil
+Canola Oil
+Sesame Oil
+Avocado Oil
+
+
+Sauces
+
+Tomato Sauce
+Pasta Sauce
+Alfredo Sauce
+Soy Sauce
+Teriyaki Sauce
+Hoisin Sauce
+
+
+Breakfast Foods
+
+Cereal
+Pancake Mix
+Syrup
+Waffle Mix
+Breakfast Bars
+Oatmeal
+Granola
+
+
+Desserts
+
+Pudding
+Jello
+Cake Mixes
+Brownie Mixes
+Pie Fillings
+Gelatin Mixes
+Frosting
+
+
+Baby Food
+
+Pureed Fruits
+Pureed Vegetables
+Baby Cereal
+Baby Snacks
+Baby Formula
+Beverages:
+
+Water
+Still Water
+Sparkling Water
+Flavored Water
+
+
+Soft Drinks
+
+Sodas
+Colas
+Energy Drinks
+Flavored Drinks
+Root Beer
+Ginger Ale
+
+
+Juice
+
+Orange Juice
+Apple Juice
+Grape Juice
+Cranberry Juice
+Pineapple Juice
+Mixed Fruit Juice
+
+
+Coffee
+
+Ground Coffee
+Instant Coffee
+Coffee Pods
+Decaf Coffee
+Flavored Coffee
+Espresso
+
+
+Tea
+
+Black Tea
+Green Tea
+Herbal Tea
+White Tea
+Oolong Tea
+Chai Tea
+
+
+Sports Drinks
+
+Electrolyte Drinks
+Hydration Drinks
+Workout Drinks
+Recovery Drinks
+
+
+Alcoholic Beverages
+
+Beer
+Wine
+Spirits
+Cocktails
+Whiskey
+Vodka
+Rum
+Tequila
+Gin
+Brandy
+Liqueurs
+Champagne
+Sparkling Wine
+Sake
+Cider
+Coolers
+
+
+Energy Drinks
+
+Energy Shots
+Performance Drinks
+Energy Mixers
+Energy Shots
+Energy Concentrates
+
+
+Smoothies
+
+Fruit Smoothies
+Vegetable Smoothies
+Protein Smoothies
+Green Smoothies
+Dairy Smoothies
+Non-Dairy Smoothies
+Custom Smoothies
+Fresh Produce:
+
+Apples
+Red Apples
+Green Apples
+Fuji Apples
+Honeycrisp Apples
+Granny Smith Apples
+
+
+Bananas
+
+Yellow Bananas
+Organic Bananas
+Plantains
+
+
+Oranges
+
+Navel Oranges
+Valencia Oranges
+Mandarin Oranges
+Blood Oranges
+Clementines
+
+
+Grapes
+
+Red Grapes
+Green Grapes
+Black Grapes
+Seedless Grapes
+Champagne Grapes
+Muscadine Grapes
+
+
+Berries
+
+Strawberries
+Blueberries
+Raspberries
+Blackberries
+Cranberries
+Gooseberries
+Boysenberries
+Marionberries
+Lingonberries
+Huckleberries
+
+
+Melons
+
+Watermelon
+Cantaloupe
+Honeydew Melon
+Galia Mel
+
+
+
+
+    <div id="popupWindow2" class="popup">
+      <div class="popup-content">
+		  <div class="xclose">
+		  	<span class="close" onclick="closePopup()">&times;</span>
+		  </div>
+			<form action="action/infoProduct.php" method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
+	    <div id="showProduct">
+			<input type="hidden" value="<?php echo $_SESSION['store']; ?>" id="storeID" name="storeID">
+			<div class="myform-row">
+				<div id="divalert" class="divalert" name="divalert"></div>
+			</div>
+				
+			<div class="myform-row">
+				<div class="label">
+					<label for="productCode" class="myform-label">Product Code#</label>
+				</div>
+				<div class="input">
+					<input type="text" id="productCode" name="productCode" class="myform-input" required>
+				</div>
+			</div>
+			
+			<div class="myform-row">
+				<div class="label">
+					<label for="productImage" class="myform-label">Image</label>
+				</div>
+				<div class="input" id="addImageFile">
+        			<span id="shImg" name="shImg"></span>
+				</div>
+			</div>
+				
+			<div class="myform-row">
+				<div class="label">
+					<label for="productName" class="myform-label">Name:</label>
+				</div>
+				<div class="input">
+					<input type="text" id="proName" name="proName" class="myform-input" required>
+				</div>
+			</div>
+
+			<div class="myform-row">
+				<div class="label">
+					<label for="productDescr">Description:</label>
+				</div>
+				<div class="input">
+					<textarea id="proDescr" name="proDescr" class="myform-input" style="height: 80px;" required></textarea>
+				</div>
+			</div>
+			<div class="myform-row">
+				<div class="label">
+					<label for="proStatus">Categories:</label>
+				</div>
+				<div class="input">
+					<select id="proCat" name="proCat" class="custom-select" required>
+						<?php
+							$sql = "SELECT * FROM categories WHERE categories_status = 1";
+							$result = $db->query($sql);
+							if ($result) {
+								while ($row = $result->fetch_assoc()) {
+									$categoryId = $row['categories_id'];
+									$categoryName = $row['categories_name'];
+
+									// Generate an <option> element for each category
+									echo "<option value='$categoryId'>$categoryName</option>";
+								}
+							}
+						?>
+					</select>
+				</div>
+			</div>
+
+			<div class="myform-row">
+				<div class="label">
+					<label for="proStatus">Status:</label>
+				</div>
+				<div class="input">
+					<select id="proStatus" name="proStatus" class="custom-select" required>
+						<option value="1" style="color: green;" value="1">Active</option>
+						<option value="2" style="color: red;" value="2">Inactive</option>
+					</select>
+				</div>
+				
+			</div>
+				<input type="hidden" name="proID" id="proID">
+				<input type="button" id="addProduct" class="button" value="Add Product" onClick="productInfo('add', this.form)">
+				<input type="button" id="editProduct" class="button"  value="Save Change" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
+				<input type="button" id="delProduct" class="button"  value="Delete product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
+		</div>
+
+		<div id="shDelArea">
+			<div class="myform-row">
+				<div class="label">
+					<label for="delReason" class="myform-label">Reason:</label>
+				</div>
+				<div class="input">
+					<input type="text" id="delReason" name="delReason" class="myform-input">
+					<input type="hidden" id="sellerEmail">
+					<input type="hidden" id="proCode">
+					<input type="hidden" id="proName">
+				</div>
+			</div>
+			  <div>
+			  	<input type="button" id="delbtn" class="button" value="Send Notification" onClick="notifyDelete(this.form)">
+			  </div>	
+		</div>
+    		</form>
+      </div>
+    </div>
+  </section>

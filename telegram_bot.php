@@ -145,9 +145,21 @@ function updateOrderStatus($orderId, $newStatus)
         $stmt->execute();
         return $stmt->affected_rows > 0;
     } else {
-        return false; // Return false if the statement preparation fails
+        return false;
     }
 }
+
+function isOrderBelongsToUser($chatId, $orderId)
+{
+    global $db;
+    $query = "SELECT order_id FROM orders WHERE order_id = ? AND user_id = (SELECT u_id FROM users WHERE chat_id = ?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("ii", $orderId, $chatId);
+    $stmt->execute();
+    $stmt->store_result();
+    return $stmt->num_rows > 0;
+}
+
 
 if (isset($update["message"])) {
     $chatId = $update["message"]["chat"]["id"];
@@ -167,16 +179,20 @@ if (isset($update["message"])) {
         }
     } elseif (preg_match('/^\/order_(\d+)$/', $receivedMessage, $matches)) {
         $orderId = $matches[1]; // Capture the numeric part of the order ID
-        $confirmMessage = "Do you confirm that you received the order?";
-        $keyboard = [
-            'inline_keyboard' => [
-                [
-                    ['text' => 'Yes', 'callback_data' => 'confirm_order_' . $orderId . '_yes'],
-                    ['text' => 'No', 'callback_data' => 'confirm_order_' . $orderId . '_no']
+        if (isOrderBelongsToUser($chatId, $orderId)) {
+            $confirmMessage = "Do you confirm that you received the order?";
+            $keyboard = [
+                'inline_keyboard' => [
+                    [
+                        ['text' => 'Yes', 'callback_data' => 'confirm_order_' . $orderId . '_yes'],
+                        ['text' => 'No', 'callback_data' => 'confirm_order_' . $orderId . '_no']
+                    ]
                 ]
-            ]
-        ];
-        sendInlineKeyboard($chatId, $confirmMessage, $keyboard);
+            ];
+            sendInlineKeyboard($chatId, $confirmMessage, $keyboard);
+        } else {
+            sendMessage($chatId, "Order not found or does not belong to you.");
+        }
     } elseif ($receivedMessage === "/help") {
         $helpMessage = "Here are some functions you can use:";
         $keyboard = [

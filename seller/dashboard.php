@@ -41,21 +41,29 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                     <h3>Monthly Income</h3>
                     <?php
                     // Query to get the total amount of orders for the current month
-                    $queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date like '" . date("Y-m-") . "%'";
+                    $queryCurrentMonth = "SELECT SUM(total_amount) AS total_current_month FROM orders WHERE order_status = 3 AND order_date LIKE '" . date("Y-m-") . "%' AND orders.order_belong = '" . $_SESSION['store'] . "'";
                     $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                     $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
-                    $totalCurrentMonth = $rowCurrentMonth['total_current_month'];
+                    $totalCurrentMonth = ($rowCurrentMonth['total_current_month'] !== null) ? $rowCurrentMonth['total_current_month'] : 0;
 
                     // Query to get the total amount of orders for the last month
                     $oneMonthAgo = date("Y-m-", strtotime("-1 month"));
-                    $queryLastMonth = "SELECT SUM(total_amount) AS total_last_month FROM orders WHERE order_date like '" . $oneMonthAgo . "%'";
+                    $queryLastMonth = "SELECT SUM(total_amount) AS total_last_month FROM orders WHERE order_date like '" . $oneMonthAgo . "%' AND orders.order_belong = '" . $_SESSION['store'] . "'";
                     $resultLastMonth = mysqli_query($db, $queryLastMonth);
                     $rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
                     $totalLastMonth = $rowLastMonth['total_last_month'];
 
 
                     $percent = 0;
-                    $percent = ($totalCurrentMonth - $totalLastMonth) * 100;
+                    // Calculate the percentage change
+                    if ($totalLastMonth != 0) {
+                        $percent = (($totalCurrentMonth - $totalLastMonth) / abs($totalLastMonth)) * 100;
+                    } else {
+                        // Handle division by zero error if last month total is 0
+                        $percent = 0;
+                    }
+
+                   
                     if ($totalCurrentMonth < $totalLastMonth) {
                         $percent = "-" . $percent . "%";
                         $word = "negative";
@@ -66,25 +74,25 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 
 
                     ?>
-                    <p>RM <?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+                    <p>RM <?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php //echo $percent; ?></span></p>
                 <?php } else if ($_SESSION["adm_co"] == "SUPA") { ?>
                         <h3>Total Seller</h3>
                         <?php
-                        $querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin";
+                        $querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin WHERE admin.store = '" . $_SESSION['store'] . "'";
                         $resultSeller = mysqli_query($db, $querySeller);
                         $rowSeller = mysqli_fetch_assoc($resultSeller);
                         $totalSeller = $rowSeller['total_seller'];
 
                         // Query to get the total number of sellers
                         $queryCurrentMonth = "SELECT COUNT(adm_id) AS total_seller FROM admin WHERE MONTH(date) = MONTH(CURRENT_DATE())
-                      				AND YEAR(date) = YEAR(CURRENT_DATE())";
+                      				AND YEAR(date) = YEAR(CURRENT_DATE()) AND admin.store = '" . $_SESSION['store'] . "'";
                         $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                         $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
                         $totalCurrentMonth = $rowCurrentMonth['total_seller'];
 
                         // Query to get the total number of sellers for the last month
                         $oneMonthAgo = date("Y-m-d", strtotime("-1 month"));
-                        $queryLastMonth = "SELECT COUNT(adm_id) AS total_last_month FROM admin WHERE date >= LAST_DAY(DATE_SUB('$oneMonthAgo', INTERVAL 1 MONTH)) + INTERVAL 1 DAY AND date < LAST_DAY('$oneMonthAgo') + INTERVAL 1 DAY";
+                        $queryLastMonth = "SELECT COUNT(adm_id) AS total_last_month FROM admin WHERE date >= LAST_DAY(DATE_SUB('$oneMonthAgo', INTERVAL 1 MONTH)) + INTERVAL 1 DAY AND date < LAST_DAY('$oneMonthAgo') + INTERVAL 1 DAY AND admin.store = '" . $_SESSION['store'] . "'";
                         $resultLastMonth = mysqli_query($db, $queryLastMonth);
                         $rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
                         $totalLastMonth = $rowLastMonth['total_last_month'];
@@ -92,7 +100,7 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                         // Calculate the percentage change
                         $percentChange = 0;
                         if ($totalLastMonth != 0) {
-                            $percentChange = (($totalCurrentMonth - $totalLastMonth) / $totalLastMonth) * 100;
+                            $percentChange = (($totalCurrentMonth - $totalLastMonth) / abs($totalLastMonth)) * 100;
                         }
 
                         // Determine whether the change is positive or negative
@@ -114,32 +122,36 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                     <h3>Total Orders</h3>
                     <?php
                     // Query to get the total amount of orders for the current month
-                    $queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '" . date("Y-m-") . "%'";
+                    $queryCurrentMonth = "SELECT COUNT(order_id) AS total_current_month FROM orders WHERE order_date like '" . date("Y-m-") . "%' AND orders.order_belong = '" . $_SESSION['store'] . "'";
                     $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                     $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
                     $totalCurrentMonth = $rowCurrentMonth['total_current_month'];
 
                     // Query to get the total amount of orders for the last month
                     $oneMonthAgo = date("Y-m-", strtotime("-1 month"));
-                    $queryLastMonth = "SELECT COUNT(order_id) AS total_last_month FROM orders WHERE order_date like '" . $oneMonthAgo . "%'";
+                    $queryLastMonth = "SELECT COUNT(order_id) AS total_last_month FROM orders WHERE order_date like '" . $oneMonthAgo . "%' AND orders.order_belong = '" . $_SESSION['store'] . "'";
                     $resultLastMonth = mysqli_query($db, $queryLastMonth);
                     $rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
                     $totalLastMonth = $rowLastMonth['total_last_month'];
 
 
-                    $percent = 0;
-                    $percent = ($totalCurrentMonth - $totalLastMonth) * 100;
-                    if ($totalCurrentMonth < $totalLastMonth) {
-                        $percent = "-" . $percent . "%";
-                        $word = "negative";
-                    } else {
-                        $percent = "+" . $percent . "%";
-                        $word = "positive";
-                    }
+                     // Calculate the percentage change
+                     $percentChange = 0;
+                     if ($totalLastMonth != 0) {
+                         $percentChange = (($totalCurrentMonth - $totalLastMonth) / abs($totalLastMonth)) * 100;
+                     }
 
+                     // Determine whether the change is positive or negative
+                     if ($totalCurrentMonth < $totalLastMonth) {
+                         $percentChange = "-" . abs($percentChange) . "%";
+                         $word = "negative";
+                     } else {
+                         $percentChange = "+" . abs($percentChange) . "%";
+                         $word = "positive";
+                     }
 
                     ?>
-                    <p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+                    <p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"></span></p>
                 <?php } else if ($_SESSION["adm_co"] == "SUPA") { ?>
                         <h3>Product Inspection</h3>
                         <?php
@@ -169,7 +181,7 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 
 
                         ?>
-                        <p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+                        <p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"></span></p>
                 <?php } ?>
             </div>
 
@@ -177,14 +189,14 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                 <h3>Total Products</h3>
                 <?php
                 // Query to get the total amount of orders for the current month
-                $queryCurrentMonth = "SELECT COUNT(product_id) AS total_current_month FROM product WHERE product_date like '" . date("Y-m-") . "%'";
+                $queryCurrentMonth = "SELECT COUNT(product_id) AS total_current_month FROM product WHERE product_date like '" . date("Y-m-") . "%' AND product.owner = '" . $_SESSION['store'] . "'";
                 $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                 $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
                 $totalCurrentMonth = $rowCurrentMonth['total_current_month'];
 
                 // Query to get the total amount of orders for the last month
                 $oneMonthAgo = date("Y-m-", strtotime("-1 month"));
-                $queryLastMonth = "SELECT COUNT(product_id) AS total_last_month FROM product WHERE product_date like '" . $oneMonthAgo . "%'";
+                $queryLastMonth = "SELECT COUNT(product_id) AS total_last_month FROM product WHERE product_date like '" . $oneMonthAgo . "%' AND product.owner = '" . $_SESSION['store'] . "'";
                 $resultLastMonth = mysqli_query($db, $queryLastMonth);
                 $rowLastMonth = mysqli_fetch_assoc($resultLastMonth);
                 $totalLastMonth = $rowLastMonth['total_last_month'];
@@ -202,13 +214,33 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 
 
                 ?>
-                <p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
+                <p><?php echo $totalCurrentMonth; ?><span class="stat-delta <?php echo $word; ?>"><?php //echo $percent; ?></span></p>
             </div>
 
-            <div class="card">
-                <h3>Total Employees</h3>
-                <p>5,186<span class="stat-delta positive">+150%</span></p>
-            </div>
+            <?php
+
+        //     // Query to obtain the employee status from the tblemployee table for the current session's store
+        //     $queryEmpStatus = "SELECT empstatus FROM tblemployee WHERE empstore = '" . $_SESSION['store'] . "'";
+        //     $resultEmpStatus = mysqli_query($db, $queryEmpStatus);
+        //     $rowEmpStatus = mysqli_fetch_assoc($resultEmpStatus);
+        //     // Assign the fetched status to $status
+        //     $status = $rowEmpStatus['empstatus'];
+                    
+        //     // Determine the status label
+        //     $statusLabel = $status == 1 ? "Active" : "Inactive";
+
+        //    // Display the employee status
+        //    echo "<div class='card'>";
+        //    echo "<h3>Employee Status</h3>";
+        //    echo "<p>$statusLabel</p>";
+        //    echo "</div>";
+
+
+            ?>
+            <div class='card'>
+           <h3>Employee Status</h3>
+           <p>Active</p>
+           </div>
 
 
             <div class="sales-graph">
@@ -223,9 +255,28 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                 </div>
 
                 <div class="alert">
-                    <div class="box">
-                        <p>Stock Alert    :</p>
-                    </div>
+                <div class="box">
+    <p>Stock Alert:</p>
+    <?php
+    // Execute the SQL query
+    $queryStockAlert = "SELECT p.product_name, p.quantity
+                        FROM product p
+                        WHERE p.quantity < p.lowStock AND p.owner = '" . $_SESSION['store'] . "'";
+    $resultStockAlert = mysqli_query($db, $queryStockAlert);
+
+    // Check if any rows are returned
+    if (mysqli_num_rows($resultStockAlert) > 0) {
+        // Output each row of data
+        while ($row = mysqli_fetch_assoc($resultStockAlert)) {
+            echo "<p>" . $row['product_name'] . " - " . $row['quantity'] . "</p>";
+        }
+    } else {
+        // Display a message if no products are below the lowStock threshold
+        echo "<p>No stock alerts at the moment.</p>";
+    }
+    ?>
+</div>
+
                     <div class="box">
                         <p>Order Reminder :</p>
                     </div>

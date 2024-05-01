@@ -9,37 +9,34 @@
 	
 </head>
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-include("./../config/connect.php"); // connection to database
+session_start(); // Start session
+error_reporting(0); // Hide undefined index errors
+include("./../config/connect.php"); // Include database connection
 
-if (isset($_SESSION["adm_id"])) // if already logged in
+if (isset($_SESSION["adm_id"])) // Redirect if already logged in
 {
-	header("refresh:0;url=dashboard.php"); // redirect to market.php page
+	header("refresh:0;url=dashboard.php"); // Redirect to dashboard
 }
 
-if(isset($_POST['submit']))
+if (isset($_POST['submit'])) // Check if login form is submitted
 {
-	$username = $_POST['name'];
-	$password = $_POST['txtPass'];
-	
-	
-	if(!empty($_POST["submit"])) 
+	$username = $_POST['name']; // Get username from form
+	$password = $_POST['txtPass']; // Get password from form
+
+	if (!empty($_POST["submit"])) 
     {
-		
+		// Query to fetch admin account details
 		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
-		$escapedLoginQuery = addslashes($loginquery);
-		echo "<script>alert('".$escapedLoginQuery."');</script>";
-		if(mysqli_num_rows($result) >0){
-			
+
+		if (mysqli_num_rows($result) > 0) // If admin account found
+		{
 			$row = mysqli_fetch_array($result);
-			if($row['storeStatus'] == 10 ){
-				$message = "Store Unverify, Please Verify Your Store First Or Contact System Admin";
-			}else{
-				$success = "Account Authenticating....Please Be Patient";
-				$message = "";
-				if(password_verify($password, $row['password']))
+			if ($row['storeStatus'] == 10) {
+				$message = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
+			} else {
+				// Check password
+				if (password_verify($password, $row['password'])) // Password verification
 				{
 					$_SESSION["adm_id"] = $row['adm_id'];
 					$_SESSION["adm_co"] = $row['code'];
@@ -47,39 +44,40 @@ if(isset($_POST['submit']))
 					$_SESSION['store'] = $row['store'];
 					$_SESSION['status'] = $row['storeStatus'];
 
-					if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
+					if ($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
 						header("refresh:1;url=dashboard.php");
 					else
 						header("refresh:1;url=admin/dashboard.php");
 				} 
 				else
 				{
-					$success = "";
 					$message = "Admin Invalid Username or Password!";
 				}
 			}
-		}else{
+		} 
+		else // If admin account not found, check employee account
+		{
 			$loginquery = "SELECT e.empID, e.code, e.password, e.u_role, e.empstore, e.empstatus, a.storeStatus
 						   FROM tblemployee e 
 						   JOIN admin a ON e.empstore = a.store 
 						   WHERE e.username='$username'";
 
 			$result = mysqli_query($db, $loginquery);
-			if(mysqli_num_rows($result) >0){
+
+			if (mysqli_num_rows($result) > 0) // If employee account found
+			{
 				$row = mysqli_fetch_array($result);
-				if($row['storeStatus'] == 10 ){
-					$message = "Store Unverify, Please Verify Your Store First Or Contact System Admin";
-				}else if ($row['storeStatus'] == 2 ){
+				if ($row['storeStatus'] == 10) {
+					$message = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
+				} else if ($row['storeStatus'] == 2) {
 					$message = "Store Banned, Please Contact System Admin";
-				}else if ($row['empstatus'] == 10){
-					$message = "Account Unverify, Please Verify Your Account First Or Contact System Admin";
-				}else if ($row['empstatus'] == 2){
-					$message = "Account Deactive, Please Activate Your Account Again";
-				}else{
-					$success = "Account Authenticating....Please Be Patient";
-					$message = "";
-					
-					if(password_verify($password, $row['password']))
+				} else if ($row['empstatus'] == 10) {
+					$message = "Account Unverified, Please Verify Your Account First Or Contact System Admin";
+				} else if ($row['empstatus'] != 1) { // Check if account is inactive
+					$message = "Cannot login. Your account is inactive.";
+				} else {
+					// Check password
+					if (password_verify($password, $row['password'])) // Password verification
 					{
 						$_SESSION["adm_id"] = $row['empID'];
 						$_SESSION["adm_co"] = $row['code'];
@@ -87,21 +85,25 @@ if(isset($_POST['submit']))
 						$_SESSION['store'] = $row['empstore'];
 						$_SESSION['status'] = $row['storeStatus'];
 
-						if($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
+						if ($_SESSION['adm_co'] != "SUPA" && $_SESSION['adm_co'] != "VSUPA")
 							header("refresh:1;url=dashboard.php");
 						else
 							header("refresh:1;url=admin/dashboard.php");
-					}else
+					}
+					else
 					{
-						$success = "";
 						$message = "Seller Invalid Username or Password!";
 					}
 				}
 			}
-		 }
+			else {
+				$message = "Seller account not found.";
+			}
+		}
 	}
 }
 ?>
+
 <body style="width: 100%; height: 100%">
 	<section>
   <div class="container-fluid">

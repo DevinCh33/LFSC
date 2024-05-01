@@ -35,6 +35,7 @@ session_start(); // temp session
 error_reporting(0); // hide undefined index errors
 include("config/connect.php"); // connection to database
 include("config/recommend.php");
+include("includes/recommend.php");
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -81,64 +82,78 @@ if (empty($_SESSION["user_id"])) // if not logged in
             // Four recommended products
             // Most recent order
             $query = "SELECT orders.order_id, orders.user_id, product.product_id, product.categories_id, 
-                        product.owner, tblprice.proPrice FROM orders 
-                        JOIN order_item ON orders.order_id = order_item.order_id 
-                        JOIN tblprice ON order_item.priceID = tblprice.priceNo 
-                        JOIN product ON tblprice.productID = product.product_id 
-                        WHERE user_id = ".$_SESSION["user_id"]." AND tblprice.proQuant > 0 AND product.status = 1 ORDER BY orders.order_id DESC LIMIT 1;";
+                      product.owner, tblprice.proPrice FROM orders 
+                      JOIN order_item ON orders.order_id = order_item.order_id 
+                      JOIN tblprice ON order_item.priceID = tblprice.priceNo 
+                      JOIN product ON tblprice.productID = product.product_id 
+                      WHERE user_id = ".$_SESSION["user_id"]." AND tblprice.proQuant > 0 AND product.status = 1 ORDER BY orders.order_id DESC LIMIT 1;";
 
             $result = mysqli_query($db, $query);
 
             // Check if there are any products returned by the query
             if ($result && mysqli_num_rows($result) > 0) {
                 $data = mysqli_fetch_assoc($result);
+                $duplicates = new DuplicateCheck();
 
                 $productQuery[0] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE product.product_id = ".$data['product_id'];
 
                 // Recommendation from same category
                 $productQuery[1] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
-                                    WHERE product.categories_id = ".$data['categories_id']." 
-                                    AND tblprice.proQuant > 0 AND product.status = 1
-                                    ORDER BY RAND() LIMIT 1";
+                                    WHERE product.categories_id = ".$data['categories_id']."
+                                    AND tblprice.proQuant > 0 AND product.status = 1";
 
                 // Recommendation from same merchant
                 $productQuery[2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
-                                    WHERE product.owner = ".$data['owner']." 
-                                    AND tblprice.proQuant > 0 AND product.status = 1
-                                    ORDER BY RAND() LIMIT 1";
+                                    WHERE product.owner = ".$data['owner']."
+                                    AND tblprice.proQuant > 0 AND product.status = 1";
 
                  // Recommendation from similar price range (+- RM 10)
                 $productQuery[3] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
                                     WHERE tblprice.proPrice >= ".((float)$data['proPrice']-10)." 
                                     AND tblprice.proPrice <= ".((float)$data['proPrice']+10)." 
-                                    AND tblprice.proQuant > 0 AND product.status = 1
-                                    ORDER BY RAND() LIMIT 1";
+                                    AND tblprice.proQuant > 0 AND product.status = 1";
 
                 $recommended[0] = 0;
 
                 for ($i = 0; $i < 8; $i += 2) {
-                    $a = mysqli_fetch_assoc(mysqli_query($db, $productQuery[$i/2]));
+    	            if ($i == 0)
+                    {
+                        $result = mysqli_query($db, $productQuery[$i/2]);
+                    }
 
-                    // Check for duplicates
-                    if (!in_array($a, $recommended)) {
-                        $recommended[$i] = $a;
+                    else
+                    {
+                        $query = $productQuery[$i/2]." 
+                        AND priceNo NOT IN ".$duplicates->List()." 
+                        ORDER BY RAND() LIMIT 1";
+
+                        $result = mysqli_query($db, $query);
+                    }
+                    
+                    $result = mysqli_fetch_assoc($result);
+
+                    if ($result != null)
+                    {
+                        $duplicates->Add($result['priceNo']);
+                        $recommended[$i] = $result;
                         $recommended[$i+1] = $messageRec[$i/2];
                     }
 
-                    // If duplicate, then suggest random product
-                    /* else {
-                        $productQuery[$i/2] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
-                                             WHERE tblprice.proDisc > 0 
-                                             AND tblprice.proQuant > 0 AND product.status = 1
-                                             ORDER BY RAND() LIMIT 1";
+                    else
+                    {
+                        $query = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                        WHERE tblprice.proDisc > 0 
+                        AND tblprice.proQuant > 0 AND product.status = 1 
+                        AND priceNo NOT IN ".$duplicates->List()." 
+                        ORDER BY RAND() LIMIT 1";
 
-                        $messageRec[$i/2] = 0;
+                        $result = mysqli_fetch_assoc(mysqli_query($db, $query));
 
-                        $i -= 2;
-
-                        continue;
-                    } */
+                        $duplicates->Add($result['priceNo']);
+                        $recommended[$i] = $result;
+                        $recommended[$i+1] = 0;
+                    }
                 }
 
                 // Loop through each product and display the card

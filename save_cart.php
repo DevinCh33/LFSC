@@ -22,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             $discountInDB = (float)$_SESSION['pricesCheck']->Dictionary['discount'][$item['price_id']];
             $itemPrice = (float)$item['price'];
             $itemStock = (int)$item['stock'];
-
-            if (($exactPriceCheck) && (abs($itemPrice - $priceInDB*(1-$discountInDB/100)) > 0.001))
+            
+            if (($exactPriceCheck) && (abs($itemPrice - $priceInDB*(1-$discountInDB/100)) > $roomForError))
             {
                 $valid = False;
                 break;

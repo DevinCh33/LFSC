@@ -2225,6 +2225,10 @@ a[aria-expanded=false] .fa-angle-down {
     bottom: 1em;
     right: 1em;
 }
+.addsToCart {
+    position: absolute;
+    right: 1em;
+}
 #checkout {
     background-color: #30cc22;
 }
@@ -2243,6 +2247,10 @@ a[aria-expanded=false] .fa-angle-down {
         height: 135vh;
         width: 30vw;
     }
+    .addsToCart {
+        position: relative;
+        right: 1em;
+    }
 }
 @media only screen and (max-device-width: 375px) and (max-device-height: 667px) {
     .recommendations .michaelProductCard {
@@ -2257,6 +2265,10 @@ a[aria-expanded=false] .fa-angle-down {
         margin-right: 1em;
         height: 90vh;
         width: 80vw;
+    }
+    .addsToCart {
+        position: relative;
+        right: 1em;
     }
 }
 @media only screen and 
@@ -2275,6 +2287,10 @@ a[aria-expanded=false] .fa-angle-down {
         height: 80vh;
         width: 80vw;
     }
+    .addsToCart {
+        position: relative;
+        right: 1em;
+    }
 }
 @media only screen and 
 (min-device-width: 668px) and (min-device-height: 376px) and
@@ -2291,6 +2307,10 @@ a[aria-expanded=false] .fa-angle-down {
         margin-right: 1em;
         height: 125vh;
         width: 30vw;
+    }
+    .addsToCart {
+        position: relative;
+        right: 1em;
     }
 }
 
@@ -2309,6 +2329,10 @@ a[aria-expanded=false] .fa-angle-down {
         margin-right: 1em;
         height: 70vh;
         width: 30vw;
+    }
+    .addsToCart {
+        position: relative;
+        right: 1em;
     }
 }
 /* @media only screen and 

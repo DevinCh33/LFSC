@@ -86,7 +86,7 @@ include("config/connect.php"); // connection to database
 					$productImage = htmlspecialchars($product['product_image']);
 
 					echo '<a class="row" href="market.php">';
-					echo '    <div class="col-3 product-card" style="height: 25rem;">';
+					echo '    <div class="col-3 product-card" style="height: 20rem;">';
 					echo '        <h4>' . $productName . '</h4>';
 					echo '        <img src="' . $productImage . '" alt="' . $productName . '" style="margin-top: 4rem; max-height: 20rem;">';
 					// No need for <p>View range</p>

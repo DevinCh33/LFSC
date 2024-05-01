@@ -1,5 +1,5 @@
 <?php
-include("includes/prices_check.php");
+include("includes/checks.php");
 include("config/cart.php");
 include("config/connect.php");
 session_start();

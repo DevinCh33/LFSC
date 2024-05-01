@@ -136,7 +136,7 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 
           <div class="text-center text-lg-start mt-4 pt-2">
             <input type="submit" value="Login" name="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="registration.php" class="link-danger">Register</a></p>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="registration.php" class="link-danger">Register</a> or <a href="../portal.php" class="link-danger">return to login portal</a>.</p>
           </div>
 
         </form>

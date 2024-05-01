@@ -43,7 +43,7 @@
 
           <?php
 session_start(); // temp session
-error_reporting(0); // hide undefined index errors
+error_reporting(1); // hide undefined index errors
 include("./../connection/connect.php"); // connection to database
 
 if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
@@ -51,7 +51,7 @@ if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
 
 if(isset($_POST['submit'] ))
 {
-    if(empty($_POST['c_name']))
+    if(empty($_POST['categories_name']))
     {
         $error = '<div class="alert alert-danger alert-dismissible fade show">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -61,7 +61,7 @@ if(isset($_POST['submit'] ))
 
 	else
 	{	
-	    $check_cat = mysqli_query($db, "SELECT c_name FROM res_category where c_name = '".$_POST['c_name']."' ");
+	    $check_cat = mysqli_query($db, "SELECT c_name FROM categories where categories_name = '".$_POST['categories_name']."' ");
 
         if(mysqli_num_rows($check_cat) > 0)
         {
@@ -73,7 +73,7 @@ if(isset($_POST['submit'] ))
 
         else
         {
-            $mql = "INSERT INTO res_category(c_name) VALUES('".$_POST['c_name']."')";
+            $mql = "INSERT INTO categories(categories_name) VALUES('".$_POST['categories_name']."')";
             mysqli_query($db, $mql);
             $success = 	'<div class="alert alert-success alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -85,10 +85,7 @@ if(isset($_POST['submit'] ))
 ?>
 
     <!-- Preloader - style you can find in spinners.css -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-    </div>
+
     <!-- Main wrapper  -->
     <div id="main-wrapper">
 
@@ -105,35 +102,34 @@ if(isset($_POST['submit'] ))
                             echo $error;
                             echo $success; ?>	
 
-                        <div class="col-lg-12">
-                            <div class="card card-outline-primary">
-                                <div class="card-header">
-                                    <h4 class="m-b-0 text-white">Add Store Category</h4>
-                                </div>
-                                <div class="card-body">
-                                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <input type="hidden" name="categoryId" value="<?php echo $categoryId; ?>">
-    <div class="form-body">
-        <hr>
-        <div class="row p-t-20">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label class="control-label">Category</label>
-                    <input type="text" name="newName" class="form-control" value="<?php echo $categoryName; ?>" placeholder="New Category Name">
-                </div>
-            </div>
-            <!--/span-->
+<div class="col-lg-12">
+    <div class="card card-outline-primary">
+        <div class="card-header">
+            <h4 class="m-b-0 text-white">Add Store Category</h4>
         </div>
-        <div class="form-actions">
-            <input type="submit" name="submit" class="btn btn-success" value="Update"> 
-            <a href="dashboard.php" class="btn btn-inverse">Cancel</a>
-        </div>
-    </div>
-</form>
-
-                                </div>
+        <div class="card-body">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <div class="form-body">
+                    <hr>
+                    <div class="row p-t-20">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                              
+                                <input type="text" name="c_name" class="form-control" placeholder="Category Name">
                             </div>
                         </div>
+                        <!--/span-->
+                    </div>
+                    <div class="form-actions">
+                        <input type="submit" name="submit" class="btn btn-success" value="Save"> 
+                        <a href="dashboard.php" class="btn btn-inverse">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
                     </div>
 					
 					<div class="col-12">
@@ -153,7 +149,7 @@ if(isset($_POST['submit'] ))
                                         </thead>
                                         <tbody>
                                         <?php
-                                        $sql = "SELECT * FROM res_category order by c_id desc";
+                                        $sql = "SELECT * FROM categories order by categories_name desc";
                                         $query = mysqli_query($db,$sql);
                                         
                                         if(!mysqli_num_rows($query) > 0 )
@@ -165,11 +161,11 @@ if(isset($_POST['submit'] ))
                                         {				
                                             while($rows=mysqli_fetch_array($query))
                                             {   
-                                                echo ' <tr><td>'.$rows['c_id'].'</td>
-                                                            <td>'.$rows['c_name'].'</td>
+                                                echo ' <tr><td>'.$rows['categories_id'].'</td>
+                                                            <td>'.$rows['categories_name'].'</td>
                                                             <td>'.$rows['date'].'</td>
-                                                            <td><a href="action/delete_category.php?cat_del='.$rows['c_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
-                                                            <a href="action/update_category.php?cat_upd='.$rows['c_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
+                                                            <td><a href="action/delete_category.php?cat_del='.$rows['categories_id'].'" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10"><i class="fa fa-trash-o" style="font-size:16px"></i></a> 
+                                                            <a href="action/update_category.php?cat_upd='.$rows['categories_id'].'" " class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-settings"></i></a>
                                                             </td></tr>';  
                                             }	
                                         }
@@ -181,7 +177,10 @@ if(isset($_POST['submit'] ))
                             </div>
                         </div>
 					</div>
-                </div>
+
+
+                                            
+
                 <!-- End Page Content -->
             </div>
             <!-- End Container fluid  -->
@@ -209,12 +208,6 @@ if(isset($_POST['submit'] ))
 <?php
 }
 ?>
-  
-
-
-
-
-
-
 </body>
 </html>
+

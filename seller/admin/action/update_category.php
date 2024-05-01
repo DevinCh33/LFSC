@@ -14,7 +14,7 @@ if(isset($_POST['submit'])) {
     // Check if the "newName" field is not empty
     if(!empty($newName)) {
         // Update the category in the database
-        $sql = "UPDATE res_category SET c_name = '$newName' WHERE c_id = $categoryId";
+        $sql = "UPDATE categories SET categories_name = '$newName' WHERE categories_id = $categoryId";
         $result = mysqli_query($db, $sql);
 
         if($result) {
@@ -36,15 +36,14 @@ if(isset($_GET['cat_upd'])) {
     $categoryId = $_GET['cat_upd'];
 
     // Fetch the category details from the database
-    $sql = "SELECT * FROM res_category WHERE c_id = $categoryId";
+    $sql = "SELECT * FROM categories WHERE categories_id = $categoryId";
     $result = mysqli_query($db, $sql);
 
     if(mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $categoryName = $row['c_name'];
+        $categoryName = $row['categories_name'];
     } else {
         // Handle error if category is not found
         $error = "Category not found.";
     }
 }
-

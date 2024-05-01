@@ -61,7 +61,7 @@ if(isset($_POST['submit'] ))
 
 	else
 	{	
-	    $check_cat = mysqli_query($db, "SELECT categories_name FROM categories where categories_name = '".$_POST['c_name']."' ");
+	    $check_cat = mysqli_query($db, "SELECT c_name FROM res_categories where c_name = '".$_POST['c_name']."' ");
 
         if(mysqli_num_rows($check_cat) > 0)
         {
@@ -73,7 +73,7 @@ if(isset($_POST['submit'] ))
 
         else
         {
-            $mql = "INSERT INTO categories(categories_name) VALUES('".$_POST['c_name']."')";
+            $mql = "INSERT INTO res_categories(c_name) VALUES('".$_POST['c_name']."')";
             mysqli_query($db, $mql);
 
         }
@@ -102,7 +102,7 @@ if(isset($_POST['submit'] ))
 <div class="col-lg-12">
     <div class="card card-outline-primary">
         <div class="card-header">
-            <h4 class="m-b-0 text-white">Add Food Category</h4>
+            <h4 class="m-b-0 text-white">Add Store Category</h4>
         </div>
         <div class="card-body">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -130,72 +130,37 @@ if(isset($_POST['submit'] ))
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Listed Categories</h4>
-
+                             
                                 <div class="table-responsive m-t-40">
                                     <table id="myTable" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>ID#</th>
                                                 <th>Category Name</th>
-												<th>Action</th>
-                                                <th>Active</th>	
-                                                <th>Status</th>
-                                                <th>Save</th>				 
+												<th>Action</th>		 
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-$sql = "SELECT * FROM categories ORDER BY categories_name DESC";
+$sql = "SELECT * FROM res_category ORDER BY c_name DESC";
 $query = mysqli_query($db, $sql);
 
-
-// Loop through categories and display options
-if (!mysqli_num_rows($query) > 0) {
+if(!mysqli_num_rows($query) > 0 ) {
     echo '<td colspan="7"><center>No Categories-Data!</center></td>';
 } else {				
-    while ($rows = mysqli_fetch_array($query)) {   
-        echo '<tr>';
-        echo '<td>' . $rows['categories_id'] . '</td>';
-        echo '<td>' . $rows['categories_name'] . '</td>';
-        echo '<td>
-                  <a href="#" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10 delete-category" data-category-id="' . $rows['categories_id'] . '">
-                      <i class="fa fa-trash-o" style="font-size:16px"></i>
-                  </a>
-              </td>';
-        echo '<td>
-                  <select name="categories_active">';
-        echo '<option value="1"';
-        if ($rows['categories_active'] == 1) {
-            echo ' selected';
-        }
-        echo '>1</option>';
-        echo '<option value="2"';
-        if ($rows['categories_active'] == 2) {
-            echo ' selected';
-        }
-        echo '>2</option>';
-        echo '</select>
-              </td>';
-        echo '<td>
-                  <select name="categories_status">';
-        echo '<option value="1"';
-        if ($rows['categories_status'] == 1) {
-            echo ' selected';
-        }
-        echo '>1</option>';
-        echo '<option value="2"';
-        if ($rows['categories_status'] == 2) {
-            echo ' selected';
-        }
-        echo '>2</option>';
-        echo '</select>
-              </td>';
-        echo '<td><button class="btn btn-success save-category" data-category-id="' . $rows['categories_id'] . '">Save</button></td>';
-        echo '</tr>';  
+    while($rows=mysqli_fetch_array($query)) {   
+        echo '<tr><td>'.$rows['c_id'].'</td>
+                    <td>'.$rows['c_name'].'</td>
+                    <td>
+                        <a href="#" class="btn btn-danger btn-flat btn-addon btn-xs m-b-10 delete-category" data-category-id="' . $rows['c_id'] . '">
+                            <i class="fa fa-trash-o" style="font-size:16px"></i>
+                        </a>
+                    </td>
+
+                </tr>';  
     }	
 }
 ?>
-
 
                                         </tbody>
                                     </table>
@@ -265,45 +230,13 @@ if (!mysqli_num_rows($query) > 0) {
 
             // If confirmed, redirect to delete_category.php with the category ID
             if (confirmDelete) {
-                window.location.href = "action/delete_category.php?cat_del=" + categoryId;
+                window.location.href = "action/store_delete_category.php?cat_del=" + categoryId;
             }
         });
     });
 
+
+
+
+
 </script>
-
-<?php
-// Your PHP code to retrieve categories and display dropdown lists
-?>
-
-
-<script>
-    $(document).ready(function() {
-        // Event listener for Save button click
-        $('.save-category').click(function(e) {
-            e.preventDefault(); // Prevent default form submission
-
-            // Get the selected category ID and values
-            var categoryId = $(this).data('category-id');
-            var activeValue = $(this).closest('tr').find('select[name="categories_active"]').val();
-            var statusValue = $(this).closest('tr').find('select[name="categories_status"]').val();
-
-            // Make AJAX request to save the selected options
-            $.ajax({
-                url: 'action/categories_active.php',
-                type: 'POST',
-                data: { categoryId: categoryId, activeValue: activeValue, statusValue: statusValue },
-                success: function(response) {
-                    // Handle success response
-                    console.log(response);
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
-
-

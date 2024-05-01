@@ -11,13 +11,13 @@ if(isset($_GET['cat_del'])) {
     $categoryId = $_GET['cat_del'];
 
     // SQL query to delete the categsory
-    $sql = "DELETE FROM categories WHERE categories_id = $categoryId";
+    $sql = "DELETE FROM res_category WHERE c_id = $categoryId";
 
     // Execute the query
     $result = mysqli_query($db, $sql);
 
     if($result) {
-        header("refresh:0;url=../category_inspection.php");
+        header("refresh:0;url=../store_category_inspection.php");
     }
 } else {
     // If category ID is not provided, display an error message

@@ -710,3 +710,10 @@ Galia Mel
       </div>
     </div>
   </section>
+
+
+  //
+
+
+  https://api.telegram.org/bot6871950229:AAGGsiFvspL7UdThz8DyupfCVcYFUAfIaxw/setWebhook?url=https://a70c-58-26-207-19.ngrok-free.app/LFSC/seller/seller_telegram_bot.php
+  https://api.telegram.org/bot6857843252:AAHa267pqAKyWAimgH52Vi4NYOt1FdsMu0A/setWebhook?url=https://a70c-58-26-207-19.ngrok-free.app/LFSC/telegram_bot.php

@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Registration</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
-    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900" />
-    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="../css/login.css" />
-    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png" />
-    <?php
-    // Conditional meta tag for redirection
-    if (isset($_POST['register']) && isset($success) && $success === true) {
-        echo '<meta http-equiv="refresh" content="5;url=login.php">';
-    }
-    ?>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrapLogin.css">
 </head>
+<?php
+	function validateEmail($email) {
+		// Define a regular expression pattern for email validation
+		$pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
 
-<body>
-
-    <?php
+		// Use preg_match to perform the validation
+		if (preg_match($pattern, $email)) {
+			return true; // Valid email
+		} else {
+			return false; // Invalid email
+		}
+	}
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
@@ -28,60 +28,98 @@
 
     $message = '';
     $success = false;
-
+	
     if (isset($_POST['register'])) {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $code = 'SUPP';
-        $u_role = 'SELLER';
-        $token = bin2hex(random_bytes(50));
-
-        $checkUser = "SELECT * FROM admin WHERE username='$username' OR email='$email'";
-        $result = mysqli_query($db, $checkUser);
-        if (mysqli_num_rows($result) > 0) {
-            $message = "Username or Email already exists!";
-        } else {
-			$shopQuery = "INSERT INTO restaurant () VALUES ()";
-			$result = mysqli_query($db, $shopQuery);
-			$rs_id = mysqli_insert_id($db);
+		$text = "";
+		if($_POST['username'] == "" || $_POST['email'] == "" || $_POST['txtPass'] == "" || $_POST['txtConPass'] == ""){
+			$text = "Please Make Sure All Field Have Been Filled";
+		}else if($_POST['txtPass'] != $_POST['txtConPass']){
+			$text = "Confirm Password And Password Not Match";
+		}else if(strlen($_POST['username'])< 5){
+			$text = "Username Length must more than 5 characters";
+		}else{
+			$username = $_POST['username'];
+			$email = $_POST['email'];
+			$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+			$code = 'SUPP';
+			$u_role = 'SELLER';
+			$token = bin2hex(random_bytes(50));
 			
-            $registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token,store, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'SELLER', '$token','$rs_id', 0)";
+			if (validateEmail($email)) {
+				$checkUser = "SELECT * FROM admin WHERE username='$username' OR email='$email'";
+				$result = mysqli_query($db, $checkUser);
+				if (mysqli_num_rows($result) > 0) {
+					$message = "Username or Email already exists!";
+				}else {
+					$shopQuery = "INSERT INTO restaurant () VALUES ()";
+					$result = mysqli_query($db, $shopQuery);
+					$rs_id = mysqli_insert_id($db);
 
-            if (mysqli_query($db, $registerQuery)) {
-                if (sendVerificationEmail($email, $token)) {
-                    $message = "Registration successful! Please check your email to verify.";
-                    $success = true;
-                } else {
-                    $message = "Registration successful but failed to send verification email.";
-                }
-            } else {
-                $message = "Error: " . mysqli_error($db);
-            }
-        }
-    }
+					$registerQuery = "INSERT INTO admin (username, email, password, code, u_role, email_token,store, email_verified) VALUES ('$username', '$email', '$password', 'SUPP', 'SELLER', '$token','$rs_id', 0)";
+
+					if (mysqli_query($db, $registerQuery)) {
+						if (sendVerificationEmail($email, $token)) {
+							$message = "Registration successful! Please check your email to verify.";
+							$success = true;
+						} else {
+							$message = "Registration successful but failed to send verification email.";
+						}
+					} else {
+						$message = "Error: " . mysqli_error($db);
+					}
+				}
+			} else {
+				$text = "Invalid email address";
+			}
+		}
+	}
     ?>
-
-    <div class="pen-title">
-        <h1>Registration Form</h1>
-    </div>
-
-    <div class="module form-module">
-        <div class="form">
-            <h2>Create a seller account</h2>
-            <span style="color:red;"><?php echo $message; ?></span>
-            <form action="" method="post">
-                <input type="text" placeholder="Username" name="username" required />
-                <input type="email" placeholder="Email" name="email" required />
-                <input type="password" placeholder="Password" name="password" required />
-                <input type="submit" name="register" value="Register" />
-            </form>
+<body>
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="img/logo.png" class="img-fluid" alt="Logo" style="width: 100%; height: 100%">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form class="login-form" action="#" method="POST">
+			<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+            	<h1 class="fw-normal mb-0 me-3">Seller Registration Form</h1>
+			</div>
+			<hr>
+          <!-- Email input -->
+		<div class="alertCSS"><?php echo $text; ?></div>
+			
+     	<div data-mdb-input-init class="form-outline mb-4">
+			<label class="form-label" for="name">Username</label>
+ 			<input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter a valid username" />    
         </div>
-        <div class="cta">
-            Already registered?<a href="index.php" style="color:#f30;"> Login here</a>
+			
+		<div data-mdb-input-init class="form-outline mb-4">
+			<label class="form-label" for="name">Email</label>
+ 			<input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid username" />    
         </div>
-    </div>
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+          <!-- Password input -->
+          <div data-mdb-input-init class="form-outline mb-3">
+			  <label class="form-label" for="txtPass">Password</label>
+            <input type="password" id="txtPass" name="txtPass" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
+          </div>
+			
+		<div data-mdb-input-init class="form-outline mb-3">
+			<label class="form-label" for="txtPass">Confirm Password</label>
+            <input type="password" id="txtConPass" name="txtConPass" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
+       	</div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+			  
+            <input type="submit" value="Register" name="register" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+			  
+            <p class="small fw-bold mt-2 pt-1 mb-0">Already Registered? <a href="index.php" class="link-danger">Login</a></p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

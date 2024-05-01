@@ -114,7 +114,10 @@ if (isset($_POST['submit'])) // Check if login form is submitted
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form class="login-form" action="index.php" method="POST">
-
+			<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+            	<h1 class="fw-normal mb-0 me-3">Login Form</h1>
+			</div>
+			<hr>
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
 			  <label class="form-label" for="name">Username</label>

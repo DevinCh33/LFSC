@@ -133,7 +133,5 @@ $stmt->close();
     <?php if ($updateSuccess): ?>
         <script>        alert('Profile Updated');</script>
     <?php endif; ?>
-
-    <footer></footer>
 </body>
 </html>

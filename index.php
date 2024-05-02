@@ -15,8 +15,6 @@
 
 <body>
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
 include("config/connect.php"); // connection to database
 ?>
 

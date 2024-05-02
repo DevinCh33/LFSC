@@ -3,7 +3,6 @@ describe('Cart spec', () => {
     cy.fixture('path.json').then((data) => {
       cy.visit(data.root + 'login.php')
       cy.get('input').first().type('cust1')
-      cy.get('input').eq(1).type('123456')
       cy.get('input').last().click()
       cy.visit(data.root + 'products.php?res_is=51')
     })
@@ -30,11 +29,11 @@ describe('Cart spec', () => {
     })
   })
   it('Check difference between first and second product', () => {
-    cy.get('.product').eq(1).find('span').last().then((base) => {
+    cy.get('.product').eq(0).find('span').last().then((base) => {
       const price_old = parseFloat(base.text().replace('RM', ''))
 
       cy.get('.shiftOptions').first().click().then(() => {
-        cy.get('.product').eq(1).find('span').last().then((base) => {
+        cy.get('.product').eq(0).find('span').last().then((base) => {
           const price_new = parseFloat(base.text().replace('RM', ''))
     
           expect(price_new).to.not.eq(price_old)
@@ -43,22 +42,22 @@ describe('Cart spec', () => {
     })
   })
   it('Check discount of third product', () => {
-    cy.get('.shiftOptions').first().click()
-    cy.get('.shiftOptions').first().click()
-    cy.get('.product').eq(1).find('p.price').then((base) => {
+    cy.get('.shiftOptions').eq(1).click()
+    cy.get('.shiftOptions').eq(1).click()
+    cy.get('.product').eq(3).find('p.price').then((base) => {
       const price = parseFloat(base.text().replace('RM', ''))
       
-      cy.get('.product').eq(1).find('div').then((disc) => {
+      cy.get('.product').eq(3).find('div').then((disc) => {
         const discount = parseFloat(disc.text().replace('% off', ''))/100
 
-        cy.get('.product').eq(1).find('span').last().should('have.text', 'RM ' + (price*(1-discount)).toFixed(2))
+        cy.get('.product').eq(3).find('span').last().should('have.text', 'RM ' + (price*(1-discount)).toFixed(2))
       })
     })
   })
   it('Prices of products in cart is the same as checkout', () => {
     cy.get('.addsToCart').eq(3).click()
     cy.get('.shiftOptions').first().click().click()
-    cy.get('.addsToCart').eq(1).click()
+    cy.get('.addsToCart').first().click()
     cy.get('#cartTotal').then((total) => {
       const cartTotal = parseFloat(total.text().replace('RM', ''))
 

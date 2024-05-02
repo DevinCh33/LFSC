@@ -19,9 +19,8 @@
 
 <body class="home">
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
 include("config/connect.php"); // connection to database
+include("config/merchants.php");
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -40,17 +39,17 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <div class="container">
                 <ul class="row links">
                     <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="merchants.php">Choose Merchant</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item active"><span>2</span><a href="products.php?res_id=<?php echo $_GET['res_id']; ?>">Pick Your Products</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay Online</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item active"><span>2</span><a href="#">Pick Your Products</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="checkout.php">Order and Pay Online</a></li>
                 </ul>
             </div>
         </div>
         <!-- end:Top links -->
         <!-- start: Inner page hero -->
         <?php
-            if (!isset($_GET['res_id'])) // hardcoded
+            if (!isset($_GET['res_id'])) // Show default merchant
             {
-                $_GET['res_id'] = 51;
+                $_GET['res_id'] = $defaultMerchant;
             }
 
             $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
@@ -190,6 +189,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     {
                                         $item = $item->fetch_all(MYSQLI_ASSOC);
                                         $number = count($item);
+                                        $option = [];
 
                                         for ($i = 0; $i < $number; $i++)
                                         {

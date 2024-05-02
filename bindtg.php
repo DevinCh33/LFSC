@@ -48,6 +48,5 @@ if (isset($_POST['bindTelegram'])) {
     <?php else: ?>
         <p><?php echo $otpMessage; ?></p>
     <?php endif; ?>
-
 </body>
 </html>

@@ -75,8 +75,8 @@ $stmt->close();
     <title>My Account</title>
     <link rel="stylesheet" href="landing/style.css" />
 </head>
-<body>
 
+<body>
     <?php include('includes/header.php'); ?>
 
     <div class="profile-management-container">

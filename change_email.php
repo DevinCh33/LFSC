@@ -4,8 +4,6 @@ include('config/connect.php');
 // Include the script where the sendOtpEmail function is defined
 require 'send_verification_change_email.php';
 
-session_start(); // Ensure session_start() is called at the beginning
-
 $user_id = $_SESSION['user_id'] ?? null;
 $otp_sent = false;
 $otp_error = '';
@@ -80,6 +78,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_otp'])) {
             <p class="error"><?php echo $otp_error; ?></p>
         <?php endif; ?>
     </div>
-
 </body>
 </html>

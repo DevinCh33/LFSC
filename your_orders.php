@@ -2,8 +2,6 @@
 <html lang="en">
 
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
 include("config/connect.php"); // connection to database
 
 if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to login page
@@ -280,7 +278,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
 
                                                         } else if ($status == 3) {
                                                             ?>
-                                                                    <a alt="Receipt"><i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(<?php echo $row['order_id']; ?>)"></i></a>
+                                                                    <a alt="Receipt"><i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(<?php echo $row['order_id']; ?>,<?php echo $row['order_belong']; ?>)"></i></a>
                                                             <?php
                                                         }
                                                         ?>
@@ -334,17 +332,16 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
         <script src="js/headroom.js"></script>
         <script src="js/foodpicky.min.js"></script>
         <script src="js/cart.js"></script>
-
 </body>
 </html>
 
 <script>
-    function generateReceipt(rs_id) {
+    function generateReceipt(order_id, rs_id) {
         console.log(rs_id);
         $.ajax({
             type: 'POST',
             url: 'order_receipt.php',
-            data: { rs_id: rs_id },
+            data: { order_id: order_id, rs_id: rs_id },
             success: function (response) {
                 // Open a new window and inject the receipt content
                 console.log(response);
@@ -374,10 +371,9 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
 
                 // Iterate through the data and append rows to the table
                 for (var i = 0; i < data.length; i++) {
-
                     var row = '<tr  width="200" height="200">' +
                         '<td><center><img src="' + data[i].product_image + '" alt="Product Image" width="200" height="200"></center></td>' +
-                        '<td width="50%"style="text-align: center; color: black;">' + data[i].product_name + '</td>' +
+                        '<td width="50%"style="text-align: center; color: black;">' + data[i].product_name + ' (' + data[i].proWeight + 'g)</td>' +
                         '<td width="20%" style="text-align: center;">' + data[i].quantity + '</td>' +
                         '</tr>';
                     tbody.innerHTML += row;

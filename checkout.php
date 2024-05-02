@@ -2,8 +2,6 @@
 <html lang="en">
 
 <?php
-session_start();
-error_reporting(0);
 include("config/connect.php");
 
 if (empty($_SESSION['user_id'])) {
@@ -70,9 +68,6 @@ if (empty($_SESSION['user_id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="#">
     <title>Checkout</title>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

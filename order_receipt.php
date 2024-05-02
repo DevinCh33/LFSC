@@ -1,9 +1,8 @@
 <?php
-// Include database connection or any necessary files
 include("config/connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $order = $_POST['rs_id'];
+    $order = $_POST['order_id'];
 
     // Your SQL query to fetch data and generate receipt content based on order
     $sql = "SELECT
@@ -19,16 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					o.order_id = '".$order."'";
     $query = $db->query($sql);
 	
-//	$companyInfo = "SELECT * FROM restaurant WHERE rs_id = '".$_POST['rs_id']."'";
-//	$companyInfo1 = $db->query($companyInfo);
-//	$companyInfo2 = $companyInfo1->fetch_assoc();
+	$companyInfo = "SELECT * FROM restaurant WHERE rs_id = '".$_POST['rs_id']."'";
+	$companyInfo = $db->query($companyInfo);
+	$companyInfo = $companyInfo->fetch_assoc();
 
     if ($query->num_rows > 0) {
         $receiptNo = rand(10000, 99999); // Generating a random receipt number
         $receiptContent = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;'>";
-        $receiptContent .= "<p style='font-size: 14px; color: #555; font-weight: bold;'>LITTLE FARMER SDN.BHD.</p>";
-        $receiptContent .= "<p style='font-size: 14px; color: #555;'>AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak</p>";
-        $receiptContent .= "<p style='font-size: 14px; color: #555;'>TEL: 010-217 0960</p>";
+        $receiptContent .= "<p style='font-size: 14px; color: #555; font-weight: bold;'>".$companyInfo['title']."</p>";
+        $receiptContent .= "<p style='font-size: 14px; color: #555;'>".$companyInfo['address']."</p>";
+        $receiptContent .= "<p style='font-size: 14px; color: #555;'>Tel: ".$companyInfo['phone']."</p>";
         $receiptContent .= "<h3 style='color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 10px;'>RECEIPT</h3>";
         $receiptContent .= "<p style='font-size: 16px; color: #f00; margin-bottom: 10px;'><strong>RECEIPT NO. : LF$receiptNo</strong></p>";
         $receiptContent .= "<div style='display: flex; justify-content: space-between; align-items: center; margin: 10px 0;'>";
@@ -42,12 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $no = 1;
 
         while ($result = $query->fetch_assoc()) {
-			
-			
-            $totalAmount += $result["proPrice"];
+            $itemPrice = $result["proPrice"]*(1-$result["proDisc"]/100);
+
+            $totalAmount += $itemPrice*$result["quantity"];
             $totalItems += $result["quantity"];
 
-            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($result["proPrice"], 2, '.', '')."</td></tr>";
+            $receiptContent .= "<tr style='text-align: left;'><td style='width: 10%;'>$no</td><td style='width: 30%;'>".$result["product_name"]."</td><td style='width: 20%;'>".$result["quantity"]."</td><td style='width: 20%; text-align: right'>".number_format($itemPrice, 2, '.', '')."</td></tr>";
 
             ++$no;
         }
@@ -67,6 +66,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          echo "</div>";
     }
 } else {
-	
     echo "Error: Invalid request method or missing parameters.";
 }

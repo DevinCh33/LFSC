@@ -1,7 +1,5 @@
 <?php
 include("config/connect.php");
-session_start();
-error_reporting(0);
 
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 $paymentAmount = 0;
@@ -48,8 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['receipt-upload'])) {
         echo "<script>alert('Sorry, only JPG, JPEG, PNG, & GIF files are allowed.');</script>";
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>

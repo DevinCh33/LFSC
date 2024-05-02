@@ -2,15 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>Login</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bootstrapLogin.css">
-	
 </head>
 <?php
-session_start(); // Start session
-error_reporting(0); // Hide undefined index errors
 include("./../config/connect.php"); // Include database connection
 
 if (isset($_SESSION["adm_id"])) // Redirect if already logged in
@@ -28,15 +25,14 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 		// Query to fetch admin account details
 		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
-		$escapedLoginQuery = addslashes($loginquery);
 		
 		if(mysqli_num_rows($result) >0){
-			
 			$row = mysqli_fetch_array($result);
 			if ($row['storeStatus'] == 10) {
-				$text = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
+				$text = "Store unverified, please verify your store first or contact a system admin.";
 			} else {
 				// Check password
+				$a=password_hash($password, PASSWORD_DEFAULT);
 				if (password_verify($password, $row['password'])) // Password verification
 				{
 					$_SESSION["adm_id"] = $row['adm_id'];
@@ -52,7 +48,7 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 				} 
 				else
 				{
-					$text = "Admin Invalid Username or Password!";
+					$text = "Admin invalid Username or Password!";
 				}
 			}
 		} 
@@ -69,11 +65,11 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 			{
 				$row = mysqli_fetch_array($result);
 				if ($row['storeStatus'] == 10) {
-					$text = "Store Unverified, Please Verify Your Store First Or Contact System Admin";
+					$text = "Store unverified, please verify your store first or contact a system admin.";
 				} else if ($row['storeStatus'] == 2) {
-					$text = "Store Banned, Please Contact System Admin";
+					$text = "Store banned, please contact a system admin.";
 				} else if ($row['empstatus'] == 10) {
-					$text = "Account Unverified, Please Verify Your Account First Or Contact System Admin";
+					$text = "Account unverified, please verify your account first or contact a system admin.";
 				} else if ($row['empstatus'] != 1) { // Check if account is inactive
 					$text = "Cannot login. Your account is inactive.";
 					// Redirect or do not proceed further
@@ -94,10 +90,9 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 					}
 					else
 					{
-						$text = "Seller Invalid Username or Password!";
+						$text = "Seller invalid Username or Password!";
 					}
 				}
-
 			}
 			else {
 				$text = "Seller account not found.";
@@ -125,14 +120,12 @@ if (isset($_POST['submit'])) // Check if login form is submitted
           <div data-mdb-input-init class="form-outline mb-4">
 			  <label class="form-label" for="name">Username</label>
             <input type="text" id="name" name="name" class="form-control form-control-lg" placeholder="Enter a valid username" />
-            
           </div>
 
           <!-- Password input -->
           <div data-mdb-input-init class="form-outline mb-3">
 			  <label class="form-label" for="txtPass">Password</label>
-            <input type="password" id="txtPass" name="txtPass" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
-            
+            <input type="password" id="txtPass" name="txtPass" value="123456" class="form-control form-control-lg" placeholder="Enter password" />     
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -144,7 +137,6 @@ if (isset($_POST['submit'])) // Check if login form is submitted
             <input type="submit" value="Login" name="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
             <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="registration.php" class="link-danger">Register</a> or <a href="../portal.php" class="link-danger">return to login portal</a>.</p>
           </div>
-
         </form>
       </div>
     </div>

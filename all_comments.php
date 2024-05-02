@@ -6,9 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="#">
     <title>Products</title>
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,9 +19,8 @@
 
 <body class="home">
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
 include("config/connect.php"); // connection to database
+include("config/merchants.php");
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -37,7 +33,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     include("includes/header.php");
     ?>
 
-<div class="page-wrapper" > 
+    <div class="page-wrapper" > 
         <!-- top Links -->
         <div class="top-links">
             <div class="container">
@@ -49,18 +45,18 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
         <!-- end:Top links -->
-        <!-- start: Inner page hero -->
+
         <?php
-            if (!isset($_GET['res_id'])) // hardcoded
+            if (!isset($_GET['res_id'])) // Show default merchant
             {
-                $_GET['res_id'] = 51;
+                $_GET['res_id'] = $defaultMerchant;
             }
 
             $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
             $rows = mysqli_fetch_array($ress);                                
         ?>
 
-<section class="inner-page-hero bg-image" data-image-src="images/img/dish.jpeg">
+        <section class="inner-page-hero bg-image" data-image-src="images/img/dish.jpeg">
             <div class="profile">
                 <div class="container">
                     <div class="row">
@@ -75,7 +71,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
                                 <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
-                              <!--  <ul class="nav nav-inline">
+                                <!--  <ul class="nav nav-inline">
                                     <li class="nav-item ratings">
                                         <a class="nav-link" href="#"> <span>
                                         <i class="fa fa-star"></i>
@@ -94,17 +90,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </section>
 
-
-
 <!-- Section for viewing comments start -->
 <hr class="mb-1">
         <h2>All Comments</h2>
         <hr class="mb-1"> <!-- Add a horizontal rule for visual separation -->
-
-
-
-
-        
 
         <?php
 // Include the database connection
@@ -142,7 +131,6 @@ if (isset($_GET['res_id'])) {
     // Fetch comments for the current page
     $commentsForPage = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-
     // Display sorting options
     echo '<div class="sorting-options">';
     echo '<form action="" method="GET">';
@@ -154,7 +142,6 @@ if (isset($_GET['res_id'])) {
     echo '</select>';
     echo '</form>';
     echo '</div>';
-
 
     // Display comments as a table
     echo '<div class="table-responsive">';
@@ -228,24 +215,8 @@ foreach ($commentsForPage as $row) {
 // Close the database connection
 mysqli_close($db);
 ?>
-
-
-
-
-
-
-
 <!-- Section for viewing comments end -->
-
-
-        <!-- end:Container -->
-
-        <div class="breadcrumb">
-            <div class="container">
-                
-            </div>
-        </div>
-        
+          
     <!-- start: FOOTER -->
     <?php
     include("includes/footer_seller.php");

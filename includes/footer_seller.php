@@ -1,5 +1,6 @@
 <?php
-include("config/connect.php"); // connection to database
+include("config/merchants.php");
+
 if (isset($_GET['res_id']))
 {
     $d_id = $_GET['res_id'];
@@ -7,7 +8,7 @@ if (isset($_GET['res_id']))
 
 else
 {
-    $d_id = 51; // hardcoded
+    $d_id = $defaultMerchant; // Show default merchant
 }
 
 $query = "SELECT * from restaurant where rs_id = ".$d_id;
@@ -34,30 +35,35 @@ $row = mysqli_fetch_assoc($result);
             </div>
 
             <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
-                <?php
-                if (isset($row['o_days']))
-                {
-                echo '<h5>Operating Hours</h5>';
-                $openings = $row['o_days'];
-                    
-                if (isset($row['o_hr']) && $row['c_hr'])
-                {
-                    $openings=$openings.": ".$row['o_hr']." - ".$row['c_hr'];
-                }
+                <div class="row">
+                    <?php
+                    if (isset($row['o_days']))
+                    {
+                    echo '<h5>Operating Hours</h5>';
+                    $openings = $row['o_days'];
+                        
+                    if (isset($row['o_hr']) && $row['c_hr'])
+                    {
+                        $openings=$openings.": ".$row['o_hr']." - ".$row['c_hr'];
+                    }
 
-                echo '<p>'.$openings.'</p>';
-                }
-                ?>
+                    echo '<p>'.$openings.'</p>';
+                    }
+                    ?>
+                </div>
+                
+                <div class="row">
+                    <?php
+                    if (isset($row['url']))
+                    {
+                    echo '<h5>Website</h5>';
+                    echo '<p>'.$row['url'].'</p>';
+                    }
+                    ?>
+                </div>
             </div>
             
             <div class="col-xs-12 col-sm-3 popular-locations color-gray">
-                <?php
-                if (isset($row['url']))
-                {
-                echo '<h5>Website</h5>';
-                echo '<p>'.$row['url'].'</p>';
-                }
-                ?>
             </div>
 
             <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
@@ -65,7 +71,7 @@ $row = mysqli_fetch_assoc($result);
                 if (isset($row['phone']))
                 {
                 echo '<h5>Contact</h5>';
-                echo '<p>WhatsApp:<a href="https://api.whatsapp.com/send?phone='.$row['phone'].'"><br/>'.$row['phone'].'</a></p>';
+                echo '<p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=6'.$row['phone'].'"><br/>'.$row['phone'].'</a></p>';
                 }
                 ?>
             </div>

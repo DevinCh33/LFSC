@@ -1,6 +1,5 @@
 <?php
-
-include('config/connect.php'); // Ensure the correct path to your connection script
+include('config/connect.php');
 
 // Redirect to login if not logged in
 if (!isset($_SESSION['user_id'])) {

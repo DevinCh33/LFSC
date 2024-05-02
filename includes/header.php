@@ -1,7 +1,4 @@
 <?php
-session_start();
-include("../seller/connect.php");
-
 if (empty($_SESSION["user_id"])) {
     header("refresh:0;url=login.php");
     exit();

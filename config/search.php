@@ -1,3 +1,2 @@
 <?php
-// Search result max limit
-$max = 12;
+$max = 12; // Search result max limit

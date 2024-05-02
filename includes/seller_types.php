@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
     <div class="widget clearfix">
-        <!-- /widget heading -->
+        <!-- Widget heading -->
         <div class="widget-heading">
             <h3 class="widget-title text-dark">
                 Seller Types
@@ -10,21 +10,15 @@
 
         <div class="widget-body">
             <ul class="tags">
-                <li> <a href="merchants.php?category=5" class="tag">
-            Fresh
-            </a> </li>
-                <li> <a href="merchants.php?category=6" class="tag">
-            Frozen
-            </a> </li>
-                <li> <a href="merchants.php?category=7" class="tag">
-            Dried
-            </a> </li>
-                <li> <a href="merchants.php?category=8" class="tag">
-            Canned 
-            </a> </li>
-                <li> <a href="merchants.php?category=9" class="tag">
-            Other
-            </a> </li>
+            <?php
+$query = "SELECT c_id, c_name FROM res_category";
+$result = mysqli_query($db, $query);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    echo '<li><a href="merchants.php?category='.$row["c_id"].'"class="tag">'.
+    $row["c_name"].'</a></li>';
+}
+?>
             </ul>
         </div>
     </div>

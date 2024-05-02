@@ -19,8 +19,6 @@
 
 <body class="home">
 <?php
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
 include("config/connect.php"); // connection to database
 
 if (empty($_SESSION["user_id"])) // if not logged in
@@ -71,9 +69,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 </div>
             </form>
         </div>
-
         <!-- Search part ends-->
-        <!-- //results show -->
+
+        <!-- Results show -->
         <section class="restaurants-page">
             <div class="container">
                 <div class="row">

@@ -1,0 +1,2 @@
+<?php
+$defaultMerchant = 51;

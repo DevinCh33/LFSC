@@ -1,5 +1,4 @@
 <?php
-session_start();
 include("config/connect.php");
 
 // Check if the request method is POST
@@ -36,4 +35,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle the case where the form is not submitted via POST
     echo "Form submission method is not POST.";
 }
-

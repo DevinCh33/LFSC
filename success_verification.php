@@ -29,7 +29,6 @@
 </div>
 
 <script>
-
     setTimeout(function() {
         window.location.href = "portal.php";
     }, 5000); 

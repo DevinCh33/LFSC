@@ -64,7 +64,7 @@ if(isset($_POST['submit'])) // if submit button was pressed
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <form class="login-form" action="" method="POST">
                         <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                            <h1 class="fw-normal mb-0 me-3">Login Form</h1>
+                            <h1 class="fw-normal mb-0 me-3">Customer Login Form</h1>
                         </div>
                         <hr>
                         <div class="alertCSS"><?php echo $message ?></div>
@@ -83,12 +83,12 @@ if(isset($_POST['submit'])) // if submit button was pressed
 
                         <div class="d-flex justify-content-between align-items-center">
                             <!-- Checkbox -->
-                            <a href="../forgot_password.php" class="text-body">Forgot password?</a>
+                            <a href="forgot_password.php" class="text-body">Forgot password?</a>
                         </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <input type="submit" value="Login" name="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="registration.php" class="link-danger">Register</a> or <a href="../portal.php" class="link-danger">return to login portal</a>.</p>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="registration.php" class="link-danger">Register</a> or <a href="portal.php" class="link-danger">return to login portal</a>.</p>
                         </div>
                     </form>
                 </div>

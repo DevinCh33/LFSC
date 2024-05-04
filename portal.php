@@ -23,7 +23,7 @@
         <a href="login.php">
             <div class="product-card">
                 <img src="portal/img/buyer.png" alt="buyer">
-                <p>Log In as a Buyer</p>
+                <p>Log In as a Customer</p>
             </div>
         </a>
 

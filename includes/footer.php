@@ -3,13 +3,13 @@
         <!-- top footer statrs -->
         <div class="row top-footer">
             <div class="col-xs-12 col-sm-3 footer-logo-block color-gray">
-                <a href="#"> <img class="img-rounded" style = "margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> 
+                <a href="index.php"> <img class="img-rounded" style = "margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> 
             </div>
             
             <div class="col-xs-12 col-sm-2 pages color-gray">
                 <h5>Pages</h5>
                 <ul>
-                    <li><a href="index.php">Little Farmer</a> </li>
+                    <li><a href="index.php">Home</a> </li>
                     <li><a href="market.php">Market</a> </li>
                     <li><a href="merchants.php">Merchants</a> </li>
                     <li><a href="products.php">Products / Cart</a> </li>

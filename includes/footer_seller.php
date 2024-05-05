@@ -1,5 +1,6 @@
 <?php
 include("config/merchants.php");
+include("config/connect.php");
 
 if (isset($_GET['res_id']))
 {
@@ -26,7 +27,7 @@ $row = mysqli_fetch_assoc($result);
             <div class="col-xs-12 col-sm-2 pages color-gray">
                 <h5>Pages</h5>
                 <ul>
-                    <li><a href="index.php">Little Farmer</a> </li>
+                    <li><a href="index.php">Home</a> </li>
                     <li><a href="market.php">Market</a> </li>
                     <li><a href="merchants.php">Merchants</a> </li>
                     <li><a href="products.php?res_id=<?php echo $d_id;?>">Products / Cart</a> </li>
@@ -57,7 +58,7 @@ $row = mysqli_fetch_assoc($result);
                     if (isset($row['url']))
                     {
                     echo '<h5>Website</h5>';
-                    echo '<p>'.$row['url'].'</p>';
+                    echo '<a href="http://'.$row['url'].'">'.$row['url'].'</a>';
                     }
                     ?>
                 </div>
@@ -71,7 +72,7 @@ $row = mysqli_fetch_assoc($result);
                 if (isset($row['phone']))
                 {
                 echo '<h5>Contact</h5>';
-                echo '<p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=6'.$row['phone'].'"><br/>'.$row['phone'].'</a></p>';
+                echo '<p>WhatsApp:<a href="http://api.whatsapp.com/send?phone=6'.$row['phone'].'"><br/>'.$row['phone'].'</a></p>';
                 }
                 ?>
             </div>

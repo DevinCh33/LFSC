@@ -64,8 +64,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div> 
         <!--end:Hero inner -->
-
-    <!-- Search part starts-->
     </section>
 
     <!-- Recommended products-->

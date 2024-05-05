@@ -71,18 +71,22 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
                                 <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
-                                <!--<ul class="nav nav-inline">
-                                    <li class="nav-item ratings">
-                                        <a class="nav-link" href="#"> <span>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <p>245 Review</p>
-                                        </span> </a>
-                                    </li>
-                                </ul>-->
+                                <span class="nav-item ratings">
+                                <?php
+                                // Fetch average rating from the database
+                                $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['res_id'];
+                                $ratingResult = mysqli_query($db, $ratingQuery);
+                                $ratingRow = mysqli_fetch_assoc($ratingResult);
+
+                                // Loop through 5 stars and generate each one dynamically
+                                for ($i = 1; $i <= number_format($ratingRow['average_rating']); $i++) {
+                                    // Check if the star should be active or inactive
+                                    echo '<i class="fa fa-star active"></i>';
+                                }
+                                ?>
+
+                                <p><?php echo $ratingRow['rating_count'];?> Reviews</p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -90,12 +94,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </section>
         <!-- end:Inner page hero -->
-
-        <div class="breadcrumb">
-            <div class="container">
-                
-            </div>
-        </div>
 
         <div class="container m-t-30">
             <div class="row">
@@ -145,7 +143,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12" style="display: flex;">
                                         <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
+                                            <a class="restaurant-logo pull-left"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         
                                         <div class="col-xs-12 col-sm-12 col-lg-12 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
@@ -215,7 +213,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12" style="display: flex;"> 
                                         <div class="rest-logo pull-left">
-                                            <a class="restaurant-logo pull-left" href="#"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
+                                            <a class="restaurant-logo pull-left"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         
                                         <div class="col-xs-12 col-sm-12 col-lg-12 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 

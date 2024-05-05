@@ -114,9 +114,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <!-- end:Entry description -->
                             </div>';
 
-                            // Set default rating to 1 if not present
-                            //$rating = isset($rows['rating']) ? $rows['rating'] : 1;
-
                             // Generate the rating block inside the loop
                             echo '<div class="col-sm-12 col-md-12 col-lg-4 text-xs-center">
                                     <div class="right-content bg-white">
@@ -126,7 +123,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             // Loop through 5 stars and generate each one dynamically
                             for ($i = 1; $i <= 5; $i++) {
                                 // Check if the star should be active or inactive
-                                $class = ($i <= $rating) ? 'star-active' : 'star-inactive';
+                                $class = ($i <= 0) ? 'star-active' : 'star-inactive';
                                 echo '<i class="fa fa-star '.$class.'"></i>';
                             }
                             

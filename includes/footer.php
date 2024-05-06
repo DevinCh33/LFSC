@@ -3,7 +3,7 @@
         <!-- top footer statrs -->
         <div class="row top-footer">
             <div class="col-xs-12 col-sm-3 footer-logo-block color-gray">
-                <a href="index.php"> <img class="img-rounded" style = "margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> 
+                <a href="index.php"> <img class="img-rounded" width="225" height="225" style="margin-bottom:50px;" src="landing/logo.png" alt="logo"> </a> 
             </div>
             
             <div class="col-xs-12 col-sm-2 pages color-gray">
@@ -25,7 +25,7 @@
 
             <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
                 <h5>Contact</h5>
-                <p>WhatsApp:<a href="https://api.whatsapp.com/send?phone=60102170960"><br/>+60 10-217 0960</a></p> 
+                <p>WhatsApp:<a href="http://api.whatsapp.com/send?phone=60102170960"><br/>0102170960</a></p> 
             </div>
         </div>
         <!-- top footer ends -->

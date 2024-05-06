@@ -71,22 +71,27 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <h6><a href="#"><?php echo $rows['title']; ?></a></h6>
                                 <p><?php echo $rows['description']; ?></p>
                                 <p><?php echo $rows['address']; ?></p>
-                                <span class="nav-item ratings">
-                                <?php
-                                // Fetch average rating from the database
-                                $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['res_id'];
-                                $ratingResult = mysqli_query($db, $ratingQuery);
-                                $ratingRow = mysqli_fetch_assoc($ratingResult);
+                                <div class="featured-restaurants">
+                                    <div class="nav-item ratings">
+                                        <span>
+                                        <?php
+                                        // Fetch average rating from the database
+                                        $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['res_id'];
+                                        $ratingResult = mysqli_query($db, $ratingQuery);
+                                        $ratingRow = mysqli_fetch_assoc($ratingResult);
 
-                                // Loop through 5 stars and generate each one dynamically
-                                for ($i = 1; $i <= number_format($ratingRow['average_rating']); $i++) {
-                                    // Check if the star should be active or inactive
-                                    echo '<i class="fa fa-star active"></i>';
-                                }
-                                ?>
+                                        // Loop through 5 stars and generate each one dynamically
+                                        for ($i = 1; $i <= number_format($ratingRow['average_rating']); $i++) {
+                                            // Check if the star should be active or inactive
+                                            echo '<i class="fa fa-star active"></i>';
+                                        }
+                                        ?>
 
-                                <p><?php echo $ratingRow['rating_count'];?> Reviews</p>
-                                </span>
+                                        <p><?php echo $ratingRow['rating_count'];?> Reviews</p>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

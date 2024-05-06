@@ -775,34 +775,8 @@ button.close span {
 /****** Featured restaurants block *******/
 
 .featured-restaurants {
-    padding: 100px 0 20px;
+    padding: 0;
     position: relative;
-}
-@media (min-width: 280px) and (max-width: 580px) {
-    .featured-restaurants {
-        padding: 50px 0 20px;
-        position: relative;
-    }
-    .featured-restaurants .title-block {
-        margin-bottom: 15px;
-    }
-    .featured-restaurants .title-block h4 {
-        font-size: 21px;
-    }
-}
-.featured-restaurants:before {
-    position: absolute;
-    top: -81px;
-    left: 50px;
-    background: url(../images/chilly.png);
-    width: 103px;
-    height: 151px;
-    content: "";
-}
-@media (min-width: 280px) and (max-width: 580px) {
-    .featured-restaurants:before {
-        display: none;
-    }
 }
 .featured-restaurants .restaurant-wrap {
     border: 1px solid #eaebeb;
@@ -842,7 +816,7 @@ button.close span {
 .featured-restaurants .cost,
 .featured-restaurants .mins,
 .featured-restaurants .ratings {
-    font-size: 12px;
+    font-size: 1rem;
     display: inline-block;
 }
 .featured-restaurants .cost,
@@ -854,7 +828,7 @@ button.close span {
 }
 .restaurants-filter ul li {
     display: inline-block;
-    padding: 0 .5rem;
+    padding: 0.5rem;
 }
 .featured-restaurants .restaurants-filter ul li a {
     font-weight: 400;

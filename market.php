@@ -236,7 +236,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
             <div class="row">
                 <?php 
-                // fetch records from the database to display the first 6 products
+                // Fetch records from the database to display the first 6 merchants
                 $query_res = mysqli_query($db, "select * from restaurant LIMIT 6"); 
                 
                 while ($r = mysqli_fetch_array($query_res)) {   
@@ -263,7 +263,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                             }
 
                                             echo '</i></div></br>
-                                            <div class="phone" style="color: black;"> Phone Number: ' . $r['phone'] . '</div>
+                                            <div class="phone" style="color: black;">Phone Number: ' . $r['phone'] . '</div>
                                         </div>
                                     </div>
                                 </a>

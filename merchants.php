@@ -72,16 +72,15 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- Search part ends-->
 
         <!-- Results show -->
-        <section class="restaurants-page">
-            <div class="container">
-                <div class="row">
-                <?php
-                include("includes/seller_types.php");
-                ?>    
-
-                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
-                        <div class="bg-gray restaurant-entry">
-                            <div class="row">
+        <section class="restaurants-page" style="text-align: center;">
+    <div class="container">
+        <div class="row">
+            <?php
+            // include("includes/filter_seller.php");
+            ?>    
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9 mx-auto">
+                <div class="bg-gray restaurant-entry">
+                    <div class="row">
                         <?php 
                         if (isset($_GET['search'])) {
                             $searchTerm = $_GET['search'];
@@ -96,7 +95,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         $ress = mysqli_query($db, $query);
 
                         while($rows = mysqli_fetch_array($ress)) {
-                        echo '<div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
+                            echo '<div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
                                 <div class="entry-logo">
                                     <a class="img-fluid" href="products.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo"></a>
                                 </div>
@@ -143,14 +142,14 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         </div>'; // End of rating block
                         }
                         ?>
-                        
-                            </div>
-                            <!--end:row -->
-                        </div>   
-                     </div>
-                </div>
+                    </div>
+                    <!--end:row -->
+                </div>   
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+
 
     <!-- start: FOOTER -->
     <?php

@@ -24,21 +24,8 @@
 	  
 	<div class="empMainCon">
 
-		   	<div class="controls-container">
-		  		<div class="records-per-page">
-					<span>Records per page:</span>
-					<select id="recordsPerPage" onchange="changeRecordsPerPage()" class="custom-select">
-					  <option value="5">5</option>
-					  <option value="10">10</option>
-					  <option value="50">50</option>
-					</select>
-				  </div>
 
-				  <div class="search-bar">
-				<span>Search:</span>
-				<input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Search for names..">
-		  	</div>
-		  </div>
+
 
 
           <?php

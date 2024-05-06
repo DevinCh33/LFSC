@@ -42,22 +42,22 @@
 
 
           <?php
-session_start(); // temp session
-error_reporting(1); // hide undefined index errors
-include("./../connection/connect.php"); // connection to database
+                    session_start(); // temp session
+                    error_reporting(1); // hide undefined index errors
+                    include("./../connection/connect.php"); // connection to database
 
-if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
-{
+                    if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
+                    {
 
-if(isset($_POST['submit'] ))
-{
-    if(empty($_POST['c_name']))
-    {
-        $error = '<div class="alert alert-danger alert-dismissible fade show">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>All fields required!</strong>
-                    </div>';
-    }
+            if(isset($_POST['submit'] ))
+            {
+                if(empty($_POST['c_name']))
+                {
+                    $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>All fields required!</strong>
+                                </div>';
+                }
 
 	else
 	{	

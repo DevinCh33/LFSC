@@ -175,46 +175,46 @@ function generateRandomName() {
     return $name;
 }
 
-// Initialize an array to store generated names for each unique user_id
-$generatedNames = array();
+    // Initialize an array to store generated names for each unique user_id
+    $generatedNames = array();
 
-foreach ($commentsForPage as $row) {
-    // Check if the user_id already has a generated name
-    if (!isset($generatedNames[$row['user_id']])) {
-        // Generate a new random name for this user_id
-        $generatedNames[$row['user_id']] = generateRandomName();
-    }
-
-    echo '<tr>';
-    // Display the generated name instead of the user_id
-    echo '<td>' . $generatedNames[$row['user_id']] . '</td>';
-    //echo '<td>' . $row['res_id'] . '</td>';
-    echo '<td>' . $row['created_at'] . '</td>';
-    echo '</tr>';
-    echo '<tr>';
-    echo '<td colspan="3">' . $row['comment'] . '</td>';
-    echo '</tr>';
-}
-
-    echo '</tbody>';
-    echo '</table>';
-    echo '</div>';
-
-    // Display pagination links
-    echo '<div class="pagination">';
-    for ($i = 1; $i <= $totalPages; $i++) {
-        if ($i > 1) {
-            echo ', '; // Add comma between page numbers
+    foreach ($commentsForPage as $row) {
+        // Check if the user_id already has a generated name
+        if (!isset($generatedNames[$row['user_id']])) {
+            // Generate a new random name for this user_id
+            $generatedNames[$row['user_id']] = generateRandomName();
         }
-        echo '<a href="all_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
-    }
-    echo '</div>';
+
+        echo '<tr>';
+        // Display the generated name instead of the user_id
+        echo '<td>' . $generatedNames[$row['user_id']] . '</td>';
+        //echo '<td>' . $row['res_id'] . '</td>';
+        echo '<td>' . $row['created_at'] . '</td>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td colspan="3">' . $row['comment'] . '</td>';
+        echo '</tr>';
+        }
+
+        echo '</tbody>';
+        echo '</table>';
+        echo '</div>';
+
+        // Display pagination links
+        echo '<div class="pagination">';
+        for ($i = 1; $i <= $totalPages; $i++) {
+            if ($i > 1) {
+                echo ', '; // Add comma between page numbers
+            }
+            echo '<a href="all_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
+        }
+        echo '</div>';
 
     // Add JavaScript for changing the number of comments per page
     echo '<script src="js/allcomments.js"></script>';
 } else {
-    echo '<p>Error: Seller ID not provided.</p>';
-}
+        echo '<p>Error: Seller ID not provided.</p>';
+    }
 
 // Close the database connection
 mysqli_close($db);

@@ -76,28 +76,12 @@
                                		<span id="alertSDescr" class="alertCSS"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            
     
 
-<!--
-						<div class="form-group">
-							<label class="label">Category</label>
-							<div class="dropdown">
 
-								<select class="form-control" id="shopCategorySelect" onchange="updateBoxes()">
-									<option value=""></option>
-									<option value="5">5</option>
-									<option value="6">6</option>
-									<option value="7">7</option>
-									<option value="8">8</option>
-								</select>
-								<div id="selectedOptions" class="selected-options">
-									<div id="optionContainer" class="option-container"></div>
-								</div>
 
-							</div>
-						</div>
--->
+
 
                         </fieldset>
                         <fieldset class="fieldset">
@@ -694,7 +678,89 @@ function updateBoxes() {
 }
 
 
+/*
+function updateTextBox() {
+        var selectElement = document.getElementById("shopCategorySelect");
+        var selectedOptions = document.getElementById("selectedCategories");
+        
+        var selectedCategory = selectElement.options[selectElement.selectedIndex].text;
+        
+        if (selectedOptions.value.trim() === "") {
+            selectedOptions.value = selectedCategory;
+        } else {
+            selectedOptions.value += ", " + selectedCategory;
+        }
+        
+        // Adjust the height of the textarea
+        selectedOptions.style.height = selectedOptions.scrollHeight + "px";
+    }
+    
+    function removeCategory(event) {
+        var selectedOptions = document.getElementById("selectedCategories");
+        var clickedCategory = event.target.value;
+        var currentText = selectedOptions.value;
+        
+        // Remove clicked category from text box
+        var updatedText = currentText.replace(clickedCategory, "").replace(", , ", ", ");
+        selectedOptions.value = updatedText.trim();
+        
+        // Adjust the height of the textarea
+        selectedOptions.style.height = selectedOptions.scrollHeight + "px";
+    }
+*/
 
+function updateTextBox() {
+        var selectElement = document.getElementById("shopCategorySelect");
+        var selectedOptions = document.getElementById("selectedCategories");
+        
+        var selectedCategory = selectElement.options[selectElement.selectedIndex].text;
+        
+        if (selectedOptions.value.trim() === "") {
+            selectedOptions.value = selectedCategory;
+        } else {
+            selectedOptions.value += ", " + selectedCategory;
+        }
+        
+        // Adjust the height of the textarea
+        selectedOptions.style.height = selectedOptions.scrollHeight + "px";
+    }
+    
+    function removeCategory(event) {
+        var selectedOptions = document.getElementById("selectedCategories");
+        var clickedCategory = event.target.value;
+        var currentText = selectedOptions.value;
+        
+        // Remove clicked category from text box
+        var updatedText = currentText.replace(clickedCategory, "").replace(", , ", ", ");
+        selectedOptions.value = updatedText.trim();
+        
+        // Adjust the height of the textarea
+        selectedOptions.style.height = selectedOptions.scrollHeight + "px";
+    }
+    
+    function updateCategory(button) {
+        var selectedOptions = document.getElementById("selectedCategories").value;
+        
+        // Perform any necessary processing with the selected categories
+        // For example, you could send them to a server-side script for further processing
+        
+        // Example using AJAX to send data to a server-side script
+        // Replace 'your_update_category_script.php' with your actual server-side script
+        // Replace 'your_data' with the data you want to send
+        $.ajax({
+            url: 'process_association.php',
+            method: 'POST',
+            data: { selectedCategories: selectedOptions },
+            success: function(response) {
+                console.log(response); // Handle success response
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr, status, error); // Handle error
+            }
+        });
+    }
+
+	
 
  
   </script>

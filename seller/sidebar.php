@@ -82,7 +82,7 @@
         <ul class="sub-menu">
           <li><a class="link_name" href="customers.php">Customers</a></li>
 
-          <li><a href="custComments.php?store=<?php echo $_GET['store']; ?>">Customer Comments</a></li>
+          <li><a href="custComments.php">Customer Comments</a></li>
 
         </ul>
       </li>

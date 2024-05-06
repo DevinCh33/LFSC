@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2024 at 08:07 AM
+-- Generation Time: May 05, 2024 at 08:12 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -82,31 +82,7 @@ INSERT INTO `categories` (`categories_id`, `categories_name`, `categories_active
 (3, 'Specialty Fruits', 1, 1),
 (4, 'Fermented Foods', 1, 1),
 (5, 'Dried Foods', 1, 1),
-(6, 'Spices', 1, 1),
-(7, 'Meat', 0, 0),
-(8, 'Seafood', 0, 0),
-(9, 'Dairy', 0, 0),
-(11, 'Grains', 0, 0),
-(12, 'Pasta', 0, 0),
-(13, 'Bread', 0, 0),
-(14, 'Bakery Items', 0, 0),
-(15, 'Canned Goods', 0, 0),
-(16, 'Frozen Foods', 0, 0),
-(17, 'Condiments', 0, 0),
-(18, 'Cooking Oils', 0, 0),
-(19, 'Sauces', 0, 0),
-(20, 'Breakfast Foods', 0, 0),
-(21, 'Desserts', 0, 0),
-(22, 'Baby Food', 0, 0),
-(23, 'Water', 0, 0),
-(24, 'Soft Drinks', 0, 0),
-(25, 'Juice', 0, 0),
-(26, ' Coffee', 0, 0),
-(27, 'Tea', 0, 0),
-(28, 'Sports Drinks', 0, 0),
-(29, 'Alcoholic Beverages', 0, 0),
-(30, 'Energy Drinks', 0, 0),
-(31, 'Smoothies', 0, 0);
+(6, 'Spices', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -322,27 +298,7 @@ INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
 (2, 'Frozen', '2023-11-15 13:11:04'),
 (3, 'Dried', '2023-11-15 13:11:10'),
 (4, 'Canned', '2023-11-15 13:11:17'),
-(5, 'Other', '2023-11-15 13:11:23'),
-(6, 'Fruits', '2024-05-06 06:05:19'),
-(7, 'Vegetables', '2024-05-06 06:05:33'),
-(8, 'Dairy Products', '2024-05-06 06:05:42'),
-(9, 'Baked Goods', '2024-05-06 06:05:50'),
-(10, 'Preserves and Jams', '2024-05-06 06:06:00'),
-(11, 'Artisanal Cheeses', '2024-05-06 06:06:05'),
-(12, 'Handcrafted Beverages', '2024-05-06 06:06:08'),
-(13, 'Homemade Sauces and Condiments', '2024-05-06 06:06:12'),
-(14, 'Organic Meats', '2024-05-06 06:06:16'),
-(15, 'Specialty Grains and Legumes', '2024-05-06 06:06:20'),
-(16, 'Fresh Herbs and Spices', '2024-05-06 06:06:24'),
-(17, 'Natural Sweeteners', '2024-05-06 06:06:27'),
-(18, 'Farm-Fresh Eggs', '2024-05-06 06:06:30'),
-(19, 'Locally Sourced Honey', '2024-05-06 06:06:34'),
-(20, 'Small Batch Wines', '2024-05-06 06:06:37'),
-(21, 'Craft Beers and Ales', '2024-05-06 06:06:40'),
-(22, 'Herbal Teas and Infusions', '2024-05-06 06:06:44'),
-(23, 'Handcrafted Chocolates and Confections', '2024-05-06 06:06:47'),
-(24, 'Specialty Oils and Vinegars', '2024-05-06 06:06:50'),
-(25, 'Homemade Pickles and Fermented Foods', '2024-05-06 06:06:54');
+(5, 'Other', '2023-11-15 13:11:23');
 
 -- --------------------------------------------------------
 
@@ -716,7 +672,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -752,7 +708,7 @@ ALTER TABLE `restaurant`
 -- AUTO_INCREMENT for table `res_category`
 --
 ALTER TABLE `res_category`
-  MODIFY `c_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `c_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `seller_tg_verification`

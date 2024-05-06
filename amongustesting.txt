@@ -223,7 +223,7 @@
 
 Food:
 
-Fruits
+Fruits//
 
 Apples
 Bananas
@@ -243,7 +243,7 @@ Limes
 Grapefruits
 
 
-Vegetables
+Vegetables//
 
 Leafy Greens
 Lettuce
@@ -272,7 +272,7 @@ Zucchini
 Squash
 
 
-Meat
+Meat//
 
 Beef
 Pork
@@ -283,7 +283,7 @@ Turkey
 Duck
 
 
-Seafood
+Seafood//
 
 Fish
 Shrimp
@@ -294,7 +294,7 @@ Mussels
 Clams
 
 
-Dairy
+Dairy//
 
 Milk
 Cheese
@@ -306,7 +306,7 @@ Sour Cream
 Cottage Cheese
 
 
-Grains
+Grains//
 
 Rice
 Wheat
@@ -318,7 +318,7 @@ Rye
 Farro
 
 
-Pasta
+Pasta//
 
 Spaghetti
 Penne
@@ -399,7 +399,7 @@ Chili Powder
 Cumin
 
 
-Cooking Oils
+Cooking Oils//
 
 Olive Oil
 Vegetable Oil

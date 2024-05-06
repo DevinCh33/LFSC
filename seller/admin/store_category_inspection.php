@@ -61,7 +61,7 @@ if(isset($_POST['submit'] ))
 
 	else
 	{	
-	    $check_cat = mysqli_query($db, "SELECT c_name FROM res_categories where c_name = '".$_POST['c_name']."' ");
+	    $check_cat = mysqli_query($db, "SELECT c_name FROM res_category where c_name = '".$_POST['c_name']."' ");
 
         if(mysqli_num_rows($check_cat) > 0)
         {
@@ -73,7 +73,7 @@ if(isset($_POST['submit'] ))
 
         else
         {
-            $mql = "INSERT INTO res_categories(c_name) VALUES('".$_POST['c_name']."')";
+            $mql = "INSERT INTO res_category(c_name) VALUES('".$_POST['c_name']."')";
             mysqli_query($db, $mql);
 
         }

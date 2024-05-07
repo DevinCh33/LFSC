@@ -63,8 +63,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 <div class="form-group" style="margin-top:50px;">
                     <label class="sr-only" for="exampleInputAmount">Search merchant....</label>
                     <div class="form-group">
-                        <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search merchant...">
-                        <input type="submit" class="btn theme-btn btn-lg" value="Search">
+                        <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search merchant..." style="width: 700px; margin: 0 auto; ">
+                        <input type="submit" class="btn theme-btn btn-lg" value="Search" style="margin-right: 75px;">
                     </div>
                 </div>
             </form>
@@ -72,7 +72,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- Search part ends-->
 
         <!-- Results show -->
-        <section class="restaurants-page" style="text-align: center;">
+        <section class="restaurants-page">
     <div class="container">
         <div class="row">
             <?php

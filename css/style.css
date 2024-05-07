@@ -303,7 +303,7 @@ hr {
 }
 .comment-section {
     max-height: 150px; /* Adjust the maximum height as needed */
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds the container height */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
 }
 .recentComments li {
     margin-bottom: 10px; /* Add space between each comment */
@@ -451,12 +451,15 @@ hr {
     left: 0;
     width: 100%;
     z-index: 1;
+    background: linear-gradient(45deg, #db9f59, #e4a021,  #c58714, #c48717,  #c2871b,  #cc8a11,  #da6e16);  
 }
 .hero .hero-inner {
     position: relative;
     z-index: 1;
-    height: 100vh;
+    height: 50vh;
+    background: linear-gradient(45deg, #db9f59, #e4a021,  #c58714, #c48717,  #c2871b,  #cc8a11,  #da6e16); 
 }
+
 
 /* ==========================
 *   Detect location
@@ -773,6 +776,14 @@ button.close span {
 }
 
 /****** Featured restaurants block *******/
+
+.restaurants-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin-left: 250px;
+}
 
 .featured-restaurants {
     padding: 0;
@@ -2475,5 +2486,16 @@ a[aria-expanded=false] .fa-angle-down {
     border-radius: 2px;
 }
 
+.centered-section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; /* Optional: Center the content horizontally */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 

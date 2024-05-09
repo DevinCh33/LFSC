@@ -6,30 +6,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Your SQL query to fetch data and generate receipt content based on order
     $sql = "SELECT
-					oi.*,
-					p.product_name,
-					tp.*
-				FROM
-					orders o
-				JOIN order_item oi ON o.order_id = oi.order_id
-				JOIN tblprice tp ON oi.priceID = tp.priceNo
-				JOIN product p ON tp.productID = p.product_id
-				WHERE
-					o.order_id = '".$order."'";
+                oi.*,
+                p.product_name,
+                tp.*
+            FROM
+                orders o
+            JOIN order_item oi ON o.order_id = oi.order_id
+            JOIN tblprice tp ON oi.priceID = tp.priceNo
+            JOIN product p ON tp.productID = p.product_id
+            WHERE
+                o.order_id = '".$order."'";
     $query = $db->query($sql);
-	
-	$companyInfo = "SELECT * FROM restaurant WHERE rs_id = '".$_POST['rs_id']."'";
-	$companyInfo = $db->query($companyInfo);
-	$companyInfo = $companyInfo->fetch_assoc();
+    
+    $companyInfo = "SELECT * FROM restaurant WHERE rs_id = '".$_POST['rs_id']."'";
+    $companyInfo = $db->query($companyInfo);
+    $companyInfo = $companyInfo->fetch_assoc();
 
     if ($query->num_rows > 0) {
-        $receiptNo = rand(10000, 99999); // Generating a random receipt number
+        $receiptNo = "LF".$_POST['rs_id']."_".$order; // Constructing the receipt number
         $receiptContent = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;'>";
         $receiptContent .= "<p style='font-size: 14px; color: #555; font-weight: bold;'>".$companyInfo['title']."</p>";
         $receiptContent .= "<p style='font-size: 14px; color: #555;'>".$companyInfo['address']."</p>";
         $receiptContent .= "<p style='font-size: 14px; color: #555;'>Tel: ".$companyInfo['phone']."</p>";
         $receiptContent .= "<h3 style='color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 10px;'>RECEIPT</h3>";
-        $receiptContent .= "<p style='font-size: 16px; color: #f00; margin-bottom: 10px;'><strong>RECEIPT NO. : LF$receiptNo</strong></p>";
+        $receiptContent .= "<p style='font-size: 16px; color: #f00; margin-bottom: 10px;'><strong>RECEIPT NO. : $receiptNo</strong></p>";
         $receiptContent .= "<div style='display: flex; justify-content: space-between; align-items: center; margin: 10px 0;'>";
         $receiptContent .= "<p style='font-size: 14px; color: #555;'><strong>Date:</strong> " . date("Y-m-d H:i:s") . "</p>";
         $receiptContent .= "</div>";
@@ -68,3 +68,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "Error: Invalid request method or missing parameters.";
 }
+?>

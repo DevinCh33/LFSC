@@ -25,24 +25,23 @@
     require 'send_verification_email.php'; 
 
     $message = '';
-    $success = false;
+    $success = '';
 	
     if (isset($_POST['register'])) {
 		$text = "";
 		if($_POST['username'] == "" || $_POST['email'] == "" || $_POST['txtPass'] == "" || $_POST['txtConPass'] == ""){
-			$text = "Please Make Sure All Field Have Been Filled";
+			$text = "Please make sure all fields have been filled!";
 		}else if($_POST['txtPass'] != $_POST['txtConPass']){
-			$text = "Confirm Password And Password Not Match";
+			$text = "Confirm Password and Password do not match!";
 		}else if(strlen($_POST['username'])< 5){
-			$text = "Username Length must more than 5 characters";
+			$text = "Username length must be more than 5 characters!";
 		}else{
       $username = $_POST['username'];
       $email = $_POST['email'];
-      $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+      $password = password_hash($_POST['txtPass'], PASSWORD_DEFAULT);
       $token = bin2hex(random_bytes(50)); 
 
       if (validateEmail($email)) {
-
           $checkUser = "SELECT * FROM users WHERE username='$username' OR email='$email'";
           $result = mysqli_query($db, $checkUser);
           if (mysqli_num_rows($result) > 0) {
@@ -52,17 +51,16 @@
   
               if (mysqli_query($db, $registerQuery)) {
                   if (sendVerificationEmail($email, $token)) {
-                      $success = "Registration successful! Please check your email to verify."; 
+                      $success = "<div class='alert alert-success'>Registration successful! Please check your email to verify.</div>"; 
                   } else {
-                      $message = "Registration successful but failed to send verification email.";
+                      $message = "<div class='alert alert-danger'>Registration successful but failed to send verification email.</div>";
                   }
               } else {
-                  $message = "Error: " . mysqli_error($db);
+                  $message = "<div class='alert alert-danger'>Error: " . mysqli_error($db)."</div>";
               }
           }
-  
       } else {
-          $text = "Invalid email address";
+          $text = "Invalid email address!";
       }
     }
 	}
@@ -82,7 +80,9 @@
 			<hr>
           <!-- Email input -->
 		  <div class="alertCSS"><?php echo $text; ?></div>
-			
+      <?php echo $message; ?>
+      <?php echo $success; ?>
+
      	<div data-mdb-input-init class="form-outline mb-4">
         <label class="form-label" for="name">Username</label>
         <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter a valid username" />    
@@ -90,7 +90,7 @@
 			
       <div data-mdb-input-init class="form-outline mb-4">
         <label class="form-label" for="name">Email</label>
-        <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid username" />    
+        <input type="text" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid email" />    
       </div>
 
           <!-- Password input -->
@@ -101,7 +101,7 @@
 			
       <div data-mdb-input-init class="form-outline mb-3">
         <label class="form-label" for="txtPass">Confirm Password</label>
-         <input type="password" id="txtConPass" name="txtConPass" value="123456" class="form-control form-control-lg" placeholder="Enter password" />
+         <input type="password" id="txtConPass" name="txtConPass" value="123456" class="form-control form-control-lg" placeholder="Confirm password" />
       </div>
 
       <div class="text-center text-lg-start mt-4 pt-2">

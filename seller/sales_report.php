@@ -140,7 +140,6 @@
         </div>
       
         <div class="chart-container" style="margin-top: 10%;">
-    <h1>Sales Report</h1>
     <?php
     // Start the session
     session_start();
@@ -172,7 +171,7 @@
         // Perform the SQL query based on date range
         if (!empty($start_date) && !empty($end_date)) {
             // Both start date and end date are selected
-            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
                         (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
                     FROM order_item oi
                     INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
@@ -185,7 +184,7 @@
                     ORDER BY item_no ASC";
         } elseif (!empty($start_date)) {
             // Only start date is selected
-            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
                         (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
                     FROM order_item oi
                     INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
@@ -198,7 +197,7 @@
                     ORDER BY item_no ASC";
         } elseif (!empty($end_date)) {
             // Only end date is selected
-            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
                         (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
                     FROM order_item oi
                     INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
@@ -211,7 +210,7 @@
                     ORDER BY item_no ASC";
         } else {
             // Neither start date nor end date is selected
-            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
                         (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
                     FROM order_item oi
                     INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
@@ -242,7 +241,7 @@
         echo "<button type='submit' formaction='export_sales_to_excel.php' class='export-button'>Excel</button>"; // Add Export to Excel button with class
         echo "</form>";
         echo "<table border='1'>";
-        echo "<tr><th>ITEM NO</th><th>ITEM NAME</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>DATE</th><th>DETAILS</th></tr>";
+        echo "<tr><th>ITEM NO</th><th>PRODUCT NAME AND WEIGHT</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>DATE</th><th>DETAILS</th></tr>";
 
         // Initialize item number counter
         $item_no = 1;
@@ -251,12 +250,12 @@
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>" . $item_no . "</td>";
-            echo "<td>" . $row['product_name'] . "</td>";
+            echo "<td>" . $row['Product Name and Weight'] . "</td>";
             echo "<td>" . number_format($row['price'], 2) . "</td>";
             echo "<td>" . $row['quantity'] . "</td>";
             echo "<td>" . number_format($row['amount'], 2) . "</td>";
             echo "<td>" . $row['order_date'] . "</td>";
-            echo "<td><button onclick='showDetails(\"" . $row['username'] . "\", \"" . $row['product_name'] . "\", \"" . $row['item_description'] . "\", \"" . $row['product_image'] . "\", \"" . $row['order_date'] . "\", \"" . $row['owner'] . "\", \"" . $row['comment'] . "\", " . $row['price'] . ")'>Details</button></td>";
+            echo "<td><button onclick='showDetails(\"" . $row['username'] . "\", \"" . $row['Product Name and Weight'] . "\", \"" . $row['item_description'] . "\", \"" . $row['product_image'] . "\", \"" . $row['order_date'] . "\", \"" . $row['owner'] . "\", \"" . $row['comment'] . "\", " . $row['price'] . ")'>Details</button></td>";
 
             // Add amount to total sales
             $total_sales += $row['amount'];
@@ -268,13 +267,12 @@
         }
 
         // Add total sales row
-        echo "<tr><td colspan='6' align='right'><strong>Total Sales:</strong></td><td colspan='2'>" . number_format($total_sales, 2) . "</td></tr>";
+        echo "<tr><td colspan='5' align='right'><strong>Total Sales:</strong></td><td colspan='3'><strong>RM " . number_format($total_sales, 2) . "</strong></td></tr>";
 
         echo "</table>";
         echo "</div>";
     } else {
         echo "<div class='chart-container' style='margin-top: 10%;'>";
-        echo "<h2>Sales Report</h2>";
         echo "<form method='post' action='" . $_SERVER['PHP_SELF'] . "'>";
         echo "<label for='start_date'>Start Date:</label>";
         echo "<input type='date' name='start_date' id='start_date' value='$start_date'>";
@@ -288,7 +286,7 @@
 
     // Close the database connection
     mysqli_close($db);
-    ?>
+?>
 
     <script>
         function showDetails(username, productName, description, image, date, owner, comment, price) {
@@ -337,84 +335,6 @@
 </div>
 
 
-
-<div class="chart-container" style="margin-top: 10%;">
-    <!-- Data Analytics Report Summary -->
-    <h1>Product Review Table</h1>
-   
-        <button type="button" id="excelBtn" class="export-button">Excel</button>
-
-    <?php
-    session_start(); // Start the session
-
-    // Include the connection file
-    include 'connect.php';
-
-  
-
-    // SQL query to retrieve product report data for the provided restaurant name
-    $sql = "SELECT p.product_id AS 'No.', p.owner AS 'Restaurant ID', r.title AS 'Restaurant Title', CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS 'Description', c.categories_name AS 'Category', p.quantity AS 'Quantity', p.product_date AS 'Product Date', p.lowStock AS 'Low Stock', FORMAT(tp.proPrice, 2) AS 'Price (RM)', oi.quantity AS 'Ordered Quantity'
-            FROM product p
-            JOIN categories c ON p.categories_id = c.categories_id
-            JOIN tblprice tp ON p.product_id = tp.productID
-            LEFT JOIN order_item oi ON tp.priceNo = oi.priceID
-            LEFT JOIN restaurant r ON p.owner = r.rs_id
-            WHERE r.title LIKE '%$restaurant_name%' AND p.owner = '".$_SESSION['store']."'";
-
-    // Execute the query
-    $result = $db->query($sql);
-
-    // Initialize counter
-    $counter = 1;
-
-    // Check if there are results
-    if ($result->num_rows > 0) {
-        // Output table headers
-        echo "<table id='dataTable'>";
-        echo "<tr><th>NO.</th><th>RESTAURANT TITLE</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>CATEGORY</th><th>PRODUCT DATE</th><th>PRICE (RM)</th><th>ORDERED QUANTITY</th></tr>";
-
-        // Output data of each row
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $counter . "</td>";
-            echo "<td>" . $row["Restaurant Title"] . "</td>";
-            echo "<td>" . $row["Product Name and Weight"] . "</td>";
-            echo "<td>" . $row["Description"] . "</td>";
-            echo "<td>" . $row["Category"] . "</td>";
-            echo "<td>" . $row["Product Date"] . "</td>";
-            echo "<td>" . $row["Price (RM)"] . "</td>";
-            echo "<td>" . $row["Ordered Quantity"] . "</td>";
-            echo "</tr>";
-
-            // Increment counter
-            $counter++;
-        }
-        echo "</table>"; // Close the table
-    } else {
-        // No results found
-        echo "0 results";
-    }
-
-    // Close connection
-    $db->close();
-    ?>
-</div>
-
-<script>
-    // Function to convert table to Excel file and download
-    function exportToExcel() {
-        var table = document.getElementById("dataTable");
-        var html = table.outerHTML;
-        var url = 'data:application/vnd.ms-excel,' + escape(html);
-        var link = document.createElement("a");
-        link.href = url;
-        link.download = "product_review.xls";
-        link.click();
-    }
-
-    // Add event listener to Excel button
-    document.getElementById("excelBtn").addEventListener("click", exportToExcel);
-</script>
 
     </section>
 </body>

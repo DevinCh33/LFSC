@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  
    </head>
 	
 <body>
@@ -55,7 +54,6 @@
 			<th onclick="sortTable(5)">Job Title <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(6)">Status <span class="sort-indicator" id="indicator6"></span></th>
 			<th onclick="sortTable(7)">Action <span class="sort-indicator" id="indicator7"></span></th>
-
 		  </tr>
 		</thead>
 		<tbody id="tableBody">
@@ -64,7 +62,6 @@
 	  </table>
 	</div>
 
-
     <div class="pagination-summary">
       <span id="tableSummary"></span>
       <div class="pagination">
@@ -72,7 +69,6 @@
       </div>
     </div>
 	  </div>
-	  
 	  
     <div id="popupWindow" class="popup">
 		
@@ -129,11 +125,9 @@
 								<input type="radio" name="empGender" id="empGender2" value="2">
 								<span>Male</span>
 							</label>
-
 						</div>
 					</div>
 				</div>
-				
 			</div>
 
 			<div class="myform-row">
@@ -179,7 +173,6 @@
 						<option value="2" style="color: red;" value="2">Inactive</option>
 					</select>
 				</div>
-				
 			</div>
 
 				<input type="button" id="addEmployee" class="button" value="Add Employee" onClick="employeeInfo('add', this.form)">
@@ -188,17 +181,12 @@
     </form>
       </div>
     </div>
-	  
-	  
-	  
   </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 <script>
 $(document).ready(function() {
 	$('#divalert').hide();	
@@ -217,10 +205,10 @@ function employeeInfo(action, form){
 	var error = 0;
 	
 	if(icno == ""){
-		$("#alertIC").text("This Field Must Not Be Empty");
+		$("#alertIC").text("This field must not be empty!");
 		error += 1;
 	}else if(icno.length < 12 && icno != ""){
-		$("#alertIC").text("IC must be 12 length, ForExample: 012345678901");
+		$("#alertIC").text("IC must be 12 in length, for example: 012345678901");
 		error +=1;
 	}else{
 		var errorIC = 0;
@@ -230,16 +218,15 @@ function employeeInfo(action, form){
 			}
 		}
 		if(errorIC != 0){
-			$("#alertIC").text("Only digit is allowed");
+			$("#alertIC").text("Only digits are allowed!");
 			error += 1;
 		}
 		else 
 			$("#alertIC").text("");
-		
 	}
 	
 	if(empName == ""){
-		$("#alertName").text("This Field Must Not Be Empty");
+		$("#alertName").text("This field must not be empty!");
 		error += 1;
 	}else{
 		if (!/^[a-zA-Z@\s]+$/.test(empName.trim())) {
@@ -248,11 +235,10 @@ function employeeInfo(action, form){
 		}
 		else
 			$("#alertName").text("");
-
 	}
 	
 	if(empNum == ""){
-		$("#alertCon").text("This Field Must Not Be Empty");
+		$("#alertCon").text("This field must not be empty!");
 		error += 1;
 	}else if (!/^(01)\d{8,9}$/.test(empNum.trim()) && empNum != "") {
 		$("#alertCon").text("Employee number must start with '01' and be 10 or 11 digits long.");
@@ -263,7 +249,7 @@ function employeeInfo(action, form){
 	}
 	
 	if(empEmail == ""){
-		$("#alertEmail").text("This Field Must Not Be Empty");
+		$("#alertEmail").text("This field must not be empty!");
 		error += 1;
 	}else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(empEmail.trim())) {
 		$("#alertEmail").text("Please enter a valid email address in Malaysia format.");
@@ -293,11 +279,11 @@ function employeeInfo(action, form){
             success: function(response) {
 				var resText = "";
 					if(action == "add")
-						resText = "Employee Added Successfully!";
+						resText = "Employee added successfully!";
 					if(action == "edit")
-						resText = "Information Updated Successfully!";
+						resText = "Information updated successfully!";
 					if(action == "del")
-						resText = "Employee Deactive Successfully!";
+						resText = "Employee deactived successfully!";
 				alert(resText);
 				$("#searchInput").val("");
 				closePopup();
@@ -307,8 +293,6 @@ function employeeInfo(action, form){
 					fetchData();
 					document.getElementById('myForm').reset();
 				}
-				
-
             },
             error: function(xhr, status, error) {
 				
@@ -474,7 +458,6 @@ function sortTable(columnIndex) {
 }
 	
 function findRec(windowType, name){
-	
 	$.ajax({
         url: 'action/fetchEmployee.php',
         type: 'GET',
@@ -523,7 +506,6 @@ function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	findRec(2, name);
-	
 }
 	
 function editRec(num){
@@ -543,7 +525,6 @@ function confirmDeleteEmployee(form) {
     if (confirm("Are you sure you want to delete this employee?")) {
     	// If the user confirms the second time, proceed with deletion
         employeeInfo('del', form);
- 
     }
 }
 	
@@ -585,8 +566,5 @@ function openPopup(type) {
 		document.getElementById('editEmployee').style.display = "none";
 		document.getElementById('delEmployee').style.display = "block";
 	}
-		
 }
-
-
 </script>

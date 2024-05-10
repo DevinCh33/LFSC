@@ -63,7 +63,6 @@
 	  </table>
 	</div>
 
-
     <div class="pagination-summary">
       <span id="tableSummary"></span>
       <div class="pagination">
@@ -71,7 +70,6 @@
       </div>
     </div>
 	  </div>
-	  
 	  
     <div id="popupWindow" class="popup">
 		
@@ -180,7 +178,6 @@
 					<input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)">
 					<input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
 				</div>
-
     </form>
       </div>
     </div>
@@ -199,28 +196,22 @@
 	</div>
   </div>
 </div>
-
-	  
   </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 <script>
 $(document).ready(function() {
 	$('#divalert').hide();	
 	fetchData();
-	
-	
 });
 	
 function infoOrder(act, form){
 	if($("#ordNum").val() == "" || $("#ordName").val() == "" ||$("#ordDlvFee").val() == ""||$("#ordDep").val() == "" ){
 		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('All Text Field Must Not Empty');
+		$('#divalert').text('All text field must not be empty!');
 		$('#divalert').show();
 		setTimeout(function() {
 			$('#divalert').hide();
@@ -228,7 +219,7 @@ function infoOrder(act, form){
 	}
 	else if($("#ordUID").val() == ""){
 		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('Customer Not Found');
+		$('#divalert').text('Customer not found.');
 		$('#divalert').show();
 		setTimeout(function() {
 			$('#divalert').hide();
@@ -236,7 +227,7 @@ function infoOrder(act, form){
 	}
 	else if (typeof $("#quan").val() === 'undefined'){
 		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('No Product Selected');
+		$('#divalert').text('No product selected.');
 		$('#divalert').show();
 		setTimeout(function() {
 			$('#divalert').hide();
@@ -249,7 +240,7 @@ function infoOrder(act, form){
             data: {act: act, data: $("#myForm").serialize()},
             success: function(response) {
 			  	$('#divalert').css('background-color', 'green');
-				$('#divalert').text('Order Place Successfully!');
+				$('#divalert').text('Order placed successfully!');
 				$('#divalert').show();
 				setTimeout(function() {
 					$('#divalert').hide();
@@ -261,8 +252,6 @@ function infoOrder(act, form){
 			}
 		})
 	}
-	
-	
 }
 	
 // Define a global variable to store selected item IDs
@@ -450,7 +439,6 @@ function updateSelectedIds(checkbox) {
     displaySelectedIds();
 }
 
-
 // JavaScript function to send data to fetchSpecificProduct.php
 function fetchProductDetails(priceId) {
     // Store current quantity values before fetching new products
@@ -557,14 +545,10 @@ $('.quantityInput').on('input', function () {
     updateTotalPrice();
 });
 
-
-
 // JavaScript function to update the HTML table row with product details
 function updateProductRow(productDetails) {
     
 }
-
-
 
 function showProductInfoPopup() {
     var vegetableInfoPopup = document.getElementById("productInfo");
@@ -659,7 +643,6 @@ function goToPage(page) {
     fetchData();
 }
 
-
 // Function to fetch and update data
 function fetchData() {
     // Perform an AJAX request to fetch your data
@@ -700,7 +683,6 @@ function updateStatusText(data) {
     statusSpan.textContent = statusText[statusValue];
 }
 
-	
 let currentColumn = -1;
 let isAscending = true;
 
@@ -741,23 +723,23 @@ function sortTable(columnIndex) {
 }
 	
 function findRec(windowType, name){
-	
 	$.ajax({
         url: 'action/fetchOrder.php',
         type: 'GET',
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
+            console.log(JSON.stringify(response.data[0][1]))
 			openPopup(windowType);
-			document.getElementById("ordID").textContent = response.data[0][0];
-			document.getElementById("ord").value = response.data[0][0];
-			$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
+			document.getElementById("ordUID").textContent = response.data[0][0];
+			//document.getElementById("ord").value = response.data[0][0];
+			//$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
 			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
-			$('#ordNum').val(response.data[0][3]).prop('readonly',  windowType === 2);
-			$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
+			$('#ordNum').val(response.data[0][2]).prop('readonly',  windowType === 2);
+			//$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
 			// Get the select element by its ID
-			var gender = response.data[0][2];
-			$('#ordGender' + gender).prop('checked', true);
+			//var gender = response.data[0][2];
+			//$('#ordGender' + gender).prop('checked', true);
 			
 			// Get the select element by its ID
 			var selectElement = document.getElementById("ordJob");
@@ -793,7 +775,6 @@ function viewRec(num){
 
 	// Hide the select button
     document.getElementById('btnSelect').style.display = 'none';
-	
 }
 	
 function editRec(num){
@@ -816,7 +797,6 @@ function confirmDeleteOrder(form) {
     if (confirm("Are you sure you want to delete this order?")) {
     	// If the user confirms the second time, proceed with deletion
         orderInfo('del', form);
- 
     }
 }
 	
@@ -844,7 +824,6 @@ function openPopup(type) {
 		document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "block";
 	}
-		
 }
 	
 function fetchCustName(){
@@ -863,6 +842,4 @@ function fetchCustName(){
         }
     });
 }
-
-
 </script>

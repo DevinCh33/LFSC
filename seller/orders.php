@@ -25,7 +25,7 @@
 	  
 	  <div class="empMainCon">
 		  <div style="text-align: right; margin-bottom: 10px">
-		  	<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Order</button>
+		  	<!-- <button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Order</button> -->
 		  </div>
 		  
 		   	<div class="controls-container">
@@ -63,6 +63,7 @@
 	  </table>
 	</div>
 
+
     <div class="pagination-summary">
       <span id="tableSummary"></span>
       <div class="pagination">
@@ -71,147 +72,96 @@
     </div>
 	  </div>
 	  
-    <div id="popupWindow" class="popup">
-		
-      <div class="popup-content">
-		  <div class="xclose">
-		  	<span class="close" onclick="closePopup()">&times;</span>
-		  </div>
-        	
-			<form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
-			<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
-			<div class="myform-row">
-				<div id="divalert" class="divalert" name="divalert"></div>
-			</div>
-				
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">ORDER DATE#</label>
-				</div>
-				<div class="input">
-					<span><?php echo date("Y-m-d"); ?></span>
-				</div>
-			</div>
-			
-			<div class="myform-row">
-				<div class="label">
-					<label for="icNo" class="myform-label">CONTACT NUMBER</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordNum" name="ordNum" class="myform-input" onKeyUp="fetchCustName()">
-				</div>
-			</div>
+      <div id="popupWindow" class="popup">
+    <div class="popup-content">
+        <div class="xclose">
+            <span class="close" onclick="closePopup()">&times;</span>
+        </div>
+        
+        <!-- PHP script to fetch order details -->
+        <?php
+        // Assuming you have established a database connection earlier
 
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordName" class="myform-label">CLIENT NAME</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordName" name="ordName" class="myform-input">
-					<input type="hidden" id="ordUID" name="ordUID">
-				</div>
-			</div>
-				
-			<div style="width: 100%; text-align: center; border: 1px solid #000">
-				<table id="itemTable" style="border: none; width: 95%; margin: 0 auto;">
-					<tr style="text-align: left">
-						<th>Product</th>
-						<th>Price</th>
-						<th>Quantity</th>
-						<th>Total Price</th>
-					</tr>
-					<tbody id="proSelected">
-						<!-- Table rows will be dynamically added here -->
-					</tbody>
-					<tr>
-						<td colspan="3" style="text-align: right; border-top: : 1px solid #000">Total Amount:</td>
-						<td>
-							<span id="txtTotal">0.00</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4" style="text-align: center; border: none">
-							<input type="button" id="btnSelect" class="button" onClick="showProductInfoPopup()" value="Select">
-						</td>
-					</tr>
-				</table>
-			</div>
-				
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">Payment Type</label>
-				</div>
-				<div class="input">
-					<select id="ordType" name="ordType" class="custom-select" required>
-						<option value="1" value="1">COD</option>
-						<option value="2" value="2">Monthly Statement</option>
-					</select>
-				</div>
-			</div>
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">Delivery Fee</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordDlvFee" name="ordDlvFee" class="myform-input" value="0">
-				</div>
-			</div>
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">Deposit</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordDep" name="ordDep" class="myform-input" value="0">
-				</div>
-			</div>
-            <div class="myform-row">
-                <div class="label">
-					<label for="ordDate" class="myform-label">Status : </label>
-				</div>
-                <div class="input">
-                    <span name="orderStatus" class="myform-text"></span>
-                </div>
-			</div>
-           
-				<div style="text-align: center;">
-					<input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
-					<!-- <input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)"> -->
-					<input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
-				</div>
-    </form>
-      </div>
+        // Check if the order ID is provided
+        if (isset($_GET['orderId'])) {
+            $orderId = $_GET['orderId'];
+
+            // Execute the SQL query to retrieve order details
+            $sql = "SELECT * FROM orders WHERE order_id = $orderId";
+            $result = mysqli_query($db, $sql);
+
+            // Check if there are any results
+            if (mysqli_num_rows($result) > 0) {
+                // Output order details as HTML table
+                echo "<table border='1'>";
+                echo "<tr><th>Order ID#</th><th>Name</th><th>Contact Number</th><th>Order Date</th><th>Payment Type</th><th>Status</th></tr>";
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['order_id'] . "</td>";
+                    echo "<td>" . $row['client_name'] . "</td>";
+                    echo "<td>" . $row['client_contact'] . "</td>";
+                    echo "<td>" . $row['order_date'] . "</td>";
+                    echo "<td>" . $row['payment_type'] . "</td>";
+                    echo "<td>" . $row['order_status'] . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+            } else {
+                echo "No order found.";
+            }
+        } else {
+            echo "Order ID is not provided.";
+        }
+
+        // Close the database connection
+        mysqli_close($db);
+        ?>
+        
+        <!-- Your existing form content -->
+        <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
+            <!-- Rest of your form content -->
+        </form>
     </div>
-	  
-<div id="productInfo" class="popup">
-  <div class="popup-content">
-    <div class="xclose">
-      <span class="close" onclick="hideProductInfoPopup()">&times;</span>
-    </div>
-	<div>
-		<form method="GET" action="action/fetchProduct.php" id="proForm">
-			<span>Search: <input type="text" id="searchProText" onKeyUp="searchSpecific()"></span>
-	  		<div id="showProduct" style="text-align: center; margin-top: 10px;"></div>
-		</form>
-		
-	</div>
-  </div>
 </div>
+
+
+
+<!-- <div id="productInfo" class="popup">
+    <div class="popup-content">
+        <div class="xclose">
+            <span class="close" onclick="hideProductInfoPopup()">&times;</span>
+        </div>
+        <div>
+            <form method="GET" action="action/fetchProduct.php" id="proForm">
+                <span>Search: <input type="text" id="searchProText" onkeyup="searchSpecific()"></span>
+                <div id="showProduct" style="text-align: center; margin-top: 10px;"></div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+
+	  
   </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script>
 $(document).ready(function() {
 	$('#divalert').hide();	
 	fetchData();
+	
+	
 });
 	
 function infoOrder(act, form){
 	if($("#ordNum").val() == "" || $("#ordName").val() == "" ||$("#ordDlvFee").val() == ""||$("#ordDep").val() == "" ){
 		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('All text field must not be empty!');
+		$('#divalert').text('All Text Field Must Not Empty');
 		$('#divalert').show();
 		setTimeout(function() {
 			$('#divalert').hide();
@@ -219,7 +169,7 @@ function infoOrder(act, form){
 	}
 	else if($("#ordUID").val() == ""){
 		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('Customer not found.');
+		$('#divalert').text('Customer Not Found');
 		$('#divalert').show();
 		setTimeout(function() {
 			$('#divalert').hide();
@@ -227,7 +177,7 @@ function infoOrder(act, form){
 	}
 	else if (typeof $("#quan").val() === 'undefined'){
 		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('No product selected.');
+		$('#divalert').text('No Product Selected');
 		$('#divalert').show();
 		setTimeout(function() {
 			$('#divalert').hide();
@@ -240,7 +190,7 @@ function infoOrder(act, form){
             data: {act: act, data: $("#myForm").serialize()},
             success: function(response) {
 			  	$('#divalert').css('background-color', 'green');
-				$('#divalert').text('Order placed successfully!');
+				$('#divalert').text('Order Place Successfully!');
 				$('#divalert').show();
 				setTimeout(function() {
 					$('#divalert').hide();
@@ -252,6 +202,8 @@ function infoOrder(act, form){
 			}
 		})
 	}
+	
+	
 }
 	
 // Define a global variable to store selected item IDs
@@ -439,6 +391,7 @@ function updateSelectedIds(checkbox) {
     displaySelectedIds();
 }
 
+
 // JavaScript function to send data to fetchSpecificProduct.php
 function fetchProductDetails(priceId) {
     // Store current quantity values before fetching new products
@@ -545,10 +498,14 @@ $('.quantityInput').on('input', function () {
     updateTotalPrice();
 });
 
+
+
 // JavaScript function to update the HTML table row with product details
 function updateProductRow(productDetails) {
     
 }
+
+
 
 function showProductInfoPopup() {
     var vegetableInfoPopup = document.getElementById("productInfo");
@@ -583,7 +540,11 @@ function updateTableAndPagination(data) {
 			'<td>' + rowData[4] + '</td>' +
             `<td style="color: ${(rowData[5] === '1') ? 'green' : 'red'};">${(rowData[5] === '1') ? 'Active' : 'Inactive'}</td>`+
 			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+
+
+
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -644,6 +605,7 @@ function goToPage(page) {
     fetchData();
 }
 
+
 // Function to fetch and update data
 function fetchData() {
     // Perform an AJAX request to fetch your data
@@ -684,6 +646,7 @@ function updateStatusText(data) {
     statusSpan.textContent = statusText[statusValue];
 }
 
+	
 let currentColumn = -1;
 let isAscending = true;
 
@@ -724,23 +687,24 @@ function sortTable(columnIndex) {
 }
 	
 function findRec(windowType, name){
+	
+
 	$.ajax({
         url: 'action/fetchOrder.php',
         type: 'GET',
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
-            console.log(JSON.stringify(response.data[0][1]))
 			openPopup(windowType);
-			document.getElementById("ordUID").textContent = response.data[0][0];
-			//document.getElementById("ord").value = response.data[0][0];
-			//$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
+			document.getElementById("ordID").textContent = response.data[0][0];
+			document.getElementById("ord").value = response.data[0][0];
+			$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
 			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
-			$('#ordNum').val(response.data[0][2]).prop('readonly',  windowType === 2);
-			//$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
+			$('#ordNum').val(response.data[0][3]).prop('readonly',  windowType === 2);
+			$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
 			// Get the select element by its ID
-			//var gender = response.data[0][2];
-			//$('#ordGender' + gender).prop('checked', true);
+			var gender = response.data[0][2];
+			$('#ordGender' + gender).prop('checked', true);
 			
 			// Get the select element by its ID
 			var selectElement = document.getElementById("ordJob");
@@ -773,9 +737,11 @@ function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	findRec(2, name);
+    
 
 	// Hide the select button
     document.getElementById('btnSelect').style.display = 'none';
+	
 }
 	
 function editRec(num){
@@ -798,6 +764,7 @@ function confirmDeleteOrder(form) {
     if (confirm("Are you sure you want to delete this order?")) {
     	// If the user confirms the second time, proceed with deletion
         orderInfo('del', form);
+ 
     }
 }
 	
@@ -825,6 +792,7 @@ function openPopup(type) {
 		document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "block";
 	}
+		
 }
 	
 function fetchCustName(){
@@ -843,4 +811,6 @@ function fetchCustName(){
         }
     });
 }
+
+
 </script>

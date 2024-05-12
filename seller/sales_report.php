@@ -171,7 +171,7 @@
         // Perform the SQL query based on date range
         if (!empty($start_date) && !empty($end_date)) {
             // Both start date and end date are selected
-            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight(g)', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
                         (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
                     FROM order_item oi
                     INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
@@ -241,7 +241,7 @@
         echo "<button type='submit' formaction='export_sales_to_excel.php' class='export-button'>Excel</button>"; // Add Export to Excel button with class
         echo "</form>";
         echo "<table border='1'>";
-        echo "<tr><th>ITEM NO</th><th>PRODUCT NAME AND WEIGHT</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>DATE</th><th>DETAILS</th></tr>";
+        echo "<tr><th>ITEM NO</th><th>PRODUCT NAME AND WEIGHT(g)</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>DATE</th><th>DETAILS</th></tr>";
 
         // Initialize item number counter
         $item_no = 1;

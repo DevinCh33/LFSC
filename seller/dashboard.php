@@ -332,6 +332,23 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                     }
                 },
                 scales: {
+                    x: {
+                    type: 'category', 
+                    display: true,
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Months',
+                        color: 'black',
+                        font: {
+                            family: 'Comic Sans MS',
+                            size: 20,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                        },
+                        padding: { top: 30, left: 0, right: 0, bottom: 50 }
+                    }
+                },
                     y: {
                         type: 'linear',
                         display: true,

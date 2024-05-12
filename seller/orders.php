@@ -78,45 +78,107 @@
             <span class="close" onclick="closePopup()">&times;</span>
         </div>
         
-        <!-- PHP script to fetch order details -->
-        <?php
-        // Assuming you have established a database connection earlier
+        <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
+			<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
+			<div class="myform-row">
+				<div id="divalert" class="divalert" name="divalert"></div>
+			</div>
+				
+			<div class="myform-row">
+				<div class="label">
+					<label for="ordDate" class="myform-label">ORDER DATE#</label>
+				</div>
+				<div class="input">
+					<span><?php echo date("Y-m-d"); ?></span>
+				</div>
+			</div>
+			
+			<div class="myform-row">
+				<div class="label">
+					<label for="icNo" class="myform-label">CONTACT NUMBER</label>
+				</div>
+				<div class="input">
+					<input type="text" id="ordNum" name="ordNum" class="myform-input" onKeyUp="fetchCustName()">
+				</div>
+			</div>
 
-        // Check if the order ID is provided
-        if (isset($_GET['orderId'])) {
-            $orderId = $_GET['orderId'];
-
-            // Execute the SQL query to retrieve order details
-            $sql = "SELECT * FROM orders WHERE order_id = $orderId";
-            $result = mysqli_query($db, $sql);
-
-            // Check if there are any results
-            if (mysqli_num_rows($result) > 0) {
-                // Output order details as HTML table
-                echo "<table border='1'>";
-                echo "<tr><th>Order ID#</th><th>Name</th><th>Contact Number</th><th>Order Date</th><th>Payment Type</th><th>Status</th></tr>";
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . $row['order_id'] . "</td>";
-                    echo "<td>" . $row['client_name'] . "</td>";
-                    echo "<td>" . $row['client_contact'] . "</td>";
-                    echo "<td>" . $row['order_date'] . "</td>";
-                    echo "<td>" . $row['payment_type'] . "</td>";
-                    echo "<td>" . $row['order_status'] . "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-            } else {
-                echo "No order found.";
-            }
-        } else {
-            echo "Order ID is not provided.";
-        }
-
-        // Close the database connection
-        mysqli_close($db);
-        ?>
-        
+			<div class="myform-row">
+				<div class="label">
+					<label for="ordName" class="myform-label">CLIENT NAME</label>
+				</div>
+				<div class="input">
+					<input type="text" id="ordName" name="ordName" class="myform-input">
+					<input type="hidden" id="ordUID" name="ordUID">
+				</div>
+			</div>
+				
+			<div style="width: 100%; text-align: center; border: 1px solid #000">
+				<table id="itemTable" style="border: none; width: 95%; margin: 0 auto;">
+					<tr style="text-align: left">
+						<th>Product</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Total Price</th>
+					</tr>
+					<tbody id="proSelected">
+						<!-- Table rows will be dynamically added here -->
+					</tbody>
+					<tr>
+						<td colspan="3" style="text-align: right; border-top: : 1px solid #000">Total Amount:</td>
+						<td>
+							<span id="txtTotal">0.00</span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" style="text-align: center; border: none">
+							<input type="button" id="btnSelect" class="button" onClick="showProductInfoPopup()" value="Select">
+						</td>
+					</tr>
+				</table>
+			</div>
+				
+			<div class="myform-row">
+				<div class="label">
+					<label for="ordDate" class="myform-label">Payment Type</label>
+				</div>
+				<div class="input">
+					<select id="ordType" name="ordType" class="custom-select" required>
+						<option value="1" value="1">COD</option>
+						<option value="2" value="2">Monthly Statement</option>
+					</select>
+				</div>
+			</div>
+			<div class="myform-row">
+				<div class="label">
+					<label for="ordDate" class="myform-label">Delivery Fee</label>
+				</div>
+				<div class="input">
+					<input type="text" id="ordDlvFee" name="ordDlvFee" class="myform-input" value="0">
+				</div>
+			</div>
+			<div class="myform-row">
+				<div class="label">
+					<label for="ordDate" class="myform-label">Deposit</label>
+				</div>
+				<div class="input">
+					<input type="text" id="ordDep" name="ordDep" class="myform-input" value="0">
+				</div>
+			</div>
+            <div class="myform-row">
+                <div class="label">
+					<label for="ordDate" class="myform-label">Status : </label>
+				</div>
+                <div class="input">
+                    <span name="orderStatus" class="myform-text"></span>
+                </div>
+			</div>
+           
+				<div style="text-align: center;">
+					<input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
+					<!-- <input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)"> -->
+					<input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
+				</div>
+    </form>
         <!-- Your existing form content -->
         <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
             <!-- Rest of your form content -->

@@ -171,7 +171,7 @@
         // Perform the SQL query based on date range
         if (!empty($start_date) && !empty($end_date)) {
             // Both start date and end date are selected
-            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
+            $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight(g)', p.descr AS item_description, tp.proPrice AS price, oi.quantity,
                         (tp.proPrice * oi.quantity) AS amount, p.product_image, r.title AS owner, uc.comment
                     FROM order_item oi
                     INNER JOIN tblprice tp ON oi.priceID = tp.priceNo

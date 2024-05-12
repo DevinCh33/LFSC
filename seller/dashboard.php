@@ -88,8 +88,9 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
            </div>
 
 
-          
+    
     <div class="sales-graph">
+        <h2 style = "text-align:center;">Monthly Sales Performance</h2></br>
         <canvas id="salesChart"></canvas>
     </div>
     <?php

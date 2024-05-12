@@ -300,9 +300,9 @@
             modalContent.innerHTML = `
                 <div class="modal-header">
                     <span class="close" onclick="closeModal()">&times;</span>
-                    <h2>Details</h2>
+                    <h2 style = "text-align:center;">Order Details</h2>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style = "text-align:center;">
                     <p><strong>User Name:</strong> ${username}</p>
                     <p><strong>Product Name:</strong> ${productName}</p>
                     <p><strong>Description:</strong> ${description}</p>

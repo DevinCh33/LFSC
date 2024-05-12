@@ -123,7 +123,7 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                 </div>
 
                 <div class="rating">
-					<h3 style="text-align: center;">Store Rating</h3>
+					<h3>Store Rating</h3>
 					
                     <?php
                 // Query to get the total amount of orders for the current month
@@ -132,7 +132,7 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                 $rowRating = mysqli_fetch_assoc($resultRating);
                 $totalRating = $rowRating['average_rating'];
                 ?>
-           		<h1><?php echo $totalRating; ?></h1>
+           		<h1 style="text-align: center;"><?php echo $totalRating; ?></h1>
                 
                 <div class="rating-box" id="ratingBox">
 						<!-- Stars will be dynamically added here -->
@@ -191,13 +191,13 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
             }
         });
 
-        // let currentDate = new Date();
+        let currentDate = new Date();
 
         // // Array of month names for display
-        // const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-        // document.getElementById("day").textContent = currentDate.getDate();
+        const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        document.getElementById("day").textContent = currentDate.getDate();
         // // Update the content of the element with the ID "date" with the formatted date
-        // document.getElementById("month").textContent = monthNames[currentDate.getMonth()];
+        document.getElementById("month").textContent = monthNames[currentDate.getMonth()];
 
 
 

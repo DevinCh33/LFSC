@@ -539,7 +539,7 @@
                 echo "<p>The graph illustrates product sales across various categories and regions. Each bar represents the total sales volume of a product category, providing insights into relative performance and identifying popular categories.</p>";
 
                 // Output the message
-                echo "<p>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>RM" . number_format($maxSales, 2) . "</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
+                echo "<p style='padding-bottom: 15%;'>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>RM" . number_format($maxSales, 2) . "</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
 
                 ?>
 

@@ -11,8 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         h1{
-            text-decoration: underline;
-            font-size: 30px;
+            text-align: center;
+            font-size: 20px;
         }
        
         .chart-container {
@@ -33,7 +33,7 @@
         <i class='bx bx-menu' ></i>
         <span class="text">Reports</span>
         </div>
-        <h1 style = "text-align:center;">Product Report</h1>
+        <h1 style = "text-decoration: underline;font-size: 30px;">Product Report</h1>
         <div class="chart-container">
     <h1>Sales Analysis</h1>
     <canvas id="ordersChart" width="400" height="200"></canvas>

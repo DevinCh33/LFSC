@@ -54,7 +54,7 @@
         </div>
         <ul class="sub-menu">
           	<li><a class="link_name" href="sellers.php">Sellers</a></li>
-            <li><a href="store_category_inspection.php">Store Category</a></li>
+            <!-- <li><a href="store_category_inspection.php">Store Category</a></li> -->
             <li><a href="comment_inspection.php">Comment Inspection</a></li>
 			<li><a href="seller_inspection.php">Inspection</a></li>
       

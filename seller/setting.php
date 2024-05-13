@@ -164,6 +164,9 @@
 								<span class="close" onclick="closePopup()">&times;</span>
 							</div>
 							<div id="cardVerify">
+							<?php 
+								if($_SESSION['status'] == 0){
+							?>
 								<form action="action/sellerVerify.php"  method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
 									<div class="myform-row">
 										<div id="divalert" class="divalert" name="divalert"></div>
@@ -198,8 +201,11 @@
 									<div style="text-align: center;">
 										<input type="button" id="subDoc" class="button" value="Submit Document" onClick="submitDoc()">
 									</div>
-									
+								
 								</form>
+								<?php
+									}
+								?>
 								<div id="validationHistory" style="margin-top: 20px; width: 90%; margin-left: auto; margin-right: auto; text-align: center;">
 									<h1>History Of Validating</h1>
 									<table id="validationTable" style="width: 100%; border-collapse: collapse; border-top: 2px solid black;border-bottom: 2px solid black;">
@@ -385,7 +391,8 @@ function submitDoc() {
         if (xhr.status === 200) {
             // Request was successful, handle the response here if needed
             alert(xhr.responseText);
-			
+			$("#myForm")[0].reset();
+			closePopup()
         } else {
             // Request failed
             console.error('Request failed with status:', xhr.status);

@@ -784,9 +784,7 @@ function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	findRec(2, name);
-    
-
-	// Hide the select button
+	
     document.getElementById('btnSelect').style.display = 'none';
 	
 }
@@ -822,6 +820,7 @@ function openPopup(type) {
 		document.getElementById('addOrder').style.display = "block";
 		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
+		document.getElementById('btnSelect').style.display = 'block';
 	}
 	else if(type == 2){
 		document.getElementById('addOrder').style.display = "none";

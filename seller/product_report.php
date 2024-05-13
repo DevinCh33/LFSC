@@ -82,7 +82,7 @@
         $explanation_message = "This chart represents the sales analysis over time. It shows the quantity of orders made each month, as well as the total sales generated.";
 
         // Print the explanation message within a <p> tag
-        echo "<p>$explanation_message</p>";
+        echo "<p style='padding-bottom: 15%;'>$explanation_message</p>";
     ?>
 
     <script>
@@ -209,7 +209,7 @@
 
                 // Calculate market share for each product and generate explanation
                 $graphExplanation = "<p><strong>Market Share Pie Chart Explanation:</strong></p>";
-                $graphExplanation .= "<p>The Market Share Pie Chart illustrates the distribution of sales among different products based on the data obtained.</p>";
+                $graphExplanation .= "<p style='padding-bottom: 15%;'>The Market Share Pie Chart illustrates the distribution of sales among different products based on the data obtained.</p>";
 
                 foreach ($data as &$product) {
                     // Calculate market share percentage for each product
@@ -323,7 +323,7 @@
             echo "<p>The graph illustrates product sales across various categories and regions. Each bar represents the total sales volume of a product category, providing insights into relative performance and identifying popular categories.</p>";
 
             // Output the message
-            echo "<p>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>RM" . number_format($maxSales, 2) . "</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
+            echo "<p style='padding-bottom: 15%;'>The most popular product category, <strong>$mostPopularCategory</strong>, leads with total sales reaching <strong>RM" . number_format($maxSales, 2) . "</strong>. This insight assists in directing marketing strategies and optimizing inventory based on sales performance.</p>";
 
             ?>
 
@@ -412,6 +412,7 @@
                     });
                 </script>
         </div>
+        
 
 
     </section>

@@ -25,7 +25,7 @@
 	  
 	  <div class="empMainCon">
 		  <div style="text-align: right; margin-bottom: 10px">
-		  	<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Order</button>
+		  	<!-- <button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Order</button> -->
 		  </div>
 		  
 		   	<div class="controls-container">
@@ -72,15 +72,13 @@
     </div>
 	  </div>
 	  
-	  
-    <div id="popupWindow" class="popup">
-		
-      <div class="popup-content">
-		  <div class="xclose">
-		  	<span class="close" onclick="closePopup()">&times;</span>
-		  </div>
-        	
-			<form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
+      <div id="popupWindow" class="popup">
+    <div class="popup-content">
+        <div class="xclose">
+            <span class="close" onclick="closePopup()">&times;</span>
+        </div>
+        
+        <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
 			<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
 			<div class="myform-row">
 				<div id="divalert" class="divalert" name="divalert"></div>
@@ -177,28 +175,33 @@
            
 				<div style="text-align: center;">
 					<input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
-					<input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)">
+					<!-- <input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)"> -->
 					<input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
 				</div>
-
     </form>
-      </div>
+        <!-- Your existing form content -->
+        <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
+            <!-- Rest of your form content -->
+        </form>
     </div>
-	  
-<div id="productInfo" class="popup">
-  <div class="popup-content">
-    <div class="xclose">
-      <span class="close" onclick="hideProductInfoPopup()">&times;</span>
-    </div>
-	<div>
-		<form method="GET" action="action/fetchProduct.php" id="proForm">
-			<span>Search: <input type="text" id="searchProText" onKeyUp="searchSpecific()"></span>
-	  		<div id="showProduct" style="text-align: center; margin-top: 10px;"></div>
-		</form>
-		
-	</div>
-  </div>
 </div>
+
+
+
+<!-- <div id="productInfo" class="popup">
+    <div class="popup-content">
+        <div class="xclose">
+            <span class="close" onclick="hideProductInfoPopup()">&times;</span>
+        </div>
+        <div>
+            <form method="GET" action="action/fetchProduct.php" id="proForm">
+                <span>Search: <input type="text" id="searchProText" onkeyup="searchSpecific()"></span>
+                <div id="showProduct" style="text-align: center; margin-top: 10px;"></div>
+            </form>
+        </div>
+    </div>
+</div> -->
+
 
 	  
   </section>
@@ -598,7 +601,12 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
 			'<td>' + rowData[4] + '</td>' +
             `<td style="color: ${(rowData[5] === '1') ? 'green' : 'red'};">${(rowData[5] === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+
+
+
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -742,6 +750,7 @@ function sortTable(columnIndex) {
 	
 function findRec(windowType, name){
 	
+
 	$.ajax({
         url: 'action/fetchOrder.php',
         type: 'GET',
@@ -790,6 +799,7 @@ function viewRec(num){
 	var button = document.getElementById("btnView"+num);
 	var name = button.getAttribute("name");
 	findRec(2, name);
+    
 
 	// Hide the select button
     document.getElementById('btnSelect').style.display = 'none';

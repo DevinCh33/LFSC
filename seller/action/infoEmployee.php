@@ -52,8 +52,6 @@ include("../email/send_verification_email.php");
 		}
 	}
 
-
-
 // Return a JSON response
 echo json_encode($valid);
 ?>

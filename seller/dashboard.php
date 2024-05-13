@@ -88,9 +88,33 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
            </div>
 
 
-            <div class="sales-graph">
-                <canvas id="salesChart"></canvas>
-            </div>
+    
+    <div class="sales-graph">
+        <h2 style = "text-align:center;">Monthly Sales Performance</h2></br>
+        <canvas id="salesChart"></canvas>
+    </div>
+    <?php
+        // Perform the SQL query to get the total sales over time
+        $sql_total_sales = "SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month, SUM(p.proPrice * oi.quantity) AS total_sales
+                            FROM order_item oi
+                            INNER JOIN tblprice p ON oi.priceID = p.priceNo
+                            INNER JOIN product pr ON p.productID = pr.product_id
+                            INNER JOIN orders o ON oi.order_id = o.order_id
+                            WHERE pr.owner = '".$_SESSION['store']."'
+                            GROUP BY DATE_FORMAT(order_date, '%Y-%m') 
+                            ORDER BY order_date";
+
+        $result_total_sales = mysqli_query($db, $sql_total_sales);
+
+        // Initialize an array to hold the sales data for each month
+        $data_total_sales = array_fill_keys(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], 0);
+
+        // Fetch total sales data into the array
+        while ($row_sales = mysqli_fetch_assoc($result_total_sales)) {
+            $month = date('F', strtotime($row_sales['order_month']));
+            $data_total_sales[$month] = $row_sales['total_sales'];
+        }
+    ?>
 
             <div class="multiFunction">
                 <div class="calendar">
@@ -101,7 +125,17 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 
                 <div class="rating">
 					<h3>Store Rating</h3>
-					<div class="rating-box" id="ratingBox">
+					
+                    <?php
+                // Query to get the total amount of orders for the current month
+                $queryRating = "SELECT ROUND(AVG(rating), 1) AS average_rating FROM user_ratings WHERE res_id ='" . $_SESSION['store'] . "'";
+                $resultRating = mysqli_query($db, $queryRating);
+                $rowRating = mysqli_fetch_assoc($resultRating);
+                $totalRating = $rowRating['average_rating'];
+                ?>
+           		<h1 style="text-align: center;"><?php echo $totalRating; ?></h1>
+                
+                <div class="rating-box" id="ratingBox">
 						<!-- Stars will be dynamically added here -->
 					</div>
 				</div>
@@ -160,87 +194,184 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 
         let currentDate = new Date();
 
-        // Array of month names for display
+        // // Array of month names for display
         const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
         document.getElementById("day").textContent = currentDate.getDate();
-        // Update the content of the element with the ID "date" with the formatted date
+        // // Update the content of the element with the ID "date" with the formatted date
         document.getElementById("month").textContent = monthNames[currentDate.getMonth()];
 
 
 
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var ctx = document.getElementById('salesChart').getContext('2d');
+        //     var salesChart = new Chart(ctx, {
+        //         type: 'bar',
+        //         data: {
+        //             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        //             datasets: [{
+        //                 label: 'Sales Amount (RM)',
+        //                 data: [
+        //                     <?php echo 1200; ?>,
+        //                     <?php echo 1800; ?>,
+        //                     <?php echo $data['March']; ?>,
+        //                     <?php echo $data['April']; ?>,
+        //                     <?php echo $data['May']; ?>,
+        //                     <?php echo $data['June']; ?>,
+        //                     <?php echo $data['July']; ?>,
+        //                     <?php echo $data['August']; ?>,
+        //                     <?php echo $data['September']; ?>,
+        //                     <?php echo $data['October']; ?>,
+        //                     <?php echo $data['November']; ?>,
+        //                     <?php echo $data['December']; ?>
+        //                 ],
+        //                 backgroundColor: [
+        //                     'rgba(255, 99, 132, 0.2)',
+        //                     'rgba(54, 162, 235, 0.2)',
+        //                     'rgba(255, 206, 86, 0.2)',
+        //                     'rgba(75, 192, 192, 0.2)',
+        //                     'rgba(153, 102, 255, 0.2)',
+        //                     'rgba(255, 159, 64, 0.2)',
+        //                     'rgba(255, 99, 132, 0.2)',
+        //                     'rgba(54, 162, 235, 0.2)',
+        //                     'rgba(255, 206, 86, 0.2)',
+        //                     'rgba(75, 192, 192, 0.2)',
+        //                     'rgba(153, 102, 255, 0.2)',
+        //                     'rgba(255, 159, 64, 0.2)'
+        //                 ],
+        //                 borderColor: [
+        //                     'rgba(255, 99, 132, 1)',
+        //                     'rgba(54, 162, 235, 1)',
+        //                     'rgba(255, 206, 86, 1)',
+        //                     'rgba(75, 192, 192, 1)',
+        //                     'rgba(153, 102, 255, 1)',
+        //                     'rgba(255, 159, 64, 1)',
+        //                     'rgba(255, 99, 132, 1)',
+        //                     'rgba(54, 162, 235, 1)',
+        //                     'rgba(255, 206, 86, 1)',
+        //                     'rgba(75, 192, 192, 1)',
+        //                     'rgba(153, 102, 255, 1)',
+        //                     'rgba(255, 159, 64, 1)'
+        //                 ],
+        //                 borderWidth: 1
+        //             }]
+        //         },
+        //         options: {
+        //             plugins: {
+        //                 datalabels: {
+        //                     color: '#fff', // Color of data labels
+        //                     anchor: 'end',
+        //                     align: 'top',
+        //                     formatter: function (value, context) {
+        //                         return value + ' RM';
+        //                     }
+        //                 }
+        //             },
+        //             scales: {
+        //                 y: {
+        //                     beginAtZero: true
+        //                 }
+        //             }
+        //         }
+        //     });
+        // });
+		
         document.addEventListener('DOMContentLoaded', function () {
-            var ctx = document.getElementById('salesChart').getContext('2d');
-            var salesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    datasets: [{
-                        label: 'Sales Amount (RM)',
-                        data: [
-                            <?php echo 1200; ?>,
-                            <?php echo 1800; ?>,
-                            <?php echo $data['March']; ?>,
-                            <?php echo $data['April']; ?>,
-                            <?php echo $data['May']; ?>,
-                            <?php echo $data['June']; ?>,
-                            <?php echo $data['July']; ?>,
-                            <?php echo $data['August']; ?>,
-                            <?php echo $data['September']; ?>,
-                            <?php echo $data['October']; ?>,
-                            <?php echo $data['November']; ?>,
-                            <?php echo $data['December']; ?>
-                        ],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        datalabels: {
-                            color: '#fff', // Color of data labels
-                            anchor: 'end',
-                            align: 'top',
-                            formatter: function (value, context) {
-                                return value + ' RM';
-                            }
+        var ctx = document.getElementById('salesChart').getContext('2d');
+
+        // Retrieve the dynamic PHP data for sales
+        var salesData = [
+            <?php echo implode(',', $data_total_sales); ?>
+        ];
+
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Sales Amount (RM)',
+                    data: salesData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: '#fff', // Color of data labels
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: function (value, context) {
+                            return value + ' RM';
                         }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                    }
+                },
+                scales: {
+                    x: {
+                    type: 'category', 
+                    display: true,
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Months',
+                        color: 'black',
+                        font: {
+                            family: 'Comic Sans MS',
+                            size: 20,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                        },
+                        padding: { top: 30, left: 0, right: 0, bottom: 50 }
+                    }
+                },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Total Sales',
+                            color: 'black',
+                            font: {
+                                family: 'Comic Sans MS',
+                                size: 20,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: { top: 30, left: 0, right: 0, bottom: 50 }
                         }
                     }
                 }
-            });
+            }
         });
-		
+    });
+
 		function createStars(rating) {
 			const ratingBox = document.getElementById('ratingBox');
 			ratingBox.innerHTML = ''; // Clear previous stars

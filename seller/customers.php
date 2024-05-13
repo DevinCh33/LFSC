@@ -253,7 +253,8 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             //`<td style="color: ${(rowData[6] === '1') ? 'green' : 'red'};">${(rowData[6] === '1') ? 'Active' : 'Inactive'}</td>`+
-			      '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[5]+'" onclick="viewRec('+i+')"></i><i class="fa-solid fa-money-bill-1" id="customPrice'+i+'" name="'+rowData[5]+'" onclick="givePrice('+i+')"></i></td>';
+			      // '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[5]+'" onclick="viewRec('+i+')"></i><i class="fa-solid fa-money-bill-1" id="customPrice'+i+'" name="'+rowData[5]+'" onclick="givePrice('+i+')"></i></td>';
+			      '<td><i class="fa-solid fa-money-bill-1" id="customPrice'+i+'" name="'+rowData[5]+'" onclick="givePrice('+i+')"></i></td>';
 
         tableBody.appendChild(newRow);
     }

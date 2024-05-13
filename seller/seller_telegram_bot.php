@@ -352,47 +352,44 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
     if ($stmt->affected_rows > 0) {
         sendMessage($chatId, "Order status updated successfully.");
 
-        $query = "SELECT o.user_id, r.title AS restaurant_title FROM orders o JOIN restaurant r ON o.order_belong = r.rs_id WHERE o.order_id = ?";
+        $query = "SELECT o.user_id, r.title AS restaurant_title, u.notifications_enabled, u.chat_id AS buyer_chat_id FROM orders o
+                  JOIN restaurant r ON o.order_belong = r.rs_id
+                  JOIN users u ON o.user_id = u.u_id
+                  WHERE o.order_id = ?";
         if ($detailStmt = $db->prepare($query)) {
             $detailStmt->bind_param("i", $orderId);
             $detailStmt->execute();
             $result = $detailStmt->get_result();
             if ($row = $result->fetch_assoc()) {
-                $userId = $row['user_id'];
-                $restaurantTitle = $row['restaurant_title'];
+                if ($row['notifications_enabled']) { // Check if notifications are enabled
+                    $buyerChatId = $row['buyer_chat_id'];
+                    $restaurantTitle = $row['restaurant_title'];
+                    $message = "";
+                    switch ($newStatus) {
+                        case 1:
+                            $message = $restaurantTitle . ": Seller is preparing your order (Order ID: " . $orderId . ").";
+                            break;
+                        case 2:
+                            $message = $restaurantTitle . ": Seller is delivering your order (Order ID: " . $orderId . ").";
+                            break;
+                        case 3:
+                            $message = $restaurantTitle . ": Order (Order ID: " . $orderId . ") completed.";
+                            break;
+                    }
 
-                $chatIdQuery = "SELECT chat_id FROM users WHERE u_id = ?";
-                if ($chatIdStmt = $db->prepare($chatIdQuery)) {
-                    $chatIdStmt->bind_param("i", $userId);
-                    $chatIdStmt->execute();
-                    $chatIdResult = $chatIdStmt->get_result();
-                    if ($chatRow = $chatIdResult->fetch_assoc()) {
-                        $buyerChatId = $chatRow['chat_id'];
-                        $message = "";
-                        switch ($newStatus) {
-                            case 1:
-                                $message = $restaurantTitle . ": Seller is preparing your order (Order ID: " . $orderId . ").";
-                                break;
-                            case 2:
-                                $message = $restaurantTitle . ": Seller is delivering your order (Order ID: " . $orderId . ").";
-                                break;
-                            case 3:
-                                $message = $restaurantTitle . ": Order (Order ID: " . $orderId . ") completed.";
-                                break;
-                        }
-
-                        if (!empty($message)) {
-                            sendTelegramNotification($buyerChatId, $message);
-                        }
+                    if (!empty($message)) {
+                        sendTelegramNotification($buyerChatId, $message);
                     }
                 }
             }
+            $detailStmt->close();
         }
     } else {
         sendMessage($chatId, "Failed to update order status.");
     }
     $stmt->close();
 }
+
 
 function verifyPayment($chatId, $orderId)
 {
@@ -431,7 +428,7 @@ function verifyPayment($chatId, $orderId)
             $receiptResult = $receiptStmt->get_result();
             $receiptRow = $receiptResult->fetch_assoc();
 
-            $messageDetails = "Order ID $orderId\nOrder Date: $orderDate\nProducts Bought:\n$productsDetailsTotal Price: RM$totalAmount\nPlease confirm the receipt details are correct before proceeding.";
+            $messageDetails = "Order ID $orderId\nOrder Date: $orderDate\nProducts Bought:\n$productsDetails\nPrice: RM$totalAmount\nPlease confirm the receipt details are correct before proceeding.";
 
             $keyboard = [
                 'inline_keyboard' => [
@@ -443,7 +440,7 @@ function verifyPayment($chatId, $orderId)
             ];
 
             if ($receiptRow && $receiptRow['receipt_path']) {
-                $photoUrl = "https://f24d-175-136-67-233.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
+                $photoUrl = "https://3634-175-136-67-233.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
                 sendPhoto($chatId, $photoUrl, $messageDetails, $keyboard);
             } else {
                 sendMessage($chatId, $messageDetails, $keyboard);

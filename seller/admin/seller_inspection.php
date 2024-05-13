@@ -311,12 +311,14 @@ function sortTable(columnIndex) {
 }
 	
 function findRec(windowType, name){
+	alert(name);
 	$.ajax({
         url: 'action/fetchSellerImg.php',
         type: 'GET',
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
+			console.log(response);
 			console.log(response[0].frontImg);
 			openPopup(windowType);
 			$('#frontIC').attr('src', response[0].frontImg).css({ width: '400px', height: '200px' });;

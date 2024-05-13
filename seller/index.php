@@ -22,7 +22,6 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 
 	if (!empty($_POST["submit"])) 
     {
-		// Query to fetch admin account details
 		$loginquery = "SELECT adm_id, code, password, u_role, store, storeStatus FROM admin WHERE username='$username'";
 		$result = mysqli_query($db, $loginquery);
 		

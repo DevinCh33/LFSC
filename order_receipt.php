@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyInfo = $companyInfo->fetch_assoc();
 
     if ($query->num_rows > 0) {
-        $receiptNo = "LF".$_POST['rs_id']."_".$order; // Constructing the receipt number
+        $receiptNo = "LF".$_POST['rs_id'].$order; // Constructing the receipt number
         $receiptContent = "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center;'>";
         $receiptContent .= "<p style='font-size: 14px; color: #555; font-weight: bold;'>".$companyInfo['title']."</p>";
         $receiptContent .= "<p style='font-size: 14px; color: #555;'>".$companyInfo['address']."</p>";

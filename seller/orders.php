@@ -747,27 +747,50 @@ function findRec(windowType, name){
 			document.getElementById("ordOID").value = response.data[0][0];
 			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
 			$('#ordNum').val(response.data[0][2]).prop('readonly',  windowType === 2);
-			
+             // Clear the existing table rows
+            $('#proSelected').empty();
+
+            // Iterate through the fetched data and append rows to the table
+            $.each(response.data, function(index, item) {
+                var htmlRow = '<tr>' +
+                                '<td>' + item[3] + '</td>' + // Product name
+                                '<td>' + item[5] + '</td>' + // Price
+                                '<td>' + item[4] + '</td>' + // Quantity
+                                '<td>' + (parseFloat(item[5]) * parseInt(item[4])) + '</td>' + // Total price
+                            '</tr>';
+                $('#proSelected').append(htmlRow);
+            });
+            // Calculate and display the total amount
+            var totalAmount = 0;
+                $('#proSelected').find('tr').each(function() {
+                    var totalPrice = parseFloat($(this).find('td:eq(3)').text());
+                    if (!isNaN(totalPrice)) {
+                        totalAmount += totalPrice;
+                    }
+                });
+                $('#txtTotal').text(totalAmount.toFixed(2));
+
+            
 			// Get the select element by its ID
-//			var selectElement = document.getElementById("ordJob");
-//
-//			// Loop through the options and select the one that matches the data
-//			for (var i = 0; i < selectElement.options.length; i++) {
-//			  if (selectElement.options[i].value === response.data[0][5]) {
-//				selectElement.options[i].selected = true;
-//				break; // Exit the loop once a match is found
-//			  }
-//			}	
+			// var selectElement = document.getElementById("ordJob");
+
+			// Loop through the options and select the one that matches the data
+			// for (var i = 0; i < selectElement.options.length; i++) {
+			//   if (selectElement.options[i].value === response.data[0][4]) {
+			// 	selectElement.options[i].selected = true;
+			// 	break; // Exit the loop once a match is found
+			//   }
+			// }	
 			// Get the select element by its ID
-//			var selectElement = document.getElementById("ordStatus");
-//
-//			// Loop through the options and select the one that matches the data
-//			for (var i = 0; i < selectElement.options.length; i++) {
-//			  if (selectElement.options[i].value === response.data[0][6]) {
-//				selectElement.options[i].selected = true;
-//				break; // Exit the loop once a match is found
-//			  }
-//			}	
+			// var selectElement = document.getElementById("ordStatus");
+
+			// // Loop through the options and select the one that matches the data
+			// for (var i = 0; i < selectElement.options.length; i++) {
+			//   if (selectElement.options[i].value === response.data[0][5]) {
+			// 	selectElement.options[i].selected = true;
+			// 	break; // Exit the loop once a match is found
+			//   }
+			// }	
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);

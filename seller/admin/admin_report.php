@@ -291,7 +291,7 @@
 
             <div class="chart-container">
                 <h1>Market Share Pie Chart</h1>
-                <canvas id="marketShareChart" width="800" height="400" ></canvas>
+                <canvas id="marketShareChart" width="800" height="400" style="margin-left: auto; margin-right: auto;"></canvas>
 
             <?php
                     // Include necessary PHP code to establish database connection

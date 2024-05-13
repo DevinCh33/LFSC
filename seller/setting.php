@@ -322,7 +322,6 @@ function retrieveRec() {
         type: "GET",
         data: { admID: "<?php echo $_SESSION['adm_id']; ?>" },
         success: function(response) {
-            // Parse the response as JSON
             var data = JSON.parse(response);
 			
 
@@ -385,7 +384,8 @@ function submitDoc() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             // Request was successful, handle the response here if needed
-            console.log(xhr.responseText);
+            alert(xhr.responseText);
+			
         } else {
             // Request failed
             console.error('Request failed with status:', xhr.status);

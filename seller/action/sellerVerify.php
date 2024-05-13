@@ -13,14 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $backID = verifyImage($_FILES['backID'], $uploadDirectory);
         $IDwithFace = verifyImage($_FILES['IDwithFace'], $uploadDirectory);
 		
-		
 
         // If all images are verified successfully, proceed to store data
         if ($frontID && $backID && $IDwithFace) {
             // Perform additional data validation and processing here
             // For demonstration purposes, let's just echo the filenames
-			$fullPath = "http://localhost/lfsc/seller/images/verify/";
-			$sql = "INSERT INTO tblvalidation(frontImg, backImg, faceImg, imgStatus, sellerID) VALUES('".$fullPath.$frontID."', '".$fullPath.$backID."', '".$fullPath.$IDwithFace."',1, '".$_SESSION['store']."')";
+			$fullPath = "../images/verify/";
+			$sql = "INSERT INTO tblvalidation(frontImg, backImg, faceImg, imgStatus, storeID) VALUES('".$fullPath.$frontID."', '".$fullPath.$backID."', '".$fullPath.$IDwithFace."',1, '".$_SESSION['store']."')";
 			if($db->query($sql) == TRUE) {
 				echo "Successfully Uploaded, Please Kindly Waiting for Verification";
 			} else {

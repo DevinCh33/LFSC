@@ -149,22 +149,6 @@
 					</select>
 				</div>
 			</div>
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">Delivery Fee</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordDlvFee" name="ordDlvFee" class="myform-input" value="0">
-				</div>
-			</div>
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">Deposit</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordDep" name="ordDep" class="myform-input" value="0">
-				</div>
-			</div>
             <div class="myform-row">
                 <div class="label">
 					<label for="ordDate" class="myform-label">Status : </label>
@@ -582,7 +566,7 @@ var currentPage = 1;
 
 function updateTableAndPagination(data) {
 	if (data.data.length === 0) {
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center;">NO ORDERS RECORD</td></tr>';
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="7" style="text-align: center;">NO ORDERS RECORD</td></tr>';
         document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
         document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
         return; // Exit function since there are no records to display
@@ -752,8 +736,6 @@ function sortTable(columnIndex) {
 }
 	
 function findRec(windowType, name){
-	
-
 	$.ajax({
         url: 'action/fetchOrder.php',
         type: 'GET',

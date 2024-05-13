@@ -52,8 +52,14 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 $_GET['res_id'] = $defaultMerchant;
             }
 
-            $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
-            $rows = mysqli_fetch_array($ress);                             
+            $ress = mysqli_query($db,"SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE NOT admin.storeStatus = 10 AND restaurant.rs_id='$_GET[res_id]'");
+            $rows = mysqli_fetch_array($ress);
+            
+            if ($rows == null)
+            {
+                echo 'Store not found.';
+                exit();
+            }
         ?>
 
         <section class="inner-page-hero bg-image" data-image-src="images/img/dish.jpeg">

@@ -27,16 +27,16 @@
     require 'send_verification_email.php';
 
     $message = '';
-    $success = false;
+    $success = '';
 	
     if (isset($_POST['register'])) {
 		$text = "";
 		if($_POST['username'] == "" || $_POST['email'] == "" || $_POST['txtPass'] == "" || $_POST['txtConPass'] == ""){
-			$text = "Please Make Sure All Field Have Been Filled";
+			$text = "Please make sure all fields have been filled!";
 		}else if($_POST['txtPass'] != $_POST['txtConPass']){
-			$text = "Confirm Password And Password Not Match";
+			$text = "Confirm Password and Password do not match!";
 		}else if(strlen($_POST['username'])< 5){
-			$text = "Username Length must more than 5 characters";
+			$text = "Username length must be more than 5 characters!";
 		}else{
 			$username = $_POST['username'];
 			$email = $_POST['email'];
@@ -59,17 +59,16 @@
 
 					if (mysqli_query($db, $registerQuery)) {
 						if (sendVerificationEmail($email, $token)) {
-							$message = "Registration successful! Please check your email to verify.";
-							$success = true;
+							$success = "<div class='alert alert-success'>Registration successful! Please check your email to verify.</div>";
 						} else {
-							$message = "Registration successful but failed to send verification email.";
+							$message = "<div class='alert alert-danger'>Registration successful but failed to send verification email.</div>";
 						}
 					} else {
 						$message = "Error: " . mysqli_error($db);
 					}
 				}
 			} else {
-				$text = "Invalid email address";
+				$text = "Invalid email address!";
 			}
 		}
 	}
@@ -88,6 +87,8 @@
 			<hr>
           <!-- Email input -->
 		<div class="alertCSS"><?php echo $text; ?></div>
+		<?php echo $message; ?>
+		<?php echo $success; ?>
 			
      	<div data-mdb-input-init class="form-outline mb-4">
 			<label class="form-label" for="name">Username</label>

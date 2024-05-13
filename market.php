@@ -104,10 +104,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     WHERE product.owner = ".$data['owner']."
                                     AND tblprice.proQuant > 0 AND product.status = 1";
 
-                 // Recommendation from similar price range (+- RM 10)
+                // Recommendation from similar price range (+- $priceRange as defined in config/recommend.php)
                 $productQuery[3] = "SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
-                                    WHERE tblprice.proPrice >= ".((float)$data['proPrice']-10)." 
-                                    AND tblprice.proPrice <= ".((float)$data['proPrice']+10)." 
+                                    WHERE tblprice.proPrice >= ".((float)$data['proPrice']-$priceRange)." 
+                                    AND tblprice.proPrice <= ".((float)$data['proPrice']+$priceRange)." 
                                     AND tblprice.proQuant > 0 AND product.status = 1";
 
                 $recommended[0] = 0;

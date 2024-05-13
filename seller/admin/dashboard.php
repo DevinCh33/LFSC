@@ -111,6 +111,7 @@
 		</div>
 	
 		  <div class="sales-graph">
+		  <h2 style = "text-align:center;">Number of Sellers Joining Each Month</h2></br>
 			<canvas id="salesChart"></canvas>
 		  </div>
 		
@@ -242,8 +243,39 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             options: {
                 scales: {
+                    x: {
+                    type: 'category', 
+                    display: true,
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: 'Months',
+                        color: 'black',
+                        font: {
+                            family: 'Comic Sans MS',
+                            size: 20,
+                            weight: 'bold',
+                            lineHeight: 1.2,
+                        },
+                        padding: { top: 30, left: 0, right: 0, bottom: 50 }
+                    }
+                },
                     y: {
-                        beginAtZero: true
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Number Seller Join',
+                            color: 'black',
+                            font: {
+                                family: 'Comic Sans MS',
+                                size: 20,
+                                weight: 'bold',
+                                lineHeight: 1.2,
+                            },
+                            padding: { top: 30, left: 0, right: 0, bottom: 50 }
+                        }
                     }
                 }
             }

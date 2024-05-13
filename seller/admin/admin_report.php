@@ -11,8 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         h1{
-            text-decoration: underline;
-            font-size: 30px;
+            text-align: center;
+            font-size: 20px;
         }
         table {
         width: 100%;
@@ -42,6 +42,7 @@
             width: 80%;
             height: 80%;
             margin: 5% auto 30% auto;
+            justify-content: center;
         }
 
         .export-button {
@@ -142,7 +143,7 @@
         </div>
         
 
-            <h1 style = "text-align:center;">Product Report</h1>
+            <h1 style = "text-decoration: underline;font-size: 30px;">Product Report</h1>
             <div class="chart-container">
         <h1>Sales Analysis</h1>
         <canvas id="ordersChart" width="400" height="200"></canvas>
@@ -288,9 +289,9 @@
             </div>
 
 
-            <div class="chart-container" >
+            <div class="chart-container">
                 <h1>Market Share Pie Chart</h1>
-                <canvas id="marketShareChart" width="800" height="400"></canvas>
+                <canvas id="marketShareChart" width="800" height="400" style="margin-left: auto; margin-right: auto;"></canvas>
 
             <?php
                     // Include necessary PHP code to establish database connection
@@ -379,114 +380,138 @@
                 </script>
             </div>
 
-            <div class="chart-container"  style='margin-bottom: 50%;'>
-                <h1>Total Number of Orders by Age Group</h1>
-                <canvas id="marketShareChart" width="800" height="400"></canvas>
+           
+            <?php
+                // Include necessary PHP code to establish database connection
+                include 'connect.php';
 
-                <?php
-                    // Include necessary PHP code to establish database connection
-                    include 'connect.php';
+                // Perform the SQL query to retrieve data for the bar chart
+                $sql = "SELECT p.product_name, 
+                            TIMESTAMPDIFF(YEAR, u.dob, CURDATE()) AS customer_age,
+                            COUNT(*) AS order_count
+                        FROM order_item oi
+                        JOIN orders o ON oi.order_id = o.order_id
+                        JOIN users u ON o.user_id = u.u_id
+                        JOIN tblprice tp ON oi.priceID = tp.priceNo
+                        JOIN product p ON tp.productID = p.product_id
+                        GROUP BY p.product_id, customer_age
+                        ORDER BY p.product_id, customer_age";
 
-                    // Perform the SQL query to retrieve data for the bar chart
-                    $sql = "SELECT p.product_name, 
-                                TIMESTAMPDIFF(YEAR, u.dob, CURDATE()) AS customer_age,
-                                COUNT(*) AS order_count
-                            FROM order_item oi
-                            JOIN orders o ON oi.order_id = o.order_id
-                            JOIN users u ON o.user_id = u.u_id
-                            JOIN tblprice tp ON oi.priceID = tp.priceNo
-                            JOIN product p ON tp.productID = p.product_id
-                            GROUP BY p.product_id, customer_age
-                            ORDER BY p.product_id, customer_age";
+                $result = mysqli_query($db, $sql);
 
-                    $result = mysqli_query($db, $sql);
+                // Fetch data into an array for the bar chart
+                $data = array();
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $data[] = $row;
+                }
 
-                    // Fetch data into an array for the bar chart
-                    $data = array();
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $data[] = $row;
+                // Calculate total order count for each age group
+                $ageGroupCounts = array();
+                foreach ($data as $item) {
+                    $age = $item['customer_age'];
+                    $orderCount = $item['order_count'];
+                    if (!isset($ageGroupCounts[$age])) {
+                        $ageGroupCounts[$age] = 0;
                     }
+                    $ageGroupCounts[$age] += $orderCount;
+                }
 
-                    // Close the database connection
-                    mysqli_close($db);
-                    ?>
+                // Determine the age group with the most orders
+                $mostOrderAgeGroup = array_keys($ageGroupCounts, max($ageGroupCounts))[0];
 
-                    <div class="chart-container" style='margin-bottom: 50%;'>
-                        <h1>Total Number of Orders by Age Group</h1>
-                        <canvas id="orderAgeGraph" width="800" height="400"></canvas>
+                // Find the product that contributed the most to the order count in the age group with the most orders
+                $mostOrderedProduct = '';
+                $maxOrderCount = 0;
+                foreach ($data as $item) {
+                    if ($item['customer_age'] == $mostOrderAgeGroup && $item['order_count'] > $maxOrderCount) {
+                        $mostOrderedProduct = $item['product_name'];
+                        $maxOrderCount = $item['order_count'];
+                    }
+                }
 
-                        <script>
-                            var data = <?php echo json_encode($data); ?>;
-                            
-                            // Extract product names and order counts by age group
-                            var productNames = [...new Set(data.map(item => item.product_name))];
-                            var ageGroups = [...new Set(data.map(item => item.customer_age))];
-                            var chartData = ageGroups.map((age, index) => ({
-                                label: "Age " + age,
-                                data: productNames.map(product => {
-                                    var order = data.find(item => item.customer_age === age && item.product_name === product);
-                                    return order ? order.order_count : 0;
-                                }),
-                                backgroundColor: getRandomColor(), // Random color for each age group
-                                borderColor: "rgba(54, 162, 235, 1)",
-                                borderWidth: 1
-                            }));
+                // Close the database connection
+                mysqli_close($db);
+                ?>
 
-                            function getRandomColor() {
-                                var letters = '0123456789ABCDEF';
-                                var color = '#';
-                                for (var i = 0; i < 6; i++) {
-                                    color += letters[Math.floor(Math.random() * 16)];
-                                }
-                                return color;
+                <div class="chart-container">
+                    <h1>Total Number of Orders by Age Group</h1>
+                    <canvas id="orderAgeGraph" width="800" height="400"></canvas>
+                    <p>This bar chart visualizes <strong>the distribution of orders</strong> across<strong> different age groups for each product</strong>. Each bar represents the number of orders placed for a specific product within a particular age group. The x-axis displays the number of orders, while the y-axis represents the products. The color of each bar distinguishes different age groups.</p>
+                    <p>The age group with the most orders is <strong><?php echo $mostOrderAgeGroup; ?></strong>, with the most ordered product being <strong><?php echo $mostOrderedProduct; ?></strong></p>
+
+
+                    <script>
+                        var data = <?php echo json_encode($data); ?>;
+                        
+                        // Extract product names and order counts by age group
+                        var productNames = [...new Set(data.map(item => item.product_name))];
+                        var ageGroups = [...new Set(data.map(item => item.customer_age))];
+                        var chartData = ageGroups.map((age, index) => ({
+                            label: "Age " + age,
+                            data: productNames.map(product => {
+                                var order = data.find(item => item.customer_age === age && item.product_name === product);
+                                return order ? order.order_count : 0;
+                            }),
+                            backgroundColor: getRandomColor(), // Random color for each age group
+                            borderColor: "rgba(54, 162, 235, 1)",
+                            borderWidth: 1
+                        }));
+
+                        function getRandomColor() {
+                            var letters = '0123456789ABCDEF';
+                            var color = '#';
+                            for (var i = 0; i < 6; i++) {
+                                color += letters[Math.floor(Math.random() * 16)];
                             }
+                            return color;
+                        }
 
-                            var ctx = document.getElementById('orderAgeGraph').getContext('2d');
-                            var chart = new Chart(ctx, {
-                                type: 'bar',
-                                data: {
-                                    labels: productNames,
-                                    datasets: chartData
-                                },
-                                options: {
-                                    responsive: true,
-                                    indexAxis: 'y',
-                                    scales: {
-                                        x: {
-                                            stacked: true,
-                                            title: {
-                                                display: true,
-                                                text: 'Number of Orders',
-                                                color: 'black',
-                                                font: {
-                                                    family: 'Comic Sans MS',
-                                                    size: 20,
-                                                    weight: 'bold',
-                                                    lineHeight: 1.2,
-                                                },
-                                                padding: {top: 20, left: 0, right: 0, bottom: 0}
-                                            }
-                                        },
-                                        y: {
-                                            stacked: true,
-                                            title: {
-                                                display: true,
-                                                text: 'Product Ordered',
-                                                color: 'black',
-                                                font: {
-                                                    family: 'Comic Sans MS',
-                                                    size: 20,
-                                                    weight: 'bold',
-                                                    lineHeight: 1.2,
-                                                },
-                                                padding: {top: 20, left: 0, right: 0, bottom: 0}
-                                            }
+                        var ctx = document.getElementById('orderAgeGraph').getContext('2d');
+                        var chart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: productNames,
+                                datasets: chartData
+                            },
+                            options: {
+                                responsive: true,
+                                indexAxis: 'y',
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Number of Orders',
+                                            color: 'black',
+                                            font: {
+                                                family: 'Comic Sans MS',
+                                                size: 20,
+                                                weight: 'bold',
+                                                lineHeight: 1.2,
+                                            },
+                                            padding: {top: 20, left: 0, right: 0, bottom: 0}
+                                        }
+                                    },
+                                    y: {
+                                        stacked: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Product Ordered',
+                                            color: 'black',
+                                            font: {
+                                                family: 'Comic Sans MS',
+                                                size: 20,
+                                                weight: 'bold',
+                                                lineHeight: 1.2,
+                                            },
+                                            padding: {top: 20, left: 0, right: 0, bottom: 0}
                                         }
                                     }
                                 }
-                            });
-                        </script>
-                    </div>
+                            }
+                        });
+                    </script>
+                </div>
 
 
             <div class="chart-container" >

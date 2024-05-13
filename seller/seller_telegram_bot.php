@@ -443,7 +443,7 @@ function verifyPayment($chatId, $orderId)
             ];
 
             if ($receiptRow && $receiptRow['receipt_path']) {
-                $photoUrl = "https://ca5e-58-26-207-19.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
+                $photoUrl = "https://f24d-175-136-67-233.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
                 sendPhoto($chatId, $photoUrl, $messageDetails, $keyboard);
             } else {
                 sendMessage($chatId, $messageDetails, $keyboard);

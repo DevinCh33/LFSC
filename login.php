@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<?php
+    <?php
 include("config/connect.php"); // connection to database
 include("includes/checks.php"); // for PWS dictionary
 
@@ -27,33 +27,35 @@ if (isset($_SESSION["user_id"])) // if already logged in
 	header("refresh:0;url=market.php"); // redirect to market.php page
 }
 
-if(isset($_POST['submit'])) // if submit button was pressed
-{
-	$username = $_POST['username']; // fetch records from login form
-	$password = $_POST['password'];
-	
-	if(!empty($_POST['submit'])) // if records were not empty
-    {
-		$loginquery = "SELECT u_id, password FROM users WHERE username='$username'"; // selecting matching records
-		$result = mysqli_query($db, $loginquery); // executing
-		$row = mysqli_fetch_array($result);
-	
-		if(password_verify($password, $row['password'])) // if matching records in the array & if everything is right
-		{
-			$_SESSION['user_id'] = $row['u_id']; // put user id into temp session
-			$_SESSION['loginStatus'] = true;
-			$_SESSION['pricesCheck'] = new PricesCheck();
-			$_SESSION['pricesCheck']->Refresh($db);
+    if (isset($_POST['submit'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-			header("refresh:1;url=market.php"); // redirect to market.php page
-		} 
-		else
-		{
-			$message = "Invalid Username or Password!"; // throw error
-		}
-	}
-}
-?>
+        if (!empty($_POST['submit'])) {
+            // Update the query to also select the email_verified field
+            $loginquery = "SELECT u_id, password, email_verified FROM users WHERE username='$username'";
+            $result = mysqli_query($db, $loginquery);
+            $row = mysqli_fetch_array($result);
+
+            // First check if the user is found and then if the email is verified
+            if ($row && password_verify($password, $row['password'])) {
+                if ($row['email_verified']) {
+                    $_SESSION['user_id'] = $row['u_id'];
+                    $_SESSION['loginStatus'] = true;
+                    $_SESSION['pricesCheck'] = new PricesCheck();
+                    $_SESSION['pricesCheck']->Refresh($db);
+
+                    header("refresh:1;url=market.php");
+                } else {
+                    $message = "You must verify your email to log in.";
+                }
+            } else {
+                $message = "Invalid Username or Password!";
+            }
+        }
+    }
+
+    ?>
   
     <section>
         <div class="container-fluid">

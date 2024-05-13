@@ -111,6 +111,7 @@
 		</div>
 	
 		  <div class="sales-graph">
+		  <h2 style = "text-align:center;">Number of Sellers Joining Each Month</h2></br>
 			<canvas id="salesChart"></canvas>
 		  </div>
 		

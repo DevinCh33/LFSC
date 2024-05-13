@@ -40,7 +40,7 @@
 		}else{
 			$username = $_POST['username'];
 			$email = $_POST['email'];
-			$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+			$password = password_hash($_POST['txtPass'], PASSWORD_DEFAULT);
 			$code = 'SUPP';
 			$u_role = 'SELLER';
 			$token = bin2hex(random_bytes(50));

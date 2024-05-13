@@ -109,6 +109,7 @@
 				<div class="input">
 					<input type="text" id="ordName" name="ordName" class="myform-input">
 					<input type="hidden" id="ordUID" name="ordUID">
+					<input type="hidden" id="ordOID" name="ordOID">
 				</div>
 			</div>
 				
@@ -221,7 +222,7 @@ $(document).ready(function() {
 });
 	
 function infoOrder(act, form){
-	if($("#ordNum").val() == "" || $("#ordName").val() == "" ||$("#ordDlvFee").val() == ""||$("#ordDep").val() == "" ){
+	if($("#ordNum").val() == "" || $("#ordName").val() == "" ||$("#ordDlvFee").val() == ""||$("#ordDep").val() == "" && act !="del"){
 		$('#divalert').css('background-color', 'red');
 		$('#divalert').text('All Text Field Must Not Empty');
 		$('#divalert').show();
@@ -229,7 +230,7 @@ function infoOrder(act, form){
 			$('#divalert').hide();
 		}, 3000);
 	}
-	else if($("#ordUID").val() == ""){
+	else if($("#ordUID").val() == ""  && act !="del"){
 		$('#divalert').css('background-color', 'red');
 		$('#divalert').text('Customer Not Found');
 		$('#divalert').show();
@@ -237,7 +238,7 @@ function infoOrder(act, form){
 			$('#divalert').hide();
 		}, 3000);
 	}
-	else if (typeof $("#quan").val() === 'undefined'){
+	else if (typeof $("#quan").val() == 'undefined'  && act !="del"){
 		$('#divalert').css('background-color', 'red');
 		$('#divalert').text('No Product Selected');
 		$('#divalert').show();
@@ -246,18 +247,16 @@ function infoOrder(act, form){
 		}, 3000);
 	}
 	else{
+		
 		$.ajax({
             url: $(form).attr('action'), // The script to call to add data
             type: $(form).attr('method'),
             data: {act: act, data: $("#myForm").serialize()},
             success: function(response) {
-			  	$('#divalert').css('background-color', 'green');
-				$('#divalert').text('Order Place Successfully!');
-				$('#divalert').show();
-				setTimeout(function() {
-					$('#divalert').hide();
-				}, 3000);
-				$("#myForm").reset();
+			  	alert(response);
+				fetchData();
+				closePopup();
+				$("#myForm")[0].reset();
             },
             error: function(xhr, status, error) {
              	console.error("AJAX Error: " + error);
@@ -584,6 +583,12 @@ var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
 
 function updateTableAndPagination(data) {
+	if (data.data.length === 0) {
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center;">NO EMPLOYEE RECORD</td></tr>';
+        document.getElementById('tableSummary').textContent = 'Showing 0-0 of 0 Records';
+        document.querySelector('.pagination').innerHTML = ''; // Clear pagination controls
+        return; // Exit function since there are no records to display
+    }
     // Calculate the start and end indices based on the current page and records per page
     var startIndex = (currentPage - 1) * recordsPerPage;
     var endIndex = startIndex + recordsPerPage;
@@ -601,7 +606,8 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
 			'<td>' + rowData[4] + '</td>' +
             `<td style="color: ${(rowData[5] === '1') ? 'green' : 'red'};">${(rowData[5] === '1') ? 'Active' : 'Inactive'}</td>`+
-			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+//			 '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 			'<td><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 
@@ -679,7 +685,6 @@ function fetchData() {
         dataType: 'json',
         data: { search: search },
         success: function(response) {
-            console.log(response);
             updateTableAndPagination(response);
             updateStatusText(response.data);
         },
@@ -758,8 +763,8 @@ function findRec(windowType, name){
 		data: {search:  name},
         success: function(response) {
 			openPopup(windowType);
-			document.getElementById("ordID").textContent = response.data[0][0];
-			document.getElementById("ord").value = response.data[0][0];
+			document.getElementById("ordOID").value = response.data[0][0];
+			//document.getElementById("ord").value = response.data[0][0];
 			$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
 			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
 			$('#ordNum').val(response.data[0][3]).prop('readonly',  windowType === 2);
@@ -769,25 +774,25 @@ function findRec(windowType, name){
 			$('#ordGender' + gender).prop('checked', true);
 			
 			// Get the select element by its ID
-			var selectElement = document.getElementById("ordJob");
-
-			// Loop through the options and select the one that matches the data
-			for (var i = 0; i < selectElement.options.length; i++) {
-			  if (selectElement.options[i].value === response.data[0][5]) {
-				selectElement.options[i].selected = true;
-				break; // Exit the loop once a match is found
-			  }
-			}	
+//			var selectElement = document.getElementById("ordJob");
+//
+//			// Loop through the options and select the one that matches the data
+//			for (var i = 0; i < selectElement.options.length; i++) {
+//			  if (selectElement.options[i].value === response.data[0][5]) {
+//				selectElement.options[i].selected = true;
+//				break; // Exit the loop once a match is found
+//			  }
+//			}	
 			// Get the select element by its ID
-			var selectElement = document.getElementById("ordStatus");
-
-			// Loop through the options and select the one that matches the data
-			for (var i = 0; i < selectElement.options.length; i++) {
-			  if (selectElement.options[i].value === response.data[0][6]) {
-				selectElement.options[i].selected = true;
-				break; // Exit the loop once a match is found
-			  }
-			}	
+//			var selectElement = document.getElementById("ordStatus");
+//
+//			// Loop through the options and select the one that matches the data
+//			for (var i = 0; i < selectElement.options.length; i++) {
+//			  if (selectElement.options[i].value === response.data[0][6]) {
+//				selectElement.options[i].selected = true;
+//				break; // Exit the loop once a match is found
+//			  }
+//			}	
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -816,7 +821,7 @@ function editRec(num){
 }
 	
 function delRec(num){
-	var button = document.getElementById("btnView"+num);
+	var button = document.getElementById("btnDel"+num);
 	var name = button.getAttribute("name");
 	findRec(4, name);
 }	
@@ -825,7 +830,7 @@ function confirmDeleteOrder(form) {
     // Ask for the first confirmation
     if (confirm("Are you sure you want to delete this order?")) {
     	// If the user confirms the second time, proceed with deletion
-        orderInfo('del', form);
+        infoOrder('del', form);
  
     }
 }
@@ -835,23 +840,23 @@ function openPopup(type) {
 	
 	if(type == 1){
 		document.getElementById('addOrder').style.display = "block";
-		document.getElementById('editOrder').style.display = "none";
+		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
 	}
 	else if(type == 2){
 		document.getElementById('addOrder').style.display = "none";
-		document.getElementById('editOrder').style.display = "none";
+		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
 	}		
 	else if(type == 3){
 		document.getElementById('addOrder').style.display = "none";
-		document.getElementById('editOrder').style.display = "block";
+		//document.getElementById('editOrder').style.display = "block";
 		document.getElementById('delOrder').style.display = "none";
 	}
 		
 	else if(type == 4){
 		document.getElementById('addOrder').style.display = "none";
-		document.getElementById('editOrder').style.display = "none";
+		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "block";
 	}
 		

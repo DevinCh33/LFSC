@@ -2,7 +2,13 @@
 
 include("../connect.php");
 
+$order = $_GET['search'];
+
 $sql = "SELECT order_id, client_name, client_contact,  order_date,  payment_type ,order_status FROM orders WHERE order_status = 1 AND order_belong = '".$_SESSION['store']."'";
+
+if($order != ""){
+	$sql .= " AND order_id = '".$order."'";
+}
 
 $result = $db->query($sql);
 $output = array('data' => array());

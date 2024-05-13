@@ -614,7 +614,7 @@ function editRec(num){
 }
 	
 function delRec(num){
-	var button = document.getElementById("btnView"+num);
+	var button = document.getElementById("btnDel"+num);
 	var name = button.getAttribute("name");
 	findRec(4, name);
 }	
@@ -633,23 +633,23 @@ function openPopup(type) {
 	
 	if(type == 1){
 		document.getElementById('addOrder').style.display = "block";
-		document.getElementById('editOrder').style.display = "none";
+		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
 	}
 	else if(type == 2){
 		document.getElementById('addOrder').style.display = "none";
-		document.getElementById('editOrder').style.display = "none";
+		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
 	}		
 	else if(type == 3){
 		document.getElementById('addOrder').style.display = "none";
-		document.getElementById('editOrder').style.display = "block";
+		//document.getElementById('editOrder').style.display = "block";
 		document.getElementById('delOrder').style.display = "none";
 	}
 		
 	else if(type == 4){
 		document.getElementById('addOrder').style.display = "none";
-		document.getElementById('editOrder').style.display = "none";
+		//document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "block";
 	}
 		
@@ -663,6 +663,7 @@ function fetchCustName(){
         dataType: 'json',
 		data: {search:  num},
         success: function(response) {
+			console.log(response);
 			$("#ordUID").val(response[1]);
             $("#ordName").val(response[0]);
         },

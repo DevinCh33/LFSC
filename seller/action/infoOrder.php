@@ -13,6 +13,7 @@ parse_str($data, $formData);
 $date = date("Y-m-d");
 $check = false;
 $ordUID = $formData['ordUID'];
+$ordOID = $formData['ordOID'];
 $ordNum = $formData['ordNum'];
 $ordName = $formData['ordName'];
 $ordType = $formData['ordType'];
@@ -22,18 +23,22 @@ $ordDep = $formData['ordDep'];
 $prdQuantity = $formData['quan'];
 $prdPriceID = $formData['proID'];
 $prdPrice = $formData['proPrice'];
+$sql = "h";
 
-// Iterate through the arrays
-for ($i = 0; $i < count($prdPrice); $i++) {
-    // Calculate the subtotal for the current product
-    $subtotal = $prdPrice[$i] * $prdQuantity[$i];
-    
-    // Add the subtotal to the total price
-    $totalPrice += $subtotal;
+if($act != 'del'){
+	// Iterate through the arrays
+	for ($i = 0; $i < count($prdPrice); $i++) {
+		// Calculate the subtotal for the current product
+		$subtotal = $prdPrice[$i] * $prdQuantity[$i];
+
+		// Add the subtotal to the total price
+		$totalPrice += $subtotal;
+	}
+
+	$total = $ordDrvFee + $totalPrice;
+	$due = $total - $ordDep;
 }
 
-$total = $ordDrvFee + $totalPrice;
-$due = $total - $ordDep;
 
 if($act == "add"){
 	
@@ -43,7 +48,7 @@ if($act == "add"){
 	$orderStatus = false;
 	if($db->query($sql) === true) {
 		$order_id = $db->insert_id;
-    	$orderStatus = true;
+    	$orderStatus = "Order Created Successfully";
 	}
 	
 	for($i = 0; $i < count($prdPriceID); ++$i){
@@ -55,6 +60,11 @@ if($act == "add"){
 	}
 	
 	
+}else if($act == "del"){
+	$sql = "UPDATE orders SET order_status = '3' WHERE order_id = $ordOID";
+	if($db->query($sql) === true) {
+    	$check = "Order Delete Successfully";
+	}
 }
 
 

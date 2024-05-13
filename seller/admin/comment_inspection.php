@@ -54,22 +54,21 @@
         </div>
 
         <div class="empMainCon">
-            <div class="search-container">
+            <div class="search-container" style="text-align: right">
+				<i class="fa fa-search search-icon" onclick="filterComments()"></i>
                 <input type="text" id="searchInput" placeholder="Search by seller..." onkeyup="filterComments()">
-                <i class="fa fa-search search-icon" onclick="filterComments()"></i>
-                <i class="fa fa-eye show-all-icon" onclick="showAllComments()"></i>
             </div>
 
             <div class="comments-per-page">
-    <label for="commentsPerPage">Comments Per Page:</label>
-    <select id="commentsPerPage" onchange="updateCommentsPerPage()">
-        <option value="5" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '5') echo 'selected'; ?>>5</option>
-        <option value="10" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '10') echo 'selected'; ?>>10</option>
-        <option value="15" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '15') echo 'selected'; ?>>15</option>
-        <option value="50" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '50') echo 'selected'; ?>>50</option>
-        <option value="100" <?php if(!isset($_GET['commentsPerPage']) || $_GET['commentsPerPage'] == '100') echo 'selected'; ?>>100</option>
-    </select>
-</div>
+				<label for="commentsPerPage">Comments Per Page:</label>
+				<select id="commentsPerPage" onchange="updateCommentsPerPage()" class="custom-select" style="margin: 50 10">
+					<option value="5" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '5') echo 'selected'; ?>>5</option>
+					<option value="10" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '10') echo 'selected'; ?>>10</option>
+					<option value="15" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '15') echo 'selected'; ?>>15</option>
+					<option value="50" <?php if(isset($_GET['commentsPerPage']) && $_GET['commentsPerPage'] == '50') echo 'selected'; ?>>50</option>
+					<option value="100" <?php if(!isset($_GET['commentsPerPage']) || $_GET['commentsPerPage'] == '100') echo 'selected'; ?>>100</option>
+				</select>
+			</div>
 
             <?php
             session_start();
@@ -100,7 +99,7 @@
             // Check if there are any comments
             if (mysqli_num_rows($result) > 0) {
                 echo '<div class="table-responsive">';
-                echo '<table class="table table-bordered">';
+                echo '<table class="table table-bordered" style="width: 100%;">';
                 echo '<thead>';
                 echo '<tr>';
                 echo '<th>ID</th>';

@@ -174,9 +174,6 @@ if(!mysqli_num_rows($query) > 0 ) {
 
                 <!-- End Page Content -->
             </div>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. </footer>
             <!-- End footer -->
 
     </div>

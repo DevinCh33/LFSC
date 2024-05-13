@@ -95,7 +95,7 @@
 			
 			<div class="myform-row">
 				<div class="label">
-					<label for="icNo" class="myform-label">CONTACT NUMBER</label>
+					<label for="ordNum" class="myform-label">CONTACT NUMBER</label>
 				</div>
 				<div class="input">
 					<input type="text" id="ordNum" name="ordNum" class="myform-input" onKeyUp="fetchCustName()">
@@ -737,21 +737,16 @@ function sortTable(columnIndex) {
 	
 function findRec(windowType, name){
 	$.ajax({
-        url: 'action/fetchOrder.php',
+        url: 'action/fetchSpecificOrder.php',
         type: 'GET',
         dataType: 'json',
 		data: {search:  name},
         success: function(response) {
+			console.log(response);
 			openPopup(windowType);
 			document.getElementById("ordOID").value = response.data[0][0];
-			//document.getElementById("ord").value = response.data[0][0];
-			$('#icNo').val(response.data[0][7]).prop('readonly',  windowType === 2);
 			$('#ordName').val(response.data[0][1]).prop('readonly',  windowType === 2);
-			$('#ordNum').val(response.data[0][3]).prop('readonly',  windowType === 2);
-			$('#ordEmail').val(response.data[0][4]).prop('readonly',  windowType === 2);
-			// Get the select element by its ID
-			var gender = response.data[0][2];
-			$('#ordGender' + gender).prop('checked', true);
+			$('#ordNum').val(response.data[0][2]).prop('readonly',  windowType === 2);
 			
 			// Get the select element by its ID
 //			var selectElement = document.getElementById("ordJob");

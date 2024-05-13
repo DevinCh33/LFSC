@@ -25,7 +25,7 @@
 	  
 	  <div class="empMainCon">
 		  <div style="text-align: right; margin-bottom: 10px">
-		  	<!-- <button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Order</button> -->
+		  	<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Order</button>
 		  </div>
 		  
 		   	<div class="controls-container">
@@ -189,7 +189,7 @@
 
 
 
-<!-- <div id="productInfo" class="popup">
+<div id="productInfo" class="popup">
     <div class="popup-content">
         <div class="xclose">
             <span class="close" onclick="hideProductInfoPopup()">&times;</span>
@@ -201,7 +201,7 @@
             </form>
         </div>
     </div>
-</div> -->
+</div>
 
 
 	  
@@ -221,52 +221,50 @@ $(document).ready(function() {
 	
 });
 	
-function infoOrder(act, form){
-	if($("#ordNum").val() == "" || $("#ordName").val() == "" ||$("#ordDlvFee").val() == ""||$("#ordDep").val() == "" && act !="del"){
-		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('All Text Field Must Not Empty');
-		$('#divalert').show();
-		setTimeout(function() {
-			$('#divalert').hide();
-		}, 3000);
-	}
-	else if($("#ordUID").val() == ""  && act !="del"){
-		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('Customer Not Found');
-		$('#divalert').show();
-		setTimeout(function() {
-			$('#divalert').hide();
-		}, 3000);
-	}
-	else if (typeof $("#quan").val() == 'undefined'  && act !="del"){
-		$('#divalert').css('background-color', 'red');
-		$('#divalert').text('No Product Selected');
-		$('#divalert').show();
-		setTimeout(function() {
-			$('#divalert').hide();
-		}, 3000);
-	}
-	else{
-		
-		$.ajax({
+function infoOrder(act, form) {
+    if ($("#ordNum").val() == "" || $("#ordName").val() == "" || $("#ordDlvFee").val() == "" || $("#ordDep").val() == "" && act != "del") {
+        $('#divalert').css('background-color', 'red');
+        $('#divalert').text('All Text Fields Must Not Be Empty');
+        $('#divalert').show();
+        setTimeout(function() {
+            $('#divalert').hide();
+        }, 3000);
+    } else if ($("#ordUID").val() == "" && act != "del") {
+        $('#divalert').css('background-color', 'red');
+        $('#divalert').text('Customer Not Found');
+        $('#divalert').show();
+        setTimeout(function() {
+            $('#divalert').hide();
+        }, 3000);
+    } else if (selectedIds.length === 0 && act != "del") { // Check if no products are selected
+        $('#divalert').css('background-color', 'red');
+        $('#divalert').text('No Product Selected');
+        $('#divalert').show();
+        setTimeout(function() {
+            $('#divalert').hide();
+        }, 3000);
+    } else {
+
+        $.ajax({
             url: $(form).attr('action'), // The script to call to add data
             type: $(form).attr('method'),
-            data: {act: act, data: $("#myForm").serialize()},
+            data: {
+                act: act,
+                data: $("#myForm").serialize()
+            },
             success: function(response) {
-			  	alert(response);
-				fetchData();
-				closePopup();
-				$("#myForm")[0].reset();
+                alert(response);
+                fetchData();
+                closePopup();
+                $("#myForm")[0].reset();
             },
             error: function(xhr, status, error) {
-             	console.error("AJAX Error: " + error);
-			}
-		})
-	}
-	
-	
+                console.error("AJAX Error: " + error);
+            }
+        })
+    }
 }
-	
+
 // Define a global variable to store selected item IDs
 var selectedIds = [];
 var quantities = [];
@@ -607,9 +605,9 @@ function updateTableAndPagination(data) {
 			'<td>' + rowData[4] + '</td>' +
             `<td style="color: ${(rowData[5] === '1') ? 'green' : 'red'};">${(rowData[5] === '1') ? 'Active' : 'Inactive'}</td>`+
 			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
-//			 '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			//  '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
-			'<td><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			// '<td><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 
 
 

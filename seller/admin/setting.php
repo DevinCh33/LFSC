@@ -19,7 +19,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <span class="text">Dashboard</span>
+      <span class="text">Setting</span>
     </div>
 	<div class="setting-Dash">
 		<div class="setting">

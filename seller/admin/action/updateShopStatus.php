@@ -1,5 +1,6 @@
 <?php
 include('../connect.php');
+include("../email/storeValidated.php");
 
 if ($_GET['act'] == "app") {
 	
@@ -8,12 +9,14 @@ if ($_GET['act'] == "app") {
 		$message = 'Store Validated';
 	$imgUpdate = "UPDATE tblValidation SET imgStatus = 3 WHERE storeID = '".$_GET['sid']."'";
 	$db->query($imgUpdate);
+	
+	sendSuccess($_GET['email']);
 } 
 elseif ($_GET['act'] == "rej") {
-	$delSQL = "UPDATE tblValidation SET imgStatus = 2 WHERE storeID = '".$_GET['sid']."'";
+	$delSQL = "UPDATE tblValidation SET imgStatus = 2, comment= '".$_GET['reason']."' WHERE storeID = '".$_GET['sid']."'";
 	if($db->query($delSQL))
-		$message = 'Validate Fail';
-	
+		$message = 'Notification Send to Seller';
+	sendFail($_GET['email'], $_GET['reason']);
 }
 
 // Return a JSON response

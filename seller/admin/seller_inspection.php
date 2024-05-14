@@ -116,9 +116,10 @@
 					<input type="text" id="txtReason" name="txtReason" style="width: 80%;margin-top: 10px;height: 30px;">
 				</div>
 				<div style="text-align: center;">	
-					<input type="button" id="rejReq" class="button" value="Reject" style="margin-top: 10px;">	
+					<input type="button" id="rejReq" class="button" value="Reject" style="margin-top: 10px;" onClick="updateStatus('rej')">	
 				</div>
 			</div>
+				<input type="hidden" id="userEmail" name="userEmail">
     		</form>
 		</div>
     </div>
@@ -143,24 +144,75 @@ $(document).ready(function() {
 	
 function updateStatus(action){
 	var sid = $("#sellerid").val();
+	var email = $("#userEmail").val();
+	var reason = "";
+	reason = $("#txtReason").val();
 	$.ajax({
             url: "action/updateShopStatus.php", // The script to call to add data
             type: "GET",
-            data: {act: action, sid: sid},
+            data: {act: action, sid: sid, email: email, reason:reason},
             success: function (response) {
-                alert(response);
+				alert(response);
 				closePopup();
 				fetchData();
             },
             error: function (xhr, status, error) {
-                $('#divalert').css('background-color', 'red');
-                $('#divalert').text('Add Customer Failed');
-                $('#divalert').show();
-                setTimeout(function () {
-                    $('#divalert').hide();
-                }, 3000);
+                alert(error);
             }
         });
+}
+// Function to fetch and update data
+function fetchData() {
+    // Perform an AJAX request to fetch your data
+	var search = "";
+	search = document.getElementById("searchInput").value;
+    $.ajax({
+        url: 'action/fetchInspectionSeller.php',
+        type: 'GET',
+        dataType: 'json',
+		data: {search:  search},
+        success: function(response) {
+            updateTableAndPagination(response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+	
+function findRec(windowType, name){
+	$.ajax({
+        url: 'action/fetchSellerImg.php',
+        type: 'GET',
+        dataType: 'json',
+		data: {search:  name},
+        success: function(response) {
+			openPopup(windowType);
+			$('#frontIC').attr('src', response[0].frontImg).css({ width: '400px', height: '200px' });;
+            $('#backIC').attr('src', response[0].backImg).css({ width: '400px', height: '200px' });;
+            $('#faceWithIC').attr('src', response[0].faceImg).css({ width: '400px', height: '200px' });;
+		},
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+	
+function viewRec(num){
+	var button = document.getElementById("btnView"+num);
+	var hideEmail = document.getElementById("hideEmail"+num);
+	var name = button.getAttribute("name");
+	$("#userEmail").val(hideEmail.getAttribute("name"));
+	$("#sellerid").val(name);
+	findRec(2, name);
+}
+	
+function openPopup(type) {
+	document.getElementById("popupWindow").style.display = "block";    
+}
+	
+function showRejArea(){
+	$("#rejReason").show();
 }
 	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
@@ -190,7 +242,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[1] + '</td>' +
             '<td>' + rowData[2] + '</td>' +
             '<td>' + rowData[3] + '</td>' +
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i></td>';
+			'<td><i class="icon fa fa-eye" id="btnView'+i+'" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><input type="hidden" id="hideEmail'+i+'" name="'+rowData[2]+'"></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -250,25 +302,6 @@ function goToPage(page) {
     currentPage = page;
     fetchData();
 }
-
-// Function to fetch and update data
-function fetchData() {
-    // Perform an AJAX request to fetch your data
-	var search = "";
-	search = document.getElementById("searchInput").value;
-    $.ajax({
-        url: 'action/fetchInspectionSeller.php',
-        type: 'GET',
-        dataType: 'json',
-		data: {search:  search},
-        success: function(response) {
-            updateTableAndPagination(response);
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
 	
 let currentColumn = -1;
 let isAscending = true;
@@ -308,42 +341,6 @@ function sortTable(columnIndex) {
     document.getElementById("indicator" + currentColumn).classList.remove("asc");
     document.getElementById("indicator" + currentColumn).classList.add("desc");
   }
-}
-	
-function findRec(windowType, name){
-	alert(name);
-	$.ajax({
-        url: 'action/fetchSellerImg.php',
-        type: 'GET',
-        dataType: 'json',
-		data: {search:  name},
-        success: function(response) {
-			console.log(response);
-			console.log(response[0].frontImg);
-			openPopup(windowType);
-			$('#frontIC').attr('src', response[0].frontImg).css({ width: '400px', height: '200px' });;
-            $('#backIC').attr('src', response[0].backImg).css({ width: '400px', height: '200px' });;
-            $('#faceWithIC').attr('src', response[0].faceImg).css({ width: '400px', height: '200px' });;
-		},
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-}
-	
-function viewRec(num){
-	var button = document.getElementById("btnView"+num);
-	var name = button.getAttribute("name");
-	$("#sellerid").val(name);
-	findRec(2, name);
-}
-	
-function openPopup(type) {
-	document.getElementById("popupWindow").style.display = "block";    
-}
-	
-function showRejArea(){
-	$("#rejReason").show();
 }
 
 

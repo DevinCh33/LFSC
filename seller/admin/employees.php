@@ -307,8 +307,6 @@ function employeeInfo(action, form){
 					fetchData();
 					document.getElementById('myForm').reset();
 				}
-				
-
             },
             error: function(xhr, status, error) {
 				

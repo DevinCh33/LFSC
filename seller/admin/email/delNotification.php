@@ -24,12 +24,12 @@ function sendDelete($userEmail, $proID, $proName, $delReason)
 
         // Content
         $mail->isHTML(true); // Set email format to HTML
-        $mail->Subject = 'Validate Your Email Address';
+        $mail->Subject = 'Validate Your Store';
 
         $mail->Body = <<<EMAILBODY
 		<html>
 		<head>
-		  <title>Email Verification</title>
+		  <title>Store Verification</title>
 		</head>
 		<body>
 		  <div style="font-family: Arial, sans-serif; color: #333;">

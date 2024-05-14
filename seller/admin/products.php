@@ -23,9 +23,6 @@
     </div>
 	  
 	<div class="empMainCon">
-	<div style="text-align: right; margin-bottom: 10px">
-						<button id="popupButton" onclick="openPopup2()" class="save-button">+Add Categories</button>
-					</div>
 		   	<div class="controls-container">
 		  		<div class="records-per-page">
 					<span>Records per page:</span>
@@ -206,7 +203,6 @@ function productInfo(action, form) {
 	
 		formData.append('act', action);
 		formData.append('seller', sellerEmail);
-	console.log(formData);
         $.ajax({
             url: $(form).attr('action'),
             type: $(form).attr('method'),

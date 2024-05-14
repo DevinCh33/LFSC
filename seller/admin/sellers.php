@@ -106,7 +106,6 @@
 			<div>
 				<input type="button" id="addEmployee" class="button" value="Add Seller" onClick="sellerInfo('add', this.form)">
 			</div>
-			
     </form>
 		
 
@@ -217,7 +216,8 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             `<td style="color: ${(rowData[5] == 0) ? 'black' : (rowData[5] == 1) ? 'green' : (rowData[5] == 2) ? 'red' : 'ice color'};">${(rowData[5] == 0) ? 'Unverify' : (rowData[5] == 1) ? 'Active' : (rowData[5] == 2) ? 'Inactive' : 'Frozen'}</td>` +
-			'<td><i class="' + (rowData[5] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[5] == 1 ? 'blk' : 'rec') + i + '" title="Ban the seller" name="' + rowData[0] + '" onclick="editRec(\'' + (rowData[5] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[5] == 1 ? 'red' : 'green') + ';"></i></td>';
+			
+			'<td><i class="' + (rowData[5] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[5] == 1 ? 'blk' : 'rec') + i + '" title="Ban the seller" name="' + rowData[0] + '" onclick="editRec(\'' + (rowData[5] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[5] == 1 ? 'red' : 'green') + ';"></i><input type="hidden" id="hideEmail'+i+'" name="'+rowData[3]+'"></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -343,7 +343,7 @@ function openPopup() {
 	
 function editRec(act, num){
 	var shopID = document.getElementById("btn"+act+num).getAttribute("name");
-	
+	var email = document.getElementById("hideEmail"+num).getAttribute("name");
 	if (act == 'blk') {
 		var confirmationMessage = "Are you sure you want to ban this users?";
 	} else {
@@ -356,7 +356,8 @@ function editRec(act, num){
 			type: "GET",
 			data: {
 				act: act,
-				shopID: shopID
+				shopID: shopID,
+				email: email
 			},
 			success: function(response) {
 				alert(response);

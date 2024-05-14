@@ -218,7 +218,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
             //`<td style="color: ${(rowData[6] === '1') ? 'green' : 'red'};">${(rowData[6] === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="' + (rowData[6] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[6] == 1 ? 'blk' : 'rec') + i + '" title="Ban the user" name="' + rowData[5] + '" onclick="editRec(\'' + (rowData[6] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[6] == 1 ? 'red' : 'green') + ';"></i></td>';
+			'<td><i class="' + (rowData[6] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[6] == 1 ? 'blk' : 'rec') + i + '" title="Ban the user" name="' + rowData[5] + '" onclick="editRec(\'' + (rowData[6] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[6] == 1 ? 'red' : 'green') + ';"></i><input type="hidden" id="hideEmail'+i+'" name="'+rowData[2]+'"></td>';
         tableBody.appendChild(newRow);
     }
     // Update the table summary
@@ -245,6 +245,36 @@ function updateTableAndPagination(data) {
     if (currentPage < totalPages) {
         paginationControls.innerHTML += '<button onclick="nextPage('+totalRecords+')" class="btnNext">Next</button>';
     }
+}
+	
+function editRec(act, num){
+	var custID = document.getElementById("btn"+act+num).getAttribute("name");
+	var email = document.getElementById("hideEmail"+num).getAttribute("name");
+	if (act == 'blk') {
+		var confirmationMessage = "Are you sure you want to ban this users?";
+	} else {
+		var confirmationMessage = "Are you sure you want to recover this users?";
+	}
+
+	if (confirm(confirmationMessage)) {
+		$.ajax({
+			url: "action/changeUserStatus.php",
+			type: "GET",
+			data: {
+				act: act,
+				custID: custID,
+				email: email
+			},
+			success: function(response) {
+				alert(response);
+				fetchData();
+			},
+			error: function(xhr, status, error) {
+				console.log("Error occurred: Status: " + status + ", Error: " + error);
+			}
+		});
+	}
+
 }
 
 // Function to handle the "change" event of the "recordsPerPage" dropdown
@@ -342,32 +372,5 @@ function openPopup() {
     document.getElementById("popupWindow").style.display = "block";
 }
 
-function editRec(act, num){
-	var custID = document.getElementById("btn"+act+num).getAttribute("name");
-	
-	if (act == 'blk') {
-		var confirmationMessage = "Are you sure you want to ban this users?";
-	} else {
-		var confirmationMessage = "Are you sure you want to recover this users?";
-	}
 
-	if (confirm(confirmationMessage)) {
-		$.ajax({
-			url: "action/changeUserStatus.php",
-			type: "GET",
-			data: {
-				act: act,
-				custID: custID
-			},
-			success: function(response) {
-				alert(response);
-				fetchData();
-			},
-			error: function(xhr, status, error) {
-				console.log("Error occurred: Status: " + status + ", Error: " + error);
-			}
-		});
-	}
-
-}
 </script>

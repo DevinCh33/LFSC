@@ -12,12 +12,6 @@ include("../email/sellerAccManagement.php");
 		if($db->query($sql) === TRUE) {
 			$message = "SHOP BANNED!";
 			sendBan($email);
-			$sql = "UPDATE product SET status = 3 WHERE owner = '".$shopID."'";
-			if($db->query($sql) === TRUE) {
-				$message = "SHOP BANNED!";
-			} else {
-				$message = "SOMETHINGS PROBLEM!";
-			}
 		} else {
 			$message = "SOMETHINGS PROBLEM!";
 		}
@@ -27,7 +21,6 @@ include("../email/sellerAccManagement.php");
 		if($db->query($sql) === TRUE) {
 			$message = "SHOP RECOVERY!";
 			sendRecovery($email);
-			$message = "SHOP RECOVERED!";
 		} else {
 			$message = "SOMETHINGS PROBLEM!";
 		}

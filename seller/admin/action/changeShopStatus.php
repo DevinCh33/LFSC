@@ -1,8 +1,6 @@
 <?php 
-
 require_once 'core.php';
 include("../email/sellerAccManagement.php");
-
 
 	$act = $_GET['act'];
 	$shopID = $_GET['shopID'];
@@ -14,6 +12,12 @@ include("../email/sellerAccManagement.php");
 		if($db->query($sql) === TRUE) {
 			$message = "SHOP BANNED!";
 			sendBan($email);
+			$sql = "UPDATE product SET status = 3 WHERE owner = '".$shopID."'";
+			if($db->query($sql) === TRUE) {
+				$message = "SHOP BANNED!";
+			} else {
+				$message = "SOMETHINGS PROBLEM!";
+			}
 		} else {
 			$message = "SOMETHINGS PROBLEM!";
 		}
@@ -23,6 +27,7 @@ include("../email/sellerAccManagement.php");
 		if($db->query($sql) === TRUE) {
 			$message = "SHOP RECOVERY!";
 			sendRecovery($email);
+			$message = "SHOP RECOVERED!";
 		} else {
 			$message = "SOMETHINGS PROBLEM!";
 		}

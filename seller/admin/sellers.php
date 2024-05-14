@@ -55,7 +55,6 @@
 			<th onclick="sortTable(4)">Phone Number <span class="sort-indicator" id="indicator4"></span></th>
 			<th onclick="sortTable(5)">Status <span class="sort-indicator" id="indicator5"></span></th>
 			<th onclick="sortTable(6)">Action <span class="sort-indicator" id="indicator6"></span></th>
-
 		  </tr>
 		</thead>
 		<tbody id="tableBody">
@@ -63,7 +62,6 @@
 		</tbody>
 	  </table>
 	</div>
-
 
     <div class="pagination-summary">
       <span id="tableSummary"></span>
@@ -73,14 +71,12 @@
     </div>
 	  </div>
 	  
-	  
     <div id="popupWindow" class="popup">
     <div class="popup-content">
         <div class="xclose">
             <span class="close" onclick="closePopup()">&times;</span>
         </div>
 		<div id="addSeller">
-			
 			<form action="action/createAdmin.php" method="POST" class="myform" name="myForm" id="myForm">
 				
 			<div class="myform-row">
@@ -107,23 +103,15 @@
 				<input type="button" id="addEmployee" class="button" value="Add Seller" onClick="sellerInfo('add', this.form)">
 			</div>
     </form>
-		
-
 		</div>
     </div>
 </div>
-
-	  
-	  
-	  
   </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 <script>
 $(document).ready(function() {
 	fetchData();
@@ -136,7 +124,7 @@ function sellerInfo(action, form) {
 	var error = 0;
 
 	if(username == ""){
-		$("#alertUsername").text("This Field Must Not Be Empty");
+		$("#alertUsername").text("This field must not be empty!");
 		error += 1;
 	}else{
 		$("#alertUsername").text("");
@@ -152,7 +140,7 @@ function sellerInfo(action, form) {
     }
 	
 	if(custEmail == ""){
-		$("#alertEmail").text("This Field Must Not Be Empty");
+		$("#alertEmail").text("This field must not be empty!");
 		error += 1;
 	}else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(custEmail.trim())) {
 		$("#alertEmail").text("Please enter a valid email address in Malaysia format.");
@@ -175,9 +163,9 @@ function sellerInfo(action, form) {
                 if (action == "add")
                     alert(response);
                 if (action == "edit")
-                    alert("Information Updated Successfully!");
+                    alert("Information updated successfully!");
                 if (action == "del")
-                    alert("Seller Deactivated Successfully!");
+                    alert("Seller deactivated successfully!");
             },
             error: function (xhr, status, error) {
                 alert("Failed");
@@ -185,7 +173,6 @@ function sellerInfo(action, form) {
         });
 	}
 }
-
 	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);
 var currentPage = 1;
@@ -345,9 +332,9 @@ function editRec(act, num){
 	var shopID = document.getElementById("btn"+act+num).getAttribute("name");
 	var email = document.getElementById("hideEmail"+num).getAttribute("name");
 	if (act == 'blk') {
-		var confirmationMessage = "Are you sure you want to ban this users?";
+		var confirmationMessage = "Are you sure you want to ban this user?";
 	} else {
-		var confirmationMessage = "Are you sure you want to recover this users?";
+		var confirmationMessage = "Are you sure you want to recover this user?";
 	}
 
 	if (confirm(confirmationMessage)) {
@@ -368,7 +355,6 @@ function editRec(act, num){
 			}
 		});
 	}
-
 }
 
 function renameCategory() {
@@ -421,7 +407,4 @@ function deleteCategory() {
         }
     });
 }
-
-
-
 </script>

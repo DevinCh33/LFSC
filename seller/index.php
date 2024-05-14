@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) // Check if login form is submitted
 						header("refresh:1;url=dashboard.php");
 					else
 						header("refresh:1;url=admin/dashboard.php");
-				} 
+				}
 				else
 				{
 					$text = "Admin invalid Username or Password!";

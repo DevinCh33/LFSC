@@ -19,7 +19,7 @@
   <section class="home-section">
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <span class="text">Employees</span>
+      <span class="text">Customer Comments</span>
     </div>
 	  
 	  <div class="empMainCon">

@@ -1,11 +1,10 @@
 <?php
-
 // Include necessary PHP code to establish database connection
 include 'connect.php';
 
 // Set headers for Excel file download
 header("Content-Type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=sales_report.xlsx");
+header("Content-Disposition: attachment; filename=sales_report.xls"); // Changed extension to .xls for compatibility
 
 // Default values for date range
 $start_date = "";
@@ -20,8 +19,9 @@ if (isset($_POST["start_date"]) && isset($_POST["end_date"])) {
     // Perform the SQL query based on date range
     if (!empty($start_date) && !empty($end_date)) {
         // Both start date and end date are selected
-        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, ROUND(tp.proPrice, 2) AS price, oi.quantity,
-                ROUND(tp.proPrice * oi.quantity, 2) AS amount, p.product_image, r.title AS owner, uc.comment
+        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', 
+                p.descr AS item_description, ROUND(tp.proPrice, 2) AS price, oi.quantity, ROUND(tp.proPrice * oi.quantity, 2) AS amount, 
+                p.product_image, r.title AS owner, uc.comment
             FROM order_item oi
             INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
             INNER JOIN product p ON tp.productID = p.product_id
@@ -29,12 +29,13 @@ if (isset($_POST["start_date"]) && isset($_POST["end_date"])) {
             INNER JOIN users u ON o.user_id = u.u_id
             LEFT JOIN restaurant r ON p.owner = r.rs_id
             LEFT JOIN user_comments uc ON u.u_id = uc.user_id
-            WHERE o.order_date BETWEEN '$start_date' AND '$end_date'
-            ORDER BY item_no ASC"; // Order by item_no in ascending order
+            WHERE o.order_date BETWEEN '$start_date' AND '$end_date' AND p.owner = '" . $_SESSION['store'] . "'
+            ORDER BY item_no ASC";
     } else {
         // Neither start date nor end date is selected
-        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, p.product_name, p.descr AS item_description, ROUND(tp.proPrice, 2) AS price, oi.quantity,
-                tp.proPrice * oi.quantity AS amount, p.product_image, r.title AS owner, uc.comment
+        $sql = "SELECT oi.order_item_id AS item_no, u.username, o.order_date, CONCAT(p.product_name, ' (', tp.proWeight, ')') AS 'Product Name and Weight', 
+                p.descr AS item_description, ROUND(tp.proPrice, 2) AS price, oi.quantity, ROUND(tp.proPrice * oi.quantity, 2) AS amount, 
+                p.product_image, r.title AS owner, uc.comment
             FROM order_item oi
             INNER JOIN tblprice tp ON oi.priceID = tp.priceNo
             INNER JOIN product p ON tp.productID = p.product_id
@@ -42,11 +43,17 @@ if (isset($_POST["start_date"]) && isset($_POST["end_date"])) {
             INNER JOIN users u ON o.user_id = u.u_id
             LEFT JOIN restaurant r ON p.owner = r.rs_id
             LEFT JOIN user_comments uc ON u.u_id = uc.user_id
-            ORDER BY item_no ASC"; // Order by item_no in ascending order
+            WHERE p.owner = '" . $_SESSION['store'] . "'
+            ORDER BY item_no ASC";
     }
 
     // Execute the query
     $result = mysqli_query($db, $sql);
+
+    // Check for SQL errors
+    if (!$result) {
+        die('Error executing query: ' . mysqli_error($db));
+    }
 
     // Initialize total sales amount
     $total_sales = 0;
@@ -56,7 +63,7 @@ if (isset($_POST["start_date"]) && isset($_POST["end_date"])) {
     echo "<tr><th colspan='10'>Sales Report</th></tr>";
     echo "<tr><td colspan='2'>Start Date:</td><td colspan='8'>$start_date</td></tr>";
     echo "<tr><td colspan='2'>End Date:</td><td colspan='8'>$end_date</td></tr>";
-    echo "<tr><th>ITEM NO</th><th>USER NAME</th><th>PRODUCT NAME</th><th>DESCRIPTION</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>OWNER</th><th>COMMENT</th><th>DATE</th></tr>";
+    echo "<tr><th>ITEM NO</th><th>USER NAME</th><th>PRODUCT NAME AND WEIGHT</th><th>DESCRIPTION</th><th>PRICE (RM)</th><th>QUANTITY</th><th>TOTAL (RM)</th><th>OWNER</th><th>COMMENT</th><th>DATE</th></tr>";
     
     // Initialize item number counter
     $item_no = 1;
@@ -66,11 +73,11 @@ if (isset($_POST["start_date"]) && isset($_POST["end_date"])) {
         echo "<tr>";
         echo "<td>" . $item_no . "</td>"; // Display item_no starting from 1
         echo "<td>" . $row['username'] . "</td>";
-        echo "<td>" . $row['product_name'] . "</td>";
+        echo "<td>" . $row['Product Name and Weight'] . "</td>";
         echo "<td>" . $row['item_description'] . "</td>";
         echo "<td>" . number_format($row['price'], 2) . "</td>"; // Format price with 2 decimal places
         echo "<td>" . $row['quantity'] . "</td>";
-        echo "<td>" . number_format($row['amount'], 2) . "</td>"; 
+        echo "<td>" . number_format($row['amount'], 2) . "</td>"; // Format amount with 2 decimal places
         echo "<td>" . $row['owner'] . "</td>";
         echo "<td>" . $row['comment'] . "</td>";
         echo "<td>" . $row['order_date'] . "</td>";
@@ -85,11 +92,13 @@ if (isset($_POST["start_date"]) && isset($_POST["end_date"])) {
     }
 
     // Add total sales row
-    echo "<tr><td colspan='8' align='right'><strong>Total Sales:</strong></td><td colspan='2'>" . number_format($total_sales, 2) . "</td></tr>";
+    echo "<tr><td colspan='7' align='right'><strong>Total Sales:</strong></td><td colspan='3'><strong>" . number_format($total_sales, 2) . "</strong></td></tr>";
 
     echo "</table>";
 
     // Close the database connection
     mysqli_close($db);
+} else {
+    echo "No date range provided.";
 }
 ?>

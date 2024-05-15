@@ -28,4 +28,3 @@ if($act == 'del'){
 
 // Return a JSON response
 echo json_encode($reason);
-?>

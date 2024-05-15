@@ -84,12 +84,12 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <?php 
                         if (isset($_GET['search'])) {
                             $searchTerm = $_GET['search'];
-                            $query = "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE NOT admin.storeStatus = 10 AND restaurant.title LIKE '%$searchTerm%' NOT LIMIT 12";
+                            $query = "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 AND restaurant.title LIKE '%$searchTerm%' NOT LIMIT 12";
                         }
                         elseif (isset($_GET['category'])) {
-                            $query = "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE NOT admin.storeStatus = 10 AND restaurant.c_id = ".$_GET['category'];
+                            $query = "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 AND restaurant.c_id = ".$_GET['category'];
                         } else {
-                            $query = "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE NOT admin.storeStatus = 10";
+                            $query = "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1";
                         }
 
                         $ress = mysqli_query($db, $query);

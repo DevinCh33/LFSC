@@ -59,7 +59,6 @@
 	  </table>
 	</div>
 
-
     <div class="pagination-summary">
       <span id="tableSummary"></span>
       <div class="pagination">
@@ -124,17 +123,12 @@
 		</div>
     </div>
 </div>
-	  
-	  
-	  
   </section>
   
 </body>
 </html>
 <script src="scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 <script>
 $(document).ready(function() {
 	$('#divalert').hide();	
@@ -342,6 +336,4 @@ function sortTable(columnIndex) {
     document.getElementById("indicator" + currentColumn).classList.add("desc");
   }
 }
-
-
 </script>

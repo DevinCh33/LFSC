@@ -236,9 +236,17 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
             <div class="row">
                 <?php 
-                // Fetch records from the database to display the first 6 merchants
-                $query_res = mysqli_query($db, "select * from restaurant LIMIT 6"); 
-                
+                if ($recommendMerchantsBasedOnRating) {
+                    // Fetch the 6 highest rating merchants
+                    $query_res = mysqli_query($db, "SELECT restaurant.* FROM restaurant JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating) DESC LIMIT 6");
+                }
+
+                else
+                {
+                    // Fetch records from the database to display the first 6 merchants
+                    $query_res = mysqli_query($db, "SELECT * FROM restaurant LIMIT 6");
+                }
+                 
                 while ($r = mysqli_fetch_array($query_res)) {   
                     echo '<div class="col-xs-12 col-sm-6 col-md-4 food-item">
                             <div class="food-item-wrap">

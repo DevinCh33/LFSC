@@ -52,7 +52,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 $_GET['res_id'] = $defaultMerchant;
             }
 
-            $ress = mysqli_query($db,"SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE NOT admin.storeStatus = 10 AND restaurant.rs_id='$_GET[res_id]'");
+            $ress = mysqli_query($db,"SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 AND restaurant.rs_id='$_GET[res_id]'");
             $rows = mysqli_fetch_array($ress);
             
             if ($rows == null)
@@ -371,7 +371,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
+    <script src="js/foodpicky.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating.js"></script>
     <script src="js/comment.js"></script>

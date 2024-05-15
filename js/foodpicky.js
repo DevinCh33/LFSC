@@ -35,7 +35,8 @@ $(document).ready(function() {
         overlayParentElement: 'body'
     });
    
-     $(".bg-image").css("background",function(){var a="url("+$(this).data("image-src")+") no-repeat center center";return a}),$(".bg-image").css("background-size","cover"),
+    $(".bg-image").css("background",function(){var a="url("+$(this).data("image-src")+") no-repeat center";return a});
+    $(".bg-image").css("background-size","cover");
         
     /// Range slider   
     $("#ex2").slider({});
@@ -58,7 +59,6 @@ $(document).ready(function() {
     });
     // initialise
     headroom.init();
-    
     
     // initialise
     headroom.init();
@@ -103,8 +103,6 @@ $(document).ready(function() {
        
     });
 
-
-    
     //// Range slider seetings
     $("#slider-range").slider({
         range: true,
@@ -136,9 +134,4 @@ $(document).ready(function() {
             thisInput.val(newVal);
         }
     });
-    
-   
-         
 });
-
-

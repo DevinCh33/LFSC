@@ -202,7 +202,7 @@ function updateTableAndPagination(data) {
             '<td>' + rowData[2] + '</td>' +
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +
-            `<td style="color: ${(rowData[5] == 0) ? 'black' : (rowData[5] == 1) ? 'green' : (rowData[5] == 2) ? 'red' : 'ice color'};">${(rowData[5] == 0) ? 'Unverify' : (rowData[5] == 1) ? 'Active' : (rowData[5] == 2) ? 'Inactive' : 'Frozen'}</td>` +
+            `<td style="color: ${(rowData[5] == 0) ? 'black' : (rowData[5] == 1) ? 'green' : (rowData[5] == 2) ? 'red' : 'ice color'};">${(rowData[5] == 0) ? 'Unverified' : (rowData[5] == 1) ? 'Active' : (rowData[5] == 2) ? 'Inactive' : 'Frozen'}</td>` +
 			
 			'<td><i class="' + (rowData[5] == 1 ? 'fa fa-ban' : 'fas fa-plus') + '" id="btn' + (rowData[5] == 1 ? 'blk' : 'rec') + i + '" title="Ban the seller" name="' + rowData[0] + '" onclick="editRec(\'' + (rowData[5] == 1 ? 'blk' : 'rec') + '\',' + i + ')" style="margin-left: 5px; color: ' + (rowData[5] == 1 ? 'red' : 'green') + ';"></i><input type="hidden" id="hideEmail'+i+'" name="'+rowData[3]+'"></td>';
         tableBody.appendChild(newRow);
@@ -325,7 +325,6 @@ function sortTable(columnIndex) {
 	
 function openPopup() {
     document.getElementById("popupWindow").style.display = "block";
-	
 }
 	
 function editRec(act, num){

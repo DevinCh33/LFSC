@@ -45,17 +45,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
         </div>
         <!-- end:Top links -->
         <!-- start: Inner page hero -->
-        <div class="inner-page-hero bg-image" data-image-src="images/img/res.jpeg">
+        <div class="inner-page-hero bg-image" data-image-src="images/img/main.jpeg">
             <div class="container"> </div>
             <!-- end:Container -->
-        </div>
-
-        <div class="result-show">
-            <div class="container">
-                <div class="row">
-                    
-                </div>
-            </div>
         </div>
 
         <div class="banner-form" style = "text-align: center;margin-bottom:20px;">
@@ -72,7 +64,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- Search part ends-->
 
         <!-- Results show -->
-        <section class="restaurants-page">
+        <section class="restaurants-page" style="margin-left: 12vw;">
     <div class="container">
         <div class="row">
             <?php

@@ -780,7 +780,6 @@ button.close span {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin-left: 250px;
 }
 
 .featured-restaurants {
@@ -1412,8 +1411,6 @@ a[aria-expanded=false] .fa-angle-down {
 ==============================*/
 
 .restaurant-entry {
-    border: 1px solid #eaebeb;
-    border-radius: 2px;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;

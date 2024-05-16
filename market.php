@@ -238,13 +238,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
                 <?php 
                 if ($recommendMerchantsBasedOnRating) {
                     // Fetch the 6 highest rating merchants
-                    $query_res = mysqli_query($db, "SELECT restaurant.* FROM restaurant JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating) DESC LIMIT 6");
+                    $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating) DESC LIMIT 6");
                 }
 
                 else
                 {
                     // Fetch records from the database to display the first 6 merchants
-                    $query_res = mysqli_query($db, "SELECT * FROM restaurant LIMIT 6");
+                    $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 LIMIT 6");
                 }
                  
                 while ($r = mysqli_fetch_array($query_res)) {   

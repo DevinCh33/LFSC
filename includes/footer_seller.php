@@ -38,12 +38,12 @@ $row = mysqli_fetch_assoc($result);
             <div class="col-xs-12 col-sm-2 how-it-works-links color-gray">
                 <div class="row">
                     <?php
-                    if (isset($row['o_days']))
+                    if ($row['o_days'] != "")
                     {
                     echo '<h5>Operating Hours</h5>';
                     $openings = $row['o_days'];
                         
-                    if (isset($row['o_hr']) && $row['c_hr'])
+                    if (($row['o_hr'] != "") && ($row['c_hr'] != ""))
                     {
                         $openings=$openings.": ".$row['o_hr']." - ".$row['c_hr'];
                     }
@@ -55,7 +55,7 @@ $row = mysqli_fetch_assoc($result);
                 
                 <div class="row">
                     <?php
-                    if (isset($row['url']))
+                    if ($row['url'] != "")
                     {
                     echo '<h5>Website</h5>';
                     echo '<a href="http://'.$row['url'].'">'.$row['url'].'</a>';
@@ -69,7 +69,7 @@ $row = mysqli_fetch_assoc($result);
 
             <div class="col-xs-12 col-sm-2 WhatsApp color-gray">
                 <?php
-                if (isset($row['phone']))
+                if ($row['phone'] != "")
                 {
                 echo '<h5>Contact</h5>';
                 echo '<p>WhatsApp:<a href="http://api.whatsapp.com/send?phone=6'.$row['phone'].'"><br/>'.$row['phone'].'</a></p>';
@@ -83,7 +83,7 @@ $row = mysqli_fetch_assoc($result);
             <div class="row">
                 <div class="col-xs-12 col-sm-6 address color-gray">
                     <?php
-                    if (isset($row['address']))
+                    if ($row['address'] != "")
                     {
                     echo '<h5>Address</h5>';
                     echo '<p>'.$row['address'].'</p></div>';

@@ -35,7 +35,7 @@ $(document).ready(function() {
         overlayParentElement: 'body'
     });
    
-    $(".bg-image").css("background",function(){var a="url("+$(this).data("image-src")+") no-repeat center";return a});
+    $(".bg-image").css("background","#006c53 no-repeat center");
     $(".bg-image").css("background-size","cover");
         
     /// Range slider   

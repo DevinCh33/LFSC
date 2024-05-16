@@ -16,7 +16,8 @@ $sql = "SELECT
             tblprice.proWeight,
 			tblprice.proPrice,
             tblprice.proDisc,
-			tblprice.priceNo
+			tblprice.priceNo,
+            product.categories_id
 		FROM 
 			product
 		JOIN 
@@ -52,7 +53,8 @@ if ($result->num_rows > 0) {
                 'descr' => $row[4],
 				'lowStock' => $row[5],
                 'status' => $row[6],
-                'prices' => array($productPriceWeight) // Start a new array for prices, weights and discounts
+                'category' => $row[12],
+                'prices' => array($productPriceWeight), // Start a new array for prices, weights and discounts
             );
         } else {
             // If the product is already in the temp array, add the new price and weight to it.

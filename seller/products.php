@@ -501,6 +501,7 @@ function findRec(windowType, name){
             $('#proName').val(response[0].productName).prop('readonly', windowType === 2);
             $('#proDescr').val(response[0].descr).prop('readonly', windowType === 2);
 			$('#proID').val(response[0].productID);
+			$('#proCat').val(response[0].category);
 
             // Clear existing price rows except the first two (header and initial row)
             var priceTable = document.getElementById("priceTable");
@@ -573,7 +574,15 @@ function openPopup(type) {
     document.getElementById("popupWindow").style.display = "block";
 	
 	if(type == 1){
+		// Clear existing price rows except the first two (header and initial row)
+		var priceTable = document.getElementById("priceTable");
+            var rowCount = priceTable.rows.length;
+            for (var i = rowCount - 2; i > 0; i--) {
+                priceTable.deleteRow(i);
+            }
+		
 		document.getElementById('addProduct').style.display = "block";
+		document.getElementById('addImageFile').style.display = "block";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "none";
 	}
@@ -588,9 +597,9 @@ function openPopup(type) {
 		document.getElementById('editProduct').style.display = "block";
 		document.getElementById('delProduct').style.display = "none";
 	}
-		
 	else if(type == 4){
 		document.getElementById('addProduct').style.display = "none";
+		document.getElementById('addImageFile').style.display = "none";
 		document.getElementById('editProduct').style.display = "none";
 		document.getElementById('delProduct').style.display = "block";
 	}	

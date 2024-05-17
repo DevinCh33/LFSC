@@ -572,7 +572,7 @@ if (isset($update["message"])) {
         $helpMessage = "Here are some functions you can use:";
         $keyboard = [
             "inline_keyboard" => [
-                [["text" => "To Do List", "callback_data" => "todo_list"]],
+                [["text" => "Order Management", "callback_data" => "todo_list"]],
                 [["text" => "Top Customers", "callback_data" => "top_customer"]]
             ]
         ];

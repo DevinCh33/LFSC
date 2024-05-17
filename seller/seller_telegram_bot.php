@@ -350,7 +350,8 @@ function updateOrderStatus($chatId, $orderId, $newStatus)
     $stmt->bind_param("ii", $newStatus, $orderId);
     $stmt->execute();
     if ($stmt->affected_rows > 0) {
-        sendMessage($chatId, "Order status updated successfully.");
+        $keyboard['inline_keyboard'][] = [["text" => "Back to Order List", "callback_data" => "view_orders"]];
+        sendMessage($chatId, "Order status updated successfully.", $keyboard);
 
         $query = "SELECT o.user_id, r.title AS restaurant_title, u.notifications_enabled, u.chat_id AS buyer_chat_id FROM orders o
                   JOIN restaurant r ON o.order_belong = r.rs_id
@@ -440,7 +441,7 @@ function verifyPayment($chatId, $orderId)
             ];
 
             if ($receiptRow && $receiptRow['receipt_path']) {
-                $photoUrl = "https://3634-175-136-67-233.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
+                $photoUrl = "https://029a-58-26-207-19.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
                 sendPhoto($chatId, $photoUrl, $messageDetails, $keyboard);
             } else {
                 sendMessage($chatId, $messageDetails, $keyboard);
@@ -498,9 +499,11 @@ function confirmPayment($chatId, $orderId, $status)
         $stmt->bind_param("ii", $status, $orderId);
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
-            sendMessage($chatId, "Payment status has been updated successfully.");
+            $keyboard['inline_keyboard'][] = [["text" => "Back to Order List", "callback_data" => "view_orders"]];
+            sendMessage($chatId, "Payment status has been updated successfully.", $keyboard);
         } else {
-            sendMessage($chatId, "Failed to update payment status.");
+            $keyboard['inline_keyboard'][] = [["text" => "Back to Order List", "callback_data" => "view_orders"]];
+            sendMessage($chatId, "Failed to update payment status.", $keyboard);
         }
         $stmt->close();
     } else {

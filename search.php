@@ -64,13 +64,13 @@
                 if (isset($_GET['query']))
                 {
                     // fetch records from database to display first 12 products searched from the database
-                    $query = mysqli_query($db,"SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE product_name LIKE '%".$_GET['query']."%' LIMIT ".$max); 
+                    $query = mysqli_query($db,"SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE product_name LIKE '%".addslashes($_GET['query'])."%' LIMIT ".$max); 
                 }
 
                 else if (isset($_GET['category']))
                 {
                     // fetch records from database to display first 12 products searched from the database
-                    $query = mysqli_query($db,"SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE categories_id = ".$_GET['category']." LIMIT ".$max);
+                    $query = mysqli_query($db,"SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID WHERE categories_id = ".addslashes($_GET['category'])." LIMIT ".$max);
                 }
                 
                 while($product=mysqli_fetch_array($query))

@@ -138,7 +138,7 @@ for ($i = 1; $i <= $totalPages; $i++) {
         echo '<span>' . $i . '</span>';
     } else {
         // If not current page, make it a link
-        echo '<a href="custComments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
+        echo '<a href="cust_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
     }
 }
 echo '</div>';

@@ -1,6 +1,7 @@
 <?php
 // Include your database connection file
 include("config/connect.php");
+include("config/comment.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the comment, user ID, and restaurant ID are sent via POST
@@ -22,7 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Check for swear words in the comment using regex
-        $swearWords = array("fuck", "nigger", "shit", "fucker", "faggot", "babi","cibai", "FUCK", "FUCKER", "Fuck"); 
         $pattern = "/\b(" . implode("|", $swearWords) . ")\b/i"; 
 
         if (preg_match($pattern, $comment)) {

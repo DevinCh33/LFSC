@@ -22,10 +22,8 @@ $result = $db->query($sql);
 $output = array('data' => array());
 
 if($result->num_rows > 0) { 
-
-	 while($row = $result->fetch_array()) {
-		 
-		 $output['data'][] = array(
+	while($row = $result->fetch_array()) {
+		$output['data'][] = array(
 			$row[0], 
 			$row[1], 
 			$row[2], 
@@ -33,7 +31,7 @@ if($result->num_rows > 0) {
 			$row[4],
 			$row[5]
 		); 	
-	 } // /while 
+	} // /while 
 
 }// if num_rows
 

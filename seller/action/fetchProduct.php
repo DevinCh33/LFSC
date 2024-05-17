@@ -2,7 +2,7 @@
 
 include('../connect.php');
 
-//$search = $_POST['search'];
+$search = addslashes($_GET['search']);
 
 $sql = "SELECT 
 			product.product_id,
@@ -26,10 +26,10 @@ $sql = "SELECT
 			product.owner = '".$_SESSION['store']."' AND status < 3";
 
 if($_GET['name'] != "")
-	$sql .= " AND product_id = '".$_GET['name']."'";
+	$sql .= " AND product_id = '".addslashes($_GET['name'])."'";
 
 if($_GET['search'] != "" && $_GET['name'] == "")
-	$sql .= " AND product_name LIKE '%".$_GET['search']."%' OR productCode LIKE '%".$_GET['search']."%'";
+	$sql .= " AND product_name LIKE '%".$search."%' OR productCode LIKE '%".$search."%'";
 		
 $sql .= " ORDER BY product.status ASC, product.product_name ASC";
 

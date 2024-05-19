@@ -74,36 +74,38 @@
 		  	<span class="close" onclick="closePopup()">&times;</span>
 		  </div>
         	
-			<form action="action/infoProduct.php" method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
+		  <form action="action/infoProduct.php" method="POST" class="myform" name="myForm" id="myForm" enctype="multipart/form-data">
 			<input type="hidden" value="<?php echo $_SESSION['store']; ?>" id="storeID" name="storeID">
 			<div class="myform-row">
 				<div id="divalert" class="divalert" name="divalert"></div>
 			</div>
-				
+
 			<div class="myform-row">
 				<div class="label">
 					<label for="productCode" class="myform-label">Product Code#</label>
 				</div>
 				<div class="input">
 					<input type="text" id="productCode" name="productCode" class="myform-input" required>
+					<span class="error-message" id="productCodeError"></span>
 				</div>
 			</div>
-			
+
 			<div class="myform-row">
 				<div class="label">
 					<label for="productImage" class="myform-label">Image</label>
 				</div>
 				<div class="input" id="addImageFile">
-        			<input type="file" id="proImage" name="proImage" class="myform-input" onchange="validateImage()">
+					<input type="file" id="proImage" name="proImage" class="myform-input" onchange="validateImage()">
 				</div>
 			</div>
-				
+
 			<div class="myform-row">
 				<div class="label">
 					<label for="productName" class="myform-label">Name:</label>
 				</div>
 				<div class="input">
 					<input type="text" id="proName" name="proName" class="myform-input" required>
+					<span class="error-message" id="productNameError"></span>
 				</div>
 			</div>
 
@@ -113,6 +115,7 @@
 				</div>
 				<div class="input">
 					<textarea id="proDescr" name="proDescr" class="myform-input" style="height: 80px;" required></textarea>
+					<span class="error-message" id="productDescrError"></span>
 				</div>
 			</div>
 			<div class="myform-row">
@@ -121,6 +124,7 @@
 				</div>
 				<div class="input">
 					<input type="text" id="txtStock" name="txtStock" class="myform-input" required>
+					<span class="error-message" id="txtStockError"></span>
 				</div>
 			</div>
 			<div class="myform-row">
@@ -145,7 +149,7 @@
 					</select>
 				</div>
 			</div>
-				
+
 			<!-- Price table -->
 			<div class="myform-row">
 				<div class="label">
@@ -168,6 +172,7 @@
 							<td><button type="button" onclick="addPriceRow()">Add More</button></td>
 						</tr>
 					</table>
+					<span class="error-message" id="priceTableError"></span>
 				</div>
 			</div>
 
@@ -181,14 +186,14 @@
 						<option value="2" style="color: red;" value="2">Inactive</option>
 					</select>
 				</div>
-				
 			</div>
-				<input type="hidden" name="proID" id="proID">
-				<input type="button" id="addProduct" class="button" value="Add Product" onClick="productInfo('add', this.form)">
-				<input type="button" id="editProduct" class="button" value="Save Changes" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
-				<input type="button" id="delProduct" class="button" value="Delete Product"style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
-			</div>				
+			<input type="hidden" name="proID" id="proID">
+			<input type="button" id="addProduct" class="button" value="Add Product" onClick="productInfo('add', this.form)">
+			<input type="button" id="editProduct" class="button" value="Save Changes" style="background-color: lightgreen;" onClick="productInfo('edit', this.form)">
+			<input type="button" id="delProduct" class="button" value="Delete Product" style="background-color: lightcoral;" onClick="confirmDelete(this.form)">
 		</form>
+
+
       </div>
     </div>
   </section>
@@ -261,83 +266,107 @@ function removePriceRow(button) {
 }
 
 function productInfo(action, form) {
+
+	if (action === 'add') {
+        if (!confirm('Are you sure you want to add this product?')) {
+            return; // If the user cancels, do not proceed
+        }
+    }
     var productCode = $('#productCode').val();
     var productName = $('#proName').val();
     var productDescription = $('#proDescr').val();
     var productStatus = $('#proStatus').val();
-	var productID = $("#proID").val();
+    var productID = $("#proID").val();
     var store = $('#storeID').val();
 
-    // Extract quantity, weight, price and discount values from the table
-	var quantityValues = [];
+    // Extract quantity, weight, price, and discount values from the table
+    var quantityValues = [];
     var weightValues = [];
     var priceValues = [];
-	var discountValues = [];
+    var discountValues = [];
+    var hasError = false;
+
     $('#priceTable tbody tr').each(function () {
-		var quantityInput = $(this).find('input[name="quantity[]"]'); 
-		var weightInput = $(this).find('input[name="weight[]"]');
-		var priceInput = $(this).find('input[name="price[]"]');
-		var discountInput = $(this).find('input[name="discount[]"]');
-		var quantity = quantityInput.val();
-		var weight = weightInput.val();
-		var price = priceInput.val();
-		var discount = discountInput.val();
-		var priceId = $(this).data('price-id') || 'new'; // 'new' for new entries
-		if (quantity && weight && price) {
-			quantityValues.push({quantity: quantity, priceId: priceId});
-			weightValues.push({weight: weight, priceId: priceId});
-			priceValues.push({price: price, priceId: priceId});
-			discountValues.push({discount: discount, priceId: priceId});
-		}
-	});
-	
+        var quantityInput = $(this).find('input[name="quantity[]"]');
+        var weightInput = $(this).find('input[name="weight[]"]');
+        var priceInput = $(this).find('input[name="price[]"]');
+        var discountInput = $(this).find('input[name="discount[]"]');
+        var quantity = quantityInput.val();
+        var weight = weightInput.val();
+        var price = priceInput.val();
+        var discount = discountInput.val();
+        var priceId = $(this).data('price-id') || 'new'; // 'new' for new entries
+        if (quantity && weight && price) {
+            quantityValues.push({ quantity: quantity, priceId: priceId });
+            weightValues.push({ weight: weight, priceId: priceId });
+            priceValues.push({ price: price, priceId: priceId });
+            discountValues.push({ discount: discount, priceId: priceId });
+        }
+    });
+
+    // Clear previous error messages
+    $('.error-message').text('');
+
     // Check if required fields are filled
-    if (productCode === "" || productName === "" || quantityValues.length === 0 || weightValues.length === 0 || priceValues.length === 0 && action != "del") {
-		$('#divalert').css('background-color', 'red');
-        $('#divalert').text('Product Code, Name, Quantity, Weight, and Price must not be empty');
-        $('#divalert').show();
-        setTimeout(function () {
-            $('#divalert').hide();
-        }, 3000);
-    } else {
-		var text = "";
-		var form = document.getElementById('myForm');
-		var formData = new FormData(form);
-		var imageInput = document.getElementById('proImage').files[0];
-		formData.append('image', imageInput);
-		formData.append('act', action);
-		formData.append('proID', productID);
-        $.ajax({
-            url: $(form).attr('action'),
-            type: $(form).attr('method'),
-			data: formData,
-			processData: false,
-			contentType: false,
-            success: function (response) {
-				if(action == "add"){
-					text = "Product added successfully!";
-					document.getElementById("myForm").reset();
-				}
-				else if(action == "edit")
-					text = "Information updated successfully!";
-				else if(action == 'del')
-					text = "Product deleted successfully!";
-                $('#divalert').css('background-color', 'green');
-				$('#divalert').text(text);
-				$('#divalert').show();
-				setTimeout(function() {
-					$('#divalert').hide();
-				}, 3000);
-				if(action == 'del'){
-					closePopup();
-					fetchData();
-				}	
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
+    if (productCode === "") {
+        $('#productCodeError').text('Product Code must not be empty');
+        hasError = true;
     }
+    if (productName === "") {
+        $('#productNameError').text('Product Name must not be empty');
+        hasError = true;
+    }
+    if (productDescription === "") {
+        $('#productDescrError').text('Product Description must not be empty');
+        hasError = true;
+    }
+    if (quantityValues.length === 0) {
+        $('#priceTableError').text('Quantity, Weight, and Price must not be empty');
+        hasError = true;
+    }
+
+    if (hasError && action != "del") {
+        return;
+    }
+
+    var text = "";
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+    var imageInput = document.getElementById('proImage').files[0];
+    formData.append('image', imageInput);
+    formData.append('act', action);
+    formData.append('proID', productID);
+
+    $.ajax({
+        url: $(form).attr('action'),
+        type: $(form).attr('method'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (action == "add") {
+                text = "Product added successfully!";
+                document.getElementById("myForm").reset();
+            } else if (action == "edit") {
+                text = "Information updated successfully!";
+            } else if (action == 'del') {
+                text = "Product deleted successfully!";
+            }
+            $('#divalert').css('background-color', 'green');
+            $('#divalert').text(text);
+            $('#divalert').show();
+            setTimeout(function () {
+                $('#divalert').hide();
+            }, 3000);
+            if (action == 'del') {
+                closePopup();
+                fetchData();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
 }
 
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);

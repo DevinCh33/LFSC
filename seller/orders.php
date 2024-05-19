@@ -10,8 +10,16 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- <style>
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            display: none;
+        }
+    </style> -->
 	  
    </head>
+   
 	
 <body>
   <div class="sidebar close">
@@ -79,91 +87,99 @@
         </div>
         
         <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
-			<input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
-			<div class="myform-row">
-				<div id="divalert" class="divalert" name="divalert"></div>
-			</div>
-				
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">ORDER DATE#</label>
-				</div>
-				<div class="input">
-					<span><?php echo date("Y-m-d"); ?></span>
-				</div>
-			</div>
-			
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordNum" class="myform-label">CONTACT NUMBER</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordNum" name="ordNum" class="myform-input" onKeyUp="fetchCustName()">
-				</div>
-			</div>
+    <input type="hidden" id="storeid" name="storeid" value="<?php echo $_SESSION['store'] ?>">
+    <!-- <div class="myform-row">
+        <div id="divalert" class="divalert" name="divalert"></div>
+    </div> -->
+    
+    <div class="myform-row">
+        <div class="label">
+            <label for="ordDate" class="myform-label">ORDER DATE#</label>
+        </div>
+        <div class="input">
+            <span><?php echo date("Y-m-d"); ?></span>
+        </div>
+    </div>
+    
+    <div class="myform-row">
+        <div class="label">
+            <label for="ordNum" class="myform-label">CONTACT NUMBER</label>
+        </div>
+        <div class="input">
+            <input type="text" id="ordNum" name="ordNum" class="myform-input" onKeyUp="fetchCustName()">
+            <div id="ordNumError" class="error-message"></div>
+        </div>
+    </div>
 
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordName" class="myform-label">CLIENT NAME</label>
-				</div>
-				<div class="input">
-					<input type="text" id="ordName" name="ordName" class="myform-input">
-					<input type="hidden" id="ordUID" name="ordUID">
-					<input type="hidden" id="ordOID" name="ordOID">
-				</div>
-			</div>
-				
-			<div style="width: 100%; text-align: center; border: 1px solid #000">
-				<table id="itemTable" style="border: none; width: 95%; margin: 0 auto;">
-					<tr style="text-align: left">
-						<th>Product</th>
-						<th>Price</th>
-						<th>Quantity</th>
-						<th>Total Price</th>
-					</tr>
-					<tbody id="proSelected">
-						<!-- Table rows will be dynamically added here -->
-					</tbody>
-					<tr>
-						<td colspan="3" style="text-align: right; border-top: : 1px solid #000">Total Amount:</td>
-						<td>
-							<span id="txtTotal">0.00</span>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4" style="text-align: center; border: none">
-							<input type="button" id="btnSelect" class="button" onClick="showProductInfoPopup()" value="Select">
-						</td>
-					</tr>
-				</table>
-			</div>
-				
-			<div class="myform-row">
-				<div class="label">
-					<label for="ordDate" class="myform-label">Payment Type</label>
-				</div>
-				<div class="input">
-					<select id="ordType" name="ordType" class="custom-select" required>
-						<option value="1" value="1">COD</option>
-						<option value="2" value="2">Monthly Statement</option>
-					</select>
-				</div>
-			</div>
-            <div class="myform-row">
-                <div class="label">
-					<label for="ordDate" class="myform-label">Status : </label>
-				</div>
-                <div class="input">
-                    <span name="orderStatus" class="myform-text"></span>
-                </div>
-			</div>
-           
-				<div style="text-align: center;">
-					<input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
-					<!-- <input type="button" id="editOrder" class="button" value="Save Change" style="background-color: lightgreen;" onClick="orderInfo('edit', this.form)"> -->
-					<input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
-				</div>
-    </form>
+    <div class="myform-row">
+        <div class="label">
+            <label for="ordName" class="myform-label">CLIENT NAME</label>
+        </div>
+        <div class="input">
+            <input type="text" id="ordName" name="ordName" class="myform-input">
+            <input type="hidden" id="ordUID" name="ordUID">
+            <input type="hidden" id="ordOID" name="ordOID">
+            <div id="ordNameError" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- Other fields here -->
+
+    <div style="width: 100%; text-align: center; border: 1px solid #000">
+        <table id="itemTable" style="border: none; width: 95%; margin: 0 auto;">
+            <tr style="text-align: left">
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+            <tbody id="proSelected">
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+            <tr>
+                <td colspan="3" style="text-align: right; border-top: 1px solid #000">Total Amount:</td>
+                <td>
+                    <span id="txtTotal">0.00</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center; border: none">
+                    <input type="button" id="btnSelect" class="button" onClick="showProductInfoPopup()" value="Select">
+                </td>
+            </tr>
+        </table>
+        <div id="productError" class="error-message" style="text-align: center;"></div>
+    </div>
+
+    <div class="myform-row">
+        <div class="label">
+            <label for="ordType" class="myform-label">Payment Type</label>
+        </div>
+        <div class="input">
+            <select id="ordType" name="ordType" class="custom-select" required>
+                <option value="1">COD</option>
+                <option value="2">Monthly Statement</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="myform-row">
+        <div class="label">
+            <label for="ordDate" class="myform-label">Status : </label>
+        </div>
+        <div class="input">
+            <span name="orderStatus" class="myform-text"></span>
+        </div>
+    </div>
+
+    <!-- Other fields here -->
+
+    <div style="text-align: center;">
+        <input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
+        <input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
+    </div>
+</form>
+
         <!-- Your existing form content -->
         <form action="action/infoOrder.php" method="POST" class="myform" name="myForm" id="myForm">
             <!-- Rest of your form content -->
@@ -206,48 +222,60 @@ $(document).ready(function() {
 });
 	
 function infoOrder(act, form) {
-    if ($("#ordNum").val() == "" || $("#ordName").val() == "" || $("#ordDlvFee").val() == "" || $("#ordDep").val() == "" && act != "del") {
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('All Text Fields Must Not Be Empty');
-        $('#divalert').show();
-        setTimeout(function() {
-            $('#divalert').hide();
-        }, 3000);
-    } else if ($("#ordUID").val() == "" && act != "del") {
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('Customer Not Found');
-        $('#divalert').show();
-        setTimeout(function() {
-            $('#divalert').hide();
-        }, 3000);
-    } else if (selectedIds.length === 0 && act != "del") { // Check if no products are selected
-        $('#divalert').css('background-color', 'red');
-        $('#divalert').text('No Product Selected');
-        $('#divalert').show();
-        setTimeout(function() {
-            $('#divalert').hide();
-        }, 3000);
-    } else {
-
-        $.ajax({
-            url: $(form).attr('action'), // The script to call to add data
-            type: $(form).attr('method'),
-            data: {
-                act: act,
-                data: $("#myForm").serialize()
-            },
-            success: function(response) {
-                alert(response);
-                fetchData();
-                closePopup();
-                $("#myForm")[0].reset();
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX Error: " + error);
-            }
-        })
+    if (act === 'add') {
+        if (!confirm('Are you sure you want to add this order?')) {
+            return; // If the user cancels, do not proceed
+        }
     }
+
+    let hasError = false;
+
+    // Clear previous error messages
+    $('.error-message').hide().text('');
+
+    if ($("#ordNum").val() === "" && act !== "del") {
+        $("#ordNumError").text('Contact Number must not be empty').show();
+        hasError = true;
+    }
+
+    if ($("#ordName").val() === "" && act !== "del") {
+        $("#ordNameError").text('Client Name must not be empty').show();
+        hasError = true;
+    }
+
+    if ($("#ordUID").val() === "" && act !== "del") {
+        $("#ordNameError").text('Customer Not Found').show();
+        hasError = true;
+    }
+
+    if (selectedIds.length === 0 && act !== "del") {
+        $("#productError").text('No Product Selected').show();
+        hasError = true;
+    }
+
+    if (hasError) {
+        return;
+    }
+
+    $.ajax({
+        url: $(form).attr('action'),
+        type: $(form).attr('method'),
+        data: {
+            act: act,
+            data: $("#myForm").serialize()
+        },
+        success: function(response) {
+            alert('Order has been successfully added.');
+            fetchData();
+            closePopup();
+            $("#myForm")[0].reset();
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error: " + error);
+        }
+    });
 }
+
 
 // Define a global variable to store selected item IDs
 var selectedIds = [];

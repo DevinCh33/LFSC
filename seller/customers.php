@@ -25,7 +25,7 @@
 	  
 	  <div class="empMainCon">
 		  <div style="text-align: right; margin-bottom: 10px">
-		  	<button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Customer</button>
+		  	<!-- <button id="popupButton" onclick="openPopup(1)" class="save-button">+Add Customer</button> -->
 		  </div>
 		  
 		   	<div class="controls-container">

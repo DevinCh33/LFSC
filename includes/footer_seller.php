@@ -1,15 +1,9 @@
 <?php
-include("config/merchants.php");
 include("config/connect.php");
 
 if (isset($_GET['res_id']))
 {
     $d_id = $_GET['res_id'];
-}
-
-else
-{
-    $d_id = $defaultMerchant; // Show default merchant
 }
 
 $query = "SELECT * from restaurant where rs_id = ".$d_id;

@@ -178,7 +178,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     echo '    <div class="card michaelProductCard">';
                     echo '        <img src="' . $productImage . '" alt="' . $productName . '" class="card-img-top">';
                     echo '        <div class="card-body" data-price-id="'.$priceId.'" data-product-owner="'.$productOwner.'">';
-                    echo '            <a href="products.php?res_id='.$productOwner.'"><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
+                    echo '            <a><h5 class="card-title">' . $productName . ' (' . $productWeight . 'g)</h5></a>';
                     echo '            <p class="card-text">Number Left: ' . $productQuantity . '</p>';
 
                     if ($productCustomPrice != 0) {
@@ -298,8 +298,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
+    
     <script src="js/cart.js"></script>
 </body>
 </html>

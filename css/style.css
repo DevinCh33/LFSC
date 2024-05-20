@@ -455,7 +455,7 @@ hr {
 .hero .hero-inner {
     position: relative;
     z-index: 1;
-    height: 100vh;
+    height: 85vh;
 }
 
 
@@ -1374,27 +1374,6 @@ a.more-link {
 .order-row:last-of-type {
     border-bottom: none;
 }
-@media (max-width: 543px) {
-    .widget-cart {
-        margin: 20px auto;
-        float: right;
-        width: 100%;
-    }
-}
-@media (min-width: 544px) and (max-width: 767px) {
-    .widget-cart {
-        margin: 20px auto;
-        float: right;
-        width: 66.666667%;
-    }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-    .widget-cart {
-        margin-top: 20px;
-        float: right;
-        width: 66.666667%;
-    }
-}
 @media (min-width: 992px) and (max-width: 1199px) {}
 @media (min-width: 1200px) {}
 a[aria-expanded=true] .fa-angle-right {
@@ -2230,6 +2209,12 @@ a[aria-expanded=false] .fa-angle-down {
     .addsToCart {
         position: relative;
         right: 1em;
+    }
+    .widget-cart {
+        position: absolute;
+        left: 20px;
+        width: 80%;
+        min-width: 250px;
     }
 }
 @media only screen and (max-device-width: 375px) and (max-device-height: 667px) {

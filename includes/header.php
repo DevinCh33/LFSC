@@ -47,11 +47,9 @@ if ($stmt = mysqli_prepare($db, $query)) {
 <head>
     <link rel="stylesheet" type="text/css" href="landing/style.css" />
     <link rel="icon" type="image/png" sizes="16x16" href="./../landing/logo.png" />
-    <title>Your Website Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-
     <header>
         <img src="landing/logo.png" alt="logo" />
 
@@ -82,7 +80,39 @@ if ($stmt = mysqli_prepare($db, $query)) {
             <li <?php echo ($currentPage == 'home') ? 'class="active"' : ''; ?>><a href="index.php">Home</a></li>
             <li <?php echo ($currentPage == 'market') ? 'class="active"' : ''; ?>><a href="market.php">Market</a></li>
             <li <?php echo ($currentPage == 'merchants') ? 'class="active"' : ''; ?>><a href="merchants.php">Merchants</a></li>
-            <li <?php echo ($currentPage == 'products') ? 'class="active"' : ''; ?>><a href="products.php">Products / Cart</a></li>
+            
+            <li>
+                <div class="my_cart_dropdown">
+                    <button class="dropbtn">Cart</button>
+                    <div class="dropdown-content">
+                        <div class="widget widget-cart">
+                            <div class="widget-heading">
+                                <h3 class="widget-title text-dark">
+                                    Your Shopping Cart
+                                </h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="bg-white">
+                                <div class="widget-body">	
+                                    <div id="cart">
+                                        <ul id="cartItems"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end:Order row -->
+                                
+                            <div class="widget-body">
+                                <div class="price-wrap text-xs-center">
+                                    <p>TOTAL</p>
+                                    <h3 class="cartTotal value">RM 0.00</h3>
+                                    <p>Shipping Included</p>
+                                    <a id="checkout" href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
 
             <li>
                 <div class="my_account_dropdown">
@@ -97,7 +127,6 @@ if ($stmt = mysqli_prepare($db, $query)) {
                     </div>
                 </div>
             </li>
-
         </ul>
     </header>
 
@@ -120,6 +149,5 @@ if ($stmt = mysqli_prepare($db, $query)) {
             });
         });
     </script>
-
 </body>
 </html>

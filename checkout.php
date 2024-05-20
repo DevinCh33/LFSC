@@ -118,7 +118,7 @@ if (empty($_SESSION['user_id'])) {
 											<tbody>
                                                 <tr>
                                                     <td>Cart Subtotal</td>
-                                                    <td class="text-color" id="cartTotal">RM 0.00</td>
+                                                    <td class="cartTotal text-color">RM 0.00</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Shipping &amp; Handling</td>
@@ -157,7 +157,7 @@ if (empty($_SESSION['user_id'])) {
         </div>
     <!-- start: FOOTER -->
     <?php
-    include("includes/footer_seller.php");
+    include("includes/footer.php");
     ?>
     <!-- end:Footer -->
     
@@ -169,9 +169,8 @@ if (empty($_SESSION['user_id'])) {
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
+    
     <script src="js/cart.js"></script>
-    <script src="js/spay.js"></script>
+    
 </body>
 </html>

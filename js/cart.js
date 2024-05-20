@@ -78,7 +78,7 @@ $(document).ready(function() {
                 const productPrice = parseFloat($(this).siblings('span').text().replace('RM', ''));
                 const productImage = $(this).closest('.product').siblings('.search-product').data('image-src');
                 
-                addToCart(priceId, productName, productStock, productPrice, productOwner, 1, productImage, 1);
+                addToCart(priceId, productName, productStock, productPrice, productOwner, 1, productImage);
             });
 
             // Event listener for "Order Now" buttons (Recommendations)
@@ -90,7 +90,7 @@ $(document).ready(function() {
                 const productPrice = parseFloat($(this).siblings('span').text().replace('Price: RM ', ''));
                 const productImage = $(this).parents().siblings('img').attr('src');
                 
-                addToCart(priceId, productName, productStock, productPrice, productOwner, 1, productImage, 1); 
+                addToCart(priceId, productName, productStock, productPrice, productOwner, 1, productImage); 
             });
 
             // Event listener for "Add to Cart" buttons
@@ -126,7 +126,7 @@ $(document).ready(function() {
             }
 
             // Function to add a product to the cart
-            function addToCart(price_id, name, stock, price, owner, quantity=1, image='', alertNeeded=0) {
+            function addToCart(price_id, name, stock, price, owner, quantity=1, image='') {
                 if (debug) {
                     console.log(price_id);
                     console.log(name);
@@ -163,10 +163,7 @@ $(document).ready(function() {
                 }
                 updateCartUI();
                 saveCart();
-
-                if (alertNeeded) {
-                    alert("Product added to cart!");
-                }
+                alert("Product added to cart!");
             }
 
             // Function to remove a product from the cart
@@ -228,7 +225,7 @@ $(document).ready(function() {
                 });
 
                 const totalPrice = calculateTotalPrice();
-                $('#cartTotal').text('RM ' + totalPrice);
+                $('.cartTotal').text('RM ' + totalPrice);
             }
 
             // For persistence throughout the session

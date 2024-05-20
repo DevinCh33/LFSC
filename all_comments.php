@@ -20,7 +20,6 @@
 <body class="home">
 <?php
 include("config/connect.php"); // connection to database
-include("config/merchants.php");
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -29,7 +28,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 ?>
     <!--header starts-->
     <?php
-    $currentPage = 'products';
+    $currentPage = 'merchants';
     include("includes/header.php");
     ?>
 
@@ -47,11 +46,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- end:Top links -->
 
         <?php
-            if (!isset($_GET['res_id'])) // Show default merchant
-            {
-                $_GET['res_id'] = $defaultMerchant;
-            }
-
             $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
             $rows = mysqli_fetch_array($ress);                                
         ?>

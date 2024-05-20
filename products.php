@@ -20,7 +20,6 @@
 <body class="home">
 <?php
 include("config/connect.php"); // connection to database
-include("config/merchants.php");
 
 if (empty($_SESSION["user_id"])) // if not logged in
 {
@@ -29,7 +28,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
 ?>
     <!--header starts-->
     <?php
-    $currentPage = 'products';
+    $currentPage = 'merchants';
     include("includes/header.php");
     ?>
 
@@ -47,11 +46,6 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- end:Top links -->
         <!-- start: Inner page hero -->
         <?php
-            if (!isset($_GET['res_id'])) // Show default merchant
-            {
-                $_GET['res_id'] = $defaultMerchant;
-            }
-
             $ress = mysqli_query($db,"SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 AND restaurant.rs_id='$_GET[res_id]'");
             $rows = mysqli_fetch_array($ress);
             
@@ -107,56 +101,61 @@ if (empty($_SESSION["user_id"])) // if not logged in
 
         <div class="container m-t-30">
             <div class="row">
-                <!-- <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9"> -->
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="menu-widget" id="2">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
                                 Product List <a class="btn btn-link pull-right" data-toggle="collapse" href="#popular2" aria-expanded="true">
-                                <i class="fa fa-angle-right pull-right"></i>
-                                <i class="fa fa-angle-down pull-right"></i>
+                                <i class="fa fa-angle-right pull-right"> Show</i>
+                                <i class="fa fa-angle-down pull-right"> Hide</i>
                                 </a>
                             </h3>
                             <div class="clearfix"></div>
                         </div>
                 
                         <div class="collapse in" id="popular2">
-                        <?php // display values and item of products
-                            $stmt = $db->prepare("SELECT product_id from product WHERE owner = ? AND status = 1");
-                            $stmt->bind_param("i", $_GET['res_id']);
-                            $stmt->execute();
-                            $products = $stmt->get_result();
-                            
-                            if (!empty($products)) 
-                            {
-                                foreach($products as $product)
-                                {           
-                                    $stmt = $db->prepare("SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
-                                                          WHERE tblprice.productID = ? AND tblprice.proQuant > 0");
-                                    $stmt->bind_param("i", $product['product_id']);
-                                    $stmt->execute();
-                                    $item = $stmt->get_result();
+                            <?php // display values and item of products
+                                $stmt = $db->prepare("SELECT product_id from product WHERE owner = ? AND status = 1");
+                                $stmt->bind_param("i", $_GET['res_id']);
+                                $stmt->execute();
+                                $products = $stmt->get_result();
+                                
+                                if (!empty($products)) 
+                                {
+                                    $r = 2;
 
-                                    if ($item->num_rows == 1)
-                                    {
-                                        $item = $item->fetch_assoc();
-     
-                                        $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
-                                        $stmt->bind_param("ii", $item['priceNo'], $_SESSION['user_id']);
-                                        $stmt->execute();
-                                        $custom = $stmt->get_result();
+                                    foreach($products as $product)
+                                    {       
+                                        if ($r == 2)
+                                        {
+                                            echo '<div class="row">';
+                                        }
                                         
-                                        $item['price'] = $custom->fetch_assoc()['price'];
-                        ?>              
+                                        $stmt = $db->prepare("SELECT * from product JOIN tblprice ON product.product_id = tblprice.productID
+                                                            WHERE tblprice.productID = ? AND tblprice.proQuant > 0");
+                                        $stmt->bind_param("i", $product['product_id']);
+                                        $stmt->execute();
+                                        $item = $stmt->get_result();
 
-                            <div class="food-item">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-12" style="display: flex;">
+                                        if ($item->num_rows == 1)
+                                        {
+                                            $item = $item->fetch_assoc();
+        
+                                            $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                            $stmt->bind_param("ii", $item['priceNo'], $_SESSION['user_id']);
+                                            $stmt->execute();
+                                            $custom = $stmt->get_result();
+                                            
+                                            $item['price'] = $custom->fetch_assoc()['price'];
+                                ?>
+
+                                <div class="food-item">
+                                    <div class="col-xs-12 col-sm-12 col-lg-6" style="display: flex;">
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left"><?php echo '<img src="'.$item['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         
-                                        <div class="col-xs-12 col-sm-12 col-lg-12 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
+                                        <div class="col-xs-12 col-sm-12 col-lg-6 pull-right item-cart-info product" data-price-id="<?php echo $item['priceNo']; ?>" data-product-owner="<?php echo $item['owner']; ?>"> 
                                             <h6><?php echo $item['product_name']." (". $item['proWeight']."g)"; ?></h6>
                                             <p><?php echo $item['descr'];  ?></p>
                                             <p style="color: green;">Number Left: <?php echo (int)$item['proQuant']; ?></p>
@@ -186,47 +185,44 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end:row -->
-                            </div>
-                            <!-- end:Item -->
+                                <!-- end:Item -->
                             
-                            <?php
-                                    }
-
-                                    elseif ($item->num_rows > 1)
-                                    {
-                                        $item = $item->fetch_all(MYSQLI_ASSOC);
-                                        $number = count($item);
-                                        $option = [];
-
-                                        for ($i = 0; $i < $number; $i++)
-                                        {
-                                            $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
-                                            $stmt->bind_param("ii", $item[$i]['priceNo'], $_SESSION['user_id']);
-                                            $stmt->execute();
-                                            $custom = $stmt->get_result();
-                                            
-                                            $c = $custom->fetch_assoc()['price'];
-                                            $item[$i]['price'] = $c;
-                                            $option[$i]['price'] = $c;
-                                            $option[$i]['proQuant'] = $item[$i]['proQuant'];
-                                            $option[$i]['proWeight'] = $item[$i]['proWeight'];
-                                            $option[$i]['proPrice'] = $item[$i]['proPrice'];
-                                            $option[$i]['proDisc'] = $item[$i]['proDisc'];
-                                            $option[$i]['priceNo'] = $item[$i]['priceNo'];
+                                <?php
                                         }
 
-                                        $option = json_encode($option);
-                            ?>
+                                        elseif ($item->num_rows > 1)
+                                        {
+                                            $item = $item->fetch_all(MYSQLI_ASSOC);
+                                            $number = count($item);
+                                            $option = [];
 
-                            <div class="food-item">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-12" style="display: flex;"> 
+                                            for ($i = 0; $i < $number; $i++)
+                                            {
+                                                $stmt = $db->prepare("SELECT price FROM custom_prices WHERE price_id = ? AND user_id = ?");
+                                                $stmt->bind_param("ii", $item[$i]['priceNo'], $_SESSION['user_id']);
+                                                $stmt->execute();
+                                                $custom = $stmt->get_result();
+                                                
+                                                $c = $custom->fetch_assoc()['price'];
+                                                $item[$i]['price'] = $c;
+                                                $option[$i]['price'] = $c;
+                                                $option[$i]['proQuant'] = $item[$i]['proQuant'];
+                                                $option[$i]['proWeight'] = $item[$i]['proWeight'];
+                                                $option[$i]['proPrice'] = $item[$i]['proPrice'];
+                                                $option[$i]['proDisc'] = $item[$i]['proDisc'];
+                                                $option[$i]['priceNo'] = $item[$i]['priceNo'];
+                                            }
+
+                                            $option = json_encode($option);
+                                ?>
+
+                                <div class="food-item">
+                                    <div class="col-xs-12 col-sm-12 col-lg-6" style="display: flex;"> 
                                         <div class="rest-logo pull-left">
                                             <a class="restaurant-logo pull-left"><?php echo '<img src="'.$item[0]['product_image'].'" alt="Product logo">'; ?></a>
                                         </div>
                                         
-                                        <div class="col-xs-12 col-sm-12 col-lg-12 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
+                                        <div class="col-xs-12 col-sm-12 col-lg-6 pull-right item-cart-info product" data-price-id="<?php echo $item[0]['priceNo']; ?>" data-current="0" data-max="<?php echo $number;?>" data-options='<?php echo $option?>' data-product-owner="<?php echo $item[0]['owner']; ?>"> 
                                             <h6 style="display: inline-block"><?php echo $item[0]['product_name']." (";?><span><?php echo $item[0]['proWeight'];?></span><?php echo "g)";?></h6>
                                             <button class="btn btn-info shiftOptions">More options</button>
                                             <p><?php echo $item[0]['descr'];?></p>
@@ -262,53 +258,30 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end:row -->
-                            </div>
-                            <!-- end:Item -->
+                                <!-- end:Item -->
 
-                            <?php
+                                <?php
+                                        }
+                                        $r -= 1;
+
+                                        if ($r == 0)
+                                        {
+                                            echo '</div>';
+                                            $r = 2;
+                                        }
                                     }
                                 }
-                            }
-                            ?>
-                        </div>
+                                ?>
+                            </div>
                         <!-- end:Collapse -->
                     </div>
                     <!-- end:Widget menu -->
+                    <br/>
                 </div>
 
-                <!-- Column for Your Shopping Cart -->
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
-                    <div class="widget widget-cart">
-                        <div class="widget-heading">
-                            <h3 class="widget-title text-dark">
-                                Your Shopping Cart
-                            </h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="order-row bg-white">
-                            <div class="widget-body">	
-                                <div id="cart">
-                                    <ul id="cartItems"></ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end:Order row -->
-                            
-                        <div class="widget-body">
-                            <div class="price-wrap text-xs-center">
-                                <p>TOTAL</p>
-                                <h3 id="cartTotal" class="value">RM 0.00</h3>
-                                <p>Shipping Included</p>
-                                <a id="checkout" href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <br/>
                 <!-- start:Comments -->
-                <!-- <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3"> -->
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="widget widget-cart">
                         <div class="widget-heading">
                             <h3 class="widget-title text-dark">
@@ -370,8 +343,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.js"></script>
+    
     <script src="js/cart.js"></script>
     <script src="js/rating.js"></script>
     <script src="js/comment.js"></script>

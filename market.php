@@ -22,11 +22,64 @@
             position: relative;
             transition: all 0.3s ease-in-out;
         }
-
         .food-item-wrap:hover {
             transform: scale(1.05);
         }
+        #suggestionList {
+            display: none;
+            list-style-type: none;
+            padding: 0;
+        }
+        #suggestionList li {
+            background-color: #fff;
+            padding: 10px;
+            padding-left: 30px;
+            cursor: pointer;
+            text-align: left;
+        }
+        #suggestionList li:hover {
+            background-color: #f0f0f0;
+        }
     </style>
+
+    <script>
+        function showSuggestions() {
+            fetch('./config/recommend.json').then((response) => {
+                response.json().then((config) => {
+                    var suggestions = config.suggestions;
+                    console.log(suggestions)
+                    var input = document.getElementById('searchQuery').value;
+                    var suggestionList = document.getElementById('suggestionList');
+
+                    // Clear previous suggestions
+                    suggestionList.innerHTML = '';
+
+                    // Filter suggestions based on input
+                    var filteredSuggestions = suggestions.filter(function(suggestion) {
+                        return suggestion.toLowerCase().startsWith(input.toLowerCase());
+                    });
+
+                    // Display suggestions
+                    if (filteredSuggestions.length > 0) {
+                        filteredSuggestions.forEach(function(suggestion) {
+                            var li = document.createElement('li');
+                            li.textContent = suggestion;
+                            li.addEventListener('click',  function() {
+                                useSuggestion(suggestion)
+                            });
+                            suggestionList.appendChild(li);
+                        });
+                        suggestionList.style.display = 'block';
+                    } else {
+                        suggestionList.style.display = 'none';
+                    }
+                })
+            })
+        }
+        function useSuggestion(search) {
+            document.getElementById('searchQuery').value = search;
+        }
+    </script>
 </head>
 
 <body class="home">
@@ -56,9 +109,10 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <div class="form-group" style="margin-top:50px;">
                         <label class="sr-only" for="searchQuery">Search product...</label>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" id="searchQuery" name="query" placeholder="Search product..." style="width: 550px;">
+                            <input type="text" class="form-control form-control-lg" id="searchQuery" name="query" placeholder="Search product..." oninput="showSuggestions()" onclick="showSuggestions()" style="width: 550px;">
                             <input type="submit" class="btn theme-btn btn-lg" value="Search">
                         </div>
+                        <ul id="suggestionList"></ul>
                     </div>
                 </form>
             </div>
@@ -298,7 +352,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
 </body>
 </html>

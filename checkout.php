@@ -169,8 +169,9 @@ if (empty($_SESSION['user_id'])) {
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.min.js"></script>
     <script src="js/cart.js"></script>
-    
+    <script src="js/spay.js"></script>
 </body>
 </html>

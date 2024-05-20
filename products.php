@@ -343,7 +343,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <script src="js/animsition.min.js"></script>
     <script src="js/bootstrap-slider.min.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
-    
+    <script src="js/headroom.js"></script>
+    <script src="js/foodpicky.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/rating.js"></script>
     <script src="js/comment.js"></script>

@@ -454,6 +454,7 @@ hr {
 }
 .hero .hero-inner {
     position: relative;
+    top: 15vh;
     z-index: 1;
     height: 85vh;
 }
@@ -2193,6 +2194,9 @@ a[aria-expanded=false] .fa-angle-down {
 }
 
 @media only screen and (max-device-width: 667px) and (max-device-height: 375px) {
+    .hero .hero-inner {
+        top: 5vh;
+    }
     .recommendations .michaelProductCard {
         height: 105vh;
     }
@@ -2218,6 +2222,9 @@ a[aria-expanded=false] .fa-angle-down {
     }
 }
 @media only screen and (max-device-width: 375px) and (max-device-height: 667px) {
+    .hero .hero-inner {
+        top: 5vh;
+    }
     .recommendations .michaelProductCard {
         height: 60vh;
     }
@@ -2427,7 +2434,6 @@ a[aria-expanded=false] .fa-angle-down {
     cursor: pointer;
 }
 
-
 .option-box {
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -2477,5 +2483,3 @@ a[aria-expanded=false] .fa-angle-down {
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-

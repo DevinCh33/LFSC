@@ -71,9 +71,19 @@ $stmt->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>My Account</title>
-    <link rel="stylesheet" href="landing/style.css" />
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animsition.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="landing/logo.png">
 </head>
 
 <body>
@@ -131,7 +141,8 @@ $stmt->close();
     </div>
 
     <?php if ($updateSuccess): ?>
-        <script>        alert('Profile Updated');</script>
+        <script> alert('Profile updated successfully!');</script>
     <?php endif; ?>
+    <script src="js/cart.js"></script>
 </body>
 </html>

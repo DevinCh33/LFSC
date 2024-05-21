@@ -48,9 +48,8 @@
 			<th onclick="sortTable(1)">Image <span class="sort-indicator" id="indicator1"></span></th>
 			<th onclick="sortTable(2)">Product Name <span class="sort-indicator" id="indicator2"></span></th>
 			<th onclick="sortTable(3)">Description <span class="sort-indicator" id="indicator3"></span></th>
-			<th onclick="sortTable(5)">Quantity <span class="sort-indicator" id="indicator4"></span></th>
-			<th onclick="sortTable(6)">Status <span class="sort-indicator" id="indicator5"></span></th>
-			<th onclick="sortTable(7)">Action <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(4)">Status <span class="sort-indicator" id="indicator5"></span></th>
+			<th onclick="sortTable(5)">Action <span class="sort-indicator" id="indicator5"></span></th>
 		  </tr>
 		</thead>
 		<tbody id="tableBody">
@@ -252,7 +251,6 @@ function updateTableAndPagination(data) {
             '<td style="padding: 0px;">' + rowData.productImage + '</td>' +
             '<td>' + rowData.productName + '</td>' +
             '<td>' + rowData.descr + '</td>' +
-            '<td>' + rowData.quantity + '</td>' +
             `<td style="color: ${(rowData.status === '1') ? 'green' : 'red'};">${(rowData.status === '1') ? 'Active' : 'Inactive'}</td>`+
 			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData.productID+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData.productID+'" onclick="delRec('+i+')"></i></td>';
         tableBody.appendChild(newRow);

@@ -96,12 +96,6 @@ if (empty($_SESSION['user_id'])) {
                     </ul>
                 </div>
             </div>
-			
-            <div class="container">
-                <span style="color:green;">
-                        <?php echo $success; ?>
-                </span>
-            </div>
   
             <div class="container m-t-30">
 			<form action="" method="post">

@@ -24,8 +24,8 @@ $row = mysqli_fetch_assoc($result);
                     <li><a href="index.php">Home</a> </li>
                     <li><a href="market.php">Market</a> </li>
                     <li><a href="merchants.php">Merchants</a> </li>
-                    <li><a href="products.php?res_id=<?php echo $d_id;?>">Products / Cart</a> </li>
                     <li><a href="your_orders.php">Orders</a> </li>
+                    <li><a href="your_account.php">My Account</a> </li>
                 </ul>
             </div>
 

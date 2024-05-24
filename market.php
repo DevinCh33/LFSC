@@ -40,6 +40,17 @@
         #suggestionList li:hover {
             background-color: #f0f0f0;
         }
+        .title h2 {
+            font-size: 2em; /* Increase font size */
+            font-weight: bold; /* Make the text bold */
+            color: #00A36C; /* Use a contrasting color */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add text shadow */
+            background-color: #f1f1f1; /* Add background color */
+            padding: 10px; /* Add some padding */
+            border-radius: 5px; /* Round the corners */
+            display: inline-block; /* Inline block to fit the content */
+        }
+        
     </style>
 
     <script>
@@ -124,7 +135,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
     <section class="recommendations">
     <div class="container">
         <div class="title text-center mb-30">
-            <h2>Recommended for You</h2>
+            <h2>Recommended for You!</h2>
             <p class="lead">Based on your recent orders:</p>
         </div>
         <div class="row">
@@ -290,9 +301,19 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
             <div class="row">
                 <?php 
-                if ($recommendMerchantsBasedOnRating) {
+                if ($recommendMerchantsBasedOnRating == "avg") {
                     // Fetch the 6 highest rating merchants
                     $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating) DESC LIMIT 6");
+                }
+
+                else if ($recommendMerchantsBasedOnRating == "sum") {
+                    // Fetch the 6 highest rating merchants based on number of ratings
+                    $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY SUM(user_ratings.rating) DESC LIMIT 6");
+                }
+
+                else if ($recommendMerchantsBasedOnRating == "mul") {
+                    // Fetch the 6 highest rating merchants based on number of ratings
+                    $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating)*SUM(user_ratings.rating) DESC LIMIT 6");
                 }
 
                 else

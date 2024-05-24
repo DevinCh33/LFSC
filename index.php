@@ -130,7 +130,6 @@ include("config/connect.php"); // connection to database
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/headroom.js"></script>
     <script src="js/foodpicky.min.js"></script>
-    <script src="js/cart.js"></script>
 
 	<script>
     var slideIndex = 1; // Start with 1 to match your logic in displaySlide

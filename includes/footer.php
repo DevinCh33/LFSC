@@ -12,8 +12,8 @@
                     <li><a href="index.php">Home</a> </li>
                     <li><a href="market.php">Market</a> </li>
                     <li><a href="merchants.php">Merchants</a> </li>
-                    <li><a href="products.php">Products / Cart</a> </li>
                     <li><a href="your_orders.php">Orders</a> </li>
+                    <li><a href="your_account.php">My Account</a> </li>
                 </ul>
             </div>
 

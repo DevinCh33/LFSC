@@ -106,7 +106,7 @@ if ($stmt = mysqli_prepare($db, $query)) {
                                     <p>TOTAL</p>
                                     <h3 class="cartTotal value">RM 0.00</h3>
                                     <p>Shipping Included</p>
-                                    <a id="checkout" href="checkout.php?res_id=<?php echo $_GET['res_id'];?>&action=check"  class="btn theme-btn btn-lg">Checkout</a>
+                                    <a id="checkout" href="checkout.php"  class="btn theme-btn btn-lg">Checkout</a>
                                 </div>
                             </div>
                         </div>

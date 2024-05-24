@@ -290,9 +290,19 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
             <div class="row">
                 <?php 
-                if ($recommendMerchantsBasedOnRating) {
+                if ($recommendMerchantsBasedOnRating == "avg") {
                     // Fetch the 6 highest rating merchants
                     $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating) DESC LIMIT 6");
+                }
+
+                else if ($recommendMerchantsBasedOnRating == "sum") {
+                    // Fetch the 6 highest rating merchants based on number of ratings
+                    $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY SUM(user_ratings.rating) DESC LIMIT 6");
+                }
+
+                else if ($recommendMerchantsBasedOnRating == "mul") {
+                    // Fetch the 6 highest rating merchants based on number of ratings
+                    $query_res = mysqli_query($db, "SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store JOIN user_ratings ON restaurant.rs_id = user_ratings.res_id WHERE admin.storeStatus = 1 GROUP BY restaurant.rs_id ORDER BY AVG(user_ratings.rating)*SUM(user_ratings.rating) DESC LIMIT 6");
                 }
 
                 else

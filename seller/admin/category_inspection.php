@@ -24,91 +24,87 @@
 	  
 	<div class="empMainCon">
 
+                <?php
+                            session_start(); // temp session
+                            error_reporting(1); // hide undefined index errors
+                            include("./../connection/connect.php"); // connection to database
 
+                            if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
+                            {
 
-
-
-          <?php
-                    session_start(); // temp session
-                    error_reporting(1); // hide undefined index errors
-                    include("./../connection/connect.php"); // connection to database
-
-                    if(isset($_SESSION["adm_co"]) && ($_SESSION["adm_co"] == "SUPA"))
+                    if(isset($_POST['submit'] ))
                     {
+                        if(empty($_POST['c_name']))
+                        {
+                            $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <strong>All fields required!</strong>
+                                        </div>';
+                        }
 
-            if(isset($_POST['submit'] ))
-            {
-                if(empty($_POST['c_name']))
+                    else
+                {	
+                $check_cat = mysqli_query($db, "SELECT categories_name FROM categories where categories_name = '".$_POST['c_name']."' ");
+
+                if(mysqli_num_rows($check_cat) > 0)
                 {
                     $error = '<div class="alert alert-danger alert-dismissible fade show">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong>All fields required!</strong>
+                                    <strong>Category already exists!</strong>
                                 </div>';
                 }
 
-	else
-	{	
-	    $check_cat = mysqli_query($db, "SELECT categories_name FROM categories where categories_name = '".$_POST['c_name']."' ");
+                else
+                {
+                    $mql = "INSERT INTO categories(categories_name) VALUES('".$_POST['c_name']."')";
+                    mysqli_query($db, $mql);
 
-        if(mysqli_num_rows($check_cat) > 0)
-        {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Category already exists!</strong>
-                        </div>';
+                }
+            }
         }
+        ?>
 
-        else
-        {
-            $mql = "INSERT INTO categories(categories_name) VALUES('".$_POST['c_name']."')";
-            mysqli_query($db, $mql);
+            <!-- Preloader - style you can find in spinners.css -->
 
-        }
-	}
-}
-?>
-
-    <!-- Preloader - style you can find in spinners.css -->
-
-    <!-- Main wrapper  -->
-    <div id="main-wrapper">
+            <!-- Main wrapper  -->
+            <div id="main-wrapper">
 
 
-            <!-- Bread crumb -->
-            <!-- End Bread crumb -->
-            <!-- Container fluid  -->
-            <div class="container-fluid">
-                <!-- Start Page Content -->
-				<div class="row">
+                    <!-- Bread crumb -->
+                    <!-- End Bread crumb -->
+                    <!-- Container fluid  -->
                     <div class="container-fluid">
-                    <!-- Start Page Content -->
-                        <?php  
-                            echo $error;
-                            echo $success; ?>	
+                        <!-- Start Page Content -->
+                        <div class="row">
+                            <div class="container-fluid">
+                            <!-- Start Page Content -->
+                                <?php  
+                                    echo $error;
+                                    echo $success; ?>	
 
-<div class="col-lg-12">
-    <div class="card card-outline-primary">
-        <div class="card-header">
-            <h4 class="m-b-0 text-white">Add Food Category</h4>
-        </div>
-        <div class="card-body">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <div class="form-body">
-                    <hr>
-                    <div class="row p-t-20">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <input type="text" name="c_name" class="form-control" placeholder="Category Name">
-                                <input type="submit" name="submit" class="btn btn-success" value="Save"> 
-                            </div>
-                        </div>
-                        <!--/span-->
-                    </div>
-
+        <div class="col-lg-12">
+            <div class="card card-outline-primary">
+                <div class="card-header">
+                    <h4 class="m-b-0 text-white">Add Food Category</h4>
                 </div>
-            </form>
+                <div class="card-body">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <div class="form-body">
+                            <hr>
+                            <div class="row p-t-20">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="text" name="c_name" class="form-control" placeholder="Category Name">
+                                        <input type="submit" name="submit" class="btn btn-success" value="Save"> 
+                                    </div>
+                                </div>
+                                <!--/span-->
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
         </div>
-    </div>
 </div>
 
                     </div>

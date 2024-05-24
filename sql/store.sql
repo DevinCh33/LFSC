@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2024 at 10:32 AM
+-- Generation Time: May 24, 2024 at 07:18 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -52,11 +52,11 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`adm_id`, `adm_Name`, `username`, `password`, `email`, `contact_num`, `code`, `u_role`, `store`, `date`, `storeStatus`, `chat_id`, `email_token`, `token_expiration`, `email_verified`) VALUES
 (11, 'Wong ', 'admin', '$2y$10$vg.3MfpjSjJTpPI09uAopOwev2j7r5DV3AvweyJ0vj43aOhd0w1Me', 'ryan@gmail.com', '01151385427', 'SUPA', 'ADMIN', 0, '2024-04-25 13:55:20', 1, NULL, '', NULL, 1),
 (12, 'seller1', 'seller1', '$2y$10$Y0km5qMfclCCZZkV1d2pae2RholqmoUoRRnSCubbUOjG6FkvzhKAu', 'gary@gmail.com', '0824191000', 'SUPP', 'SELLER', 52, '2024-05-06 06:28:57', 1, NULL, '', NULL, 1),
-(13, '', 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'arthur@gmail.com', '', 'SUPP', 'SELLER', 53, '2024-05-02 03:21:55', 1, NULL, '', NULL, 1),
-(14, '', 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'baron@gmail.com', '', 'SUPP', 'SELLER', 54, '2024-05-02 03:22:08', 1, NULL, '', NULL, 1),
-(15, '', 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'ricky@gmail.com', '', 'SUPP', 'SELLER', 55, '2024-05-02 03:22:21', 1, NULL, '', NULL, 1),
-(16, '', 'seller5', '$2y$10$24yfPOHwly.E1EXRFAc7aeuPrbJGfdTc0yAmFqaWyw5LlHsmVs9Fq', 'greg@gmail.com', '', 'SUPP', 'SELLER', 56, '2024-05-02 03:23:01', 1, NULL, '', NULL, 1),
-(17, '', 'scientist', '$2y$10$V6uvYI7.V7OPphipVrxPheFxgF5z./9Awu4PDbAaxIJxRGYL5WcWm', 'scientist@happyfoods.com', '', 'SUPP', 'SELLER', 57, '2024-05-02 04:00:12', 1, NULL, '', NULL, 1),
+(13, 'Fresh Food', 'seller2', '$2y$10$2EW2Ly7HAoVbF4ElZhXw6edycO5cT/f7qQkFoOf6jkfLW.9OaZuaq', 'arthur@gmail.com', '01235632345', 'SUPP', 'SELLER', 53, '2024-05-24 17:08:07', 1, NULL, '', NULL, 1),
+(14, 'Canned', 'seller3', '$2y$10$m233uylckhgVjLfZVGjnS.xCkFcmiQsZp0Ra0YhzROgbrrY3hIvw6', 'baron@gmail.com', '0132341356', 'SUPP', 'SELLER', 54, '2024-05-24 17:08:54', 1, NULL, '', NULL, 1),
+(15, 'Eurobeat', 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'ricky@gmail.com', '0132453647', 'SUPP', 'SELLER', 55, '2024-05-24 17:10:24', 1, NULL, '', NULL, 1),
+(16, 'Sydneyyegws', 'seller5', '$2y$10$24yfPOHwly.E1EXRFAc7aeuPrbJGfdTc0yAmFqaWyw5LlHsmVs9Fq', 'greg@gmail.com', '01423124356', 'SUPP', 'SELLER', 56, '2024-05-24 17:10:51', 1, NULL, '', NULL, 1),
+(17, 'susamongus', 'scientist', '$2y$10$V6uvYI7.V7OPphipVrxPheFxgF5z./9Awu4PDbAaxIJxRGYL5WcWm', 'scientist@happyfoods.com', '01324536346', 'SUPP', 'SELLER', 57, '2024-05-24 17:16:19', 1, NULL, '', NULL, 1),
 (18, '', 'michael', '$2y$10$BXuUzFFhom.idRwxXKiz1.adJ4mKCuxbHS8WDiS5fTbuwzw48uIDa', 'michael@gmail.com', '', 'SUPP', 'SELLER', 51, '2024-05-05 06:09:44', 1, NULL, '', NULL, 1),
 (21, 'seller11', 'seller11', '$2y$10$FSlcxKmyl4spff8GD4wEgOke0xsSJHcMr6TnceE0EjtUMGFqd.5Y6', '1cockaricka@gmail.com', '0123541467', 'SUPP', 'SELLER', 60, '2024-05-15 04:05:27', 1, NULL, '', NULL, 1),
 (22, 'Amy', 'seller12', '$2y$10$El.OX0dGY5ThxT.7K1Lqjewz9q6Y88WN95gZfzPzVefIizTXAjgXi', '100083603@students.swinburne.edu.my', '0143547869', 'SUPP', 'SELLER', 61, '2024-05-15 05:07:35', 1, NULL, '', NULL, 1),
@@ -348,17 +348,17 @@ CREATE TABLE `restaurant` (
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`) VALUES
 (51, 1, 'Little Farmer', 'littlefarmer@gmail.com', '0102170960', 'littlefarmerenterprise.justorder.today/v2', '12am', '12am', 'Everday', 'AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak', '655ae7ad8ca9c.png', '2024-05-02 07:41:18', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
-(52, 1, 'The Green Grocer', 'greengrocer@gmail.com', '0824191000', 'gg.com', '8am', '8pm', 'Mon-Thu', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', '6559b15ddab32.png', '2024-05-02 07:41:22', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
-(53, 1, 'Fresh Food Sdn Bhd', 'freshfood@gmail.com', '0105093311', 'ff.com', '6am', '6pm', 'Mon-Thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', '6559b2ffe9dcb.jpg', '2024-05-02 07:41:00', 'Prices you can\'t beat!'),
-(54, 4, 'Always Fresh Canned Goods', 'africano@gmail.com', '0147142029', 'africano.com', '6am', '6pm', 'Tue-Sun', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang Tiga,  93350, Kuching, Sarawak\n', '6559b5b11a1d4.jpg', '2024-05-02 07:40:57', 'Produced and canned locally! Freshness guaranteed or your money back!'),
-(55, 5, 'Prime Euro Import Market', 'peim@gmail.com', '0148007125', 'peim.com', '7am', '5pm', 'Thu-Fri', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', '6559b77536d01.gif', '2024-05-02 07:41:49', 'We import euro plant based goods at a cheap price!'),
-(56, 5, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '0198288790', 'svm.com', '8am', '5pm', 'Sat-Sun', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', '6559b9a2142c4.jpg', '2024-05-02 07:41:41', 'Award winning global vegan franchise!'),
-(57, 2, 'Lab of Happy Foods', 'lab@happyfoods.com', '0218991141', 'happyfoodslab.com', '6am', '1pm', 'Tue', 'Raia Hotel', 'happyfoodslab.jpg', '2024-05-02 07:41:53', 'We buy products from other markets and experiment on them. Thus, we will sell them at an even lower price.'),
-(60, 0, 'The Milk Shop', '1cockaricka@gmail.com', '0123541467', '', '', '', '', '', '', '2024-05-13 13:18:15', 'Got Milk?'),
-(61, 0, 'Amy Catering Bakery', 'amy@gmail.com', '0123424578', '', '', '', '', '', '', '2024-05-15 05:45:14', 'Best catering bakery in town!'),
-(62, 0, 'You Thirst We Quench!', 'thirst@gmail.com', '0122342364', '', '', '', '', '', '', '2024-05-15 05:43:26', 'You Thirst We Quench! We provide fresh and canned drinks!'),
-(63, 0, 'Balkaniko Pizza', 'pizzahuy@gmail.com', '0132343421', '', '', '', '', '', '', '2024-05-15 06:10:50', 'We make the best pizza!'),
-(64, 0, 'The Anything Everything Shop', 'lux@gmail.com', '0132122356', '', '', '', '', '', '', '2024-05-15 06:33:06', 'My husband goes travelling a lot and brings back a lot of stuff. ');
+(52, 1, 'The Green Grocer', 'greengrocer@gmail.com', '0824191000', 'gg.com', '8am', '8pm', 'Mon-Thu', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', 'Res_img/6650c9584f289.png', '2024-05-24 17:07:36', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
+(53, 1, 'Fresh Food Sdn Bhd', 'freshfood@gmail.com', '0105093311', 'ff.com', '6am', '6pm', 'Mon-Thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', 'Res_img/6650c977e6267.jpg', '2024-05-24 17:08:07', 'Prices you can\'t beat!'),
+(54, 4, 'Always Fresh Canned Goods', 'africano@gmail.com', '0147142029', 'africano.com', '6am', '6pm', 'Tue-Sun', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang Tiga,  93350, Kuching, Sarawak\n', 'Res_img/6650c9a6138ed.jpg', '2024-05-24 17:08:54', 'Produced and canned locally! Freshness guaranteed or your money back!'),
+(55, 5, 'Prime Euro Import Market', 'peim@gmail.com', '0148007125', 'peim.com', '7am', '5pm', 'Thu-Fri', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', 'Res_img/6650ca00862d6.gif', '2024-05-24 17:10:24', 'We import euro plant based goods at a cheap price!'),
+(56, 5, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '0198288790', 'svm.com', '8am', '5pm', 'Sat-Sun', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', 'Res_img/6650ca1b0983c.jpg', '2024-05-24 17:10:51', 'Award winning global vegan franchise!'),
+(57, 2, 'Lab of Happy Foods', 'lab@happyfoods.com', '0218991141', 'happyfoodslab.com', '6am', '1pm', 'Tue', 'Raia Hotel', 'Res_img/6650cb6384031.jpg', '2024-05-24 17:16:19', 'We buy products from other markets and experiment on them. Thus, we will sell them at an even lower price.'),
+(60, 0, 'The Milk Shop', '1cockaricka@gmail.com', '0123541467', '', '', '', '', '', 'Res_img/6650c6e437eb8.jpg', '2024-05-24 16:57:08', 'Got Milk?'),
+(61, 0, 'Amy Catering Bakery', 'amy@gmail.com', '0123424578', '', '', '', '', '', 'Res_img/6650ca7fcd713.jpg', '2024-05-24 17:12:31', 'Best catering bakery in town!'),
+(62, 0, 'The Soda Depot', 'thirst@gmail.com', '0122342364', '', '', '', '', '', 'Res_img/6650cab24c004.jpg', '2024-05-24 17:13:22', 'You Thirst We Quench! We provide fresh and canned drinks!'),
+(63, 0, 'Balkaniko Pizza', 'pizzahuy@gmail.com', '0132343421', '', '', '', '', '', 'Res_img/6650cae68cf2e.jpg', '2024-05-24 17:14:14', 'We make the best pizza!'),
+(64, 0, 'The Anything Everything Shop', 'lux@gmail.com', '0132122356', '', '', '', '', '', 'Res_img/6650cb10ca055.jpg', '2024-05-24 17:14:56', 'My husband goes travelling a lot and brings back a lot of stuff. ');
 
 -- --------------------------------------------------------
 

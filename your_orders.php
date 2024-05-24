@@ -4,7 +4,7 @@
 <?php
 include("config/connect.php"); // connection to database
 
-if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to login page
+if (empty($_SESSION['user_id']))  //if user is not logged in, redirect back to login page
 {
     header('location:login.php');
 }
@@ -208,6 +208,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
                                 <table width="100%">
                                     <thead>
                                         <tr>
+                                            <th>Order No.</th>
                                             <th>Order ID#</th>
                                             <th>Seller</th>
                                             <th style="width: 10%">Number of Products</th>
@@ -218,25 +219,26 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <?php
                                         // displaying current session user login orders
                                         $query_res = mysqli_query($db, "SELECT orders.*, order_item.*, COUNT(order_item_id) as total_product, restaurant.*, tblprice.*, SUM(proPrice) as total
     FROM orders
     JOIN order_item ON orders.order_id = order_item.order_id
-	JOIN tblprice ON order_item.priceID = tblprice.priceNo
+    JOIN tblprice ON order_item.priceID = tblprice.priceNo
     JOIN product ON tblprice.productID = product.product_id
     JOIN restaurant ON product.owner = restaurant.rs_id
     WHERE orders.user_id = '" . $_SESSION['user_id'] . "' AND orders.order_status <= 4
-	GROUP BY orders.order_id
+    GROUP BY orders.order_id
     ORDER BY orders.order_id DESC");
 
                                         if (!mysqli_num_rows($query_res) > 0) {
                                             echo '<td colspan="6"><center>You have no orders placed yet. </center></td>';
                                         } else {
+                                            $order_no = 1; // Initialize the order number counter
                                             while ($row = mysqli_fetch_array($query_res)) {
                                                 ?>
                                                 <tr>
+                                                    <td data-column="Order No."><?php echo $order_no++; ?></td>
                                                     <td data-column="ProductID" style="text-decoration: underline;font-weight: bold;"><a onclick="openPopup(<?php echo $row['order_id']; ?>)"><?php echo $row['order_id']; ?></a></td>
                                                     <td data-column="Item"><?php echo $row['title']; ?></td>
                                                     <td data-column="Quantity"><?php echo $row['total_product']; ?></td>
@@ -278,7 +280,7 @@ if (empty($_SESSION['user_id']))  //if user is not logged in, redirect baack to 
 
                                                         } else if ($status == 3) {
                                                             ?>
-                                                                    <a alt="Receipt"><i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(<?php echo $row['order_id']; ?>,<?php echo $row['order_belong']; ?>)"></i></a>
+                                                            <a alt="Receipt"><i class="fa fa-file-text-o btn btn-primary" aria-hidden="true" onclick="generateReceipt(<?php echo $row['order_id']; ?>,<?php echo $row['order_belong']; ?>)"></i></a>
                                                             <?php
                                                         }
                                                         ?>

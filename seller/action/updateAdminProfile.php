@@ -17,7 +17,8 @@ $sql = "UPDATE admin SET
             adm_Name = '".$adm_name."', 
             username = '".$adm_username."', 
             email = '".$adm_email."', 
-            contact_num = '".$adm_contact."'";
+            contact_num = '".$adm_contact."'
+		WHERE store = '".$_SESSION['store']."'";
 
 // Check if a new image is uploaded
 if ($adm_img['error'] == 0 && $adm_img != "") {

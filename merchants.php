@@ -90,7 +90,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         while($rows = mysqli_fetch_array($ress)) {
                             echo '<div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
                                 <div class="entry-logo">
-                                    <a class="img-fluid" href="products.php?res_id='.$rows['rs_id'].'" > <img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo"></a>
+                                    <a class="img-fluid" href="products.php?res_id='.$rows['rs_id'].'" > <img src="seller/'.$rows['image'].'" alt="Merchant logo"></a>
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="entry-dscr">

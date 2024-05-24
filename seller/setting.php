@@ -48,6 +48,16 @@
 								}
 								?>
 							</h3>
+							<div class="form-group shopPic">
+								<label class="label">Shop Picture</label>
+								<div class="textfield" id="shopPicContainer" >
+									<img src="" id="shopPic" alt="Shop Image" style="max-width: 200px; max-height: 400px;">
+									<div class="middle">
+										<div class="text">Change Image</div>
+								  	</div>
+								</div>
+								<input type="file" id="newShopPic" name="newShopPic" style="display: none;">
+							</div>
                             <div class="form-group">
                                 <label class="label">Shop Title</label>
                                 <div class="textfield">
@@ -77,12 +87,6 @@
                                 </div>
                             </div>
        
-    
-
-
-
-
-
                         </fieldset>
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">Personal Info</h3> 
@@ -245,6 +249,21 @@
 <script>
 $(document).ready(function() {
 	fetchData();
+	
+	$("#shopPicContainer").click(function(){
+		$('#newShopPic').click();
+	});
+	
+	$('#newShopPic').change(function(event) {
+    	var input = event.target;
+        if (input.files && input.files[0]) {
+        	var reader = new FileReader();
+            reader.onload = function(e) {
+            	$('#shopPic').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+       	}
+    });
 });
 function checkOldPass(pass, callback) {
     $.ajax({
@@ -518,6 +537,7 @@ function fetchData() {
         dataType: 'json',
         success: function(response) {
 			console.log(response);
+			$('#shopPic').attr('src', response.r_img);
 			$('#shopTitle').val(response.r_title);
 			$('#shopEmail').val(response.r_email);
 			$('#shopNumber').val(response.r_phone);
@@ -540,6 +560,8 @@ function openPopup() {
 }
 	
 function updateProfile(button){
+	if($('#newShopPic').val() != "")
+		var image =  $('#newShopPic')[0].files[0];;
 	var shopTitle = $('#shopTitle').val();
 	var shopEmail = $('#shopEmail').val();
 	var shopNumber = $('#shopNumber').val();
@@ -644,11 +666,23 @@ function updateProfile(button){
 	}
 	console.log(error);
 	if(error == 0){
-		console.log(form.serialize());
+		var formData = new FormData();
+            formData.append('newShopPic', image);
+            formData.append('shopTitle', shopTitle);
+            formData.append('shopEmail', shopEmail);
+            formData.append('shopNumber', shopNumber);
+            formData.append('shopDescr', shopDescr);
+            formData.append('ownerUser', username);
+            formData.append('ownerName', admname);
+            formData.append('ownerEmail', email);
+            formData.append('ownerNumber', contact);
+		console.log(formData);
 		$.ajax({
         url: form.attr("action"), // The script to call to add data
         type: form.attr("method"),
-        data: form.serialize(),
+        data: formData,
+		processData: false,  // Important! Prevent jQuery from processing the data
+        contentType: false,  // Important! Set content type to false
         success: function(response) {
             alert(response);
         },

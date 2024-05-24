@@ -919,6 +919,9 @@ background-color: #fff;
 }
 
 /* Add more CSS styles as needed to customize the appearance */
-
+a {
+  text-decoration: none;
+	color: inherit;
+}
 
 

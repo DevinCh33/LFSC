@@ -124,10 +124,7 @@
                                             <tr>
                                                 <th>ID#</th>
                                                 <th>Category Name</th>
-												<th>Action</th>
-                                                <th>Active</th>	
-                                                <th>Status</th>
-                                                <th>Save</th>				 
+												<th>Action</th>				 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -149,35 +146,7 @@ if (!mysqli_num_rows($query) > 0) {
                       <i class="fa fa-trash-o" style="font-size:16px"></i>
                   </a>
               </td>';
-        echo '<td>
-                  <select name="categories_active">';
-        echo '<option value="1"';
-        if ($rows['categories_active'] == 1) {
-            echo ' selected';
-        }
-        echo '>1</option>';
-        echo '<option value="2"';
-        if ($rows['categories_active'] == 2) {
-            echo ' selected';
-        }
-        echo '>2</option>';
-        echo '</select>
-              </td>';
-        echo '<td>
-                  <select name="categories_status">';
-        echo '<option value="1"';
-        if ($rows['categories_status'] == 1) {
-            echo ' selected';
-        }
-        echo '>1</option>';
-        echo '<option value="2"';
-        if ($rows['categories_status'] == 2) {
-            echo ' selected';
-        }
-        echo '>2</option>';
-        echo '</select>
-              </td>';
-        echo '<td><button class="btn btn-success save-category" data-category-id="' . $rows['categories_id'] . '">Save</button></td>';
+       
         echo '</tr>';  
     }	
 }
@@ -196,9 +165,6 @@ if (!mysqli_num_rows($query) > 0) {
 
                 <!-- End Page Content -->
             </div>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. </footer>
             <!-- End footer -->
 
     </div>

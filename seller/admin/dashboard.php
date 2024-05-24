@@ -27,7 +27,7 @@
 	  
 	<div class="dashboard">
 		
-		<div class="card">
+		<a href="sellers.php"><div class="card">
 			<h3>Total Sellers</h3>
 		<?php
 			$querySeller = "SELECT COUNT(adm_id) AS total_seller FROM admin";
@@ -49,7 +49,9 @@
 			<p><?php echo $totalSeller; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percentChange; ?></span></p>
 			
       	</div>
+	</a>
 		
+	<a href="seller_inspection.php">
 		<div class="card">
 			<h3>Sellers Under Inspection</h3>
 			<?php
@@ -60,7 +62,8 @@
 			?>
 			<p><?php echo $totalSeller; ?></p>
 		</div>
-		
+	</a>
+	<a href="products.php">
 		<div class="card">
 			<h3>Total Products</h3>
 			<?php
@@ -97,7 +100,8 @@
 		?>
 			<p><?php echo $totalProduct; ?><span class="stat-delta <?php echo $word; ?>"><?php echo $percent; ?></span></p>
 		  </div>
-		
+	</a>
+	<a href="product_inspection.php">
 		<div class="card">
 			<h3>Products Under Inspection</h3>
 			<?php
@@ -109,10 +113,11 @@
 		?>
 			<p><?php echo $totalCurrentMonth; ?></p>
 		</div>
+	</a>
 	
-		  <div class="sales-graph">
+		  <div class="sales-graph"><a href="admin_report.php">
 		  <h2 style = "text-align:center;">Number of Sellers Joining Each Month</h2></br>
-			<canvas id="salesChart"></canvas>
+			<canvas id="salesChart"></canvas></a>
 		  </div>
 		
 		<div class="multiFunction">

@@ -110,7 +110,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <div class="right-content bg-white">
                                         <div class="right-review">
                                             <div class="rating-block" data-resid="'.$rows['rs_id'].'" data-rating="'.$rating.'">';
-                                            
+                                            echo '<p class="average-rating">Rate Here: </p>';            
                             // Loop through 5 stars and generate each one dynamically
                             for ($i = 1; $i <= 5; $i++) {
                                 // Check if the star should be active or inactive
@@ -119,7 +119,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                             }
                             
                             echo '</div>';
-
+                     
                             // Fetch average rating from the database
                             $avgRatingQuery = "SELECT AVG(rating) AS average_rating FROM user_ratings WHERE res_id = ".$rows['rs_id'];
                             $avgRatingResult = mysqli_query($db, $avgRatingQuery);

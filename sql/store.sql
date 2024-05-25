@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2024 at 07:18 PM
+-- Generation Time: May 25, 2024 at 05:49 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,7 +57,7 @@ INSERT INTO `admin` (`adm_id`, `adm_Name`, `username`, `password`, `email`, `con
 (15, 'Eurobeat', 'seller4', '$2y$10$O718h9GzhI9bHdJ2uz5qc.Get1hgjeQqs6DnERF.xLh8DN/cnY2Bi', 'ricky@gmail.com', '0132453647', 'SUPP', 'SELLER', 55, '2024-05-24 17:10:24', 1, NULL, '', NULL, 1),
 (16, 'Sydneyyegws', 'seller5', '$2y$10$24yfPOHwly.E1EXRFAc7aeuPrbJGfdTc0yAmFqaWyw5LlHsmVs9Fq', 'greg@gmail.com', '01423124356', 'SUPP', 'SELLER', 56, '2024-05-24 17:10:51', 1, NULL, '', NULL, 1),
 (17, 'susamongus', 'scientist', '$2y$10$V6uvYI7.V7OPphipVrxPheFxgF5z./9Awu4PDbAaxIJxRGYL5WcWm', 'scientist@happyfoods.com', '01324536346', 'SUPP', 'SELLER', 57, '2024-05-24 17:16:19', 1, NULL, '', NULL, 1),
-(18, '', 'michael', '$2y$10$BXuUzFFhom.idRwxXKiz1.adJ4mKCuxbHS8WDiS5fTbuwzw48uIDa', 'michael@gmail.com', '', 'SUPP', 'SELLER', 51, '2024-05-05 06:09:44', 1, NULL, '', NULL, 1),
+(18, 'John michael', 'michael', '$2y$10$BXuUzFFhom.idRwxXKiz1.adJ4mKCuxbHS8WDiS5fTbuwzw48uIDa', 'michael@gmail.com', '0132453547', 'SUPP', 'SELLER', 51, '2024-05-25 03:48:26', 1, NULL, '', NULL, 1),
 (21, 'seller11', 'seller11', '$2y$10$FSlcxKmyl4spff8GD4wEgOke0xsSJHcMr6TnceE0EjtUMGFqd.5Y6', '1cockaricka@gmail.com', '0123541467', 'SUPP', 'SELLER', 60, '2024-05-15 04:05:27', 1, NULL, '', NULL, 1),
 (22, 'Amy', 'seller12', '$2y$10$El.OX0dGY5ThxT.7K1Lqjewz9q6Y88WN95gZfzPzVefIizTXAjgXi', '100083603@students.swinburne.edu.my', '0143547869', 'SUPP', 'SELLER', 61, '2024-05-15 05:07:35', 1, NULL, '', NULL, 1),
 (23, 'John Beverage', 'seller13', '$2y$10$JrtMaYwI2.l7J5wJnIFIyuC08KEhHOaPMTKePmjaf5w7EDrOITmc6', 'hijarajar@gmail.com', '0145328946', 'SUPP', 'SELLER', 62, '2024-05-15 05:41:09', 1, NULL, '', NULL, 1),
@@ -347,7 +347,7 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`, `description`) VALUES
-(51, 1, 'Little Farmer', 'littlefarmer@gmail.com', '0102170960', 'littlefarmerenterprise.justorder.today/v2', '12am', '12am', 'Everday', 'AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak', '655ae7ad8ca9c.png', '2024-05-02 07:41:18', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
+(51, 1, 'Little Farmer', 'littlefarmer@gmail.com', '0102170960', 'littlefarmerenterprise.justorder.today/v2', '12am', '12am', 'Everday', 'AB102 Ground Floor Parcel 2586-1-9 Lorong Persiaran Bandar Baru Batu Kawa 3D Batu Kawah New Township Jalan Batu Kawa 93250 Kuching Sarawak', 'Res_img/66515f8a29188.png', '2024-05-25 03:48:26', 'Little Farmer has been cultivating organic produce for over two decades. Our commitment to fresh and sustainable farming has made us the choice of many households. Dive in to know more about our journey and values.'),
 (52, 1, 'The Green Grocer', 'greengrocer@gmail.com', '0824191000', 'gg.com', '8am', '8pm', 'Mon-Thu', 'Lot 299-303,Section 49 KTLD Jalan Abell, 93000, Kuching, Sarawak\n\n', 'Res_img/6650c9584f289.png', '2024-05-24 17:07:36', 'The Green Grocer is your one stop shop for all things fresh and healthy!'),
 (53, 1, 'Fresh Food Sdn Bhd', 'freshfood@gmail.com', '0105093311', 'ff.com', '6am', '6pm', 'Mon-Thu', 'Bangunan Kepli Holdings,No.139, Jalan Satok, 93400, Kuching, Sarawak\n', 'Res_img/6650c977e6267.jpg', '2024-05-24 17:08:07', 'Prices you can\'t beat!'),
 (54, 4, 'Always Fresh Canned Goods', 'africano@gmail.com', '0147142029', 'africano.com', '6am', '6pm', 'Tue-Sun', 'Ground Floor, Lot G-38, The Spring Shopping Mall, Jalan Simpang Tiga,  93350, Kuching, Sarawak\n', 'Res_img/6650c9a6138ed.jpg', '2024-05-24 17:08:54', 'Produced and canned locally! Freshness guaranteed or your money back!'),

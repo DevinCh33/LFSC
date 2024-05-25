@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 08:40 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 25, 2024 at 10:38 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
   `email_token` varchar(255) NOT NULL,
   `token_expiration` datetime DEFAULT NULL,
   `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `admin`
@@ -75,7 +75,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `categories`
@@ -123,7 +123,7 @@ CREATE TABLE `custom_prices` (
   `price_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -146,7 +146,7 @@ CREATE TABLE `orders` (
   `order_belong` int(15) NOT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_seen` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
@@ -160,14 +160,36 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (6, '2024-04-21', 'Ashley Tan', '0217719273', '3.60', '3.60', '0', '3.60', 1, 2, 3, 51, '2024-04-20 18:05:43', 0),
 (7, '2024-04-21', 'Michael Chai', '0128789600', '4.38', '4.38', '4.38', '0', 1, 3, 35, 51, '2024-04-21 06:20:13', 0),
 (8, '2024-04-21', 'Michael Chai', '0128789600', '66.15', '66.15', '0', '66.15', 2, 3, 35, 52, '2024-04-21 06:20:13', 0),
-(9, '2024-04-22', 'Michael Chai', '0128789600', '66.15', '66.15', '0', '66.15', 1, 1, 35, 52, '2024-04-22 10:45:33', 0),
+(9, '2024-04-22', 'Michael Chai', '0128789600', '66.15', '66.15', '0', '66.15', 1, 2, 35, 52, '2024-04-22 10:45:33', 0),
 (10, '2024-04-22', 'Michael Chai', '0128789600', '4.7', '4.7', '4.7', '0', 1, 3, 35, 51, '2024-04-22 10:48:15', 0),
-(11, '2024-04-30', 'Jason Lim', '0218882102', '12.6', '12.6', '0', '12.6', 2, 1, 2, 52, '2024-04-30 07:59:40', 0),
-(12, '2024-05-13', 'Jason Lim', '0218882102', '14.74', '14.74', '0', '14.74', 1, 1, 2, 51, '2024-05-13 11:29:35', 0),
-(13, '2024-05-13', 'Jason Lim', '0218882102', '30.62', '30.62', '0', '30.62', 1, 1, 2, 51, '2024-05-13 11:43:04', 0),
-(14, '2024-05-13', 'Jason Lim', '0218882102', '68.25', '68.25', '0', '68.25', 1, 1, 2, 52, '2024-05-13 11:43:04', 0),
-(15, '2024-05-13', 'Jason Lim', '0218882102', '14.74', '14.74', '0', '14.74', 1, 1, 2, 51, '2024-05-13 11:53:50', 0),
-(16, '2024-05-13', 'Jason Lim', '0218882102', '2.1', '2.1', '0', '2.1', 1, 1, 2, 52, '2024-05-13 11:53:50', 0);
+(11, '2024-04-30', 'Jason Lim', '0218882102', '12.6', '12.6', '0', '12.6', 2, 3, 2, 52, '2024-04-30 07:59:40', 0),
+(12, '2024-05-13', 'Jason Lim', '0218882102', '14.74', '14.74', '0', '14.74', 1, 3, 2, 51, '2024-05-13 11:29:35', 0),
+(13, '2024-05-13', 'Jason Lim', '0218882102', '30.62', '30.62', '0', '30.62', 1, 3, 2, 51, '2024-05-13 11:43:04', 0),
+(14, '2024-05-13', 'Jason Lim', '0218882102', '68.25', '68.25', '0', '68.25', 1, 3, 2, 52, '2024-05-13 11:43:04', 0),
+(15, '2024-05-13', 'Jason Lim', '0218882102', '14.74', '14.74', '0', '14.74', 1, 3, 2, 51, '2024-05-13 11:53:50', 0),
+(16, '2024-05-13', 'Jason Lim', '0218882102', '2.1', '2.1', '0', '2.1', 1, 3, 2, 52, '2024-05-13 11:53:50', 0),
+(17, '2024-05-25', 'Ashley Tan', '0217719273', '230', '230', '0', '230', 1, 1, 3, 64, '2024-05-25 08:21:08', 0),
+(18, '2024-05-25', 'Ashley Tan', '0217719273', '799', '799', '0', '799', 1, 2, 3, 61, '2024-05-25 08:21:08', 0),
+(19, '2024-05-25', 'Ashley Tan', '0217719273', '20', '20', '0', '20', 1, 2, 3, 60, '2024-05-25 08:21:08', 0),
+(20, '2024-05-25', 'William Donald', '0123456789', '4', '4', '0', '4', 1, 1, 4, 60, '2024-05-25 08:22:50', 0),
+(21, '2024-05-25', 'William Donald', '0123456789', '334', '334', '0', '334', 1, 3, 4, 62, '2024-05-25 08:22:50', 0),
+(22, '2024-05-25', 'William Donald', '0123456789', '102', '102', '0', '102', 1, 3, 4, 63, '2024-05-25 08:22:50', 0),
+(23, '2024-05-25', ' ', '', '252', '252', '0', '252', 1, 3, 31, 56, '2024-05-25 08:34:02', 0),
+(24, '2024-05-25', ' ', '', '20.85', '20.85', '0', '20.85', 1, 1, 31, 54, '2024-05-25 08:34:02', 0),
+(25, '2024-05-25', ' ', '', '200', '200', '0', '200', 1, 3, 31, 63, '2024-05-25 08:34:02', 0),
+(26, '2024-05-25', ' ', '', '92', '92', '0', '92', 1, 3, 31, 53, '2024-05-25 08:34:02', 0),
+(27, '2024-05-25', ' ', '', '3', '3', '0', '3', 1, 1, 31, 62, '2024-05-25 08:34:02', 0),
+(28, '2024-05-25', ' ', '', '1.25', '1.25', '0', '1.25', 1, 1, 32, 51, '2024-05-25 08:35:06', 0),
+(29, '2024-05-25', ' ', '', '40', '40', '0', '40', 1, 1, 32, 64, '2024-05-25 08:35:06', 0),
+(30, '2024-05-25', ' ', '', '162', '162', '0', '162', 1, 1, 32, 60, '2024-05-25 08:35:07', 0),
+(31, '2024-05-25', ' ', '', '603', '603', '0', '603', 1, 1, 32, 61, '2024-05-25 08:35:07', 0),
+(32, '2024-05-25', ' ', '', '2.1', '2.1', '0', '2.1', 1, 1, 33, 52, '2024-05-25 08:36:32', 0),
+(33, '2024-05-25', ' ', '', '0.85', '0.85', '0', '0.85', 1, 1, 33, 53, '2024-05-25 08:36:32', 0),
+(34, '2024-05-25', ' ', '', '12.55', '12.55', '0', '12.55', 1, 1, 33, 54, '2024-05-25 08:36:32', 0),
+(35, '2024-05-25', ' ', '', '80', '80', '0', '80', 1, 1, 33, 55, '2024-05-25 08:36:32', 0),
+(36, '2024-05-25', ' ', '', '31.5', '31.5', '0', '31.5', 1, 1, 33, 56, '2024-05-25 08:36:32', 0),
+(37, '2024-05-25', ' ', '', '126', '126', '0', '126', 1, 1, 33, 61, '2024-05-25 08:36:32', 0),
+(38, '2024-05-25', ' ', '', '30', '30', '0', '30', 1, 1, 33, 64, '2024-05-25 08:36:32', 0);
 
 --
 -- Triggers `orders`
@@ -190,7 +212,7 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL DEFAULT 0,
   `priceID` int(10) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `order_item`
@@ -224,7 +246,36 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `priceID`, `quantity`) VA
 (25, 15, 20, '1'),
 (26, 15, 21, '1'),
 (27, 15, 18, '3'),
-(28, 16, 22, '1');
+(28, 16, 22, '1'),
+(29, 17, 72, '1'),
+(30, 17, 73, '2'),
+(31, 18, 48, '1'),
+(32, 18, 54, '1'),
+(33, 18, 56, '1'),
+(34, 19, 45, '1'),
+(35, 20, 46, '1'),
+(36, 21, 59, '1'),
+(37, 21, 62, '3'),
+(38, 21, 63, '1'),
+(39, 22, 70, '1'),
+(40, 22, 68, '1'),
+(41, 23, 76, '4'),
+(42, 24, 26, '1'),
+(43, 25, 66, '20'),
+(44, 26, 25, '20'),
+(45, 27, 58, '1'),
+(46, 28, 16, '1'),
+(47, 29, 75, '1'),
+(48, 29, 74, '1'),
+(49, 30, 44, '1'),
+(50, 31, 48, '1'),
+(51, 32, 22, '1'),
+(52, 33, 24, '1'),
+(53, 34, 27, '1'),
+(54, 35, 38, '1'),
+(55, 36, 79, '1'),
+(56, 37, 54, '1'),
+(57, 38, 72, '1');
 
 -- --------------------------------------------------------
 
@@ -238,7 +289,7 @@ CREATE TABLE `payment_receipts` (
   `receipt_path` varchar(255) NOT NULL,
   `upload_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(4) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payment_receipts`
@@ -266,7 +317,7 @@ CREATE TABLE `product` (
   `product_date` text NOT NULL,
   `lowStock` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `product`
@@ -318,7 +369,10 @@ INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_ima
 (65, 'A0002', 'Luxury Saffron', 'http://localhost/lfsc/seller/images/product/6644590b94d44.jpg', 'Locally grown saffron!', 6, '64', '2024-05-15', 5, 1),
 (66, 'A0003', 'Caviar', 'http://localhost/lfsc/seller/images/product/6644593c9b3fc.jpg', 'Local caviar', 15, '64', '2024-05-15', 20, 1),
 (67, 'A0004', 'Thai Jasmin Rice', 'http://localhost/lfsc/seller/images/product/6644599b1da49.jpg', '5000g bag of rice.', 11, '64', '2024-05-15', 20, 1),
-(68, 'A0005', 'Cooking Oil', 'http://localhost/lfsc/seller/images/product/664459d33fa0d.jpg', 'Home made cooking oil. 100g = 500ml.', 18, '64', '2024-05-15', 20, 1);
+(68, 'A0005', 'Cooking Oil', 'http://localhost/lfsc/seller/images/product/664459d33fa0d.jpg', 'Home made cooking oil. 100g = 500ml.', 18, '64', '2024-05-15', 20, 1),
+(69, 'V0001', 'Vegan choco Cookies', 'http://localhost/lfsc/seller/images/product/6651a0f5f41c4.jpg', 'Gluten free vegan choco cookies', 14, '56', '2024-05-25', 1000, 1),
+(70, 'V0002', 'Poke bowl', 'http://localhost/lfsc/seller/images/product/6651a1cfb1586.jpg', 'Fit and healthy. 100g = 1 bowl', 11, '56', '2024-05-25', 30, 1),
+(71, 'V0003', 'Granola', 'http://localhost/lfsc/seller/images/product/6651a20eb2893.jpg', 'Baked to order', 14, '56', '2024-05-25', 30, 1);
 
 -- --------------------------------------------------------
 
@@ -340,7 +394,7 @@ CREATE TABLE `restaurant` (
   `image` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `restaurant`
@@ -369,7 +423,7 @@ INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_
 CREATE TABLE `restaurant_categories` (
   `rs_id` int(222) NOT NULL,
   `c_id` int(222) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -381,7 +435,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `res_category`
@@ -426,7 +480,7 @@ CREATE TABLE `seller_tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -451,7 +505,7 @@ CREATE TABLE `tblemployee` (
   `empstatus` int(11) NOT NULL,
   `email_token` varchar(255) NOT NULL,
   `email_verified` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblemployee`
@@ -489,25 +543,25 @@ CREATE TABLE `tblprice` (
   `proWeight` int(20) NOT NULL,
   `proPrice` float NOT NULL,
   `proDisc` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblprice`
 --
 
 INSERT INTO `tblprice` (`priceNo`, `productID`, `proQuant`, `proWeight`, `proPrice`, `proDisc`) VALUES
-(16, '26', 20, 200, 1.25, 0),
+(16, '26', 19, 200, 1.25, 0),
 (17, '26', 364, 400, 2.5, 5),
 (18, '26', 330, 600, 3.75, 10),
 (19, '27', 458, 500, 1, 90),
 (20, '25', 400, 900, 6, 40),
 (21, '28', 126, 500, 1, 0),
-(22, '29', 128, 120, 2.1, 0),
+(22, '29', 127, 120, 2.1, 0),
 (23, '30', 171, 1000, 73.5, 10),
-(24, '31', 367, 140, 0.85, 0),
-(25, '32', 420, 250, 4.6, 0),
-(26, '33', 497, 500, 20.85, 0),
-(27, '34', 326, 425, 12.55, 0),
+(24, '31', 366, 140, 0.85, 0),
+(25, '32', 400, 250, 4.6, 0),
+(26, '33', 496, 500, 20.85, 0),
+(27, '34', 325, 425, 12.55, 0),
 (28, '35', 441, 340, 12.55, 30),
 (29, '36', 324, 375, 3, 0),
 (30, '36', 197, 500, 4, 0),
@@ -516,44 +570,49 @@ INSERT INTO `tblprice` (`priceNo`, `productID`, `proQuant`, `proWeight`, `proPri
 (35, '23', 181, 300, 7.5, 0),
 (36, '23', 154, 500, 14, 0),
 (37, '23', 122, 1000, 28, 7),
-(38, '38', 45, 355, 80, 0),
+(38, '38', 44, 355, 80, 0),
 (39, '39', 234, 234, 234, 234),
 (40, '40', 12, 12, 12, 0),
 (41, '41', 80, 80, 80, 0),
 (42, '42', 100, 10, 130, 10),
 (43, '42', 200, 1, 15, 0),
-(44, '43', 50, 10, 180, 10),
-(45, '43', 200, 1, 20, 0),
-(46, '44', 300, 1, 4, 0),
+(44, '43', 49, 10, 180, 10),
+(45, '43', 199, 1, 20, 0),
+(46, '44', 299, 1, 4, 0),
 (47, '45', 100, 1, 35, 0),
-(48, '46', 100, 1000, 670, 10),
+(48, '46', 98, 1000, 670, 10),
 (49, '46', 200, 200, 120, 0),
 (50, '47', 100, 4000, 220, 16),
 (51, '47', 200, 500, 30, 0),
 (52, '48', 100, 100, 70, 10),
 (53, '48', 200, 500, 40, 0),
-(54, '49', 20, 500, 140, 10),
+(54, '49', 18, 500, 140, 10),
 (55, '49', 30, 100, 30, 0),
-(56, '50', 100, 300, 70, 0),
+(56, '50', 99, 300, 70, 0),
 (57, '51', 50, 2000, 40, 0),
-(58, '52', 300, 100, 3, 0),
-(59, '53', 200, 100, 10, 0),
+(58, '52', 299, 100, 3, 0),
+(59, '53', 199, 100, 10, 0),
 (60, '54', 300, 100, 2, 0),
 (61, '55', 100, 100, 68, 0),
-(62, '56', 68, 100, 98, 0),
-(63, '57', 200, 100, 30, 0),
+(62, '56', 65, 100, 98, 0),
+(63, '57', 199, 100, 30, 0),
 (64, '58', 100, 500, 25, 0),
 (65, '59', 100, 500, 25, 0),
-(66, '60', 100, 50, 10, 0),
+(66, '60', 80, 50, 10, 0),
 (67, '61', 100, 100, 40, 0),
-(68, '62', 30, 100, 100, 10),
+(68, '62', 29, 100, 100, 10),
 (69, '62', 120, 500, 55, 0),
-(70, '63', 60, 600, 12, 0),
+(70, '63', 59, 600, 12, 0),
 (71, '64', 200, 100, 20, 0),
-(72, '65', 100, 10, 30, 0),
-(73, '66', 200, 50, 100, 0),
-(74, '67', 100, 5000, 20, 0),
-(75, '68', 120, 100, 20, 0);
+(72, '65', 98, 10, 30, 0),
+(73, '66', 198, 50, 100, 0),
+(74, '67', 99, 5000, 20, 0),
+(75, '68', 119, 100, 20, 0),
+(76, '69', 1496, 400, 70, 10),
+(77, '69', 2000, 150, 30, 0),
+(78, '70', 200, 100, 20, 0),
+(79, '71', 99, 400, 35, 10),
+(80, '71', 300, 200, 20, 0);
 
 -- --------------------------------------------------------
 
@@ -569,7 +628,7 @@ CREATE TABLE `tblvalidation` (
   `imgStatus` int(10) NOT NULL,
   `comment` varchar(10000) NOT NULL,
   `storeID` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblvalidation`
@@ -593,7 +652,14 @@ CREATE TABLE `tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tg_verification`
+--
+
+INSERT INTO `tg_verification` (`id`, `userId`, `code`, `chatId`, `expiration`) VALUES
+(1, 2, 'da3150a8', '', '2024-05-25 16:11:29');
 
 -- --------------------------------------------------------
 
@@ -620,7 +686,7 @@ CREATE TABLE `users` (
   `email_token` varchar(255) NOT NULL DEFAULT '',
   `token_expiration` datetime DEFAULT NULL,
   `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
@@ -629,7 +695,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `gender`, `dob`, `email`, `phone`, `password`, `address`, `status`, `date`, `chat_id`, `notifications_enabled`, `email_token`, `token_expiration`, `email_verified`) VALUES
 (2, 'cust1', 'Jason', 'Lim', 'Jason Lim', 'male', '2000-01-24', 'gerdenremseyjr@hotmail.com', '0218882102', '$2y$10$n8zOEwX0Ar7fGlTV1Hxi.OVCGwOG9PMxLsDGe2wZ.nys2i4gpNL4S', '82 Saradise', 1, '2024-05-01 23:27:29', 0, 1, '', NULL, 1),
 (3, 'cust2', 'Ashley', 'Tan', 'Ashley Tan', 'female', '2004-08-12', 'heyitsashleytanxd@gmail.com', '0217719273', '$2y$10$fbEIRMnpFGJoD7dNhUvFNuF9Qz62fj0CMutGXVTAKw99lspODNxu.', '1024 Saberkas', 1, '2024-05-01 23:31:51', 0, 1, '', NULL, 1),
-(4, 'cust3', 'William', 'Donald', 'William Donald', 'other', '0000-00-00', 'willdona@youtube.com', '0123456789', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'YouTube headquarters at the Spring', 1, '2024-05-01 23:47:19', 0, 1, '', NULL, 0),
+(4, 'cust3', 'William', 'Donald', 'William Donald', 'other', '0000-00-00', 'willdona@youtube.com', '0123456789', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'YouTube headquarters at the Spring', 1, '2024-05-25 08:21:50', 0, 1, '', NULL, 1),
 (5, 'stephentan44', 'Stephen', 'Tan', 'Stephen Tan', '', NULL, 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 Lorong 3 Rose Garden\n93250 Kuching Sarawak', 1, '2024-05-01 23:34:20', 0, 1, '', NULL, 1),
 (6, 'angrychef', 'John', 'Divasukarno', 'John Divasukarno', '', NULL, 'john@dailychefshow.net', '0134569780', '$2y$10$hZ3zlibC0LRIEmM62txjWe15HLPzJniYYrTpyc0GH/py4ObjuNtx2', '347 CityOne', 1, '2024-05-01 23:36:21', 0, 1, '', NULL, 1),
 (31, 'cust4', '', '', '', '', NULL, 'devinchp@gmail.com', '', '$2y$10$yNAWOf8N1IcDAWT6J2iLrOitTY0SeSStA3HtB0LY./Sm3jR6sDIqy', '', 1, '2024-04-04 04:21:18', 0, 1, '', NULL, 1),
@@ -653,7 +719,7 @@ CREATE TABLE `user_comments` (
   `res_id` int(11) DEFAULT NULL,
   `comment` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_comments`
@@ -667,7 +733,11 @@ INSERT INTO `user_comments` (`id`, `user_id`, `res_id`, `comment`, `created_at`)
 (5, 4, 52, 'cust3', '2024-05-06 09:39:31'),
 (6, 31, 52, 'cust4', '2024-05-06 09:39:47'),
 (7, 32, 52, 'cust5', '2024-05-06 09:40:07'),
-(9, 2, 53, 'test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment', '2024-05-13 11:29:10');
+(9, 2, 53, 'test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment', '2024-05-13 11:29:10'),
+(10, 3, 61, 'Good and fresh!', '2024-05-25 08:21:00'),
+(11, 4, 63, 'Best in town!', '2024-05-25 08:22:37'),
+(12, 31, 56, 'it\\\'s so so', '2024-05-25 08:33:19'),
+(13, 33, 61, 'it\\\'s gr8', '2024-05-25 08:36:00');
 
 -- --------------------------------------------------------
 
@@ -680,7 +750,7 @@ CREATE TABLE `user_ratings` (
   `user_id` int(11) DEFAULT NULL,
   `res_id` int(11) DEFAULT NULL,
   `rating` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_ratings`
@@ -710,7 +780,21 @@ INSERT INTO `user_ratings` (`id`, `user_id`, `res_id`, `rating`) VALUES
 (21, 3, 57, 1),
 (22, 4, 57, 5),
 (23, 2, 53, 3),
-(24, 2, 52, 5);
+(24, 2, 52, 5),
+(25, 3, 60, 4),
+(26, 3, 61, 3),
+(27, 3, 62, 5),
+(28, 3, 63, 4),
+(29, 3, 64, 4),
+(30, 31, 56, 4),
+(31, 33, 54, 3),
+(32, 33, 55, 4),
+(33, 33, 56, 4),
+(34, 33, 64, 3),
+(35, 33, 63, 4),
+(36, 33, 62, 4),
+(37, 33, 61, 4),
+(38, 33, 60, 3);
 
 --
 -- Indexes for dumped tables
@@ -850,13 +934,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `payment_receipts`
@@ -868,7 +952,7 @@ ALTER TABLE `payment_receipts`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `restaurant`
@@ -898,7 +982,7 @@ ALTER TABLE `tblemployee`
 -- AUTO_INCREMENT for table `tblprice`
 --
 ALTER TABLE `tblprice`
-  MODIFY `priceNo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `priceNo` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `tblvalidation`
@@ -910,7 +994,7 @@ ALTER TABLE `tblvalidation`
 -- AUTO_INCREMENT for table `tg_verification`
 --
 ALTER TABLE `tg_verification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -922,13 +1006,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_comments`
 --
 ALTER TABLE `user_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user_ratings`
 --
 ALTER TABLE `user_ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- Constraints for dumped tables

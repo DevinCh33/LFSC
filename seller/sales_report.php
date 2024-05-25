@@ -15,7 +15,143 @@
             font-size: 30px;
         }
 
-        
+        /* Style for the filter form */
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+
+    form label {
+        margin: 5px;
+    }
+
+    form input[type="date"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    form input[type="submit"], .export-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    form input[type="submit"]:hover, .export-button:hover {
+        background-color: #45a049;
+    }
+
+    /* Style for no data available message */
+    .no-data {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        font-size: 18px;
+        color: red;
+        margin-top: 20px;
+        text-align: center;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    /* Style for modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 5% auto;
+        border: 1px solid #888;
+        width: 80%;
+        border-radius: 10px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+    }
+
+    .export-button {
+        background-color: #008CBA;
+    }
+
+    .export-button:hover {
+        background-color: #007B9A;
+    }
+
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 50px;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4CAF50; /* Green */
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+    .chart-container {
+        width: 80%;
+        height: 80%;
+        margin: 5% auto 30% auto;
+    }
+
     </style>
 </head>
 <body>
@@ -169,7 +305,7 @@
                     echo "<input type='date' name='end_date' id='end_date' value='$end_date'>";
                     echo "<input type='submit' value='Search' name='search_sales'>";
                     echo "</form>";
-                    echo "<div class='no-data'>No sales data available.</div>";
+                    echo "<div class='no-data'>Please Select the Date To Filter the Data.</div>";
                     echo "</div>";
                 }
 

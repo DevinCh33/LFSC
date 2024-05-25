@@ -65,7 +65,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- Search part ends-->
 
         <!-- Results show -->
-        <section class="restaurants-page" style="margin-left: 12vw;">
+        <section class="restaurants-page" style="margin-left: 12vw; display: block;">
     <div class="container">
         <div class="row">
             <?php

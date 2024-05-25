@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 10:38 AM
+-- Generation Time: May 25, 2024 at 03:51 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -189,7 +189,9 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (35, '2024-05-25', ' ', '', '80', '80', '0', '80', 1, 1, 33, 55, '2024-05-25 08:36:32', 0),
 (36, '2024-05-25', ' ', '', '31.5', '31.5', '0', '31.5', 1, 1, 33, 56, '2024-05-25 08:36:32', 0),
 (37, '2024-05-25', ' ', '', '126', '126', '0', '126', 1, 1, 33, 61, '2024-05-25 08:36:32', 0),
-(38, '2024-05-25', ' ', '', '30', '30', '0', '30', 1, 1, 33, 64, '2024-05-25 08:36:32', 0);
+(38, '2024-05-25', ' ', '', '30', '30', '0', '30', 1, 1, 33, 64, '2024-05-25 08:36:32', 0),
+(39, '2024-05-25', 'Jason Lim', '0218882102', '7.98', '7.98', '0', '7.98', 1, 1, 2, 51, '2024-05-25 13:29:52', 0),
+(40, '2024-05-25', 'Jason Lim', '0218882102', '2.1', '2.1', '0', '2.1', 1, 1, 2, 52, '2024-05-25 13:29:52', 0);
 
 --
 -- Triggers `orders`
@@ -275,7 +277,11 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `priceID`, `quantity`) VA
 (54, 35, 38, '1'),
 (55, 36, 79, '1'),
 (56, 37, 54, '1'),
-(57, 38, 72, '1');
+(57, 38, 72, '1'),
+(58, 39, 20, '1'),
+(59, 39, 21, '1'),
+(60, 39, 18, '1'),
+(61, 40, 22, '1');
 
 -- --------------------------------------------------------
 
@@ -342,7 +348,6 @@ INSERT INTO `product` (`product_id`, `productCode`, `product_name`, `product_ima
 (38, 'G0002', 'Just Bread', 'http://localhost/lfsc/seller/images/product/6638d9879351c.jpeg', 'Literally just bread ', 6, '55', '2024-05-06', 60, 1),
 (39, 'G0003', 'Super bread', 'http://localhost/lfsc/seller/images/product/6638dafd322dd.jpeg', 'Super breadSuper breadSuper bread', 13, '55', '2024-05-06', 60, 1),
 (40, 'R0003', 'testbrad', 'http://localhost/lfsc/seller/images/product/663c5e1b9095a.', 'testbrad', 1, '52', '2024-05-09', 30, 3),
-(41, '123', 'help', 'http://localhost/lfsc/seller/images/product/663c64c28ac33.jpg', 'help', 9, '52', '2024-05-09', 30, 3),
 (42, 'M0001', 'Fresh Milk (250ml)', 'http://localhost/lfsc/seller/images/product/66443ee85ca81.jpg', 'Fresh Milk sold in 250ml bottle. Weight is reflective of quantity sold in the case of this product and not the weight of each bottle.', 1, '60', '2024-05-15', 50, 1),
 (43, 'M0002', 'Sundarini Whole Milk (500ml)', 'http://localhost/lfsc/seller/images/product/66443f5d844cb.jpg', 'Sundarini Whole Milk sold in 500ml bottle. Weight is reflective of quantity sold in the case of this product and not the weight of each bottle.', 9, '60', '2024-05-15', 50, 1),
 (44, 'M0003', 'Soya Bean Milk', 'http://localhost/lfsc/seller/images/product/6644405bd6995.jpg', 'Soya Bean Milk sold in 150ml bottle. Weight is reflective of quantity sold in the case of this product and not the weight of each bottle.', 9, '60', '2024-05-15', 100, 1),
@@ -552,11 +557,11 @@ CREATE TABLE `tblprice` (
 INSERT INTO `tblprice` (`priceNo`, `productID`, `proQuant`, `proWeight`, `proPrice`, `proDisc`) VALUES
 (16, '26', 19, 200, 1.25, 0),
 (17, '26', 364, 400, 2.5, 5),
-(18, '26', 330, 600, 3.75, 10),
+(18, '26', 329, 600, 3.75, 10),
 (19, '27', 458, 500, 1, 90),
-(20, '25', 400, 900, 6, 40),
-(21, '28', 126, 500, 1, 0),
-(22, '29', 127, 120, 2.1, 0),
+(20, '25', 399, 900, 6, 40),
+(21, '28', 125, 500, 1, 0),
+(22, '29', 126, 120, 2.1, 0),
 (23, '30', 171, 1000, 73.5, 10),
 (24, '31', 366, 140, 0.85, 0),
 (25, '32', 400, 250, 4.6, 0),
@@ -728,7 +733,7 @@ CREATE TABLE `user_comments` (
 INSERT INTO `user_comments` (`id`, `user_id`, `res_id`, `comment`, `created_at`) VALUES
 (1, 2, 51, 'Freshest in town!', '2024-03-24 14:41:52'),
 (2, 6, 57, 'I have reported you to the authorities for selling illegal drugs', '2024-04-25 05:26:39'),
-(3, 2, 52, 'new comment', '2024-05-06 08:14:37'),
+(3, 2, 52, 'Great service <3', '2024-05-06 08:14:37'),
 (4, 3, 52, 'thank you', '2024-05-06 09:35:33'),
 (5, 4, 52, 'cust3', '2024-05-06 09:39:31'),
 (6, 31, 52, 'cust4', '2024-05-06 09:39:47'),
@@ -934,13 +939,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `payment_receipts`

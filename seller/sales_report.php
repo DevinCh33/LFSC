@@ -88,15 +88,15 @@
         border-radius: 10px;
     }
 
-    .close {
+    .closex {
         color: white;
         float: right;
         font-size: 40px;
         font-weight: bold;
     }
 
-    .close:hover,
-    .close:focus {
+    .closex:hover,
+    .closex:focus {
         color: black;
         text-decoration: none;
         cursor: pointer;
@@ -324,7 +324,7 @@
                     // Set the details in the modal
                     modalContent.innerHTML = `
                         <div class="modal-header">
-                            <span class="close" onclick="closeModal()">&times;</span>
+                            <span class="closex" onclick="closeModal()">&times;</span>
                             <h2 style="text-align:center;">Order Details</h2>
                         </div>
                         <div class="modal-body" style="text-align:center;">

@@ -1,22 +1,19 @@
 <?php
-
-session_start(); // temp session
-error_reporting(0); // hide undefined index errors
-date_default_timezone_set("Asia/Kuching");
-
+session_start(); // Temp session
+error_reporting(0); // Hide undefined index errors
+date_default_timezone_set("Asia/Kuala_Lumpur");
 					
-//main connection file for both admin & front end
-$servername = "localhost"; //server
-$username = "root"; //username
-$password = ""; //password
-$dbname = "store";  //database
+// Main connection file for both admin & front end
+$servername = "localhost"; // server
+$username = "admin"; // username
+$password = "adminpass"; // password
+$dbname = "store";  // database
 $inv_url = "http://lfsc.shop/seller/";
 
 // Create connection
-$db = mysqli_connect($servername, $username, $password, $dbname); // connecting 
+$db = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
-if (!$db) //checking connection to DB
-{ 
+if (!$db)
+{
     die("Connection failed: " . mysqli_connect_error());
 }
-?>

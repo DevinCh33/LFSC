@@ -1,7 +1,5 @@
 <?php
 include 'connect.php';
-session_start();
-
 
 $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 ?>
@@ -33,8 +31,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
             <?php endif; ?>
         </div>
 
-
-
         <div class="dashboard">
             <div class="card">
                     <h3>Monthly Income</h3>
@@ -43,7 +39,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                     $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                     $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
                     $totalCurrentMonth = ($rowCurrentMonth['total_current_month'] !== null) ? $rowCurrentMonth['total_current_month'] : 0;
-
                     ?>
                     <p>RM <?php echo $totalCurrentMonth; ?></p>
             </div>
@@ -56,8 +51,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                     $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                     $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
                     $totalCurrentMonth = $rowCurrentMonth['total_current_month'];
-
-
                     ?>
                     <p><?php echo $totalCurrentMonth; ?></p>
             </div>
@@ -70,8 +63,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
                 $resultCurrentMonth = mysqli_query($db, $queryCurrentMonth);
                 $rowCurrentMonth = mysqli_fetch_assoc($resultCurrentMonth);
                 $totalCurrentMonth = $rowCurrentMonth['total_current_month'];
-
-
                 ?>
                 <p><?php echo $totalCurrentMonth; ?></p>
             </div>
@@ -87,8 +78,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
            		<p><?php echo $totalEmployee; ?></p>
            </div>
 
-
-    
     <div class="sales-graph">
         <h2 style = "text-align:center;">Monthly Sales Performance</h2></br>
         <canvas id="salesChart"></canvas>
@@ -139,12 +128,8 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 						<!-- Stars will be dynamically added here -->
 					</div>
 				</div>
-
-
             </div>
         </div>
-
-
     </section>
 
     <script>
@@ -199,8 +184,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
         document.getElementById("day").textContent = currentDate.getDate();
         // // Update the content of the element with the ID "date" with the formatted date
         document.getElementById("month").textContent = monthNames[currentDate.getMonth()];
-
-
 
         // document.addEventListener('DOMContentLoaded', function () {
         //     var ctx = document.getElementById('salesChart').getContext('2d');
@@ -392,9 +375,6 @@ $isSellerSUPP = isset($_SESSION['adm_id']) && $_SESSION['adm_co'] === 'SUPP';
 				ratingBox.appendChild(halfStar);
 			}
 		}
-
-		
-
     </script>
 </body>
 </html>

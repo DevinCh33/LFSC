@@ -9,18 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 	
-	
 	<div class="logo-details">
 		<img src="img/logo.png" width="80" height="80" id="logo" name="logo"></img>
 		<span id="logo_name" name="logo_name"  class="logo_name">Little Farmer</span>
     </div>
 	<div style="logo_name">
-		
 	</div>
 		
     <ul class="nav-links">
-		
-		
       <li>
         <a href="dashboard.php">
          <i class="fa-solid fa-gauge"></i>
@@ -31,7 +27,6 @@
         </ul>
       </li>
 		
-	
 		<?php if($_SESSION['adm_co'] != "VSUPP"){ ?>
       <li>
         <div class="iocn-link">
@@ -57,19 +52,6 @@
         </ul>
       </li>
 	<?php } ?> 
-		
-<!--	
-      <li>
-        <a href="customers.php">
-          <i class="fa-solid fa-user"></i>
-          <span class="link_name">Customers</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="customers.php">Customers</a></li>
-        </ul>
-      </li>
-  -->		
-
 
   <li>
         <a href="customers.php">
@@ -81,12 +63,9 @@
         </ul>
         <ul class="sub-menu">
           <li><a class="link_name" href="customers.php">Customers</a></li>
-
           <li><a href="cust_comments.php">Customer Comments</a></li>
-
         </ul>
       </li>
-
 
       <li>
         <a href="orders.php">
@@ -110,7 +89,6 @@
         </ul>
       </li>
 		<?php } ?>
-		
 		
       <li>
         <a href="setting.php">

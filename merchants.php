@@ -90,11 +90,11 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         while($rows = mysqli_fetch_array($ress)) {
                             echo '<div class="col-sm-12 col-md-12 col-lg-8 text-xs-center text-sm-left">
                                 <div class="entry-logo">
-                                    <a class="img-fluid" href="products.php?res_id='.$rows['rs_id'].'" > <img src="seller/'.$rows['image'].'" alt="Merchant logo"></a>
+                                    <a class="img-fluid" href="products.php?merchant='.$rows['rs_id'].'" > <img src="seller/'.$rows['image'].'" alt="Merchant logo"></a>
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="entry-dscr">
-                                    <h5><a href="products.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
+                                    <h5><a href="products.php?merchant='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
                                     <span>'.substr($rows['description'], 0, 120);
                                     
                             if (strlen($rows['description']) > 120) {
@@ -130,7 +130,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         
                             echo '<p class="average-rating">Avg Rating: ' . number_format($averageRating, 1) . '</p>';
                             
-                            echo '<a href="products.php?res_id='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
+                            echo '<a href="products.php?merchant='.$rows['rs_id'].'" class="btn theme-btn-dash">View Merchant</a>
                                 </div>
                             </div>
                         </div>'; // End of rating block

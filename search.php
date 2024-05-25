@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="product content" >
                                     <div class="price-btn-block" data-price-id="'.$product['priceNo'].'" data-product-owner="'.$product['owner'].'">
-                                        <a href="products.php?res_id='.$product['owner'].'"> <h5>'.$product['product_name'].' ('.$product['proWeight'].'g)</h5></a>
+                                        <a href="products.php?merchant='.$product['owner'].'"> <h5>'.$product['product_name'].' ('.$product['proWeight'].'g)</h5></a>
                                         <div>'.$product['descr'].'</div>                       
                                         <div class="product-name" style="color: green;">Number Left: '. (int) $product['proQuant'].'</div>';
 

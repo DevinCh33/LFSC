@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to handle changing comments per page
     function changeCommentsPerPage() {
         var selectedValue = document.getElementById("commentsPerPage").value;
-        var resId = "<?php echo isset($_GET['res_id']) ? $_GET['res_id'] : 'null'; ?>";
+        var resId = "<?php echo isset($_GET['merchant']) ? $_GET['merchant'] : 'null'; ?>";
         if (resId !== 'null') {
             // Redirect to all_comments.php with updated per_page parameter
-            window.location.href = "all_comments.php?res_id=" + resId + "&per_page=" + selectedValue;
+            window.location.href = "all_comments.php?merchant=" + resId + "&per_page=" + selectedValue;
         }
     }
 

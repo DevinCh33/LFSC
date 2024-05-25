@@ -4,7 +4,7 @@ describe('Cart spec', () => {
       cy.visit(data.root + 'login.php')
       cy.get('input').first().type('cust1')
       cy.get('input').last().click()
-      cy.visit(data.root + 'products.php?res_id=51')
+      cy.visit(data.root + 'products.php?merchant=51')
     })
   })
   it('Successfully loads products', () => {
@@ -13,7 +13,7 @@ describe('Cart spec', () => {
   it('Adds product to cart', () => {
     cy.get('.addsToCart').first().click() 
     cy.fixture('path.json').then((data) => {
-      cy.visit(data.root + 'products.php?res_id=51')
+      cy.visit(data.root + 'products.php?merchant=51')
     })
     cy.get('#cartItems').find('li').first().should('exist')
   })
@@ -83,7 +83,7 @@ describe('Cart spec', () => {
         cy.get('#confirmOrder').click()
 
         cy.fixture('path.json').then((data) => {
-          cy.visit(data.root + 'products.php?res_id=51')
+          cy.visit(data.root + 'products.php?merchant=51')
 
           cy.get('.product').eq(3).find('p').eq(1).then((stock) => {
             expect(parseInt(stock.text().split(" ")[2])).to.eq(stockLevel-quantity)

@@ -38,7 +38,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <div class="container">
                 <ul class="row links">
                     <li class="col-xs-12 col-sm-4 link-item"><span>1</span><a href="merchants.php">Choose Merchant</a></li>
-                    <li class="col-xs-12 col-sm-4 link-item active"><span>2</span><a href="products.php?res_id=<?php echo $_GET['res_id']; ?>">Pick Your Products</a></li>
+                    <li class="col-xs-12 col-sm-4 link-item active"><span>2</span><a href="products.php?merchant=<?php echo $_GET['merchant']; ?>">Pick Your Products</a></li>
                     <li class="col-xs-12 col-sm-4 link-item"><span>3</span><a href="#">Order and Pay Online</a></li>
                 </ul>
             </div>
@@ -46,7 +46,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- end:Top links -->
 
         <?php
-            $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[res_id]'");
+            $ress = mysqli_query($db,"select * from restaurant where rs_id='$_GET[merchant]'");
             $rows = mysqli_fetch_array($ress);                                
         ?>
 
@@ -70,7 +70,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                         <span>
                                         <?php
                                         // Fetch average rating from the database
-                                        $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['res_id'];
+                                        $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['merchant'];
                                         $ratingResult = mysqli_query($db, $ratingQuery);
                                         $ratingRow = mysqli_fetch_assoc($ratingResult);
 
@@ -103,8 +103,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
 include("config/connect.php");
 
 // Check if the res_id is set in the URL
-if (isset($_GET['res_id'])) {
-    $res_id = $_GET['res_id'];
+if (isset($_GET['merchant'])) {
+    $res_id = $_GET['merchant'];
 
     // Check if the sort order is specified in the URL
     $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : 'desc';
@@ -205,7 +205,7 @@ function generateRandomName() {
             if ($i > 1) {
                 echo ', '; // Add comma between page numbers
             }
-            echo '<a href="all_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
+            echo '<a href="all_comments.php?merchant=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
         }
         echo '</div>';
 

@@ -138,7 +138,7 @@ for ($i = 1; $i <= $totalPages; $i++) {
         echo '<span>' . $i . '</span>';
     } else {
         // If not current page, make it a link
-        echo '<a href="cust_comments.php?res_id=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
+        echo '<a href="cust_comments.php?merchant=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
     }
 }
 echo '</div>';
@@ -170,7 +170,7 @@ mysqli_close($db);
     var recordsPerPage = document.getElementById("recordsPerPage").value;
     var searchInput = document.getElementById("searchInput").value;
 
-    var url = "fetch_comments.php?res_id=<?php echo $_SESSION['store']; ?>&per_page=" + recordsPerPage;
+    var url = "fetch_comments.php?merchant=<?php echo $_SESSION['store']; ?>&per_page=" + recordsPerPage;
 
     // Append sort order if available
     var sortOrder = getUrlParameter('sort');

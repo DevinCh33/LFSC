@@ -1,7 +1,7 @@
 <?php
 include("config/connect.php");
 
-$res_id = $_GET['res_id']; // Get the restaurant ID from the GET parameter
+$res_id = $_GET['merchant']; // Get the restaurant ID from the GET parameter
 
 $query = "SELECT * FROM user_comments WHERE res_id = $res_id ORDER BY created_at DESC";
 $result = mysqli_query($db, $query);

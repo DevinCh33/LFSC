@@ -46,7 +46,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- end:Top links -->
         <!-- start: Inner page hero -->
         <?php
-            $ress = mysqli_query($db,"SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 AND restaurant.rs_id='$_GET[res_id]'");
+            $ress = mysqli_query($db,"SELECT restaurant.*, admin.storeStatus FROM restaurant JOIN admin ON restaurant.rs_id = admin.store WHERE admin.storeStatus = 1 AND restaurant.rs_id='$_GET[merchant]'");
             $rows = mysqli_fetch_array($ress);
             
             if ($rows == null)
@@ -76,7 +76,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                     <span>
                                     <?php
                                     // Fetch average rating from the database
-                                    $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['res_id'];
+                                    $ratingQuery = "SELECT AVG(rating) AS average_rating, COUNT(rating) AS rating_count FROM user_ratings WHERE res_id = ".$_GET['merchant'];
                                     $ratingResult = mysqli_query($db, $ratingQuery);
                                     $ratingRow = mysqli_fetch_assoc($ratingResult);
 
@@ -116,7 +116,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                         <div class="collapse in" id="popular2">
                             <?php // display values and item of products
                                 $stmt = $db->prepare("SELECT product_id from product WHERE owner = ? AND status = 1");
-                                $stmt->bind_param("i", $_GET['res_id']);
+                                $stmt->bind_param("i", $_GET['merchant']);
                                 $stmt->execute();
                                 $products = $stmt->get_result();
                                 
@@ -294,7 +294,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <form id="commentForm" method="post">
                                     <!-- Inside the comment form -->
                                     <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-                                    <input type="hidden" id="res_id" value="<?php echo $_GET['res_id']; ?>">
+                                    <input type="hidden" id="res_id" value="<?php echo $_GET['merchant']; ?>">
 
                                     <div class="form-group">
                                         <label for="comment">Leave a comment <span id="wordLimitCountdown"></span>:</label>
@@ -318,7 +318,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 <ul id="recentComments"></ul>
                             </div>
                             <div class="text-center">
-                                <a class="btn btn-secondary btn-md" href="all_comments.php?res_id=<?php echo $_GET['res_id']; ?>">View All Comments</a>
+                                <a class="btn btn-secondary btn-md" href="all_comments.php?merchant=<?php echo $_GET['merchant']; ?>">View All Comments</a>
                             </div>
                         </div>
                     </div>

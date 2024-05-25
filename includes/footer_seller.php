@@ -1,9 +1,9 @@
 <?php
 include("config/connect.php");
 
-if (isset($_GET['res_id']))
+if (isset($_GET['merchant']))
 {
-    $d_id = $_GET['res_id'];
+    $d_id = $_GET['merchant'];
 }
 
 $query = "SELECT * from restaurant where rs_id = ".$d_id;

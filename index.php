@@ -23,7 +23,7 @@ include("config/connect.php"); // connection to database
 
 		<ul>
 			<li><a href="index.php" class="active">Home</a></li>
-			<li><a href="#">About US</a></li>
+
 			<li><a href="market.php">Market</a></li>
 			<?php
 			if($_SESSION['loginStatus'] == false){

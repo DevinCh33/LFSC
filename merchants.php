@@ -94,7 +94,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="entry-dscr">
-                                    <h5><a style="color: #f30;" href="products.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
+                                    <h5><a style="color: #f30;" href="products.php?merchant='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
                                     <span>'.substr($rows['description'], 0, 120);
                                     
                             if (strlen($rows['description']) > 120) {

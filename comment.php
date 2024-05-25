@@ -41,12 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if(mysqli_num_rows($result) > 0) {
             // If user has already commented, update the existing comment
-            $updateQuery = "UPDATE user_comments SET comment = ? WHERE user_id = ? AND res_id = ?";
+            $updateQuery = "UPDATE user_comments SET comment = ?, created_at = NOW() WHERE user_id = ? AND res_id = ?";
             $stmt = mysqli_prepare($db, $updateQuery);
             mysqli_stmt_bind_param($stmt, "sii", $comment, $user_id, $res_id);
         } else {
             // If user has not commented, insert a new comment
-            $insertQuery = "INSERT INTO user_comments (user_id, res_id, comment) VALUES (?, ?, ?)";
+            $insertQuery = "INSERT INTO user_comments (user_id, res_id, comment, created_at) VALUES (?, ?, ?, NOW())";
             $stmt = mysqli_prepare($db, $insertQuery);
             mysqli_stmt_bind_param($stmt, "iis", $user_id, $res_id, $comment);
         }
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if the insert/update was successful
         if($result) {
-            // Retrieve the ID of the last inserted comment
+            // Retrieve the ID of the last inserted or updated comment
             $comment_id = mysqli_insert_id($db);
             // Return success response with HTTP status code 200
             http_response_code(200);

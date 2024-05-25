@@ -10,16 +10,7 @@ function sendBan($userEmail)
 
     try {
         // Server settings
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'gjunyu99@gmail.com';
-        $mail->Password = 'vdkx mcja yusp rwsr';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-
-        // Recipients
-        $mail->setFrom('no-reply@example.com', 'LFSC System');
+        include("../../../config/email.php");
         $mail->addAddress($userEmail);     // Add a recipient
 
         // Content
@@ -58,16 +49,7 @@ function sendRecovery($userEmail)
 
     try {
         // Server settings
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'gjunyu99@gmail.com';
-        $mail->Password = 'vdkx mcja yusp rwsr';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-
-        // Recipients
-        $mail->setFrom('no-reply@example.com', 'LFSC System');
+        include("../../../config/email.php");
         $mail->addAddress($userEmail);     // Add a recipient
 
         // Content

@@ -51,9 +51,9 @@ if (empty($_SESSION["user_id"])) // if not logged in
             <!-- end:Container -->
         </div>
 
-        <div class="banner-form" style = "text-align: center;margin-bottom:20px;">
+        <div class="banner-form" style="text-align: center; margin-bottom:20px;">
             <form class="form-inline" method="get">
-                <div class="form-group" style="margin-top:50px;">
+                <div class="form-group" style="margin-top: 50px;">
                     <label class="sr-only" for="exampleInputAmount">Search merchant....</label>
                     <div class="form-group">
                         <input type="text" class="form-control form-control-lg" id="exampleInputAmount" name="search" value="<?php if(isset($_GET['search'])) { echo htmlentities ($_GET['search']); }?>" placeholder="Search merchant..." style="width: 700px; margin: 0 auto; ">
@@ -65,13 +65,13 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <!-- Search part ends-->
 
         <!-- Results show -->
-        <section class="restaurants-page" style="margin-left: 12vw;">
-    <div class="container">
+        <section class="restaurants-page">
+        <div class="container">
         <div class="row">
             <?php
             // include("includes/filter_seller.php");
             ?>    
-            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9 mx-auto">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mx-auto">
                 <div class="bg-gray restaurant-entry">
                     <div class="row">
                         <?php 
@@ -94,7 +94,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 </div>
                                 <!-- end:Logo -->
                                 <div class="entry-dscr">
-                                    <h5><a href="products.php?merchant='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
+                                    <h5><a style="color: #f30;" href="products.php?res_id='.$rows['rs_id'].'" >'.$rows['title'].'</a></h5>
                                     <span>'.substr($rows['description'], 0, 120);
                                     
                             if (strlen($rows['description']) > 120) {
@@ -143,9 +143,8 @@ if (empty($_SESSION["user_id"])) // if not logged in
             </div>
         </div>
     </div>
-</section>
-
-
+    </section>
+    </div>
     <!-- start: FOOTER -->
     <?php
     include("includes/footer.php");

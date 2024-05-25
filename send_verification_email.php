@@ -35,9 +35,9 @@ function sendVerificationEmail($userEmail, $token)
   <div style="font-family: Arial, sans-serif; color: #333;">
     <h2>Welcome to LFSC System!</h2>
     <p>Thank you for registering with us. To complete your registration and to verify your email address, please click the link below:</p>
-    <p><a href="http://localhost/LFSC/verify_email.php?token={$token}" style="background-color: #0046be; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Confirm Email Address</a></p>
+    <p><a href="http://lfsc.shop/verify_email.php?token={$token}" style="background-color: #0046be; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Confirm Email Address</a></p>
     <p>If you're having trouble clicking the "Confirm Email Address" button, copy and paste the URL below into your web browser:</p>
-    <p><a href="http://localhost/LFSC/verify_email.php?token={$token}" style="color: #0046be;">http://localhost/LFSC/verify_email.php?token={$token}</a></p>
+    <p><a href="http://lfsc.shop/verify_email.php?token={$token}" style="color: #0046be;">http://lfsc.shop/verify_email.php?token={$token}</a></p>
     <p>If you did not create an account using this address, please ignore this email.</p>
     <p>Best Regards,<br>LFSC System Team</p>
   </div>
@@ -48,7 +48,7 @@ EMAILBODY;
         // Prepare the plain text version for email clients that don't support HTML
         $mail->AltBody = "Welcome to Example App!\n\n"
             . "Thank you for registering with us. To complete your registration and to verify your email address, please copy and paste the URL below into your web browser:\n"
-            . "http://localhost/LFSC/verify_email.php?token={$token}\n\n"
+            . "http://lfsc.shop/verify_email.php?token={$token}\n\n"
             . "If you did not create an account using this address, please ignore this email.\n\n"
             . "Best Regards,\n"
             . "LFSC System Team";

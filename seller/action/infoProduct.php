@@ -31,7 +31,7 @@ $priceNo = $formDataArray['priceNo'];
 $discountValues = $formDataArray['discount'];
 
 $uploadDirectory = "../images/product/";
-$fileDirectory = "http://localhost/lfsc/seller/images/product/";
+$fileDirectory = "http://lfsc.shop/seller/images/product/";
 $fileName = uniqid() . '.' . pathinfo($_FILES['proImage']['name'], PATHINFO_EXTENSION);
 $imageTmpName = $_FILES['proImage']['tmp_name'];
 $uploadFile = $uploadDirectory.$fileName;

@@ -22,7 +22,7 @@ if($_POST)
 	if(in_array($type, array('gif', 'jpg', 'jpeg', 'png', 'JPG', 'GIF', 'JPEG', 'PNG'))) {
 		if(is_uploaded_file($_FILES['productImage']['tmp_name'])) {			
 			if(move_uploaded_file($_FILES['productImage']['tmp_name'], $url)) {
-				$url = 'http://localhost/lfsc/inventory/assets/images/stock/'.$tmp;
+				$url = 'http://lfsc.shop/inventory/assets/images/stock/'.$tmp;
 				$sql = "INSERT INTO product(product_name, product_image, descr, weight, categories_id, quantity, price, owner, active, status) 
 				VALUES ('$productName', '$url','$productDescr', '$productWeight',  '$categoryName', '$quantity', '$price','$userIdentify', '$productStatus', 1)";
 				
@@ -51,5 +51,5 @@ if($_POST)
 
 	echo json_encode($valid);
 	
-	header("Location: http://localhost/lfsc/inventory/product.php");
+	header("Location: http://lfsc.shop/inventory/product.php");
 } // /if $_POST

@@ -41,7 +41,7 @@ function sendVerificationEmail($userEmail, $userName, $userPass, $type, $token)
 		  <div style="font-family: Arial, sans-serif; color: #333;">
 			<h2>Welcome to LFSC System!</h2>
 			<p>Thank you for registering with us. Click on the "Verify" button to verify your {$type} account.</p>
-			<p><a href="http://localhost/LFSC/seller/admin/email/verify_email.php?token={$token}&t={$t}" style="background-color: #0046be; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify</a></p>
+			<p><a href="http://lfsc.shop/seller/admin/email/verify_email.php?token={$token}&t={$t}" style="background-color: #0046be; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Verify</a></p>
 			<span>Your Login Details:</span><br>
 			<span>Temporarily Username: {$userName}</span><br>
 			<span>Temporarily Password: {$userPass}</span><br>
@@ -55,7 +55,7 @@ function sendVerificationEmail($userEmail, $userName, $userPass, $type, $token)
         // Prepare the plain text version for email clients that don't support HTML
         $mail->AltBody = "Welcome to Example App!\n\n"
             . "Thank you for registering with us. To complete your registration and to verify your email address, please copy and paste the URL below into your web browser:\n"
-            . "http://localhost/LFSC/seller/verify_email.php?token={$token}\n\n"
+            . "http://lfsc.shop/seller/verify_email.php?token={$token}\n\n"
             . "If you did not create an account using this address, please ignore this email.\n\n"
             . "Best Regards,\n"
             . "LFSC System Team";

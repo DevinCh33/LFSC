@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 05:49 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: May 25, 2024 at 08:40 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
   `email_token` varchar(255) NOT NULL,
   `token_expiration` datetime DEFAULT NULL,
   `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
@@ -75,7 +75,7 @@ CREATE TABLE `categories` (
   `categories_name` varchar(255) NOT NULL,
   `categories_active` int(11) NOT NULL DEFAULT 0,
   `categories_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `categories`
@@ -123,7 +123,7 @@ CREATE TABLE `custom_prices` (
   `price_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -146,7 +146,7 @@ CREATE TABLE `orders` (
   `order_belong` int(15) NOT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_seen` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
@@ -190,7 +190,7 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL DEFAULT 0,
   `priceID` int(10) NOT NULL,
   `quantity` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_item`
@@ -238,7 +238,7 @@ CREATE TABLE `payment_receipts` (
   `receipt_path` varchar(255) NOT NULL,
   `upload_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(4) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payment_receipts`
@@ -266,7 +266,7 @@ CREATE TABLE `product` (
   `product_date` text NOT NULL,
   `lowStock` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
@@ -340,7 +340,7 @@ CREATE TABLE `restaurant` (
   `image` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `restaurant`
@@ -354,11 +354,11 @@ INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_
 (55, 5, 'Prime Euro Import Market', 'peim@gmail.com', '0148007125', 'peim.com', '7am', '5pm', 'Thu-Fri', 'Lot 880 A, Lorong Song 3 E 2, Jalan Song, 93350, Kuching, Sarawak\n', 'Res_img/6650ca00862d6.gif', '2024-05-24 17:10:24', 'We import euro plant based goods at a cheap price!'),
 (56, 5, 'Sydney Vegan Market (Malaysia Branch)', 'svm@gmail.com', '0198288790', 'svm.com', '8am', '5pm', 'Sat-Sun', '1, Huo Ping Road, P.O.Box, Sibu, 96008, Sibu, Sarawak\n', 'Res_img/6650ca1b0983c.jpg', '2024-05-24 17:10:51', 'Award winning global vegan franchise!'),
 (57, 2, 'Lab of Happy Foods', 'lab@happyfoods.com', '0218991141', 'happyfoodslab.com', '6am', '1pm', 'Tue', 'Raia Hotel', 'Res_img/6650cb6384031.jpg', '2024-05-24 17:16:19', 'We buy products from other markets and experiment on them. Thus, we will sell them at an even lower price.'),
-(60, 0, 'The Milk Shop', '1cockaricka@gmail.com', '0123541467', '', '', '', '', '', 'Res_img/6650c6e437eb8.jpg', '2024-05-24 16:57:08', 'Got Milk?'),
-(61, 0, 'Amy Catering Bakery', 'amy@gmail.com', '0123424578', '', '', '', '', '', 'Res_img/6650ca7fcd713.jpg', '2024-05-24 17:12:31', 'Best catering bakery in town!'),
-(62, 0, 'The Soda Depot', 'thirst@gmail.com', '0122342364', '', '', '', '', '', 'Res_img/6650cab24c004.jpg', '2024-05-24 17:13:22', 'You Thirst We Quench! We provide fresh and canned drinks!'),
-(63, 0, 'Balkaniko Pizza', 'pizzahuy@gmail.com', '0132343421', '', '', '', '', '', 'Res_img/6650cae68cf2e.jpg', '2024-05-24 17:14:14', 'We make the best pizza!'),
-(64, 0, 'The Anything Everything Shop', 'lux@gmail.com', '0132122356', '', '', '', '', '', 'Res_img/6650cb10ca055.jpg', '2024-05-24 17:14:56', 'My husband goes travelling a lot and brings back a lot of stuff. ');
+(60, 0, 'The Milk Shop', '1cockaricka@gmail.com', '0123541467', '', '', '', '', 'Ground Floor, Crown Towers, Jalan Pending, 93450, Kuching, Sarawak', 'Res_img/6650c6e437eb8.jpg', '2024-05-25 06:37:25', 'Got Milk?'),
+(61, 0, 'Amy Catering Bakery', 'amy@gmail.com', '0123424578', '', '', '', '', 'Lot 9808, Section 65, KTLD, Lee Ling Comm. Centre, 93050, Kuching, Sarawak', 'Res_img/6650ca7fcd713.jpg', '2024-05-25 06:38:11', 'Best catering bakery in town!'),
+(62, 0, 'The Soda Depot', 'thirst@gmail.com', '0122342364', '', '', '', '', '	LOT 214, 2nd Floor, The spring shopping Mall, Jalan Simpang Tiga 93300 Kuching, Sarawak, 93300, Kuching, Sarawak', 'Res_img/6650cab24c004.jpg', '2024-05-25 06:38:22', 'You Thirst We Quench! We provide fresh and canned drinks!'),
+(63, 0, 'Balkaniko Pizza', 'pizzahuy@gmail.com', '0132343421', '', '', '', '', 'No.266, Taman Sri Dagang Jalan Masjid 97000 Bintulu, Sarawak, Malaysia', 'Res_img/6650cae68cf2e.jpg', '2024-05-25 06:38:35', 'We make the best pizza!'),
+(64, 0, 'The Anything Everything Shop', 'lux@gmail.com', '0132122356', '', '', '', '', 'Ground Floor, 157, Jalan Kampung Nyabor, 96000, Sibu, Sarawak', 'Res_img/6650cb10ca055.jpg', '2024-05-25 06:38:49', 'My husband goes travelling a lot and brings back a lot of stuff. ');
 
 -- --------------------------------------------------------
 
@@ -369,7 +369,7 @@ INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_
 CREATE TABLE `restaurant_categories` (
   `rs_id` int(222) NOT NULL,
   `c_id` int(222) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -381,7 +381,7 @@ CREATE TABLE `res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `res_category`
@@ -426,7 +426,7 @@ CREATE TABLE `seller_tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -451,7 +451,7 @@ CREATE TABLE `tblemployee` (
   `empstatus` int(11) NOT NULL,
   `email_token` varchar(255) NOT NULL,
   `email_verified` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblemployee`
@@ -489,7 +489,7 @@ CREATE TABLE `tblprice` (
   `proWeight` int(20) NOT NULL,
   `proPrice` float NOT NULL,
   `proDisc` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblprice`
@@ -569,7 +569,7 @@ CREATE TABLE `tblvalidation` (
   `imgStatus` int(10) NOT NULL,
   `comment` varchar(10000) NOT NULL,
   `storeID` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblvalidation`
@@ -593,7 +593,7 @@ CREATE TABLE `tg_verification` (
   `code` varchar(255) NOT NULL,
   `chatId` varchar(255) NOT NULL,
   `expiration` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -620,7 +620,7 @@ CREATE TABLE `users` (
   `email_token` varchar(255) NOT NULL DEFAULT '',
   `token_expiration` datetime DEFAULT NULL,
   `email_verified` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -653,7 +653,7 @@ CREATE TABLE `user_comments` (
   `res_id` int(11) DEFAULT NULL,
   `comment` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_comments`
@@ -680,7 +680,7 @@ CREATE TABLE `user_ratings` (
   `user_id` int(11) DEFAULT NULL,
   `res_id` int(11) DEFAULT NULL,
   `rating` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user_ratings`

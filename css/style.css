@@ -2115,7 +2115,7 @@ a[aria-expanded=false] .fa-angle-down {
     flex-direction: column;
 }
 .recommendations .michaelProductCard {
-    height: 105vh;
+    height: 85vh;
 }
 .recommendations .michaelProductCard .card-img-top {
     width: 100%;

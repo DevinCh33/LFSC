@@ -98,127 +98,97 @@ if (empty($_SESSION["user_id"])) // if not logged in
         <h2>All Comments</h2>
         <hr class="mb-1"> <!-- Add a horizontal rule for visual separation -->
 
-        <?php
-// Include the database connection
-include("config/connect.php");
+    <?php
+    session_start();
+    include("config/connect.php");
 
-// Check if the res_id is set in the URL
-if (isset($_GET['merchant'])) {
+    if (empty($_SESSION["user_id"])) {
+        header("Location: login.php");
+        exit();
+    }
+
     $res_id = $_GET['merchant'];
-
-    // Check if the sort order is specified in the URL
     $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : 'desc';
-
-    // Get the current page number from the URL or default to page 1
     $currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
-
-    // Define the number of comments per page
     $commentsPerPage = isset($_GET['per_page']) ? $_GET['per_page'] : 5;
-
-    // Calculate the offset to fetch comments for the current page
     $offset = ($currentPage - 1) * $commentsPerPage;
 
-    // Query to fetch total count of comments for the specified seller
     $totalCountQuery = "SELECT COUNT(*) AS total FROM user_comments WHERE res_id = $res_id";
     $totalCountResult = mysqli_query($db, $totalCountQuery);
     $totalCountRow = mysqli_fetch_assoc($totalCountResult);
     $totalComments = $totalCountRow['total'];
-
-    // Calculate total pages
     $totalPages = ceil($totalComments / $commentsPerPage);
 
-    // Query to fetch comments for the current page with pagination
     $query = "SELECT * FROM user_comments WHERE res_id = $res_id ORDER BY created_at $sortOrder LIMIT $offset, $commentsPerPage";
     $result = mysqli_query($db, $query);
-
-    // Fetch comments for the current page
-    $commentsForPage = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-    // Display sorting options
-    echo '<div class="sorting-options">';
-    echo '<form action="" method="GET">';
-    echo '<input type="hidden" name="res_id" value="' . $res_id . '">'; 
-    echo '<label for="sort">Sort By:</label>';
-    echo '<select id="sort" name="sort" onchange="this.form.submit()">';
-    echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';
-    echo '<option value="asc" ' . ($sortOrder == 'asc' ? 'selected' : '') . '>Oldest First</option>';
-    echo '</select>';
-    echo '</form>';
-    echo '</div>';
-
-    // Display comments as a table
-    echo '<div class="table-responsive">';
-    echo '<table class="table table-bordered">';
-    echo '<thead>';
-    echo '<tr>';
-    echo '<th>Customer Name</th>';
-    //echo '<th>Restaurant ID</th>';
-    echo '<th>Posted on</th>';
-    echo '</tr>';
-    echo '</thead>';
-    echo '<tbody>';
-// Define a function to generate a random name
-function generateRandomName() {
-    // Define the characters allowed in the random name
-    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    // Generate a random length between 5 and 8
-    $length = rand(5, 8);
-    // Initialize an empty name
-    $name = '';
-    // Generate the random name
-    for ($i = 0; $i < $length; $i++) {
-        $name .= $characters[rand(0, strlen($characters) - 1)];
+    if (!$result) {
+        die("Query failed: " . mysqli_error($db));
     }
-    // Replace the last 4 characters with "****"
-    $name = substr_replace($name, '****', -4);
-    return $name;
-}
 
-    // Initialize an array to store generated names for each unique user_id
-    $generatedNames = array();
+    $commentsForPage = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    ?>
 
-    foreach ($commentsForPage as $row) {
-        // Check if the user_id already has a generated name
-        if (!isset($generatedNames[$row['user_id']])) {
-            // Generate a new random name for this user_id
-            $generatedNames[$row['user_id']] = generateRandomName();
-        }
 
-        echo '<tr>';
-        // Display the generated name instead of the user_id
-        echo '<td>' . $generatedNames[$row['user_id']] . '</td>';
-        //echo '<td>' . $row['res_id'] . '</td>';
-        echo '<td>' . $row['created_at'] . '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td colspan="3">' . $row['comment'] . '</td>';
-        echo '</tr>';
-        }
 
-        echo '</tbody>';
-        echo '</table>';
-        echo '</div>';
+    <div class="sorting-options">
+        <form action="" method="GET">
+            <input type="hidden" name="merchant" value="<?php echo $res_id; ?>">
+            <label for="sort">Sort By:</label>
+            <select id="sort" name="sort" onchange="this.form.submit()">
+                <option value="desc" <?php echo ($sortOrder == 'desc' ? 'selected' : ''); ?>>Oldest First</option>
+                <option value="asc" <?php echo ($sortOrder == 'asc' ? 'selected' : ''); ?>>Newest First</option>
+            </select>
+        </form>
+    </div>
 
-        // Display pagination links
-        echo '<div class="pagination">';
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Posted on</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                function generateRandomName() {
+                    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $length = rand(5, 8);
+                    $name = '';
+                    for ($i = 0; $i < $length; $i++) {
+                        $name .= $characters[rand(0, strlen($characters) - 1)];
+                    }
+                    return substr_replace($name, '****', -4);
+                }
+
+                $generatedNames = array();
+                foreach ($commentsForPage as $row) {
+                    if (!isset($generatedNames[$row['user_id']])) {
+                        $generatedNames[$row['user_id']] = generateRandomName();
+                    }
+                    echo '<tr>';
+                    echo '<td>' . $generatedNames[$row['user_id']] . '</td>';
+                    echo '<td>' . $row['created_at'] . '</td>';
+                    echo '</tr>';
+                    echo '<tr>';
+                    echo '<td colspan="3">' . $row['comment'] . '</td>';
+                    echo '</tr>';
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <?php
         for ($i = 1; $i <= $totalPages; $i++) {
             if ($i > 1) {
-                echo ', '; // Add comma between page numbers
+                echo ', ';
             }
-            echo '<a href="all_comments.php?merchant=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '">' . $i . '</a>';
+            echo '<a href="all_comments.php?merchant=' . $res_id . '&per_page=' . $commentsPerPage . '&page=' . $i . '&sort=' . $sortOrder . '">' . $i . '</a>';
         }
-        echo '</div>';
-
-    // Add JavaScript for changing the number of comments per page
-    echo '<script src="js/allcomments.js"></script>';
-} else {
-        echo '<p>Error: Seller ID not provided.</p>';
-    }
-
-// Close the database connection
-mysqli_close($db);
-?>
-<!-- Section for viewing comments end -->
+        ?>
+    </div>
           
     <!-- start: FOOTER -->
     <?php

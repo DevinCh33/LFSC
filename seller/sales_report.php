@@ -89,9 +89,9 @@
     }
 
     .close {
-        color: #aaa;
+        color: white;
         float: right;
-        font-size: 28px;
+        font-size: 40px;
         font-weight: bold;
     }
 

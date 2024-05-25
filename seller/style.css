@@ -735,8 +735,8 @@ html, body {
 }
 
 .close {
-    color: white;
-    font-size: 40px;
+    color: #aaa;
+    font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }

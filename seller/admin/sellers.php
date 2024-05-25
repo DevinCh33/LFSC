@@ -198,7 +198,7 @@ function updateTableAndPagination(data) {
 			
         newRow.innerHTML = 
             '<td>' + rowData[0] + '</td>' +
-            '<td><img style="width: 40vh; height: 40vh;" src="../Res_img/'+rowData[1]+'"></td>' +
+            '<td><img style="width: 40vh; height: 40vh;" src="../'+rowData[1]+'"></td>' +
             '<td>' + rowData[2] + '</td>' +
             '<td>' + rowData[3] + '</td>' +
             '<td>' + rowData[4] + '</td>' +

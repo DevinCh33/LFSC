@@ -62,7 +62,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                     <div class="row">
                         <div class="col-xs-12 col-sm-12  col-md-4 col-lg-4 profile-img">
                             <div class="image-wrap">
-                                <figure><?php echo '<img src="seller/Res_img/'.$rows['image'].'" alt="Merchant logo">'; ?></figure>
+                                <figure><?php echo '<img src="seller/'.$rows['image'].'" alt="Merchant logo">'; ?></figure>
                             </div>  
                         </div>
                         

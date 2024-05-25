@@ -101,7 +101,7 @@ if (empty($_SESSION["user_id"])) // if not logged in
                                 echo '...';
                             }
 
-                            echo '</span></br></br><span>'.$rows['address'].' <a href="#">...</a></span>
+                            echo '</span></br></br><span>'.$rows['address'].'
                                 </div>
                                 <!-- end:Entry description -->
                             </div>';

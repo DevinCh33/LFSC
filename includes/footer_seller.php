@@ -15,7 +15,7 @@ $row = mysqli_fetch_assoc($result);
         <!-- top footer statrs -->
         <div class="row top-footer">
             <div class="col-xs-12 col-sm-3 footer-logo-block color-gray">
-                <img class="img-rounded" width="225" height="225" src="seller/Res_img/<?php echo $row['image'];?>" alt="seller logo">
+                <img class="img-rounded" width="225" height="225" src="seller/<?php echo $row['image'];?>" alt="seller logo">
             </div>
             
             <div class="col-xs-12 col-sm-2 pages color-gray">

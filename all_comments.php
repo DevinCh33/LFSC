@@ -137,7 +137,7 @@ if (isset($_GET['merchant'])) {
     // Display sorting options
     echo '<div class="sorting-options">';
     echo '<form action="" method="GET">';
-    echo '<input type="hidden" name="res_id" value="' . $res_id . '">'; 
+    echo '<input type="hidden" name="merchant" value="' . $res_id . '">'; 
     echo '<label for="sort">Sort By:</label>';
     echo '<select id="sort" name="sort" onchange="this.form.submit()">';
     echo '<option value="desc" ' . ($sortOrder == 'desc' ? 'selected' : '') . '>Newest First</option>';

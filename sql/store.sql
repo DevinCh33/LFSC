@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 03:51 PM
+-- Generation Time: May 27, 2024 at 10:42 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -191,7 +191,10 @@ INSERT INTO `orders` (`order_id`, `order_date`, `client_name`, `client_contact`,
 (37, '2024-05-25', ' ', '', '126', '126', '0', '126', 1, 1, 33, 61, '2024-05-25 08:36:32', 0),
 (38, '2024-05-25', ' ', '', '30', '30', '0', '30', 1, 1, 33, 64, '2024-05-25 08:36:32', 0),
 (39, '2024-05-25', 'Jason Lim', '0218882102', '7.98', '7.98', '0', '7.98', 1, 1, 2, 51, '2024-05-25 13:29:52', 0),
-(40, '2024-05-25', 'Jason Lim', '0218882102', '2.1', '2.1', '0', '2.1', 1, 1, 2, 52, '2024-05-25 13:29:52', 0);
+(40, '2024-05-25', 'Jason Lim', '0218882102', '2.1', '2.1', '0', '2.1', 1, 1, 2, 52, '2024-05-25 13:29:52', 0),
+(41, '2024-05-25', ' ', '', '132.3', '132.3', '0', '132.3', 1, 1, 33, 52, '2024-05-25 15:12:52', 0),
+(42, '2024-05-25', ' ', '', '66.15', '66.15', '0', '66.15', 2, 1, 33, 52, '2024-05-25 15:15:33', 0),
+(43, '2024-05-27', ' ', '0143245367', '2.1', '2.1', '0', '2.1', 1, 1, 33, 52, '2024-05-27 08:28:29', 0);
 
 --
 -- Triggers `orders`
@@ -281,7 +284,10 @@ INSERT INTO `order_item` (`order_item_id`, `order_id`, `priceID`, `quantity`) VA
 (58, 39, 20, '1'),
 (59, 39, 21, '1'),
 (60, 39, 18, '1'),
-(61, 40, 22, '1');
+(61, 40, 22, '1'),
+(62, 41, 23, '2'),
+(63, 42, 23, '1'),
+(64, 43, 22, '1');
 
 -- --------------------------------------------------------
 
@@ -561,8 +567,8 @@ INSERT INTO `tblprice` (`priceNo`, `productID`, `proQuant`, `proWeight`, `proPri
 (19, '27', 458, 500, 1, 90),
 (20, '25', 399, 900, 6, 40),
 (21, '28', 125, 500, 1, 0),
-(22, '29', 126, 120, 2.1, 0),
-(23, '30', 171, 1000, 73.5, 10),
+(22, '29', 125, 120, 2.1, 0),
+(23, '30', 168, 1000, 73.5, 10),
 (24, '31', 366, 140, 0.85, 0),
 (25, '32', 400, 250, 4.6, 0),
 (26, '33', 496, 500, 20.85, 0),
@@ -703,14 +709,14 @@ INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `fullName`, `gender
 (4, 'cust3', 'William', 'Donald', 'William Donald', 'other', '0000-00-00', 'willdona@youtube.com', '0123456789', '$2y$10$uB.HAMXvQWCOn7CqpL/iTuoBW1L.jTCMWIM.2L8OdOHx72BHRcQna', 'YouTube headquarters at the Spring', 1, '2024-05-25 08:21:50', 0, 1, '', NULL, 1),
 (5, 'stephentan44', 'Stephen', 'Tan', 'Stephen Tan', '', NULL, 'stephentan44@gmail.com', '0102170960', '$2y$10$a3.38jkGAaxGdGS9QD1mseDhmU7WYKEc0qNIkVGfPcT4R5j3bPbFy', '547 Lorong 3 Rose Garden\n93250 Kuching Sarawak', 1, '2024-05-01 23:34:20', 0, 1, '', NULL, 1),
 (6, 'angrychef', 'John', 'Divasukarno', 'John Divasukarno', '', NULL, 'john@dailychefshow.net', '0134569780', '$2y$10$hZ3zlibC0LRIEmM62txjWe15HLPzJniYYrTpyc0GH/py4ObjuNtx2', '347 CityOne', 1, '2024-05-01 23:36:21', 0, 1, '', NULL, 1),
-(31, 'cust4', '', '', '', '', NULL, 'devinchp@gmail.com', '', '$2y$10$yNAWOf8N1IcDAWT6J2iLrOitTY0SeSStA3HtB0LY./Sm3jR6sDIqy', '', 1, '2024-04-04 04:21:18', 0, 1, '', NULL, 1),
-(32, 'cust5', '', '', '', '', NULL, 'allianzwierdchamp@gmail.com', '', '$2y$10$v4AjaNSxSEWcoA1bYhMWhOTW8UH7l7Xc43Vj0o7zxJB57K45sd1t6', '', 1, '2024-04-04 04:22:12', 0, 1, '', NULL, 1),
-(33, 'cust6', '', '', '', '', NULL, 'polarsxorion@gmail.com', '', '$2y$10$ZJ9ud7I5od18Waqeet3uXOKYCop7U3V880wBvekUa.qJ47TMozbZy', '', 1, '2024-04-04 04:23:10', 0, 1, '', NULL, 1),
+(31, 'cust4', '', '', 'Peter Tan', 'male', '1997-05-27', 'devinchp@gmail.com', '0123254370', '$2y$10$yNAWOf8N1IcDAWT6J2iLrOitTY0SeSStA3HtB0LY./Sm3jR6sDIqy', 'Lany\\\'s road', 1, '2024-05-27 08:16:46', 0, 1, '', NULL, 1),
+(32, 'cust5', '', '', 'John Halo', 'male', '2024-05-16', 'allianzwierdchamp@gmail.com', '0132546789', '$2y$10$v4AjaNSxSEWcoA1bYhMWhOTW8UH7l7Xc43Vj0o7zxJB57K45sd1t6', 'no.342, Petersville', 1, '2024-05-27 08:06:31', 0, 1, '', NULL, 1),
+(33, 'cust6', '', '', 'Kobe Bryant', 'other', '1994-06-27', 'polarsxorion@gmail.com', '0143245367', '$2y$10$ZJ9ud7I5od18Waqeet3uXOKYCop7U3V880wBvekUa.qJ47TMozbZy', '1St Floor Wisma Pertubuhan Peladang Jln DusunSarawak', 1, '2024-05-27 08:17:53', 0, 1, '', NULL, 1),
 (35, 'skyfarm96', 'Michael', 'Chai', 'Michael Chai', 'male', '1977-02-13', 'skyangel77@gmail.com', '0128789600', '$2y$10$dQ4qx3F1HUMi605PVdtZv.7J8SKjaBIb9ebDkQC8WPwYP/g6OHemC', 'Eden 2, MeiMei Road', 1, '2024-05-01 23:41:36', 0, 1, '', NULL, 1),
 (38, 'emtskw2m', '', '', '', '', NULL, 'ganedison99@hotmail.com', '', '$2y$10$dlaBftm0GZDOC6.psb3XyOmA82hef6XU7OE7sMUFVGzr7DHy.pk5W', '', 1, '2024-04-23 15:04:01', 0, 1, '', NULL, 1),
 (39, 'www', 'Ryan', 'WhoopWhoopWin', 'Ryan WhoopWhoopWin', 'male', '1989-02-09', 'ryan@gmail.com', '', '$2y$10$r3zyPKHW6CDmR1u9Y2PYvu0Y9lF2W3VDSh68bFf9GqZ2p1hXWid1u', '', 1, '2024-05-01 23:39:43', 0, 1, '', NULL, 1),
 (43, 'NewCust', '', '', '', '', NULL, '1cockaricka@gmail.com', '', '$2y$10$N3Xrub7unY4j1/Cs44RjGOfVHLwPbyJEgQuXfyo7qtthefkLTUoxO', '', 1, '2024-05-13 11:20:59', 0, 1, '', NULL, 1),
-(44, 'cust7', '', '', '', '', NULL, 'hijarajar@gmail.com', '', '$2y$10$PB9Swjs9Oi2pQHZsGjswxO1qN9..UyBjRUmeLns1wwAibCOFj8cbK', '', 1, '2024-05-15 06:47:11', 0, 1, '', NULL, 1);
+(44, 'cust7', '', '', 'Arnold Lim', 'other', '2002-06-27', 'hijarajar@gmail.com', '0132143256', '$2y$10$PB9Swjs9Oi2pQHZsGjswxO1qN9..UyBjRUmeLns1wwAibCOFj8cbK', 'No. 21 Jalan 3 Taman Industrial Pandan Indah', 1, '2024-05-27 08:40:31', 0, 1, '', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -731,18 +737,20 @@ CREATE TABLE `user_comments` (
 --
 
 INSERT INTO `user_comments` (`id`, `user_id`, `res_id`, `comment`, `created_at`) VALUES
-(1, 2, 51, 'Freshest in town!', '2024-03-24 14:41:52'),
+(1, 2, 51, 'very nice products!', '2024-03-24 14:41:52'),
 (2, 6, 57, 'I have reported you to the authorities for selling illegal drugs', '2024-04-25 05:26:39'),
-(3, 2, 52, 'Great service <3', '2024-05-06 08:14:37'),
-(4, 3, 52, 'thank you', '2024-05-06 09:35:33'),
-(5, 4, 52, 'cust3', '2024-05-06 09:39:31'),
+(3, 2, 52, 'nice', '2024-05-06 08:14:37'),
+(4, 3, 52, 'very good!', '2024-05-25 15:29:59'),
+(5, 4, 52, 'I love this shop!', '2024-05-25 15:40:05'),
 (6, 31, 52, 'cust4', '2024-05-06 09:39:47'),
-(7, 32, 52, 'cust5', '2024-05-06 09:40:07'),
+(7, 32, 52, 'cust5 is satisfied!', '2024-05-25 15:50:47'),
 (9, 2, 53, 'test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment test comment', '2024-05-13 11:29:10'),
 (10, 3, 61, 'Good and fresh!', '2024-05-25 08:21:00'),
 (11, 4, 63, 'Best in town!', '2024-05-25 08:22:37'),
 (12, 31, 56, 'it\\\'s so so', '2024-05-25 08:33:19'),
-(13, 33, 61, 'it\\\'s gr8', '2024-05-25 08:36:00');
+(13, 33, 61, 'it\\\'s gr8', '2024-05-25 08:36:00'),
+(14, 33, 51, 'great service!', '2024-05-25 14:49:27'),
+(15, 33, 52, 'fantastic!', '2024-05-25 14:50:35');
 
 -- --------------------------------------------------------
 
@@ -785,7 +793,7 @@ INSERT INTO `user_ratings` (`id`, `user_id`, `res_id`, `rating`) VALUES
 (21, 3, 57, 1),
 (22, 4, 57, 5),
 (23, 2, 53, 3),
-(24, 2, 52, 5),
+(24, 2, 52, 4),
 (25, 3, 60, 4),
 (26, 3, 61, 3),
 (27, 3, 62, 5),
@@ -799,7 +807,8 @@ INSERT INTO `user_ratings` (`id`, `user_id`, `res_id`, `rating`) VALUES
 (35, 33, 63, 4),
 (36, 33, 62, 4),
 (37, 33, 61, 4),
-(38, 33, 60, 3);
+(38, 33, 60, 3),
+(39, 2, 54, 4);
 
 --
 -- Indexes for dumped tables
@@ -939,13 +948,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `payment_receipts`
@@ -1011,13 +1020,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_comments`
 --
 ALTER TABLE `user_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `user_ratings`
 --
 ALTER TABLE `user_ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables

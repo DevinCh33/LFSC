@@ -158,7 +158,7 @@
         <div class="input">
             <select id="ordType" name="ordType" class="custom-select" required>
                 <option value="1">COD</option>
-                <option value="2">Monthly Statement</option>
+                <option value="2">EWallet</option>
             </select>
         </div>
     </div>
@@ -168,7 +168,12 @@
             <label for="ordDate" class="myform-label">Status : </label>
         </div>
         <div class="input">
-            <span name="orderStatus" class="myform-text"></span>
+            <select id="ordStatus" name="ordStatus" class="custom-select" required>
+                <option value="1">Preparing</option>
+                <option value="2">Packing</option>
+				<option value="3">Delivering</option>
+                <option value="4">Cancel</option>
+            </select>
         </div>
     </div>
 
@@ -176,6 +181,7 @@
 
     <div style="text-align: center;">
         <input type="button" id="addOrder" class="button" value="Add Order" onClick="infoOrder('add', this.form)">
+		<input type="button" id="editOrder" class="button" value="Edit Order" onClick="infoOrder('edit', this.form)">
         <input type="button" id="delOrder" class="button" value="Delete Order" style="background-color: lightcoral;" onClick="confirmDeleteOrder(this.form)">
     </div>
 </form>
@@ -243,12 +249,12 @@ function infoOrder(act, form) {
         hasError = true;
     }
 
-    if ($("#ordUID").val() === "" && act !== "del") {
+    if ($("#ordUID").val() === "" && act !== "del"  && act !== "edit") {
         $("#ordNameError").text('Customer Not Found').show();
         hasError = true;
     }
 
-    if (selectedIds.length === 0 && act !== "del") {
+    if (selectedIds.length === 0 && act !== "del"  && act !== "edit") {
         $("#productError").text('No Product Selected').show();
         hasError = true;
     }
@@ -265,7 +271,7 @@ function infoOrder(act, form) {
             data: $("#myForm").serialize()
         },
         success: function(response) {
-            alert('Order has been successfully added.');
+            alert(response);
             fetchData();
             closePopup();
             $("#myForm")[0].reset();
@@ -609,19 +615,19 @@ function updateTableAndPagination(data) {
     // Populate the table with the data for the current page
     for (var i = startIndex; i < endIndex && i < data.data.length; i++) {
         var rowData = data.data[i];
+		var statusText = (rowData[5] === '1') ? 'Preparing' : (rowData[5] === '2') ? 'Packing' : (rowData[5] === '3') ? 'Delivering' : (rowData[5] === '4') ? 'Cancel' : 'Unknown';
+    	var statusColor = (rowData[5] === '1') ? 'black' : (rowData[5] === '2') ? '#D5B60A' : (rowData[5] === '3') ? 'green' : (rowData[5] === '4') ? 'red' : 'grey';
         var newRow = document.createElement('tr');
         newRow.innerHTML = '<td>' + rowData[0] + '</td>' +
             '<td>' + rowData[1] + '</td>' +
             '<td>' + rowData[2] + '</td>' +
             '<td>' + rowData[3] + '</td>' +
 			'<td>' + rowData[4] + '</td>' +
-            `<td style="color: ${(rowData[5] === '1') ? 'green' : 'red'};">${(rowData[5] === '1') ? 'Active' : 'Inactive'}</td>`+
-			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
-			//  '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+            '<td style="color: ' + statusColor + ';">' + statusText + '</td>' + // Status
+//			'<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
+			  '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-edit" id="btnEdit'+i+'" title="Edit" name="'+rowData[0]+'" onclick="editRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 			// '<td><i class="icon fa fa-eye" id="btnView'+i+'" title="View" name="'+rowData[0]+'" onclick="viewRec('+i+')"></i><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
 			// '<td><i class="icon fa fa-trash"id="btnDel'+i+'" title="Delete" name="'+rowData[0]+'" onclick="delRec('+i+')"></i></td>';
-
-
 
         tableBody.appendChild(newRow);
     }
@@ -787,6 +793,8 @@ function findRec(windowType, name){
                                 '<td>' + (parseFloat(item[5]) * parseInt(item[4])).toFixed(2) + '</td>' + // Total price
                             '</tr>';
                 $('#proSelected').append(htmlRow);
+				$('#ordType').val(item[6]).change();
+				$('#ordStatus').val(item[7]).change();
             });
             // Calculate and display the total amount
             var totalAmount = 0;
@@ -797,7 +805,7 @@ function findRec(windowType, name){
                     }
                 });
                 $('#txtTotal').text(totalAmount.toFixed(2));
-
+				$('#ordType').val(value).change();
             
 			// Get the select element by its ID
 			// var selectElement = document.getElementById("ordJob");
@@ -841,7 +849,7 @@ function editRec(num){
 	findRec(3, name);
 
 	// Unhide the select button
-    document.getElementById('btnSelect').style.display = 'block';
+    document.getElementById('btnSelect').style.display = 'none';
 }
 	
 function delRec(num){
@@ -864,24 +872,24 @@ function openPopup(type) {
 	
 	if(type == 1){
 		document.getElementById('addOrder').style.display = "block";
-		//document.getElementById('editOrder').style.display = "none";
+		document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
 		document.getElementById('btnSelect').style.display = 'block';
 	}
 	else if(type == 2){
 		document.getElementById('addOrder').style.display = "none";
-		//document.getElementById('editOrder').style.display = "none";
+		document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "none";
 	}		
 	else if(type == 3){
 		document.getElementById('addOrder').style.display = "none";
-		//document.getElementById('editOrder').style.display = "block";
+		document.getElementById('editOrder').style.display = "block";
 		document.getElementById('delOrder').style.display = "none";
 	}
 		
 	else if(type == 4){
 		document.getElementById('addOrder').style.display = "none";
-		//document.getElementById('editOrder').style.display = "none";
+		document.getElementById('editOrder').style.display = "none";
 		document.getElementById('delOrder').style.display = "block";
 	}
 		

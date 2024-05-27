@@ -4,11 +4,13 @@ include("../connect.php");
 
 $order = addslashes($_GET['search']);
 
-$sql = "SELECT order_id, client_name, client_contact,  order_date,  payment_type ,order_status FROM orders WHERE order_status = 1 AND order_belong = '".$_SESSION['store']."'";
+$sql = "SELECT order_id, client_name, client_contact,  order_date,  payment_type ,order_status FROM orders WHERE order_status > 0  AND order_belong = '".$_SESSION['store']."'";
 
 if($order != ""){
 	$sql .= " AND order_id = '".$order."'";
 }
+
+$sql .= "ORDER BY order_status";
 
 $result = $db->query($sql);
 $output = array('data' => array());
@@ -19,9 +21,7 @@ if($result->num_rows > 0) {
 		if($row[4] == "1")
 			$type = "CASH ON DELIVERY";
 		else if($row[4] == "2")
-			$type = "SARAWAK PAY";
-		else if($row[4] == "3")
-			$type = "PayPal";
+			$type = "EWALLET";
 		 
 		$output['data'][] = array(
 			$row[0], 

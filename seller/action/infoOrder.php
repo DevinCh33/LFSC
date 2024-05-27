@@ -20,12 +20,13 @@ $ordType = $formData['ordType'];
 $ordDrvFee = $formData['ordDlvFee'];
 $ordDep = $formData['ordDep'];
 
+$ordStatus = $formData['ordStatus'];
+
 $prdQuantity = $formData['quan'];
 $prdPriceID = $formData['proID'];
 $prdPrice = $formData['proPrice'];
-$sql = "h";
 
-if($act != 'del'){
+if($act == 'add'){
 	// Iterate through the arrays
 	for ($i = 0; $i < count($prdPrice); $i++) {
 		// Calculate the subtotal for the current product
@@ -60,7 +61,14 @@ if($act == "add"){
 	}
 	
 	
-}else if($act == "del"){
+}
+else if($act == "edit"){
+	$sql = "UPDATE orders SET client_name = '$ordName', client_contact= '$ordNum', payment_type = '$ordType', order_status = '$ordStatus'  WHERE order_id = $ordOID";
+	if($db->query($sql) === true) {
+    	$check = "Order Updated Successfully";
+	}
+}
+else if($act == "del"){
 	$sql = "UPDATE orders SET order_status = '4' WHERE order_id = $ordOID";
 	if($db->query($sql) === true) {
     	$check = "Order Delete Successfully";
@@ -68,4 +76,4 @@ if($act == "add"){
 }
 
 
-echo json_encode($check);
+echo json_encode($sql);

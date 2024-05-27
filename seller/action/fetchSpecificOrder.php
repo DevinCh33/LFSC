@@ -4,7 +4,7 @@ include("../connect.php");
 
 $order = $_GET['search'];
 
-$sql = "SELECT o.order_id,o.client_name, o.client_contact, tp.product_name, oi.quantity, t.proPrice
+$sql = "SELECT o.order_id,o.client_name, o.client_contact, tp.product_name, oi.quantity, t.proPrice, o.payment_type, o.order_status
 		FROM orders o
 		JOIN 
 			order_item oi ON o.order_id = oi.order_id
@@ -12,7 +12,7 @@ $sql = "SELECT o.order_id,o.client_name, o.client_contact, tp.product_name, oi.q
 			tblprice t ON oi.priceID = t.priceNo
 		JOIN
 			product tp ON t.productID = tp.product_id
-		WHERE o.order_status = 1 AND o.order_belong = '".$_SESSION['store']."'";
+		WHERE  o.order_belong = '".$_SESSION['store']."'";
 
 if($order != ""){
 	$sql .= " AND o.order_id = '".$order."'";
@@ -29,7 +29,9 @@ if($result->num_rows > 0) {
 			$row[2], 
 			$row[3], 
 			$row[4],
-			$row[5]
+			$row[5],
+			$row[6],
+			$row[7]
 		); 	
 	} // /while 
 

@@ -3,7 +3,10 @@ require_once 'core.php';
 
 $pass = $_GET['pass'];
 
-$sql = "SELECT password FROM admin WHERE adm_id = '".$_SESSION['adm_id']."'";
+if($_SESSION['adm_co'] == "SUPA")
+	$sql = "SELECT password FROM admin WHERE adm_id = '".$_SESSION['adm_id']."'";
+else
+	$sql = "SELECT password FROM tblemployee WHERE empID = '".$_SESSION['adm_id']."'";
 
 $result = $db->query($sql);
 

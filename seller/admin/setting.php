@@ -179,7 +179,6 @@ function updateProfile(button){
 	}
 	console.log(error);
 	if(error == 0){
-		console.log(form.serialize());
 		$.ajax({
         url: form.attr("action"), // The script to call to add data
         type: form.attr("method"),

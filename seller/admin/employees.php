@@ -216,116 +216,120 @@ function employeeInfo(action, form){
 	var store = $('#storeid').val();
 	var error = 0;
 	
-	if(icno == ""){
-		$("#alertIC").text("This Field Must Not Be Empty");
-		error += 1;
-	}else if(icno.length < 12 && icno != ""){
-		$("#alertIC").text("IC must be 12 length, ForExample: 012345678901");
-		error +=1;
-	}else{
-		var errorIC = 0;
-		for (var i = 0; i < icno.length; i++) {
-			if (!(/^\d$/.test(icno[i]))) {
-				errorIC += 1;
-			}
-		}
-		if(errorIC != 0){
-			$("#alertIC").text("Only digit is allowed");
-			error += 1;
-		}
-		else{
-				$("#alertIC").text("");
-		} 
-	}
-	
-	if(empName == ""){
-		$("#alertName").text("This Field Must Not Be Empty");
-		error += 1;
-	}else{
-		if (!/^[a-zA-Z@\s]+$/.test(empName.trim())) {
-			$("#alertName").text("Name must contain only alphabets (a-z) or the special character '@'.");
-			error += 1;
-		}
-		else
-			$("#alertName").text("");
+	$.ajax({
+		url: "action/checkDuplicateIC.php", // The script to call to add data
+		type: "GET",
+		data: {email: empEmail},
+		success: function(response) {
+			console.log(response);
+			if(response == 1){
+				alert("ACCOUNT CREATED");
+				error += 1;
+			}else{
+				if(icno == ""){
+					$("#alertIC").text("This Field Must Not Be Empty");
+					error += 1;
+				}else if(icno.length < 12 && icno != ""){
+					$("#alertIC").text("IC must be 12 length, ForExample: 012345678901");
+					error +=1;
+				}else{
+					var errorIC = 0;
+					for (var i = 0; i < icno.length; i++) {
+						if (!(/^\d$/.test(icno[i]))) {
+							errorIC += 1;
+						}
+					}
+					if(errorIC != 0){
+						$("#alertIC").text("Only digit is allowed");
+						error += 1;
+					}
+					else{
+							$("#alertIC").text("");
+					} 
+				}
 
-	}
-	
-	if(empNum == ""){
-		$("#alertCon").text("This Field Must Not Be Empty");
-		error += 1;
-	}else if (!/^(01)\d{8,9}$/.test(empNum.trim()) && empNum != "") {
-		$("#alertCon").text("Employee number must start with '01' and be 10 or 11 digits long.");
-		error += 1;
-	}
-	else{
-		$("#alertCon").text("");
-	}
-	
-	if(empEmail == ""){
-		$("#alertEmail").text("This Field Must Not Be Empty");
-		error += 1;
-	}else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(empEmail.trim())) {
-		$("#alertEmail").text("Please enter a valid email address in Malaysia format.");
-		error += 1;
-	}
-	else{
-		$.ajax({
-				url: "action/checkDuplicateIC.php", // The script to call to add data
-				type: "GET",
-				data: {email: empEmail},
-				success: function(response) {
-					console.log(response);
-					if(response == 1)
-						alert("Warning! This email account still active under other seller.");
-				},
-				error: function(xhr, status, error) {
+				if(empName == ""){
+					$("#alertName").text("This Field Must Not Be Empty");
+					error += 1;
+				}else{
+					if (!/^[a-zA-Z@\s]+$/.test(empName.trim())) {
+						$("#alertName").text("Name must contain only alphabets (a-z) or the special character '@'.");
+						error += 1;
+					}
+					else
+						$("#alertName").text("");
 
 				}
-			});
-			$("#alertEmail").text("");
-	}
-	
-	if(error == 0){
-		if(action == "add"){
-			var tempname = "";
-			var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$";
-			var randomNum = Math.floor(Math.random() * 5) + 4;
-			var custPass = "";
 
-			for (var i = 0; i < randomNum; i++) {
-				var randomIndex = Math.floor(Math.random() * charset.length);
-				custPass  += charset[randomIndex];
-			}
-			tempname = "emp" + empID;
-		}
-		$.ajax({
-            url: $(form).attr('action'), // The script to call to add data
-            type: $(form).attr('method'),
-            data: {act: action, data: $(form).serialize(), custpass: custPass, tempname: tempname},
-            success: function(response) {
-				var resText = "";
-					if(action == "add")
-						resText = "Employee Added Successfully!";
-					if(action == "edit")
-						resText = "Information Updated Successfully!";
-					if(action == "del")
-						resText = "Employee Deactive Successfully!";
-				alert(resText);
-				$("#searchInput").val("");
-				//closePopup();
-				//fetchData();
-				if(action == "add"){
-					//closePopup();
-					//fetchData();
-					//document.getElementById('myForm').reset();
+				if(empNum == ""){
+					$("#alertCon").text("This Field Must Not Be Empty");
+					error += 1;
+				}else if (!/^(01)\d{8,9}$/.test(empNum.trim()) && empNum != "") {
+					$("#alertCon").text("Employee number must start with '01' and be 10 or 11 digits long.");
+					error += 1;
 				}
-            },
-            error: function(xhr, status, error) {
-				
+				else{
+					$("#alertCon").text("");
+				}
+
+				if(empEmail == ""){
+					$("#alertEmail").text("This Field Must Not Be Empty");
+					error += 1;
+				}else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(empEmail.trim())) {
+					$("#alertEmail").text("Please enter a valid email address in Malaysia format.");
+					error += 1;
+				}
+				else{
+					
+					$("#alertEmail").text("");
+				}
+
+				if(error == 0){
+
+					if(action == "add"){
+						var tempname = "";
+						var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$";
+						var randomNum = Math.floor(Math.random() * 5) + 4;
+						var custPass = "";
+
+						for (var i = 0; i < randomNum; i++) {
+							var randomIndex = Math.floor(Math.random() * charset.length);
+							custPass  += charset[randomIndex];
+						}
+						tempname = "emp" + empID;
+					}
+					$.ajax({
+						url: $(form).attr('action'), // The script to call to add data
+						type: $(form).attr('method'),
+						data: {act: action, data: $(form).serialize(), custpass: custPass, tempname: tempname},
+						success: function(response) {
+							var resText = "";
+								if(action == "add")
+									resText = "Employee Added Successfully!";
+								if(action == "edit")
+									resText = "Information Updated Successfully!";
+								if(action == "del")
+									resText = "Employee Deactive Successfully!";
+							alert(resText);
+							$("#searchInput").val("");
+							//closePopup();
+							//fetchData();
+							if(action == "add"){
+								//closePopup();
+								//fetchData();
+								//document.getElementById('myForm').reset();
+							}
+						},
+						error: function(xhr, status, error) {
+
+						}
+					});
+				}
 			}
-        });
-	}
+		}
+	});
+	
+	
 }
 	
 var recordsPerPage = parseInt(document.getElementById('recordsPerPage').value);

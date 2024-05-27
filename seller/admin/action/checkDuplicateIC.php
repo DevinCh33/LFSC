@@ -3,7 +3,7 @@ require_once 'core.php';
 
 $pass = $_GET['email'];
 
-$sql = "SELECT empemail FROM tblemployee WHERE empstatus = '1' AND empemail = '$pass'";
+$sql = "SELECT empemail FROM tblemployee WHERE empemail = '$pass'";
 
 $result = $db->query($sql);
 

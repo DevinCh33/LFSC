@@ -25,7 +25,7 @@ include("../email/send_verification_email.php");
 
     // SQL query to insert data into the database
 	if($act == "add"){
-		$sql = "INSERT INTO tblemployee (empID, icNo, empname, empcontact,empgender, empemail, empjob, empstatus, empstore, username, password,code , u_role, email_token)VALUES ('$empID','$icno', '$empName', '$empNum','$empGender', '$empEmail', '$empJob', '10', '$store', '$tempname', '$custpass', 'VSUPP','VSELLER', '$token')";
+		$sql = "INSERT INTO tblemployee (empID, icNo, empname, empcontact,empgender, empemail, empjob, empstatus, empstore, username, password,code , u_role, email_token)VALUES ('$empID','$icno', '$empName', '$empNum','$empGender', '$empEmail', '$empJob', '10', '$store', '$tempname', '$custpass', 'VSUPA','VADMIN', '$token')";
 		
 		sendVerificationEmail($empEmail, $tempname, $_POST['custpass'], 'employee', $token);
 		

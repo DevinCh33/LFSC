@@ -784,7 +784,7 @@ function findRec(windowType, name){
                                 '<td>' + item[3] + '</td>' + // Product name
                                 '<td>' + item[5] + '</td>' + // Price
                                 '<td>' + item[4] + '</td>' + // Quantity
-                                '<td>' + (parseFloat(item[5]) * parseInt(item[4])) + '</td>' + // Total price
+                                '<td>' + (parseFloat(item[5]) * parseInt(item[4])).toFixed(2) + '</td>' + // Total price
                             '</tr>';
                 $('#proSelected').append(htmlRow);
             });

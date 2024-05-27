@@ -233,9 +233,9 @@ function employeeInfo(action, form){
 			$("#alertIC").text("Only digit is allowed");
 			error += 1;
 		}
-		else 
-			$("#alertIC").text("");
-		
+		else{
+				$("#alertIC").text("");
+		} 
 	}
 	
 	if(empName == ""){
@@ -270,7 +270,20 @@ function employeeInfo(action, form){
 		error += 1;
 	}
 	else{
-		$("#alertEmail").text("");
+		$.ajax({
+				url: "action/checkDuplicateIC.php", // The script to call to add data
+				type: "GET",
+				data: {email: empEmail},
+				success: function(response) {
+					console.log(response);
+					if(response == 1)
+						alert("Warning! This email account still active under other seller.");
+				},
+				error: function(xhr, status, error) {
+
+				}
+			});
+			$("#alertEmail").text("");
 	}
 	
 	if(error == 0){
@@ -300,12 +313,12 @@ function employeeInfo(action, form){
 						resText = "Employee Deactive Successfully!";
 				alert(resText);
 				$("#searchInput").val("");
-				closePopup();
-				fetchData();
+				//closePopup();
+				//fetchData();
 				if(action == "add"){
-					closePopup();
-					fetchData();
-					document.getElementById('myForm').reset();
+					//closePopup();
+					//fetchData();
+					//document.getElementById('myForm').reset();
 				}
             },
             error: function(xhr, status, error) {

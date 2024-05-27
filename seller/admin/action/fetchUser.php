@@ -4,6 +4,10 @@ require_once 'core.php';
 $sql = "SELECT u.username, u.fullName, u.email, u.phone, u.address, u.u_id, u.status
 		FROM users u";
 
+if($_GET['search'] != ""){
+	$sql .= " WHERE u.username LIKE '%".$_GET['search']."%' OR u.email LIKE '%".$_GET['search']."%' or u.fullName  LIKE '%".$_GET['search']."%'";
+}
+
 $result = $db->query($sql);
 
 $output = array('data' => array());

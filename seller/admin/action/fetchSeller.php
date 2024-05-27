@@ -4,8 +4,13 @@ require_once 'core.php';
 $sql = "SELECT a.store, r.image, r.title, a.email, r.phone, a.storeStatus
 		FROM admin a
 		JOIN restaurant r ON a.store = r.rs_id
-		WHERE u_role != 'SUPA'
-		ORDER BY storeStatus";
+		WHERE u_role != 'SUPA'";
+
+if($_GET['search'] != ""){
+	$sql .= " AND title LIKE '%".$_GET['search']."%' OR rs_id LIKE '%".$_GET['search']."%'";
+}
+
+$sql .= " ORDER BY storeStatus";
 
 $result = $db->query($sql);
 

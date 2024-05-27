@@ -83,7 +83,7 @@ if ($stmt = mysqli_prepare($db, $query)) {
             
             <li>
                 <div class="my_cart_dropdown">
-                    <button class="dropbtn">Cart</button>
+                    <button class="dropbtn" id="cartText">Cart</button>
                     <div class="dropdown-content">
                         <div class="widget widget-cart">
                             <div class="widget-heading">

@@ -125,6 +125,16 @@ $(document).ready(function() {
                 return msg;
             }
 
+            function flashText() {
+                var text = document.getElementById('cartText');
+                text.classList.add('flash');
+            
+                // Remove the flash effect after 1 second
+                setTimeout(function() {
+                  text.classList.remove('flash');
+                }, 1000);
+              }
+
             // Function to add a product to the cart
             function addToCart(price_id, name, stock, price, owner, quantity=1, image='') {
                 if (debug) {
@@ -163,6 +173,7 @@ $(document).ready(function() {
                 }
                 updateCartUI();
                 saveCart();
+                flashText();
             }
 
             // Function to remove a product from the cart

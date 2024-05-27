@@ -61,7 +61,7 @@ if($act == "add"){
 	
 	
 }else if($act == "del"){
-	$sql = "UPDATE orders SET order_status = '3' WHERE order_id = $ordOID";
+	$sql = "UPDATE orders SET order_status = '4' WHERE order_id = $ordOID";
 	if($db->query($sql) === true) {
     	$check = "Order Delete Successfully";
 	}

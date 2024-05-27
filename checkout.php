@@ -30,7 +30,7 @@ if (empty($_SESSION['user_id'])) {
             }
 
             $sql = "INSERT INTO orders (order_date, client_name, client_contact, sub_total, total_amount, paid, due, payment_type, order_status, user_id, order_belong) 
-                    VALUES ('$today', '" . $user2['f_name'] . ' ' . $user2['l_name'] . "', '" . $user2['phone'] . "', 0, 0, 0, 0, $payment_type, 1, " . $_SESSION['user_id'] . ", $ownerId)";
+                    VALUES ('$today', '" . $user2['fullName'] . "', '" . $user2['phone'] . "', 0, 0, 0, 0, $payment_type, 1, " . $_SESSION['user_id'] . ", $ownerId)";
 
             if ($db->query($sql) === true) {
                 $order_id = $db->insert_id;

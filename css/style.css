@@ -2483,3 +2483,19 @@ a[aria-expanded=false] .fa-angle-down {
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.flash {
+    animation: flash 1s infinite;
+  }
+
+  @keyframes flash {
+    0% {
+      color: #fff; /* Initial color */
+    }
+    50% {
+      color: #cc00ff; /* Flash color */
+    }
+    100% {
+      color: #fff; /* Back to initial color */
+    }
+  }

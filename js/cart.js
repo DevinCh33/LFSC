@@ -163,7 +163,6 @@ $(document).ready(function() {
                 }
                 updateCartUI();
                 saveCart();
-                alert("Product added to cart!");
             }
 
             // Function to remove a product from the cart

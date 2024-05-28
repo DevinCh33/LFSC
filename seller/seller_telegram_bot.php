@@ -441,7 +441,7 @@ function verifyPayment($chatId, $orderId)
             ];
 
             if ($receiptRow && $receiptRow['receipt_path']) {
-                $photoUrl = "https://029a-58-26-207-19.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
+                $photoUrl = "https://3203-180-73-156-227.ngrok-free.app/LFSC/receipts/" . rawurlencode($receiptRow['receipt_path']);
                 sendPhoto($chatId, $photoUrl, $messageDetails, $keyboard);
             } else {
                 sendMessage($chatId, $messageDetails, $keyboard);
@@ -503,7 +503,7 @@ function confirmPayment($chatId, $orderId, $status)
             sendMessage($chatId, "Payment status has been updated successfully.", $keyboard);
         } else {
             $keyboard['inline_keyboard'][] = [["text" => "Back to Order List", "callback_data" => "view_orders"]];
-            sendMessage($chatId, "Failed to update payment status.", $keyboard);
+            sendMessage($chatId, "Payment status has not been updated.", $keyboard);
         }
         $stmt->close();
     } else {
